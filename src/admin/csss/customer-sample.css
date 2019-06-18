@@ -1,0 +1,44 @@
+#header .head_top {
+    background-color: #525759;
+}
+#nav ul {
+    background-color: #525759;
+    border-left-color: #525252;
+    border-right-color: #b5b5b5;
+}
+#nav ul li h2 {
+    border-left-color: #b5b5b5;
+    border-right-color: #525252;
+}
+.box .box_tit {
+    background-color: #c4d600;
+}
+.box .box_tit h2, .box .box_tit h2 a {
+    color: #000;
+}
+
+.tbl_objects table .thead th {
+    background-color: #c4d600;
+    color: #525759;
+}
+.tbl_objects table .thead th a, .tbl_objects table .thead th a:hover {
+    color: #525759;
+}
+#content .form .btn input, #content .form .btn span, #content .btn input, #content .btn span, #content .btn a {
+    background-color: #c4d600;
+    color: #525759;
+}
+#content .form .btn input:hover, #content .form .btn input:focus, #content .form .btn span:hover { background-color: #c4d600; }
+#content .mini_searcher {
+    background-color: #313131;
+}
+#nav ul li ul li {
+    background-color: #525759;
+}
+#nav ul li ul li:hover { background-color:#c4d600; }
+#nav ul li ul li a:hover { color:#525759; }
+
+#content .form .btn input, #content .form .btn span,
+#content .btn input, #content .btn span, #content .btn a{ background-color:#c4d600; color:#525759;}
+#content .form .btn span a, #content .btn span a { color:#525759; }
+#content .form .btn input:hover, #content .form .btn input:focus, #content .form .btn span:hover { background-color: #8f9b05; }

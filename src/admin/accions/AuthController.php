@@ -1,0 +1,34 @@
+<?php
+
+namespace Omatech\Editora\Admin\Accions;
+
+use Omatech\Editora\Admin\Middleware\Auth;
+use Omatech\Editora\Admin\Models\layout;
+
+
+class AuthController extends BaseController
+{
+    public function __construct()
+    {
+        $this->middleware([
+            Auth::class
+        ]);
+    }
+
+    public function loadMenu($in, $params)
+    {
+        $ly=new layout();
+        $lg = getDefaultLanguage();
+
+
+        $menu = $ly->get_topMenu($lg);
+        $favorites = $in->getFavorites();
+        $last_accessed = $in->getLastInstances();
+
+        return [
+            'menu' => $menu,
+            'last_accessed' => $last_accessed,
+            'favorites' => $favorites,
+        ];
+    }
+}

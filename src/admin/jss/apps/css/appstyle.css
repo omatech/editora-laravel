@@ -1,0 +1,66 @@
+
+.thumbnail {
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+    display: block;
+   /* line-height: 20px;*/
+    padding: 4px;
+    transition: all 0.2s ease-in-out 0s;
+    margin: 20px;
+    min-height: 59px;
+}
+.thumbnails {
+    list-style: none outside none;
+}
+.thumbnail > img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+}
+/*img {
+    border: 0 none;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+}*/
+.thumbnail .caption {
+    color: #555555;
+    padding: 9px;
+}
+.thumbnail {
+    /*line-height: 20px;*/
+}
+
+.caption h3 {
+    font-size: 15.5px;
+}
+.caption p {
+    margin: 0 0 10px;
+    font-size: 14px;
+    line-height: 19px;
+}
+.alertmessage {
+    background-color: #FCF8E3;
+    border: 1px solid #FBEED5;
+    border-radius: 4px 4px 4px 4px;
+    margin-bottom: 20px;
+    padding: 8px 35px 8px 14px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    font-size: 17px;
+}
+.alert-error {
+    background-color: #F2DEDE;
+    border-color: #EED3D7;
+    color: #B94A48;
+}
+ .alertmessage h4 {
+    color: #C09853;
+}
+.alert-error {
+    color: #B94A48;
+}
+.thumbnail .imgAppdesc{
+    width: 60px; margin-bottom: 10px; float:left; margin-right: 20px;
+}

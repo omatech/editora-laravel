@@ -1,0 +1,229 @@
+@charset "utf-8";
+/* OMATECH Xtreme Web Culture */
+/*************************** EDITORA 4.2 ***************************/
+/*******************************************************************/
+/* colors editora estandar */
+a { color:#409aff; }
+
+/******************************************************************************/
+/*********************************** HEADER ***********************************/
+#header {}
+#header .head_top { background-color:#313131; }
+#header .head_bottom { background-color:#efefef; border-bottom-color:#cecece; }
+#header h1 { color:#464646; }
+#header .head_bottom p { color:#464646; }
+#header .head_bottom ul li { border-left-color:#464646; }
+#header .head_bottom ul li a { color:#409aff; }
+
+.userloged { color: #fff; font: 300 14px/14px 'Roboto Condensed', sans-serif;  padding: 1.6em 2.2em; text-align: right; } 
+.userloged a {color: #fff;}
+.userlogin { color: #fff; font-size: 1.8em; padding: 1em 2.2em; text-align: center;}
+
+.editoraname { color: #fff; font: 300 20px/20px 'Roboto Condensed', sans-serif;  padding: 0.8em 0.5em; text-align: right; } 
+/******************* NAVEGACIO ******************/
+#nav {}
+#nav ul { border-left-color:#525252; border-right-color:#b5b5b5; background-color:#313131; }
+#nav ul li h2 { border-left-color:#b5b5b5; border-right-color:#525252; }
+#nav ul li span, #nav ul li a { color:#ebebeb; }
+#nav ul li:hover span, #nav ul li:hover a { color:#ffffff; }
+#nav ul li h2 span { background-image:url(img/nav_arrow_down.png); }
+/* segon nivell */
+#nav ul li ul { background:url(img/bg_shadow_nav.png) repeat-x 0 0; }
+#nav ul li ul li { background-color:#313131; }
+#nav ul li ul li:hover { background-color:#D44234; }
+#nav ul li ul li h3 a { background-image:url(img/nav_arrow_right.png); }
+/* tercer nivell */
+#nav ul li ul li ul { background:none; }
+#nav ul li ul li:first-child ul { background:url(img/bg_shadow_nav.png) repeat-x 0 0; }
+#nav ul li ul li ul li { background-image:url(img/bg_shadow_nav2.png); background-repeat:repeat-y; background-position:0 0; }
+
+/****************************************************************************/
+/******************************** FORMULARIS ********************************/
+#content .form input, #content .form textarea, #content .form select { background-color:#ffffff; color:#ababab; border-color:#b9b9b9;
+    margin: 0 5px 0 0 }
+.datepicker{float:left;}
+#content .form input:focus, #content .form textarea:focus, #content .form select:focus { color:#464646; border-color:#429cff; }
+#content .form input[disabled="disabled"], #content .form input[readonly="readonly"], #content .form input.disabled, #content input[disabled="disabled"], #content input[readonly="readonly"], #content input.disabled { color:#5e5e5e; }
+#content .form .btn input, #content .form .btn span,
+#content .btn input, #content .btn span, #content .btn a{ background-color:#ff3002; color:#ffffff; padding: 0 8px 1px; text-decoration: none; border-radius: 0;}
+#content .form .btn span a, #content .btn span a { color:#ffffff; }
+#content .form .btn input:hover, #content .form .btn input:focus, #content .form .btn span:hover { background-color: #D44234; }
+#content .btn input:hover, #content input:focus, #content .btn span:hover { background-color: #EDEAA3; }
+#content .form p.string_text, #content p.string_text { color: #5E5E5E; font-size: 1.2em; float: left; margin-right: 0.7em; }
+
+/*****************************************************************************/
+/*********************************** LOGIN ***********************************/
+#content .login { background-color:#313131; border-color:#cecece; }
+#content .login .form legend { color:#ffffff; }
+#content .login .form .split { border-top-color:#858585; border-bottom-color:#0d0d0d; }
+#content .login .form label { color:#ffffff; }
+/* missatge */
+#content .login .message {}
+#content .login .message .arrow { background:url(img/sprite_edi.png) no-repeat -130px -180px; }
+#content .login .message div { background-color:#ffffff; }
+#content .login .message .ico { background-image:url(img/sprite_edi.png); background-repeat:no-repeat; background-position:0 -120px; }
+#content .login .message p { color:#7f7f7f; }
+
+/****************************************************************************/
+/********************************* CERCADOR *********************************/
+#content .searcher { background-color:#efefef; border-color:#efefef; border-radius: 6px;}
+#content .searcher .form legend { color:#313131; }
+#content .searcher .form .split { border-top-color:#ffffff; border-bottom-color:#cecece; }
+#content .searcher .form div label { color:#313131; }
+#content .searcher .form .adv_search h3 { background-image:url(img/arrows_advsearch.png); background-repeat:no-repeat; margin: 2px 0 5px 3px;}
+#content .searcher .form .adv_search h3.adv_hide { background-position:100% -15px; }
+#content .searcher .form .adv_search h3.adv_show { background-position:100% 6px; }
+#content .searcher .form .adv_search h3 a { color:#313131; }
+#content .searcher .form .adv_search div div.p span a { background:url(img/sprite_edi.png) no-repeat -60px -120px; }
+
+/*****************************************************************************/
+/******************************* MINI CERCADOR *******************************/
+#content .mini_searcher { background-color:#313131;}
+#content .mini_searcher .form legend { color:#ffffff; }
+#content .mini_searcher .form .split { border-top-color:#858585; border-bottom-color:#0d0d0d; }
+#content .mini_searcher .form label { color:#ffffff; }
+
+/****************************************************/
+/********************** TAULES **********************/
+#content .tbl_items table {}
+#content .tbl_items table td a:hover { color:#409aff; }
+#content .tbl_items table td.ico a { background-image:url(img/sprite_edi.png); background-repeat:no-repeat; }
+#content .tbl_items table td.fav a { background-position:0 -40px; }
+#content .tbl_items table td.edi a { background-position:-40px -40px; }
+#content .tbl_items table td.del a { background-position:-80px -40px; }
+#content .tbl_items table td.prev a { background-position:-120px -40px; }
+/* cursors */
+#content .move_item li.sep { border-left-color:#7f7f7f; }
+#content .move_item li a,#content .move_item li span { background-image:url(img/sprite_edi.png); background-repeat:no-repeat; }
+#content .move_item li.mov_begin a,#content .move_item li.mov_begin span { background-position:-60px -70px; }
+#content .move_item li.mov_final a,#content .move_item li.mov_final span { background-position:-80px -70px; }
+#content .move_item li.mov_up a,#content .move_item li.mov_up span { background-position:-100px -70px; }
+#content .move_item li.mov_down a,#content .move_item li.mov_down span { background-position:-120px -70px; }
+
+/****************************************************************************/
+/****************************** TAULA OBJECTES ******************************/
+.tbl_objects table td, .tbl_objects table th, .tbl_objects table td a, .tbl_objects table th a { color:#464646; }
+.tbl_objects table td a:hover, .tbl_objects table th a:hover { color:#409aff; }
+.tbl_objects table .odd td, .tbl_objects table .odd th { background-color:#f5f5f5; }
+.tbl_objects table .thead th { background-color:#D44234; color:#FFFFFF; font: 400 11px/14px 'Roboto Condensed', sans-serif;}
+.tbl_objects table .thead th a, .tbl_objects table .thead th a:hover { color:#FFFFFF; }
+
+/****************************************************************************/
+/********************************** CAIXES **********************************/
+.box { border-color:#cecece; }
+.box .box_tit { background-color:#D44234; }
+.box .box_tit h2, .box .box_tit h2 a { color:#FFFFFF; }
+.box .box_tit .arrow { background-image:url(img/sprite_edi.png); background-repeat:no-repeat; }
+.box_hide .box_tit .arrow { background-position:-94px -119px; }
+.box_show .box_tit .arrow  { background-position:-97px -147px; }
+.box .box_content table, .box .box_content table td a { color:#333333; }
+.box .box_content ul li, .box .box_content ul li a { color:#333333; }
+.box .box_content ul li a:hover { color:#409aff; }
+
+/*********************** ICONES ***********************/
+#content .edi_tit li.ico { background-image:url(img/sprite_edi.png); background-repeat:no-repeat; }
+#content .edi_tit li.fav { background-position:0 0; }
+#content .edi_tit li.edi { background-position:-40px 0; }
+#content .edi_tit li.clon, .tab_box .edi_box .edi_panel .icos_list li.clon a, .tbl_objects table td ul.icos_list li.clon a  { background-position:-80px 0; }
+#content .edi_tit li.clon2, .tab_box .edi_box .edi_panel .icos_list li.clon2 a, .tbl_objects table td ul.icos_list li.clon2 a  { background-position:-80px -20px; }
+#content .edi_tit li.clon_rec { background-position:-120px -240px; }
+#content .edi_tit li.del { background-position:-120px 0; }
+#content .edi_tit li.cache { background-position:0 -240px; }
+#content .edi_tit li.cache_del { background-position:-40px -240px; }
+#content .edi_tit li.cache_reload { background-position:-80px -240px; }
+
+/* estat */
+#content .status, .ui-autocomplete .status { background-image:url(img/sprite_edi.png); background-repeat:no-repeat; }
+#content .publish, .ui-autocomplete .publish { background-position:0 -70px; }
+#content .revised, .ui-autocomplete .revised { background-position:-20px -70px; }
+#content .pending, .ui-autocomplete .pending { background-position:-40px -70px; }
+
+/*******************************************************************************/
+/******************************* CAIXA PESTANYES *******************************/
+.tab_box {}
+/*** PESTANYES ***/
+.tab_box .tabs {}
+.tab_box .tabs ul {}
+.tab_box .tabs li { background-color:#313131; border-color:#ffffff; }
+.tab_box .tabs li.selected { background-color:#ffffff; border-color:#cecece; }
+.tab_box .tabs li a { color:#ffffff; }
+.tab_box .tabs li.selected a { color:#313131; }
+/*** CAIXA ***/
+.tab_box .edi_box { border-color:#cecece; }
+.tab_box .edi_box .edi_tit { background-color:#f5f5f5; }
+.tab_box .edi_box .edi_tit h2 { color:#2c2c2c; }
+.tab_box .edi_box .edi_tit h2 strong, .tab_box .edi_box .edi_tit h2 span, .tab_box .edi_box .edi_tit h2 a { color:#409aff; }
+/*** PLAFO EDICIO ***/
+.tab_box .edi_box .edi_panel {}
+.tab_box .edi_box .edi_panel .row { border-top-color:#d3d3d3; }
+.tab_box .edi_box .edi_panel .column {}
+/**/
+.tab_box .edi_box .edi_panel .form label, .tab_box .edi_box .edi_panel .form .label { color:#000000; }
+.tab_box .edi_box .edi_panel .form .label, #titol_taula, .tab_box .edi_box .edi_panel .label, #titol_taula { font-size: 1.2em; color: #464646;}
+.tab_box .edi_box .edi_panel .form .required, .tab_box .edi_box .edi_panel .required{ color:#409aff; }
+.tab_box .edi_box .edi_panel .calendar { background:url(img/sprite_edi.png) no-repeat -60px -120px; }
+.tab_box .edi_box .edi_panel .label a.info { background:url(img/sprite_edi.png) no-repeat -1px -92px; }
+.tab_box .edi_box .edi_panel .icos_list li.ico a, .tbl_objects table td ul.icos_list li.ico a, .col_item a.ico{ background-image:url(img/sprite_edi.png); background-repeat:no-repeat; }
+.tab_box .edi_box .edi_panel .icos_list li.info a { background-position:0 -90px; }
+.tab_box .edi_box .edi_panel .icos_list li.clip a, .col_item a.clip { background-position:-30px -90px; }
+.tab_box .edi_box .edi_panel .icos_list li.lupa a, .col_item a.lupa { background-position:-60px -90px; }
+.tab_box .edi_box .edi_panel .icos_list li.link a, .tbl_objects table td ul.icos_list li.link a { background-position:-90px -90px; }
+.tab_box .edi_box .edi_panel .icos_list li.add a { background-position:-120px -90px; }
+.tab_box .edi_box .edi_panel .icos_list li.prev a { background-position:-120px -38px; }
+.tab_box .edi_box .edi_panel .icos_list li.info_admin a { background-image:none; background-color:#d3ce3d; }
+/* foto */
+.tab_box .edi_box .edi_panel .photo img { border-color:#b9b9b9; }
+.tab_box .edi_box .edi_panel .photo img.draggablehover { border-color: #d3cd3d; background-color: #d3cd3d; opacity: 0.5; }
+.tab_box .edi_box .edi_panel .photo dt { color:#000000; }
+.tab_box .edi_box .edi_panel .photo dd { color:#7f7f7f; }
+.tab_box .edi_box .edi_panel .photo dd.real { color:#008000; }
+.tab_box .edi_box .edi_panel .photo dd.mida_ko { color:#ff0000; }
+/* taules de relacionats */
+.tab_box .edi_box .edi_panel .tbl_rel table, .tab_box .edi_box .edi_panel .tbl_rel table td a { color:#5e5e5e; }
+/* botons */
+.tab_box .edi_box .edi_panel .btn_back { background:url(img/sprite_edi.png) no-repeat -130px -120px; }
+/* missatge desplegable */
+#content .info_alert .text { color:#ffffff; }
+#content .alert_user .text { background-color:#009DFF; }
+#content .alert_admin .text { background-color:#383838; }
+#content .info_alert .arrow { background-image:url(img/sprite_edi.png); background-repeat:no-repeat; }
+#content .alert_user .arrow { background-position:-70px -180px; }
+#content .alert_admin .arrow { background-position:-100px -180px; }
+
+/* BOTO TANCAR */
+.btn_close { background:url(img/sprite_edi.png) no-repeat -70px -210px; }
+.btn_close a {}
+
+/***************************************************************/
+/*********************** MISSATGE ALERTA ***********************/
+.alert { background-color:#f5f5f5; }
+.alert span { background-image:url(img/sprite_edi.png); background-repeat:no-repeat; }
+.alert div {}
+.alert p { color:#7f7f7f; }
+/**/
+.saving span { background:none; }
+.alert_right span { background-position:0 -180px; }
+.alert_right.list span { background-position:-35px -267px; }
+.alert_wrong span { background-position:0 -120px; }
+.alert_error.list span { background-position:0 -268px; }
+
+/*********************************************************/
+/*********************** PAGINACIO ***********************/
+.pager h2 { color:#2c2c2c; }
+.pager ul li, .pager ul li a { color:#409aff; }
+
+/******************************************************************************/
+/*********************************** FOOTER ***********************************/
+#footer { background-color:#313131; border-top-color:#ffffff; }
+#footer h2 { background:url(img/oma_logo_footer.png) no-repeat 0 0; }
+#footer ul li { border-left-color:#ffffff; }
+#footer ul li a { color: #ffffff; text-decoration: none; }
+#footer ul li span { color:#ffffff; }
+
+
+.float_left {
+	float: left;
+}
+.float_right {
+	float: right;
+}

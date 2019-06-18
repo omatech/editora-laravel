@@ -1,0 +1,27 @@
+{
+  "name": "omatech/editora",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Agustí Pons",
+      "email": "apons@omatech.com"
+    }
+  ],
+  "require" : {
+    "omatech/editora-laravel-connector-dbinterface": "dev-master",
+    "skagarwal/google-places-api": "^1.4"
+  },
+  "autoload": {
+      "psr-4": {
+          "Omatech\\Editora\\": "src"
+      }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Omatech\\Editora\\EditoraServiceProvider"
+      ]
+    }
+  }
+}

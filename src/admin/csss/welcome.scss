@@ -1,0 +1,304 @@
+@charset "UTF-8";
+/* CSS SCREEN */
+/* OMATECH Xtreme Web Culture */
+/********** PANREAC **********/
+
+/********** VENDOR **********/
+@import "vendor/bootstrap";
+@import "vendor/flex";
+@import "vendor/include-media";
+@import "vendor/mixins";
+
+
+/********** VARIABLES **********/
+
+/* COLORS */
+
+$primary: #e00080;
+$secondary: #1068b1;
+
+/* TEXT */
+$clr-tit: $primary;
+$clr-text: #656d78;
+$clr-text-2: #434a54;
+$clr-icon: #cbd0d8;
+
+$border-input: #ccd1d9;
+
+$white: #ffffff;
+$black: #000000;
+
+$success: #3cbd38;
+$error: #f1240f;
+$disabled: #b7b7b7;
+
+/* FONT FAMILY */
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i');
+$font-family: 'Roboto', sans-serif;
+$font-thin: 100;
+$font-light: 300;
+$font-regular: 400;
+$font-medium: 500;
+$font-semibold: 600;
+$font-bold: 700;
+$font-extrabold: 800;
+$font-black: 900;
+$font-italic: italic;
+
+/**/
+$transition: all 0.3s ease-in-out;
+
+
+/********** BASE **********/
+
+html {
+  font-size: 50%; /* Sets up the rem to px fallback */
+  min-height: 100%;
+  position: relative;
+  @include media('<=tablet') {
+    font-size: 46%; 
+  }
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: $white;
+  @include font-size(16);
+  font-family: $font-family;
+  font-weight: $font-light;
+  color: $clr-text;
+  @include media('>desktop') {
+  }
+  @include media('<=desktop') {
+  }
+}
+
+a {
+  color: $primary;
+  transition: $transition;
+  &:hover, &:active, &:focus {
+    color: $primary;
+  }
+}
+
+button {
+  transition: $transition;  
+}
+
+p, ul, ol, dl, dt, dd, figure, address, form { 
+  margin: 0; 
+  padding: 0; 
+}
+ul, ol { list-style: none; }
+h1, h2, h3, h4, h5 { 
+  margin: 0; 
+  padding: 0; 
+  font-weight: normal; 
+  font-size: $font-size-base; 
+  line-height: 1.2; 
+} 
+* { box-sizing: border-box; }
+
+a {
+	text-decoration: none;
+	outline: 0;
+  &:hover, &:focus, &:active {
+    outline: none !important;
+  }
+}
+input::-moz-focus-inner { 
+  border: 0; 
+}
+input[type="submit"], button {
+  cursor: pointer;
+  &:focus, &:active {
+    outline: none !important;
+  }
+}
+button {
+  outline: none !important;
+}
+
+/******************* LAYOUT *******************/
+
+/**********************************************/
+ /* LOGO */
+ .logo {
+ 	a {
+		display: inline-block;
+		position: relative;
+		width: 100%;
+		padding-bottom: 55%; /* depends on svg ratio, height/width = 1.2 so padding-bottom = 50% * 1.2 = 60% */
+		z-index: 1;
+		vertical-align: middle;
+ 		&:hover {
+ 			cursor: pointer;
+ 		}
+ 		.object-svg {
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%; /* only required for <img /> */
+			z-index: -1000;
+ 		}
+ 		.logo-text {
+	 		position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			opacity: 0;	
+			width: 100%;
+			height: 100%;
+			display: block;		
+ 		}
+ 	}
+ }
+
+
+
+/*********************************************/
+/* FORMULARIS */
+.form {
+	.form-label {
+		@include font-size(14);
+		font-weight: $font-regular;
+		color: $clr-text-2;
+		text-transform: uppercase;
+		display: block;
+		margin: 0 0 10px 0;
+		@include media('screen', '<=tablet') {
+		}
+		.q-tooltip {
+			margin-left: 4px;
+		}
+	}
+	.form-control {
+		background-color: $white;
+		@include font-size(14);
+		font-weight: $font-regular;
+		color: $clr-text-2;
+		border-color: $border-input;
+		@include border-radius(3px);
+		padding: 10px 5px 10px 15px;
+		box-shadow: none;
+		height: 44px;
+		// &::-webkit-input-placeholder { opacity: 0.5; }
+		// &:-moz-placeholder { opacity: 0.5; }
+		// &::-moz-placeholder { opacity: 0.5; }
+		// &:-ms-input-placeholder { opacity: 0.5; }
+		&:focus {
+			border-color: $secondary;
+			//color: $secondary;
+		}
+		@include media('screen', '<=tablet') {
+		}
+	}
+	.checkbox {
+		margin-bottom: 50px;
+		@include font-size(14);
+		font-weight: $font-regular;
+		> * {
+			display: inline-block;
+			vertical-align: middle;
+		}
+	}
+	.form-group {
+	}
+	.btn-row {
+		text-align: center;
+	}
+
+}
+
+/* BOTO */
+.btn {
+	background-color: $secondary;
+	@include font-size(14);
+	font-weight: $font-medium;
+	color: $white;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	border: none;
+	@include border-radius(4px);
+	padding: 15px 45px;
+	&:hover {
+		color: $white;
+		opacity: 0.8;
+	}
+	&.btn-small {
+		@include font-size(14);
+		font-weight: 400;
+		padding: 10px 25px;
+	}
+}
+
+
+
+/*********************************************/
+/* WELCOME */
+.welcome-page {
+	@include flexbox;
+	@include flex-direction(row);
+	@include flex-wrap(nowrap);
+	@include justify-content(space-between);
+	@include align-items(stretch);
+	> * {
+		@include flex-grow(1);
+		@include flex-basis(0);
+		overflow: hidden;
+	}
+	.pic {
+		position: relative;
+		height: 100vh;
+		img {
+			position: absolute;
+			top: 0;
+			right: 0;
+			height: 100vh;
+		}
+		@include media('screen', '<desktop') {
+			@include flex-basis(55%);
+		}
+		@include media('screen', '<tablet') {
+			display: none;
+		}
+	}
+	.enter {
+		@include flexbox;
+		@include flex-direction(column);
+		@include justify-content(center);
+		@include align-items(center);
+		padding: 40px 80px;
+		@include media('screen', '<desktop') {
+			@include flex-basis(45%);
+			padding-left: 50px;
+			padding-right: 50px;
+		}
+		@include media('screen', '<tablet') {
+			height: 100vh;
+		}
+		@include media('screen', '<phone') {
+			padding: 20px;
+		}
+		.welcome {
+			min-width: 300px;
+			@include media('screen', '<phone') {
+				min-width: 280px;
+			}
+			.logo {
+				margin-bottom: 40px;
+			}
+			.choose {
+				.form {
+					.btn {
+						width: 100%;
+					}
+				}
+			}			
+		}
+
+	}
+}
