@@ -27,7 +27,6 @@ class AdminListClassImport extends AuthController
 
         $objPHPExcel = \PhpOffice\PhpSpreadsheet\IOFactory::load($_FILES['file_class']['tmp_name']);
 
-        //Cambiar por security -> db
         $conn = config("database.connections.mysql");
         $connection_params = array(
             'dbname' => $conn['database'],
@@ -60,7 +59,6 @@ class AdminListClassImport extends AuthController
 
             $have_niceurl = false;
 
-            //por cada fila / elemento nuevo
             foreach ($worksheet->getRowIterator() as $row) {
 
 
@@ -76,12 +74,9 @@ class AdminListClassImport extends AuthController
                 } else {
 
                     $stop = 0;
-
                     $instance = array();
 
-                    //por cada celda / columna
                     foreach ($cellIterator as $key => $cell) {
-
 
                         $type_attribute = explode('#', $attributes[$key]);
 
@@ -136,8 +131,6 @@ class AdminListClassImport extends AuthController
                                     $maps = $this->searchAddressOnGoogle($value);
                                     if(isset($maps['geometry']) && isset($maps['geometry']['location']) && isset($maps['geometry']['location']['lat']) && isset($maps['geometry']['location']['lng']) ){
                                         $instance[$excel_attribute] = $maps['geometry']['location']['lat'].':'.$maps['geometry']['location']['lng'].'@'.$value;
-                                    }else{
-                                        $instance[$excel_attribute] = '0:0@'.$value;
                                     }
 
                                     break;
@@ -160,7 +153,6 @@ class AdminListClassImport extends AuthController
                                         $count = 0;
 
                                         while ($inst_id != -1) {
-                                            //-1 si no existe, es lo que buscamos
                                             $inst_id = $loader->getInstIDFromNomIntern($name_class, $value);
                                             if ($inst_id != -1) {
                                                 $value = $value_attr . '-' . $count;
@@ -212,7 +204,7 @@ class AdminListClassImport extends AuthController
 
                                         while ($end == false) {
 
-                                            //por cada idioma, miro si existe la url, 'all', 'ca', 'es', 'en'
+                                            //languages: 'all', 'ca', 'es', 'en'
                                             foreach ($langs as $lang) {
 
                                                 $nice_url = $loader->clean_url($value);
@@ -226,7 +218,6 @@ class AdminListClassImport extends AuthController
                                                 }
                                             }
 
-                                            //si no existe termino el bucle y guardo el valor, sino añado un count y vuelvo a mirar por cada idioma si existe
                                             if ($search == false) {
                                                 $end = true;
                                                 $have_niceurl = true;
@@ -250,10 +241,9 @@ class AdminListClassImport extends AuthController
 
                     }
 
-                    //instance con todos los values, ahora es cuando se han de guardar en la base de datos
                     $inst_id = $loader->insertInstanceWithExternalID($id_class, $instance['nom_intern'], '', $batch_id, $instance, 'P');
 
-                    //si tiene url, añadirla y si ha encontrado el array con las niceurls
+
                     if (isset($inst_id) && !empty($inst_id) && $have_niceurl == true && isset($niceurls) && !empty($niceurls)) {
                         foreach ($niceurls as $name_atr => $urlnice) {
 
@@ -265,9 +255,6 @@ class AdminListClassImport extends AuthController
                                 $result = $loader->insertUrlNice($urlnice, $inst_id, $lang);
                             }
                         }
-                        //$loader->insertUrlNice($nice_url, $inst_id, $lang);
-                    } else {
-                        //mensaje de que no se ha creado la niceurl correctamente
                     }
 
                     if (isset($inst_id) && !empty($inst_id)) {
