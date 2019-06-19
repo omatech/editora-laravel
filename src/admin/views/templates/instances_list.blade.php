@@ -81,6 +81,23 @@
     @endif
     </tbody>
 </table>
+<h3>{{$count}} instancias encontradas</h3>
+@if($count>40)
+@php($pages = round($count/40))
+<div class="dataTables_paginate paging_simple_numbers" id="pages-table_paginate">
+    <ul class="pagination">
+        @if($page>1)
+        <li class="paginate_button page-item previous"><a href="{{ route('editora.action', 'list_instances/?p_pagina='.($page-1).'&p_class_id='.$class['id']) }}"  class="page-link">Previous</a></li>
+        @endif
+        @for($i=1; $i<=$pages; $i++)
+        <li class="paginate_button page-item @if($i==$page) active @endif"><a href="{{ route('editora.action', 'list_instances/?p_pagina='.$i.'&p_class_id='.$class['id']) }}" class="page-link">{{$i}}</a></li>
+        @endfor
+        @if($page<$pages)
+        <li class="paginate_button page-item next"><a href="{{ route('editora.action', 'list_instances/?p_pagina='.($page+1).'&p_class_id='.$class['id']) }}" class="page-link">Next</a></li>
+        @endif
+    </ul>
+</div>
+@endif
 @if($p_mode=='R')
     </form>
 @endif
@@ -91,9 +108,10 @@
         $(document).ready(function() {
              oTable = $('#pages-table').DataTable({
                  ordering: false,
-                 paging: true,
-                 searching:true,
+                 paging: false,
+                 searching:false,
                  lengthChange:false,
+                 info: false,
                  sDom:"ltipr"
              });
 

@@ -7,16 +7,15 @@
 			<span class="data">
 				<h3 class="tit">Resultados para: "{{$term}}"</h3>
 			</span>
-			<div class="form">
-				<div class="form-group">
-					<span class="input-group">
-						<input id="search_instances" type="text" class="form-control" placeholder="Buscar">
-						<span class="input-addon">
-							<i class="icon-magnify"></i>
-						</span>
+			<form action="{{ route('editora.action', 'search') }}">
+				<span class="input-group">
+					@if(isset($class['id']))<input type="hidden" id="p_class_id" name="p_class_id" value="{{$class['id']}}">@endif
+					<input type="text" class="form-control" id="p_search_query" name="p_search_query" placeholder="Buscar">
+					<span class="input-addon">
+						<i class="icon-magnify"></i>
 					</span>
-				</div>
-			</div>
+				</span>
+			</form>
 		</div>
 	</section>
 	<section class="table-view">
