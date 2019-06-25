@@ -138,7 +138,7 @@
             new autoComplete({
                 selector: 'input[name="autocomplete-{{$attribute['id']}}"]',
                 source: function(term, response){
-                    var link = '{!! route('editora.action', 'autocomplete/?p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$classes_id.'&p_tab=1') !!}';
+                    var link = '{!! route('editora.action', 'autocomplete?p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$classes_id.'&p_tab=1') !!}';
 
                     $.getJSON(link, { term: term }, function(data){ response(data); });
                 },
