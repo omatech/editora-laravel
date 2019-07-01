@@ -34,7 +34,7 @@
 
         <section class="">
             <div class="container">
-                <form class="form" method="post" ENCTYPE="multipart/form-data" action="/admin/list_class_import">
+                <form class="form" method="post" ENCTYPE="multipart/form-data" action="{{route('editora.action', 'list_class_import/')}}">
                     {{csrf_field()}}
                     <input type="file" name="file_class">
                     <input type="submit" value="Enviar">
@@ -76,8 +76,8 @@
                                 <td class="tit">{{$item['name']}}</td>
                                 <td class="favorite">
                         			<span>
-                        			    <a href="/admin/list_class_export?id={{$item['class_id'].'&name='.$item['name']}}" class="btn-square clr-default">
-                                            <i class="icon-pencil"></i>
+                                        <a href="{{route('editora.action', 'list_class_export/?id='.$item['class_id'].'&name='.$item['name'])}}" class="btn-square clr-default">
+                                            <i class="icon-file"></i>
                                         </a>
                         			</span>
                                 </td>
