@@ -2,7 +2,7 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
-use Omatech\Editora\Admin\Middleware\Auth;
+use Omatech\Editora\Admin\Middleware\EditoraAuth;
 use Omatech\Editora\Admin\Models\layout;
 
 
@@ -11,7 +11,7 @@ class AuthController extends BaseController
     public function __construct()
     {
         $this->middleware([
-            Auth::class
+            EditoraAuth::class
         ]);
     }
 

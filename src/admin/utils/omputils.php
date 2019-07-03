@@ -291,13 +291,16 @@ function getRolName ($rol_id) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 function getDefaultLanguage() {
-	if (isset($_REQUEST['u_lang'])) $lg=control_idioma($_REQUEST['u_lang']);
-	elseif (isset($_COOKIE['u_language'])) $lg=control_idioma($_COOKIE['u_language']);
-	else $lg=control_idioma('');
+    if (isset($_REQUEST['u_lang'])) {
+        $lg=control_idioma($_REQUEST['u_lang']);
+    }elseif (isset($_COOKIE['u_language'])) {
+		$lg=control_idioma($_COOKIE['u_language']);
+	}else{
+		$lg=control_idioma('');
+	}
 	setcookie('u_language', control_idioma($lg), -1 , '/', DOMAIN_SERVER);
 	$_SESSION['u_lang']=$lg;
-
-
+	
 	return $lg;
 }
 

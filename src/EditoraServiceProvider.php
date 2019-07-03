@@ -3,7 +3,7 @@
 namespace Omatech\Editora;
 
 use Illuminate\Support\ServiceProvider;
-use Omatech\Editora\Admin\Middleware\Auth;
+use Omatech\Editora\Admin\Middleware\EditoraAuth;
 use Omatech\Editora\Admin\Providers\HelperServiceProvider;
 
 class EditoraServiceProvider extends ServiceProvider
@@ -34,7 +34,7 @@ class EditoraServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(HelperServiceProvider::class);
-        $this->app['router']->aliasMiddleware('auth', Auth::class);
+        $this->app['router']->aliasMiddleware('editoraAuth', EditoraAuth::class);
 
         $this->mergeConfigFrom(
             __DIR__.'/config/config.php',

@@ -5,7 +5,7 @@ namespace Omatech\Editora\Admin\Middleware;
 use Closure;
 use Omatech\Editora\Admin\Models\Security;
 
-class Auth
+class EditoraAuth
 {
     /**
      * Handle an incoming request.

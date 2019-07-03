@@ -10,7 +10,7 @@ class AdminLogin extends BaseController
     public function render()
     {
         $security = new Security();
-        if ($security->login($_REQUEST['p_username'], $_REQUEST['p_password'])==1) {
+        if ($security->login($_REQUEST['p_username'], $_REQUEST['p_password'], $_REQUEST['u_lang'])==1) {
             if (isset($_SESSION['last_page']) && $_SESSION['last_page']!='') {
                 redirect_action($_SESSION['last_page']);
             } else {

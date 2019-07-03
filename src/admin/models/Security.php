@@ -6,7 +6,7 @@ use Illuminate\Hashing\BcryptHasher;
 
 class Security extends Model
 {
-    public function login($p_username, $p_password)
+    public function login($p_username, $p_password, $u_lang=null)
     {
         $hasher = new BcryptHasher();
 
@@ -30,7 +30,7 @@ class Security extends Model
         $_SESSION['rol_nom'] = $user['r_nom'];
         $_SESSION['user_type'] = $user['tipus'];
         $_SESSION['user_language'] = $user['language'];
-
+        
         $this->cacheClasses($user['id']);
         $this->cleanUserInstances($user['id']);
 

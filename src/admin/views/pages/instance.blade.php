@@ -43,7 +43,7 @@
 				@if($p_mode=='V')
 					<a href="{{route('editora.action', 'edit_instance/?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}" class="btn clr-secondary"><span class="btn-text">Editar</span></a>
 				@elseif($p_mode=='U' || $p_mode=='I')
-					<a onclick="document.getElementById('Form1').submit();" class="btn clr-secondary"><span class="btn-text">Guardar</span></a>
+					<a onclick="document.getElementById('Form1').submit(); $(this).attr('disabled','disabled');" class="btn clr-secondary"><span class="btn-text">Guardar</span></a>
 				@endif
 			</div>
 		</div>
