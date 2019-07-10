@@ -63,17 +63,16 @@
                 autoProcessQueue: true,
                 url: "{{ ADMIN_URL }}/upload_crop",
                 maxFiles: 1,
-                dictDefaultMessage: "{{__('strings.attributes.F.dropzone_add_file')}}",
-                dictRemoveFile: "{{__('strings.attributes.F.dropzone_delete_file')}}",
+                dictDefaultMessage: "Añadir fichero", //"{{__('strings.attributes.F.dropzone_add_file')}}",
+                dictRemoveFile: "Eliminar fichero", //"{{__('strings.attributes.F.dropzone_delete_file')}}",
                 addRemoveLinks : false,
                 createImageThumbnails: false,
-
+                acceptedFiles: 'image/*,application/pdf,text/csv,text/html,text/plain,text/tab-separated-values,application/xls,application/excel,application/vnd.ms-excel,application/vnd.ms-excel; charset=binary,application/msexcel,application/x-excel,application/x-msexcel,application/x-ms-excel,application/x-dos_ms_excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                 init: function () {
                     this.on("success", function(file, response) {
-                        $('#input_{{$attribute_name}}').val(response.name);
+                        $('#input_{{$attribute_name}}').val(response.accessUrl);
                     })
                 },
-
                 maxfilesexceeded: function(file) {
                     this.removeAllFiles();
                     this.addFile(file);
