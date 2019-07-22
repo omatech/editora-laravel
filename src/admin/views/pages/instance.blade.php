@@ -38,11 +38,9 @@
 								@if($instance['status']!="O")
 								<a href="{{route('editora.action', 'delete_instance/?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}" class="dropdown-item"><i class="icon-delete"></i>Eliminar</a>
 								@endif
-								
-								<a onclick="refreshView({{$instance['id']}});" class="dropdown-item"><i class="icon-refresh"></i>Refresh View</a>
-
-
-								
+								@if (config('editora-admin.curl-refresh-command')!='')
+								<a onclick="refreshView({{$instance['id']}});" class="dropdown-item"><i class="icon-content-copy"></i>Limpiar caché</a>
+								@endif
 							</div>
 						</div>
 					</li>
@@ -232,7 +230,7 @@
 
 
 		function refreshView(inst_id) { 
-			info = 'ajax=refresh_view&inst_id='+inst_id;
+			info = 'ajax=refresh_view&inst_id='+inst_id+'&rand='+Math.random();
 			$.ajax({
 				url: '{{route('editora.action', 'ajax_actions')}}',
 				type: "GET",
