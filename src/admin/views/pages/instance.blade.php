@@ -21,8 +21,12 @@
 				@if(isset($parents) && !empty($parents))
 					<li><button class="btn-square clr-dark" id="btn-toggle-relations"><i class="icon-link-rel"></i><span class="sr-only">Objetos padre</span></button></li>
 				@endif
-				{{--<li><button class="btn-square clr-dark"><i class="icon-information-outline"></i><span class="sr-only">Información</span></button></li>--}}
-				{{--<li><button class="btn-square clr-dark"><i class="icon-settings"></i><span class="sr-only">configuración</span></button></li>--}}
+
+
+				@if($_SESSION['user_type']=='O' && $_SESSION['rol_id']==1 )
+					{{-- <li><button class="btn-square clr-dark"><i class="icon-information-outline"></i><span class="sr-only">Información</span></button></li> --}}
+				@endif
+
 				{{--<li><button class="btn-square clr-dark"><i class="icon-eye"></i><span class="sr-only">Previsionalizar</span></button></li>--}}
 				@if($p_mode=='V')
 					<li class="dropdown related-dropdown">
@@ -34,6 +38,11 @@
 								@if($instance['status']!="O")
 								<a href="{{route('editora.action', 'delete_instance/?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}" class="dropdown-item"><i class="icon-delete"></i>Eliminar</a>
 								@endif
+								
+								<a onclick="refreshView({{$instance['id']}});" class="dropdown-item"><i class="icon-refresh"></i>Refresh View</a>
+
+
+								
 							</div>
 						</div>
 					</li>
@@ -219,5 +228,22 @@
                 $(this).parent().addClass('active');
             });
         });
+
+
+
+		function refreshView(inst_id) { 
+			info = 'ajax=refresh_view&inst_id='+inst_id;
+			$.ajax({
+				url: '{{route('editora.action', 'ajax_actions')}}',
+				type: "GET",
+				data: info,
+				success: function(data){
+					alert( "Refresh ok" );
+				}
+			});
+		}
+    
 	</script>
+
+	
 @endsection

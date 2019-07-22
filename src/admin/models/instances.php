@@ -1284,4 +1284,13 @@ class Instances extends model
 
         return true;
     }
+
+
+    function get_niceurl($id, $lang='ca')
+    {
+        $sql="select niceurl from omp_niceurl n, omp_instances i where i.id=inst_id and inst_id=".$id." and (language='".$lang."' or language='ALL')";
+
+        $Row = parent::get_one($sql);
+        return $Row['niceurl'];
+    }
 }

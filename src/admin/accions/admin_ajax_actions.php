@@ -4,6 +4,9 @@ namespace Omatech\Editora\Admin\Accions;
 
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\Relations;
+use Omatech\Editora\Admin\Models\Instances;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class AdminAjaxActions extends AuthController
 {
@@ -28,14 +31,39 @@ class AdminAjaxActions extends AuthController
                     if ($r->order_relation($_REQUEST['instance_id'], $values)) {
                         $sended = true;
                     }
+                    if ($sended) {
+                        echo getMessage('saved');
+                    }else {
+                        echo getMessage('saved_wrong');
+                    }
+                }elseif($_REQUEST['ajax'] == 'refresh_view'){
+                    
+                    if (config('editora-admin.curl-refresh-command')!='') {
+                        $curl_command = config('editora-admin.curl-refresh-command');
+
+                        $inst_id = $_REQUEST['inst_id'];
+
+                        $array_langs = config('editora-admin.languages');
+                        $instances = new Instances;
+                        foreach($array_langs as $language){
+                            $lanice= $instances->get_niceurl($inst_id, $language);
+                            $niceurl = '/'.$language.'/'.$lanice;
+
+                            $process = new Process($curl_command.$niceurl);
+                            $process->run();
+                            if (!$process->isSuccessful()) {
+                                throw new ProcessFailedException($process);
+                            }
+                            echo $process->getOutput();
+                        }
+                        
+                        
+                    
+                    }
                 }
             }
 
-            if ($sended) {
-                echo getMessage('saved');
-            }else {
-                echo getMessage('saved_wrong');
-            }
+            
         }
 
        die();

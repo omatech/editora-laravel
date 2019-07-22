@@ -10,5 +10,6 @@ return [
         'prefix' => 'editora',
     ],
     'uploads-storage' => 'public',
-    'url-storage-relative' => true
+    'url-storage-relative' => true,
+    'curl-refresh-command' => ''
 ];
