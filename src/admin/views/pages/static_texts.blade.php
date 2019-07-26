@@ -6,7 +6,7 @@
 			<span class="toolbar-left">
 				<ul class="language-tabs nav nav-tabs">
 						
-					<li @if($selected_language=='ALL') class="active" @endif><a href="{{route('editora.action', "static_text")}}">Todos</a></li>
+					<li @if($selected_language=='ALL') class="active" @endif><a href="{{route('editora.action', "static_text")}}">{{getMessage('all')}}</a></li>
 					@foreach($languages as $lang)
 						<li @if($selected_language==$lang) class="active" @endif><a href="{{route('editora.action', 'static_text?text_lang='.$lang)}}">{{$lang}}</a></li>
 					@endforeach
@@ -16,7 +16,7 @@
 		<section class="table-view-header">
 			<div class="container">
 				<span class="data">
-					<h3 class="tit">Textos estáticos</h3>
+					<h3 class="tit">{{getMessage('static_text')}}</h3>
 				</span>
 				<div class="form">
 					<div class="form-group">
@@ -36,10 +36,10 @@
 				<table class="table" id="pages-table">
 					<thead>
 					<tr>
-						<th class="tit"><span>Key</span></th>
-						<th class="tit"><span>Idioma</span></th>
-						<th class="type"><span>Text</span></th>
-						<th class="favorite"><span class="hidden">Acciones</span></th>
+						<th class="tit"><span>{{getMessage('info_word_keyword')}}</span></th>
+						<th class="tit"><span>{{getMessage('info_word_language')}}</span></th>
+						<th class="type"><span>{{getMessage('info_word_text')}}</span></th>
+						<th class="favorite"><span class="hidden">{{getMessage('acciones')}}</span></th>
 					</tr>
 					</thead>
 					<tbody>

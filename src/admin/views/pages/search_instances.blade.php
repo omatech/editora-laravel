@@ -5,7 +5,7 @@
 	<section class="table-view-header">
 		<div class="container">
 			<span class="data">
-				<h3 class="tit">Resultados para: "{{$term}}"</h3>
+				<h3 class="tit">{{getMessage('results_for')}}: "{{$term}}"</h3>
 			</span>
 			<form action="{{ route('editora.action', 'search') }}">
 				<span class="input-group">

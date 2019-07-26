@@ -8,7 +8,7 @@
 				<h3 class="tit">{{$class['class_name']}}</h3>
 			</span>
 			@if($p_mode!='R')
-				<a href="{{route('editora.action', 'new_instance/?p_class_id='.$class['id'])}}"><span class="btn clr-secondary">Crear nuevo elemento: {{$class['class_name']}}</span></a>
+				<a href="{{route('editora.action', 'new_instance/?p_class_id='.$class['id'])}}"><span class="btn clr-secondary" style="font-size:14px">{{getMessage('info_create_object')}}: {{$class['class_name']}}</span></a>
 			@endif
 			<form action="{{ route('editora.action', 'search') }}">
 				<span class="input-group">

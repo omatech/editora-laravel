@@ -6,7 +6,7 @@
 			<div class="item-parameters">
 				<div class="container">
 					<span class="item-tit">
-						<span class="section-name">Crear usuarios</span>
+						<span class="section-name">{{getMessage('create_users')}}</span>
 					</span>
 				</div>
 			</div>
@@ -19,7 +19,7 @@
 					<header class="block-header">
 						<div class="container">
 							<div class="data">
-								<h2 class="tit">Nuevo usuario</h2>
+								<h2 class="tit">{{getMessage('new_user')}}</h2>
 							</div>
 						</div>
 					</header>
@@ -30,15 +30,15 @@
 									<div class="form default-block-form">
 										<div class="column column-text">
 											<div class="form-group">
-												<label for="username" class="form-label">Usuario</label>
+												<label for="username" class="form-label">{{getMessage('user')}}</label>
 												<input type="text" name="username" id="username" class="form-control" required>
 											</div>
 											<div class="form-group">
-												<label for="complete_name" class="form-label">Nombre completo</label>
+												<label for="complete_name" class="form-label">{{getMessage('name')}}</label>
 												<input type="text" name="complete_name" id="complete_name" class="form-control"  required>
 											</div>
 											<div class="form-group">
-												<label for="rol" class="form-label">Rol</label>
+												<label for="rol" class="form-label">{{getMessage('role')}}</label>
 												<select class="form-control" name="rol">
 													@foreach($roles as $item)
 														<option value="{{$item['id']}}">{{$item['rol_name']}}</option>
@@ -57,7 +57,7 @@
 										</div>
 										<div class="button-row">
 											<button type="submit" class="btn clr-secondary">
-												<span class="btn-text">Crear</span>
+												<span class="btn-text">{{getMessage('create')}}</span>
 											</button>
 										</div>
 									</div>

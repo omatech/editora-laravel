@@ -3,7 +3,7 @@
         <li>
             <a href="{{ route('editora.action', 'get_main') }}">
                 <i class="icon-home"></i>
-                <span class="link-text">Inicio</span>
+                <span class="link-text">{{getMessage('navigation_home')}}</span>
             </a>
             <ul class="level-2-nav">
                 @foreach($menu as $section)
@@ -56,27 +56,27 @@
         <li>
             <a href="{{ route('editora.action', 'static_text') }}">
                 <i class="icon-settings"></i>
-                <span class="link-text">Textos estáticos</span>
+                <span class="link-text">{{getMessage('static_text')}}</span>
             </a>
         </li>
         <li>
             <ul class="level-2-nav">
                 <li>
                     <a href="#subnav-config" data-toggle="collapse" aria-expanded="false" aria-controls="subnav-config">
-                        <span class="link-text">Funciones especiales</span>
+                        <span class="link-text">{{getMessage('special_functions')}}</span>
                         <i class="icon-chevron-down"></i>
                     </a>
                     <div class="collapse" id="subnav-config">
                         <ul class="level-3-nav">
                             <li>
                                 <a href="{{ route('editora.action', 'unlinked_images') }}" class="link-list">
-                                    <span class="link-text">Ficheros no relacionados</span>
+                                    <span class="link-text">{{getMessage('unlinked_files')}}</span>
                                 </a>
                             </li>
                             @if($_SESSION['user_type']=='O' && $_SESSION['rol_id']==1 )
                                 <li>
                                     <a href="{{ route('editora.action', 'create_users') }}" class="link-list">
-                                        <span class="link-text">Crear usuarios</span>
+                                        <span class="link-text">{{getMessage('create_users')}}</span>
                                     </a>
                                 </li>
                             @endif
@@ -84,15 +84,15 @@
                             @if($_SESSION['user_type']=='O' && $_SESSION['rol_id']==1 )
                                 <li>
                                     <a href="{{ route('editora.action', 'list_class') }}" class="link-list">
-                                        <span class="link-text">Carga excel contenido</span>
+                                        <span class="link-text">{{getMessage('load_content')}}</span>
                                     </a>
                                 </li>
                             @endif
                         </ul>
                     </div>
                 </li>
-
             </ul>
         </li>
+        @includeIf('Editora.extraMenu')
     </ul>
 </nav>

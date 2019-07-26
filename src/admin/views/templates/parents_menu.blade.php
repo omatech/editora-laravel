@@ -1,8 +1,8 @@
 @if(isset($parents) && !empty($parents))
 <div id="relations-menu">
     <header class="side-menu-header">
-        <span class="tit">Objetos padre</span>
-        <button class="btn-square clr-gray" id="btn-hide-relations"><i class="icon-close"></i><span class="sr-only">Cerrar relaciones</span></button>
+        <span class="tit">{{getMessage('container_objetos_padre')}}</span>
+        <button class="btn-square clr-gray" id="btn-hide-relations"><i class="icon-close"></i><span class="sr-only">{{getMessage('info_word_close_relations')}}</span></button>
     </header>
     <div class="side-menu-content">
         <ul class="relations-list">

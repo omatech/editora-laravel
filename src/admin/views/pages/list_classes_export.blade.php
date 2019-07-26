@@ -8,7 +8,7 @@
 			<span class="toolbar-left">
 				<div class="toolbar-right">
                     <div class="save-block">
-                        <a href="/admin/list_class_import" class="btn clr-secondary"><span class="btn-text">Importar Excel</span></a>
+                        <a href="/admin/list_class_import" class="btn clr-secondary"><span class="btn-text">{{getMessage('file_import')}}</span></a>
                     </div>
                 </div>
 			</span>--}}
@@ -16,7 +16,7 @@
         <section class="table-view-header">
             <div class="container">
 				<span class="data">
-					<h3 class="tit">Listado clases para exportar</h3>
+					<h3 class="tit">{{getMessage('list_classes_to_export')}}</h3>
 				</span>
 
                 <form action="" class="form">
@@ -48,7 +48,7 @@
                 <br><br>
                 <p>{!! $message !!}</p>
                 <br>
-                <p>{!! $count_rows !!} elements insertats</p>
+                <p>{!! $count_rows !!} {{getMessage('inserted_elements')}}</p>
                 <br><br>
             </div>
         </section>
@@ -60,13 +60,9 @@
                 <table class="table" id="classes-table">
                     <thead>
                     <tr>
-                        <th class="tit"><span>ID</span></th>
-                        <th class="tit"><span>Nom</span></th>
-                        <th class="favorite">
-                            {{--<span class="hidden">--}}
-                                Exportar
-                            {{--</span>--}}
-                        </th>
+                        <th class="tit"><span>{{getMessage('info_word_ID')}}</span></th>
+                        <th class="tit"><span>{{getMessage('info_word_type')}}</span></th>
+                        <th class="favorite">{{getMessage('export')}}</th>
                     </tr>
                     </thead>
                     <tbody>

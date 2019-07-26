@@ -40,12 +40,12 @@
                                         $child_classes = explode(',', $multiple_child_classes);
                                     }
                                 @endphp      
-                                <li><a href="{{route('editora.action', 'join/?p_class_id='.$classes_id.'&p_inst_id='.$instance['id'].'&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$classes_id) }}" class="btn-square clr-default"><i class="icon-link-rel"></i><span class="hide-txt">Relacionar</span></a></li>
+                                <li><a href="{{route('editora.action', 'join/?p_class_id='.$classes_id.'&p_inst_id='.$instance['id'].'&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$classes_id) }}" class="btn-square clr-default"><i class="icon-link-rel"></i><span class="hide-txt">{{getMessage('info_word_join')}}</span></a></li>
 
                                 @if ($attribute['max_length']!=0)
-                                    <li><a href="{{route('editora.action', 'add_and_join/?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$classes_id.'&p_tab=1') }}" class="btn-square clr-default"><i class="icon-plus-box"></i><span class="hide-txt">Crear y relacionar</span></a></li>
+                                    <li><a href="{{route('editora.action', 'add_and_join/?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$classes_id.'&p_tab=1') }}" class="btn-square clr-default"><i class="icon-plus-box"></i><span class="hide-txt">{{getMessage('info_word_addjoin')}}</span></a></li>
                                 @else
-                                    <li><a href="" data-toggle="modal" data-target="#modal{{$attribute['id']}}" class="btn-square clr-default"><i class="icon-plus-box"></i><span class="hide-txt">Crear y relacionar</span></a></li>
+                                    <li><a href="" data-toggle="modal" data-target="#modal{{$attribute['id']}}" class="btn-square clr-default"><i class="icon-plus-box"></i><span class="hide-txt">{{getMessage('info_word_addjoin')}}</span></a></li>
                                     @section('modals')
                                         @parent
                                         <div class="modal fade" id="modal{{$attribute['id']}}" role="dialog">
@@ -75,12 +75,12 @@
                             <table class="table" id="relation-{{$attribute['id']}}">
                                 <thead>
                                 <tr>
-                                    <th class="sort"><span class="hidden">Ordenar</span></th>
-                                    <th class="status"><span>Estado</span></th>
-                                    <th class="id"><span>ID</span></th>
-                                    <th class="tit"><span>Instancia</span></th>
-                                    <th class="type"><span>Tipo</span></th>
-                                    <th class="actions"><span class="hidden">Acciones</span></th>
+                                    <th class="sort"><span class="hidden">{{getMessage('info_word_order')}}</span></th>
+                                    <th class="status"><span>{{getMessage('info_word_status')}}</span></th>
+                                    <th class="id"><span>{{getMessage('info_word_ID')}}</span></th>
+                                    <th class="tit"><span>{{getMessage('info_word_keyword')}}</span></th>
+                                    <th class="type"><span>{{getMessage('info_word_type')}}</span></th>
+                                    <th class="actions"><span class="hidden">{{getMessage('acciones')}}</span></th>
                                 </tr>
                                 </thead>
                                 <tbody id="tabrel{{$attribute['id']}}">
@@ -106,14 +106,14 @@
                                     <td class="type">{{$item['class_realname']}}</td>
                                     <td class="actions">
                                         <ul>
-                                        <li><a onclick="reldelete('{{route('editora.action', 'delete_relation_instance?p_relation_id='.$item['id'].'&p_class_id='.$item['parent_class_id'].'&parent_inst_id='.$instance['id'].'&p_inst_id='.$item['inst_id'].'&p_tab='.$tab['id'].'&p_rel_id='.$attribute['id'])}}')" class="btn-square clr-default"><i class="icon-unlink-rel"></i><span class="hide-txt">Desvincular</span></a></li>
-                                        <li><a href="{{ route('editora.action', 'edit_instance?p_class_id='.$item['child_class_id'].'&p_inst_id='.$item['inst_id'])}}" class="btn-square clr-default"><i class="icon-pencil"></i><span class="hide-txt">Editar</span></a></li>
+                                        <li><a onclick="reldelete('{{route('editora.action', 'delete_relation_instance?p_relation_id='.$item['id'].'&p_class_id='.$item['parent_class_id'].'&parent_inst_id='.$instance['id'].'&p_inst_id='.$item['inst_id'].'&p_tab='.$tab['id'].'&p_rel_id='.$attribute['id'])}}')" class="btn-square clr-default"><i class="icon-unlink-rel"></i><span class="hide-txt">{{getMessage('unlink')}}</span></a></li>
+                                        <li><a href="{{ route('editora.action', 'edit_instance?p_class_id='.$item['child_class_id'].'&p_inst_id='.$item['inst_id'])}}" class="btn-square clr-default"><i class="icon-pencil"></i><span class="hide-txt">{{getMessage('info_word_edit')}}</span></a></li>
                                         </ul>
                                     </td>
                                 </tr>
                                 @endforeach
                             @else
-                                <tr><td></td><td></td><td></td><td>No hay objetos relacionados</td><td></td><td></td></tr>
+                                <tr><td></td><td></td><td></td><td>{{getMessage('not_related_instances')}}</td><td></td><td></td></tr>
                             @endif
                                 </tbody>
                             </table>
@@ -199,10 +199,11 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th class="status"><span>Estado</span></th>
-                                    <th class="id"><span>ID</span></th>
-                                    <th class="tit"><span>Instancia</span></th>
-                                    <th class="type"><span>Tipo</span></th>
+                                    <th class="status"><span>{{getMessage('info_word_status')}}</span></th>
+                                    <th class="id"><span>{{getMessage('info_word_ID')}}</span></th>
+                                    <th class="tit"><span>{{getMessage('info_word_keyword')}}</span></th>
+                                    <th class="type"><span>{{getMessage('info_word_type')}}</span></th>
+                                    <th class="actions"><span class="hidden">{{getMessage('acciones')}}</span></th>
                                 </tr>
                                 </thead>
                                 <tbody>

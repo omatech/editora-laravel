@@ -10,19 +10,19 @@
             </figure>
             <div class="media-info">
                 <dl class="media-dada">
-                    <dt class="media-param">Dimensió teòrica:</dt>
+                    <dt class="media-param">{{getMessage('theoric_size')}}:</dt>
                     <dd class="media-value">{{$attribute['img_w']}}x{{$attribute['img_h']}}&nbsp;</dd>
-                    <dt class="media-param">Dimensió real:</dt>
+                    <dt class="media-param">{{getMessage('real_size')}}:</dt>
                     <dd class="media-value">{{str_replace_first('.','x',$attribute['atrib_values'][0]['img_info'])}}&nbsp;</dd>
-                    <dt class="media-param">Format:</dt>
+                    <dt class="media-param">{{getMessage('preview_format')}}:</dt>
                     <dd class="media-value">{{_fileExtension($file)}}&nbsp;</dd>
-                    <dt class="media-param">Pes:</dt>
+                    <dt class="media-param">{{getMessage('size')}}:</dt>
                     <dd class="media-value">{{ _getFileSize($file) }}&nbsp;</dd>
-                    <dt class="media-param">Ruta:</dt>
+                    <dt class="media-param">{{getMessage('path')}}:</dt>
                     <dd class="media-value">{{$attribute['atrib_values'][0]['text_val']}}&nbsp;</dd>
                 </dl>
                 <ul class="controls-list">
-                    <li><a class="btn-square clr-default" data-toggle="modal" data-target="#{{$attribute['id']}}"><i class="icon-eye"></i><span class="sr-only">Previsualizar</span></a></li>
+                    <li><a class="btn-square clr-default" data-toggle="modal" data-target="#{{$attribute['id']}}"><i class="icon-eye"></i><span class="sr-only">{{getMessage('preview')}}</span></a></li>
                 </ul>
             </div>
 
@@ -32,7 +32,7 @@
             </figure>
             <div class="media-info">
                 <dl class="media-dada">
-                    <dt class="media-param">Dimensió teòrica:</dt>
+                    <dt class="media-param">{{getMessage('theoric_size')}}:</dt>
                     <dd class="media-value">{{$attribute['img_w']}}x{{$attribute['img_h']}}&nbsp;</dd>
                 </dl>
             </div>
@@ -85,8 +85,8 @@
                 <div class="modal-body" style="max-width: 720px">
                 </div>
                 <div class="modal-footer">
-                    <a href="" class="btn clr-danger" data-dismiss="modal"><span class="btn-text">Cerrar</span></a>
-                    <a href="" class="btn clr-secondary" id="btnCrop_{{$attribute_name}}"><span class="btn-text">Guardar</span></a>
+                    <a href="" class="btn clr-danger" data-dismiss="modal"><span class="btn-text">{{getMessage('close')}}</span></a>
+                    <a href="" class="btn clr-secondary" id="btnCrop_{{$attribute_name}}"><span class="btn-text">{{getMessage('save')}}</span></a>
                 </div>
             </div>
         </div>

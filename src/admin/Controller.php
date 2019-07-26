@@ -52,7 +52,7 @@ class Controller extends LaravelController
         $lg = getDefaultLanguage();
 
         //REQUIRES
-        require_once(DIR_LANGS.$lg.'/messages.inc');
+        require_once(DIR_APLI_ADMIN.DIR_LANGS.$lg.'/messages.inc');
         require_once(DIR_APLI_ADMIN . 'models/Security.php');
         require_once(DIR_APLI_ADMIN . 'utils/redirect.php');
         require_once(DIR_APLI_ADMIN . 'utils/message_utils.php');

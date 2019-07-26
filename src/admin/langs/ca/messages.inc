@@ -15,6 +15,9 @@ function getMessage ($id) {
 	$mess_arr['login_label_language'] = 'Idioma';
 	$mess_arr['login_label_submit'] = 'Entrar';
 
+	$mess_arr['user'] = 'Usuari';
+	$mess_arr['name'] = 'Nom';
+
 	$mess_arr['language_choose_ca'] = 'Català';
 	$mess_arr['language_choose_en'] = 'English';
 	$mess_arr['language_choose_es'] = 'Español';
@@ -34,6 +37,7 @@ function getMessage ($id) {
 	$mess_arr['viendo_objeto'] = 'Veient objecte ';
 	$mess_arr['viendo_objeto2'] = ' de tipus ';
 	$mess_arr['related_objects'] = 'Objectes relacionats trobats';
+	$mess_arr['delete_not_possible'] = 'No és possible l\'esborrat, existeixen una o més relacions amb l\'objecte que desitja eliminar.';
 
 	$mess_arr['info_objects_found'] = 'Objectes trobats';
 	$mess_arr['info_object_created'] = 'creat satisfactoriament';
@@ -68,7 +72,9 @@ function getMessage ($id) {
 	$mess_arr['info_word_publishing_creation_date_explanation'] = 'Ordenar per data de creació';
 	$mess_arr['info_word_publishing_begins_explanation'] = 'Ordenar per inici de publicació';
 	$mess_arr['info_word_publishing_update_explanation'] = 'Ordenar per data de modificació';
-
+	$mess_arr['info_word_last_modifications'] = 'Últimes modificacions';
+	$mess_arr['info_word_close_last_modifications'] = 'Tancar ultimes modificacions';
+	$mess_arr['info_word_close_relations'] = 'Tancar relacions';
 	
 	$mess_arr['info_word_privileges'] = 'La seva sessió ha caducat o no s\'ha validat correctament, per favor, torni a validar-se al sistema.';
 	$mess_arr['info_word_object'] = 'Objecte';
@@ -96,6 +102,9 @@ function getMessage ($id) {
 	$mess_arr['info_word_status_explanation'] = 'Ordenar per estat';
 	$mess_arr['not_published'] = 'No publicat';
 	$mess_arr['pending'] = 'Pendent';
+	$mess_arr['published_on'] = 'Publicat el';
+	$mess_arr['published_from'] = 'Publicat del';
+	$mess_arr['published_to'] = 'al';
 	$mess_arr['published'] = 'Publicat';
 	$mess_arr['info_word_status_pending'] = 'Pendent';
 	$mess_arr['info_word_status_reviewed'] = 'Revisat';
@@ -107,11 +116,12 @@ function getMessage ($id) {
 	$mess_arr['info_word_edit_button'] = 'Editar';
 	$mess_arr['info_word_testurl'] = 'Provar URL';
 	$mess_arr['info_word_addjoin'] = 'Afegir i relacionar';
-	$mess_arr['info_word_clone'] = 'Clonar imatges';
+	$mess_arr['info_word_clone'] = 'Clonar';
 	$mess_arr['info_word_addmassive'] = 'Afegir massivament';
 	$mess_arr['info_word_exportmassive'] = 'Exportar tots els fills';
 	$mess_arr['info_word_join'] = 'Relacionar';
 	$mess_arr['info_word_ID'] = 'ID';
+	$mess_arr['info_word_img'] = 'Img.';
 	$mess_arr['info_word_ID_explanation']='Ordenar per identificador';
 	$mess_arr['info_word_keyword'] = 'Clau';
 	$mess_arr['info_word_view'] = 'Veure';
@@ -123,8 +133,10 @@ function getMessage ($id) {
 	$mess_arr['info_word_utilities'] = 'Útils';
 	$mess_arr['info_word_creation_date'] = 'Data de creació';
 	$mess_arr['info_word_update_date'] = 'Data de modificació';
+	$mess_arr['info_word_date_condition'] = 'Condició de data';
 	$mess_arr['info_word_addfavorites'] = 'Afegir a preferits';
 	$mess_arr['info_word_delete'] = 'Esborrar';
+	$mess_arr['info_word_delete_instance'] = 'Esborrar instancia';
 	$mess_arr['info_word_modifyperm'] = 'No';
 	$mess_arr['info_word_deletejoin'] = 'Relació eliminada satisfactoriament';
 	$mess_arr['info_word_deletejoin_error'] = 'La relació no s\'ha pogut eliminar correctament';
@@ -132,8 +144,11 @@ function getMessage ($id) {
 	$mess_arr['info_word_logged'] = 'Estàs connectat com a';
 	$mess_arr['info_word_logout'] = 'Desconnectar';
 	$mess_arr['info_word_search'] = 'Cercador';
+	$mess_arr['info_word_relations'] = 'Relacions';
 	$mess_arr['info_word_more_relations'] = 'Més relacions';
 	$mess_arr['info_word_childs'] = 'Fills';
+	$mess_arr['info_word_instance'] = 'Instancia';
+	$mess_arr['info_word_order'] = 'Ordenar';
 
 	$mess_arr['error_role_privileges'] = 'El seu rol d\'usuari no te els privilegis necessaris per accedir a aquesta funcionalitat';
 	$mess_arr['error_role_privileges2'] = 'El seu rol d\'usuari no te els privilegis necessaris per accedir a aquesta instancia';
@@ -216,11 +231,42 @@ function getMessage ($id) {
 	$mess_arr['not_empty']="No está buit";
 	$mess_arr['original']="Original";
 	
+	$mess_arr['save']="Guardar";
 	$mess_arr['saved']="Guardat!";
 	$mess_arr['saved_wrong']="Alguna cosa ha anat malament!";
 	
 	$mess_arr['static_text']="Textos estatics";
-	
+	$mess_arr['settings']="Configuració";
+	$mess_arr['user_data']="Dades usuari";
+
+	$mess_arr['change_password'] = 'Canviar contrasenya';
+	$mess_arr['current_password'] = 'Contrasenya actual';
+	$mess_arr['new_password'] = 'Nova contrasenya';
+	$mess_arr['repeat_password'] = 'Repeteix la contrasenya';
+	$mess_arr['save_password'] = 'Guardar contraseña';	
+	$mess_arr['create_users'] = 'Crear usuaris';
+	$mess_arr['new_user'] = 'Nou usuari';
+	$mess_arr['role'] = 'Rol';
+	$mess_arr['create'] = 'Crear';
+	$mess_arr['special_functions'] ='Funcions especials';
+	$mess_arr['unlinked_files'] = 'Arxius no relacionats';
+	$mess_arr['view_unlinked_files'] = 'Mostrant arxius no relacionats';
+	$mess_arr['unlink'] = 'Desvincular';
+	$mess_arr['load_content'] = 'Carrega contingut';
+	$mess_arr['path'] = 'Ruta';
+	$mess_arr['size'] = 'Mida';
+	$mess_arr['image'] = 'Imatge';
+	$mess_arr['info_word_language'] = 'Idioma';
+	$mess_arr['results_for'] = 'Resultats para';
+	$mess_arr['list_classes_to_export'] = 'Llistat de classes per exportar';
+	$mess_arr['inserted_elements'] = 'Elements insertats';
+	$mess_arr['export'] = 'Exportar';
+	$mess_arr['file_import'] = 'Importar excel';
+	$mess_arr['video_preview'] = 'Previsualització del vídeo';
+	$mess_arr['not_related_instances'] = 'No hi ha objectes relacionats';
+	$mess_arr['preview'] = 'Previsualitzar';
+	$mess_arr['close'] = 'Tancar';
+
 	return $mess_arr[$id];
 }
 ?>

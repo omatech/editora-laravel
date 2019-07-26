@@ -19,6 +19,10 @@ function getMessage ($id) {
 	$mess_arr['language_choose_en'] = 'English';
 	$mess_arr['language_choose_es'] = 'Español';
 
+	$mess_arr['user'] = 'Usuario';
+	$mess_arr['name'] = 'Nombre';
+
+
 	$mess_arr['info_create_object'] = 'Crear objecto del tipo';
 	$mess_arr['info_view_object'] = 'Ver objeto';
 	$mess_arr['info_edit_object'] = 'Editar objeto';
@@ -34,6 +38,7 @@ function getMessage ($id) {
 	$mess_arr['viendo_objeto'] = 'Viendo objeto ';
 	$mess_arr['viendo_objeto2'] = ' de tipo ';
 	$mess_arr['related_objects'] = 'Objetos relacionados encontrados';
+	$mess_arr['delete_not_possible'] = 'No es posible el borrado, existen una o más relaciones con el objeto que desea eliminar.';
 
 	$mess_arr['info_objects_found'] = 'Objetos encontrados';
 	$mess_arr['info_object_created'] = 'creado satisfactoriamente';
@@ -68,7 +73,9 @@ function getMessage ($id) {
 	$mess_arr['info_word_publishing_creation_date_explanation'] = 'Ordenar por fecha de creación';
 	$mess_arr['info_word_publishing_begins_explanation'] = 'Ordenar por fecha de publicación';
     $mess_arr['info_word_publishing_update_explanation'] = 'Ordenar por fecha de modificación';
-
+    $mess_arr['info_word_last_modifications'] = 'Últimas modificaciones';
+    $mess_arr['info_word_close_last_modifications'] = 'Cerrar últimas modificaciones';
+	$mess_arr['info_word_close_relations'] = 'Cerrar relaciones';
 
 	$mess_arr['info_word_privileges'] = 'Privilegios';
 	$mess_arr['info_word_object'] = 'Objeto';
@@ -97,6 +104,9 @@ function getMessage ($id) {
 	$mess_arr['not_published'] = 'No publicado';
 	$mess_arr['pending'] = 'Pendiente';
 	$mess_arr['published'] = 'Publicado';
+	$mess_arr['published_on'] = 'Publicado el';
+	$mess_arr['published_from'] = 'Publicado del';
+	$mess_arr['published_to'] = 'al';
 	$mess_arr['info_word_status_pending'] = 'Pendiente';
 	$mess_arr['info_word_status_reviewed'] = 'Revisado';
 	$mess_arr['info_word_status_published'] = 'Publicado';
@@ -107,11 +117,12 @@ function getMessage ($id) {
 	$mess_arr['info_word_edit_button'] = 'Editar';
 	$mess_arr['info_word_testurl'] = 'Probar URL';
 	$mess_arr['info_word_addjoin'] = 'Añadir y relacionar';
-	$mess_arr['info_word_clone'] = 'Clonar imágen';
+	$mess_arr['info_word_clone'] = 'Clonar';
 	$mess_arr['info_word_addmassive'] = 'Añadir masivamente';
 	$mess_arr['info_word_exportmassive'] = 'Exportar todos los hijos';
 	$mess_arr['info_word_join'] = 'Relacionar';
 	$mess_arr['info_word_ID'] = 'ID';
+	$mess_arr['info_word_img'] = 'Img.';
 	$mess_arr['info_word_ID_explanation'] = 'Ordenar por identificador';
 	$mess_arr['info_word_keyword'] = 'Clave';
 	$mess_arr['info_word_view'] = 'Ver';
@@ -123,8 +134,10 @@ function getMessage ($id) {
 	$mess_arr['info_word_utilities'] = 'Herramientas';
 	$mess_arr['info_word_creation_date'] = 'Fecha de creación';
     $mess_arr['info_word_update_date'] = 'Fecha de modificación';
+    $mess_arr['info_word_date_condition'] = 'Condición de fecha';
 	$mess_arr['info_word_addfavorites'] = 'Añadir a favoritos';
 	$mess_arr['info_word_delete'] = 'Borrar';
+	$mess_arr['info_word_delete_instance'] = 'Borrar instancia';
 	$mess_arr['info_word_modifyperm'] = 'No';
 	$mess_arr['info_word_deletejoin'] = 'Relación eliminada satisfactoriamente';
 	$mess_arr['info_word_deletejoin_error'] = 'La relación no se ha podido eliminar';
@@ -133,7 +146,10 @@ function getMessage ($id) {
 	$mess_arr['info_word_logout'] = 'Desconectar';
 	$mess_arr['info_word_search'] = 'Buscador';
 	$mess_arr['info_word_more_relations'] = 'Más relaciones';
+	$mess_arr['info_word_relations'] = 'Relaciones';
 	$mess_arr['info_word_childs'] = 'Hijos';
+	$mess_arr['info_word_instance'] = 'Instancia';
+	$mess_arr['info_word_order'] = 'Ordenar';
 
 	$mess_arr['error_role_privileges'] = 'Su rol de usuario no tiene los privilegios necesarios para acceder a esta funcionalidad';
 	$mess_arr['error_role_privileges2'] = 'Su rol de usuario no tiene los privilegios necesarios para acceder a esta instancia';
@@ -216,10 +232,41 @@ function getMessage ($id) {
 	$mess_arr['not_empty']="No está vacío";
 	$mess_arr['original']="Original";
 	
+	$mess_arr['save']="Guardar";
 	$mess_arr['saved']="Guardado!";
 	$mess_arr['saved_wrong']="Algo ha ido mal!";
 
 	$mess_arr['static_text']="Textos estaticos";
+	$mess_arr['settings']="Configuración";
+	$mess_arr['user_data']="Datos usuario";
+
+	$mess_arr['change_password'] = 'Cambiar contraseña';
+	$mess_arr['current_password'] = 'Contraseña actual';
+	$mess_arr['new_password'] = 'Nueva caontraseña';
+	$mess_arr['repeat_password'] = 'Repite la contraseña';
+	$mess_arr['save_password'] = 'Guardar contraseña';
+	$mess_arr['create_users'] = 'Crear usuarios';
+	$mess_arr['new_user'] = 'Nuevo usuario';
+	$mess_arr['role'] = 'Rol';
+	$mess_arr['create'] = 'Crear';
+	$mess_arr['special_functions'] ='Funciones especiales';
+	$mess_arr['unlinked_files'] = 'Ficheros no relacionados';
+	$mess_arr['view_unlinked_files'] = 'Mostrando ficheros no relacionados';
+	$mess_arr['unlink'] = 'Desvincular';
+	$mess_arr['load_content'] = 'Carga contenido';
+	$mess_arr['path'] = 'Ruta';
+	$mess_arr['size'] = 'Tamaño';
+	$mess_arr['image'] = 'Imagen';
+	$mess_arr['info_word_language'] = 'Idioma';
+	$mess_arr['results_for'] = 'Resultados para';
+	$mess_arr['list_classes_to_export'] = 'Listado de clases para exportar';
+	$mess_arr['inserted_elements'] = 'Elementos insertados';
+	$mess_arr['export'] = 'Exportar';
+	$mess_arr['file_import'] = 'Importar excel';
+	$mess_arr['video_preview'] = 'Previsualización del vídeo';
+	$mess_arr['not_related_instances'] = 'No hay objetos relacionados';
+	$mess_arr['preview'] = 'Previsualizar';
+	$mess_arr['close'] = 'Cerrar';
 
 	return $mess_arr[$id];
 }

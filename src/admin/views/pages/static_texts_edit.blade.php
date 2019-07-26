@@ -6,12 +6,12 @@
 			<div class="item-parameters">
 				<div class="container">
 					<span class="item-tit">
-						<span class="section-name">Textos estaticos:</span>
+						<span class="section-name">{{getMessage('static_text')}}:</span>
 						<h1 class="tit">{{$key}}</h1>
 					</span>
 					<div class="publish-info">
 						<div class="publish-row">
-							<a onclick="document.getElementById('form_st').submit();" class="btn clr-secondary"><span class="btn-text">Guardar</span></a>
+							<a onclick="document.getElementById('form_st').submit();" class="btn clr-secondary"><span class="btn-text">{{getMessage('save')}}</span></a>
 						</div>
 					</div>
 				</div>

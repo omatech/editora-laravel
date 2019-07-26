@@ -8,7 +8,7 @@
 				<span class="holder-icon">
 					<i class="icon-clock"></i>
 				</span>
-				<h3 class="tit">Últimos movimientos</h3>
+				<h3 class="tit">{{getMessage('container_ultimos_objetos')}}</h3>
 			</span>
 			<div class="form">
 				<div class="form-group">

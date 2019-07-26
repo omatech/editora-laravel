@@ -15,6 +15,9 @@ function getMessage ($id) {
 	$mess_arr['login_label_language'] = 'Language';
 	$mess_arr['login_label_submit'] = 'Enter';
 
+	$mess_arr['user'] = 'User';
+	$mess_arr['name'] = 'Name';
+
 	$mess_arr['language_choose_ca'] = 'Català';
 	$mess_arr['language_choose_en'] = 'English';
 	$mess_arr['language_choose_es'] = 'Español';
@@ -34,6 +37,7 @@ function getMessage ($id) {
 	$mess_arr['viendo_objeto'] = 'View object ';
 	$mess_arr['viendo_objeto2'] = ' with type ';
 	$mess_arr['related_objects'] = 'Related objects found';
+	$mess_arr['delete_not_possible'] = 'Deletion is not possible, there are one or more relationships with the object you want to delete.';
 
 	$mess_arr['info_objects_found'] = 'Objects found';
 	$mess_arr['info_object_created'] = 'created succesfully';
@@ -68,6 +72,9 @@ function getMessage ($id) {
 	$mess_arr['info_word_publishing_creation_date_explanation'] = 'Order by creation date';
 	$mess_arr['info_word_publishing_begins_explanation'] = 'Order by publication date';
     $mess_arr['info_word_publishing_update_explanation'] = 'Order by update date';
+    $mess_arr['info_word_last_modifications'] = 'Last modifications';
+	$mess_arr['info_word_close_last_modifications'] = 'Close Last modifications';
+	$mess_arr['info_word_close_relations'] = 'Close relations';
 
 	$mess_arr['info_word_privileges'] = 'Privileges';
 	$mess_arr['info_word_object'] = 'Object';
@@ -93,6 +100,9 @@ function getMessage ($id) {
 	$mess_arr['info_word_edit'] = 'Edit';
 	$mess_arr['info_word_status'] = 'Status';
 	$mess_arr['info_word_status_explanation'] = 'Order by status';
+	$mess_arr['published_on'] = 'Published on';
+	$mess_arr['published_from'] = 'Published from';
+	$mess_arr['published_to'] = 'to';
 	$mess_arr['not_published'] = 'Not published';
 	$mess_arr['pending'] = 'Pending';
 	$mess_arr['published'] = 'Published';
@@ -106,11 +116,12 @@ function getMessage ($id) {
 	$mess_arr['info_word_edit_button'] = 'Edit';
 	$mess_arr['info_word_testurl'] = 'Test URL';
 	$mess_arr['info_word_addjoin'] = 'Add and relate';
-	$mess_arr['info_word_clone'] = 'Clone image';
+	$mess_arr['info_word_clone'] = 'Clone';
 	$mess_arr['info_word_addmassive'] = 'Massive add';
 	$mess_arr['info_word_exportmassive'] = 'Massive export';
 	$mess_arr['info_word_join'] = 'Relate';
 	$mess_arr['info_word_ID'] = 'ID';
+	$mess_arr['info_word_img'] = 'Img.';
 	$mess_arr['info_word_ID_explanation'] = 'Order by ID';
 	$mess_arr['info_word_keyword'] = 'Key';
 	$mess_arr['info_word_view'] = 'View';
@@ -122,17 +133,22 @@ function getMessage ($id) {
 	$mess_arr['info_word_utilities'] = 'Tools';
 	$mess_arr['info_word_creation_date'] = 'Creation date';
     $mess_arr['info_word_update_date'] = 'Update date';
+    $mess_arr['info_word_date_condition'] = 'Date condition';
 	$mess_arr['info_word_addfavorites'] = 'Add to favorites';
 	$mess_arr['info_word_delete'] = 'Remove';
 	$mess_arr['info_word_modifyperm'] = 'No';
+	$mess_arr['info_word_delete_instance'] = 'Delete instance';
 	$mess_arr['info_word_deletejoin'] = 'Relation removed succesfully';
 	$mess_arr['info_word_deletejoin_error'] = 'Relation can\'t be removed';
 	$mess_arr['info_word_orderjoin'] = 'Order updated succesfully';
 	$mess_arr['info_word_logged'] = 'You are connected as';
 	$mess_arr['info_word_logout'] = 'Logout';
 	$mess_arr['info_word_search'] = 'Search';
+	$mess_arr['info_word_relations'] = 'Relations';
 	$mess_arr['info_word_more_relations'] = 'More relations';
 	$mess_arr['info_word_childs'] = 'Childs';
+	$mess_arr['info_word_instance'] = 'Instance';
+	$mess_arr['info_word_order'] = 'Order';
 
 	$mess_arr['error_role_privileges'] = 'Your role doesn\'t have enough privileges to use this feature';
 	$mess_arr['error_role_privileges2'] = 'Your role doesn\'t have enough privileges to view this object instance';
@@ -215,11 +231,42 @@ function getMessage ($id) {
 	$mess_arr['not_empty']="Not empty";
 	$mess_arr['original']="Original";
 	
+	$mess_arr['save']="Save";
 	$mess_arr['saved']="Saved!";
 	$mess_arr['saved_wrong']="Something went wrong!";
 
 	$mess_arr['static_text']="Static text";
-	
+	$mess_arr['settings']="Settings";
+	$mess_arr['user_data']="User data";
+
+	$mess_arr['change_password'] = 'Change password';
+	$mess_arr['current_password'] = 'Current password';
+	$mess_arr['new_password'] = 'New password';
+	$mess_arr['repeat_password'] = 'Repeat password';
+	$mess_arr['save_password'] = 'Save password';	
+	$mess_arr['create_users'] = 'Create users';
+	$mess_arr['new_user'] = 'New user';
+	$mess_arr['role'] = 'Role';
+	$mess_arr['create'] = 'Create';
+	$mess_arr['special_functions'] ='Special functions';
+	$mess_arr['unlinked_files'] = 'Unlinked files';
+	$mess_arr['view_unlinked_files'] = 'Showing unliked files';
+	$mess_arr['unlink'] = 'Unlink';
+	$mess_arr['load_content'] = 'Load content';
+	$mess_arr['path'] = 'Path';
+	$mess_arr['size'] = 'Size';
+	$mess_arr['image'] = 'Image';
+	$mess_arr['info_word_language'] = 'Language';
+	$mess_arr['results_for'] = 'Results for';
+	$mess_arr['list_classes_to_export'] = 'List classes to export';
+	$mess_arr['inserted_elements'] = 'Inserted elements';
+	$mess_arr['export'] = 'Export';
+	$mess_arr['file_import'] = 'File import';
+	$mess_arr['video_preview'] = 'Video preview';
+	$mess_arr['not_related_instances'] = 'Not related objects';
+	$mess_arr['preview'] = 'Preview';
+	$mess_arr['close'] = 'Close';
+
 	return $mess_arr[$id];
 }
 ?>

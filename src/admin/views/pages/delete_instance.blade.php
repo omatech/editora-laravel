@@ -5,7 +5,7 @@
 	<section class="table-view-header">
 		<div class="container">
 			<span class="data">
-				<h3 class="tit">Borrar instancia</h3>
+				<h3 class="tit">{{getMessage('info_word_delete_instance')}}</h3>
 			</span>
 		</div>
 	</section>
@@ -14,15 +14,15 @@
 		<div class="container">
 				
 
-			<h3 class="tit">No es posible el borrado, existen una o más relaciones con el objeto que desea eliminar! <a href="{{ route('editora.action', 'view_instance/?p_pagina=1&p_class_id='.$params['param1'].'&p_inst_id='.$params['param2']) }}">Volver.</a></h3>
-			<h3 class="tit">Objetos relacionados encontrados:</h3>
+			<h3 class="tit">{{getMessage('delete_not_possible')}} <a href="{{ route('editora.action', 'view_instance/?p_pagina=1&p_class_id='.$params['param1'].'&p_inst_id='.$params['param2']) }}">{{getMessage('navigation_back')}}</a></h3>
+			<h3 class="tit">{{getMessage('related_objects')}}</h3>
 			<table class="table main-table" id="pages-table">
 				<thead>
 				<tr>
-					<th class="id"><span>ID</span></th>
-					<th class="tit"><span>Clave</span></th>
-					<th class="type"><span>Tipo</span></th>
-					<th class="status"><span>Estado</span></th>
+					<th class="id"><span>{{getMessage('info_word_ID')}}</span></th>
+					<th class="tit"><span>{{getMessage('info_word_keyword')}}</span></th>
+					<th class="type"><span>{{getMessage('info_word_type')}}</span></th>
+					<th class="status"><span>{{getMessage('info_word_status')}}</span></th>
 				</tr>
 				</thead>
 				<tbody>
@@ -71,7 +71,7 @@
     @else
 		<div class="container">
 			<span class="data">
-				<h2 class="tit">¿Está seguro? <a href="{{route('editora.action', 'delete_instance2/?p_pagina=1&p_class_id='.$params['param1'].'&p_inst_id='.$params['param2'])}}">Sí</a> <a href="{{route('editora.action', 'view_instance/?p_pagina=1&p_class_id='.$params['param1'].'&p_inst_id='.$params['param2'])}}">No</a></h2>
+				<h2 class="tit">{{getMessage('info_word_areyousure')}} <a href="{{route('editora.action', 'delete_instance2/?p_pagina=1&p_class_id='.$params['param1'].'&p_inst_id='.$params['param2'])}}">{{getMessage('info_word_yes')}}</a> <a href="{{route('editora.action', 'view_instance/?p_pagina=1&p_class_id='.$params['param1'].'&p_inst_id='.$params['param2'])}}">{{getMessage('info_word_no')}}</a></h2>
 			</span>
 		</div>
 	@endif

@@ -6,7 +6,7 @@
 			<div class="item-parameters">
 				<div class="container">
 					<span class="item-tit">
-						<span class="section-name">Configuración</span>
+						<span class="section-name">{{getMessage('settings')}}</span>
 					</span>
 				</div>
 			</div>
@@ -19,7 +19,7 @@
 					<header class="block-header">
 						<div class="container">
 							<div class="data">
-								<h2 class="tit">Datos usuario</h2>
+								<h2 class="tit">{{getMessage('user_data')}}</h2>
 							</div>
 						</div>
 					</header>
@@ -30,12 +30,12 @@
 									<div class="form default-block-form">
 										<div class="column column-text">
 											<div class="form-group">
-												<label for="username" class="form-label">Usuario</label>
+												<label for="username" class="form-label">{{getMessage('user')}}</label>
 												<input type="text" name="username" id="username" class="form-control" value="{{$user['username']}}" required>
 											</div>
 
 											<div class="form-group">
-												<label for="complete_name" class="form-label">Nombre completo</label>
+												<label for="complete_name" class="form-label">{{getMessage('name')}}</label>
 												<input type="text" name="complete_name" id="complete_name" class="form-control" value="{{$user['complete_name']}}" required>
 											</div>
 										</div>
@@ -50,7 +50,7 @@
 										</div>
 										<div class="button-row">
 											<button type="submit" class="btn clr-secondary">
-												<span class="btn-text">Guardar cambios</span>
+												<span class="btn-text">{{getMessage('save')}}</span>
 											</button>
 										</div>
 									</div>
@@ -67,7 +67,7 @@
 					<header class="block-header">
 						<div class="container">
 							<div class="data">
-								<h2 class="tit">Cambiar contraseña</h2>
+								<h2 class="tit">{{getMessage('change_password')}}</h2>
 							</div>
 						</div>
 					</header>
@@ -78,15 +78,15 @@
 									<div class="form default-block-form">
 										<div class="column column-text">
 											<div class="form-group">
-												<label for="old_password" class="form-label">Contraseña actual</label>
+												<label for="old_password" class="form-label">{{getMessage('current_password')}}</label>
 												<input type="password" name="old_password" id="old_password" class="form-control">
 											</div>
 											<div class="form-group">
-												<label for="password" class="form-label">Nueva contraseña</label>
+												<label for="password" class="form-label">{{getMessage('new_password')}}</label>
 												<input type="password" name="password" id="password" class="form-control">
 											</div>
 											<div class="form-group">
-												<label for="repeat_password" class="form-label">Repite la contraseña</label>
+												<label for="repeat_password" class="form-label">{{getMessage('repeat_password')}}</label>
 												<input type="password" name="repeat_password" id="repeat_password" class="form-control">
 											</div>
 										</div>
@@ -101,7 +101,7 @@
 										</div>
 										<div class="button-row">
 											<button type="submit" class="btn clr-secondary">
-												<span class="btn-text">Cambiar contraseña</span>
+												<span class="btn-text">{{getMessage('save_password')}}</span>
 											</button>
 										</div>
 									</div>
