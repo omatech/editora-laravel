@@ -172,7 +172,7 @@
 				@foreach($instance['instance_tabs'] as $tab)
 					@php($exist_relations=false)
 					<div id="tab-{{$tab['id']}}" class="tab-pane  @if($tab['id']==1)in active @endif">
-						<section class="fixed-block open-items">
+						<section class="fixed-block open-items" style="padding-top:20px">
 							<ul class="block-items-list">
 								<li class="block-item expanded">
 									<div class="collapse show" id="collapseItem5">
