@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/cropper.min.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/auto-complete.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/datepicker.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/font-awesome/css/font-awesome.css') }}"/>
 </head>
 <body class="hide-navigation hide-favorites hide-modifications hide-relations @if(isset($body_class)) {{$body_class}} @endif">
     <header id="topbar" class="container-fluid">

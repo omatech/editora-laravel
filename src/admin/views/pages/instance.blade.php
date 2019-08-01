@@ -40,7 +40,7 @@
 								<a href="{{route('editora.action', 'delete_instance/?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}" class="dropdown-item"><i class="icon-delete"></i>{{getMessage('info_word_delete')}}</a>
 								@endif
 								@if (config('editora-admin.curl-refresh-command')!='')
-								<a onclick="refreshView({{$instance['id']}});" class="dropdown-item"><i class="icon-content-copy"></i>{{getMessage('clean_cache')}}</a>
+								<a onclick="refreshView({{$instance['id']}});" class="dropdown-item"><i class="fa fa-refresh fa-lg" style="margin-left:5px; margin-right: 10px; color: #8A909C;"></i>{{getMessage('clean_cache')}}</a>
 								@endif
 								@includeIf('Editora.extraMenuInstance')
 							</div>
@@ -169,9 +169,11 @@
 
 		<div class="container-fluid">
 			<div class="tab-content">
+				@php($count=0)
 				@foreach($instance['instance_tabs'] as $tab)
 					@php($exist_relations=false)
-					<div id="tab-{{$tab['id']}}" class="tab-pane  @if($tab['id']==1)in active @endif">
+					<div id="tab-{{$tab['id']}}" class="tab-pane  @if($count==0)in active @endif">
+						@php($count++)
 						<section class="fixed-block open-items" style="padding-top:20px">
 							<ul class="block-items-list">
 								<li class="block-item expanded">
