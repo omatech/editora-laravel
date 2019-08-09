@@ -30,6 +30,8 @@ class Security extends Model
         $_SESSION['rol_nom'] = $user['r_nom'];
         $_SESSION['user_type'] = $user['tipus'];
         $_SESSION['user_language'] = $user['language'];
+        $_SESSION['u_language'] = $u_lang;
+        $_SESSION['u_lang'] = $u_lang;
         
         $this->cacheClasses($user['id']);
         $this->cleanUserInstances($user['id']);

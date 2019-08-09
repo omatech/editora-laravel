@@ -296,6 +296,8 @@ function getDefaultLanguage() {
         $lg=control_idioma($_REQUEST['u_lang']);
     }elseif (isset($_COOKIE['u_language'])) {
 		$lg=control_idioma($_COOKIE['u_language']);
+	}elseif (isset($_SESSION['u_lang'])) {
+		$lg=control_idioma($_SESSION['u_lang']);
 	}else{
 		$lg=control_idioma('');
 	}

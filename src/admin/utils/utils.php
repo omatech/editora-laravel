@@ -83,8 +83,9 @@ function control_idioma($lg) {
 	global $array_langs;
 	if (in_array ($lg,$array_langs,TRUE)) {
 		return $lg;
+	}else{
+		return $array_langs[0];
 	}
-	return $array_langs[0];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
