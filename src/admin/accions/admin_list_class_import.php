@@ -63,7 +63,7 @@ class AdminListClassImport extends AuthController
 
 
                 $cellIterator = $row->getCellIterator();
-                $cellIterator->setIterateOnlyExistingCells(false); // Loop all cells, even if it is not set
+                $cellIterator->setIterateOnlyExistingCells(true); // Loop all cells, even if it is not set
 
                 //Fila 1 => noms atributes A => nom_intern
                 if ($row->getRowIndex() == 1) {
@@ -240,7 +240,6 @@ class AdminListClassImport extends AuthController
 
 
                     }
-
                     $inst_id = $loader->insertInstanceWithExternalID($id_class, $instance['nom_intern'], '', $batch_id, $instance, 'P');
 
 
