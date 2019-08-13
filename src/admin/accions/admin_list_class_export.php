@@ -36,8 +36,7 @@ class AdminListClassExport extends AuthController
         $loader = new Loader($conn_to);
         $attributes = $loader->getAllAttributesInClass(addslashes($_REQUEST['id']));
 
-        $spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(0, 1 , 'S#nom_intern');
-
+        //$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(0, 1 , 'S#nom_intern');
 
         foreach ($attributes as $key=>$attribute){
             //Nomes camps strings per ara
