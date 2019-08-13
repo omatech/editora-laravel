@@ -73,9 +73,7 @@ class AdminListClassImport extends AuthController
 
                 } else {
 
-                    $stop = 0;
                     $instance = array();
-
                     foreach ($cellIterator as $key => $cell) {
 
                         $type_attribute = explode('#', $attributes[$key]);
@@ -90,7 +88,7 @@ class AdminListClassImport extends AuthController
                         $value_attr = $cell->getValue();
 
 
-                        if ($stop == 0) {
+                        if ( !empty($value) ) {
 
                             switch ($excel_type_attribute) {
 
@@ -240,25 +238,26 @@ class AdminListClassImport extends AuthController
 
 
                     }
-                    $inst_id = $loader->insertInstanceWithExternalID($id_class, $instance['nom_intern'], '', $batch_id, $instance, 'P');
+                    if( !empty($instance) ){
+                        $inst_id = $loader->insertInstanceWithExternalID($id_class, $instance['nom_intern'], '', $batch_id, $instance, 'P');
 
+                        if (isset($inst_id) && !empty($inst_id) && $have_niceurl == true && isset($niceurls) && !empty($niceurls)) {
+                            foreach ($niceurls as $name_atr => $urlnice) {
 
-                    if (isset($inst_id) && !empty($inst_id) && $have_niceurl == true && isset($niceurls) && !empty($niceurls)) {
-                        foreach ($niceurls as $name_atr => $urlnice) {
+                                $lang = explode('_', $name_atr);
+                                $lang = end($lang);
 
-                            $lang = explode('_', $name_atr);
-                            $lang = end($lang);
+                                if (!empty($urlnice)) {
 
-                            if (!empty($urlnice)) {
-
-                                $result = $loader->insertUrlNice($urlnice, $inst_id, $lang);
+                                    $result = $loader->insertUrlNice($urlnice, $inst_id, $lang);
+                                }
                             }
                         }
-                    }
 
-                    if (isset($inst_id) && !empty($inst_id)) {
-                        $count_rows++;
+                        if (isset($inst_id) && !empty($inst_id)) {
+                            $count_rows++;
 
+                        }
                     }
                 }
             }
