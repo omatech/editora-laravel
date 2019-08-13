@@ -35,11 +35,19 @@
     y en el menú no queremos que aparezca la opción de crar nuevo ni lista,
     simplemente irá a la instancia
 */
-    $GLOBALS['special_classes'] = array(CLASSHOME=>HOMEID, CLASSGLOBAL=>GLOBALID);
+    $array_special_classes = config('editora.special_classes');
+    if(isset($array_special_classes) && !empty($array_special_classes)){
+        //[class_id=>instance_id]
+        $GLOBALS['special_classes'] = $array_special_classes;
+    }else{
+        $GLOBALS['special_classes'] = array(CLASSHOME=>HOMEID, CLASSGLOBAL=>GLOBALID);
+    }
+
 
     define("EDITORA_NAME", 'OMATECH');
     global $array_langs;
     $array_langs = config('editora.languages');
+
 
     //Flags
     define("INST_PERM", 1);

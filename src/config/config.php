@@ -11,5 +11,6 @@ return [
     ],
     'uploads-storage' => 'public',
     'url-storage-relative' => true,
-    'curl-refresh-command' => ''
+    'curl-refresh-command' => '',
+    'special_classes' => []
 ];

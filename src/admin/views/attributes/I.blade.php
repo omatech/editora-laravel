@@ -163,6 +163,8 @@
                         ((attribH_{{$attribute_name}} != '' && attribH_{{$attribute_name}} != this.height) ||
                         (attribW_{{$attribute_name}} != '' && attribW_{{$attribute_name}} != this.width))) {
                         autoResizeImg(loadedImage);
+                    }else {
+                        dropzone_{{$attribute_name}}.processQueue();
                     }
                 }
             }
