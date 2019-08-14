@@ -99,6 +99,12 @@
 					<span class="item-tit">
 						<span class="section-name">@if(isset($class['class_id']) && !empty($class['class_id'])){{getClassName($class['class_id'])}}@else {{getClassName($instance['class_id'])}} @endif:</span>
 						<h1 class="tit">{{$instance['key_fields']}}</h1>
+						@if(isset($instance['external_id']) && !empty($instance['external_id']))
+							<span style="font-weight: bold; padding-left:50px"> External id: </span>{{$instance['external_id']}}
+						@endif
+						@if( isset($_SESSION) && isset($_SESSION['user_type']) && isset($_SESSION['rol_id']) && $_SESSION['user_type']=='O' && $_SESSION['rol_id']==1 && isset($instance['batch_id']) && !empty($instance['batch_id']))
+							<span style="font-weight: bold; padding-left:25px"> Batch id: </span>{{$instance['batch_id']}}
+						@endif
 					</span>
 					<div class="publish-info">
 						@if($instance['publishing_ends']!=null)

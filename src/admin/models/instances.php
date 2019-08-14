@@ -132,7 +132,7 @@ class Instances extends model
         $sql = "SELECT i.id, i.status, i.key_fields key_fields
 		, date_format(i.publishing_begins, '".STANDARD_DATE_FORMAT."') publishing_begins
 		, date_format(i.publishing_ends, '".STANDARD_DATE_FORMAT."') publishing_ends
-		, i.creation_date creation_date, c.name class_name, c.id class_id
+		, i.creation_date creation_date, c.name class_name, c.id class_id, i.external_id, i.batch_id
 		from omp_classes c, omp_instances i
 		where i.class_id = c.id
 		and i.id = ".$p_inst_id."  ";
