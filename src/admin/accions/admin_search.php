@@ -26,7 +26,7 @@ class AdminSearch extends AuthController
         $security = new Security;
         $params = get_params_info();
 
-        if($_SESSION['rol_id']==1 || $security->getAccess('browseable',$params)) {
+        if($_SESSION['rol_id']==1 || $_SESSION['rol_id']==2 || $security->getAccess('browseable',$params)) {
             $editora = new editoraModel();
 
             $params['p_mode']='V';
