@@ -37,12 +37,10 @@
                 <i class="icon-magnify"></i>
             </button>
             <div class="dropdown-menu">
-                <form action="{{ route('editora.action', 'search') }}">
+                <form id="formsearch" action="{{ route('editora.action', 'search') }}">
                         <span class="input-group">
                             <input type="text" class="form-control" id="p_search_query" name="p_search_query" placeholder="Buscar">
-                            <span class="input-addon">
-                                <i class="icon-magnify"></i>
-                            </span>
+                            <a href="#" onclick="document.getElementById('formsearch').submit(); return false;" class="input-addon"><i class="icon-magnify"></i></a>
                         </span>
                 </form>
             </div>
