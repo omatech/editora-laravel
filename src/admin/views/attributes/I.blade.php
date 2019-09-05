@@ -192,14 +192,14 @@
                 image.name = "{{$attribute_name}}";
                 image.id = "{{$attribute_name}}";
                 image.style = "width: 100%; max-width: 100%;";
-
                 let modalBody = document.querySelector("#cropModal_{{$attribute_name}} .modal-body");
                 modalBody.append(image);
 
                 $cropper_{{$attribute_name}} = new Cropper(image, {
-                    viewMode: 3,
+                    viewMode: 2,
                     aspectRatio: calcRatio(attribW_{{$attribute_name}}, attribH_{{$attribute_name}}),
-                    maxCanvasWidth: 680
+                    maxCanvasWidth: 680,
+                    autoCropArea: 1.0
                 });
             }
 
@@ -211,7 +211,7 @@
                     if (b === 0) return a;
                     return gcd(b, a % b);
                 }
-
+                
                 // take care of the simple case
                 if (numerator === denominator) return 1 / 1;
 
@@ -223,10 +223,11 @@
                 }
 
                 divisor = gcd(+numerator, +denominator);
-
+                
                 return 'undefined' === typeof temp ? ( (numerator / divisor) / (denominator / divisor) ) : ( (denominator / divisor) / (numerator / divisor) );
             }
 
+            
             /** 
              * Destroy crop.
              */
