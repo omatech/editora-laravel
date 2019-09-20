@@ -151,7 +151,7 @@
                 loadedImage.dataset.name = file.name;
                 loadedImage.dataset.type = file.type;
                 loadedImage.onload = function () {
-                    if(attribH_{{$attribute_name}} === this.height && attribW_{{$attribute_name}} === this.width) {
+                    if(attribH_{{$attribute_name}} == this.height && attribW_{{$attribute_name}} == this.width) {
                         dropzone_{{$attribute_name}}.processQueue();
                     } 
                     else if (attribH_{{$attribute_name}} === '' && attribW_{{$attribute_name}} === '') {
