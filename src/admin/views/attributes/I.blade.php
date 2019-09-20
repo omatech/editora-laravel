@@ -151,7 +151,10 @@
                 loadedImage.dataset.name = file.name;
                 loadedImage.dataset.type = file.type;
                 loadedImage.onload = function () {
-                    if (attribH_{{$attribute_name}} === '' && attribW_{{$attribute_name}} === '') {
+                    if(attribH_{{$attribute_name}} === this.height && attribW_{{$attribute_name}} === this.width) {
+                        dropzone_{{$attribute_name}}.processQueue();
+                    } 
+                    else if (attribH_{{$attribute_name}} === '' && attribW_{{$attribute_name}} === '') {
                         dropzone_{{$attribute_name}}.processQueue();
                     }
                     else if (attribH_{{$attribute_name}} !== '' && attribW_{{$attribute_name}} !== '') {
@@ -247,12 +250,16 @@
             $('#btnCrop_{{$attribute_name}}').on('click', function(e) {
                 e.preventDefault();
 
-                $cropper_{{$attribute_name}}.getCroppedCanvas({
+                let canvas = $cropper_{{$attribute_name}}.getCroppedCanvas({
                     width: attribW_{{$attribute_name}},
-                    height: attribH_{{$attribute_name}}
-                }).toBlob( (blob) => {
-                    pushToDrop(loadedImage, blob);
+                    height: attribH_{{$attribute_name}},
+                    imageSmoothingEnabled: false,
+                    imageSmoothingQuality: 'high',
                 });
+
+                canvas.toBlob( (blob) => {
+                    pushToDrop(loadedImage, blob);
+                }, loadedImage.dataset.type, 0.9);
             });
 
             /** 
