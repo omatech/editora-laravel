@@ -34,6 +34,7 @@ class AdminUploadCrop extends AuthController
     {
         $path = '/uploads/'.date('Ymd');
         $fileName = $file->getClientOriginalName();
+        $fileName = clean_file_name($fileName);
         $filePath = $path.'/'.$fileName;
 
         $fileInfo = $this->checkExistAndRename($disk, [
