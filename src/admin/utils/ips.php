@@ -3,7 +3,7 @@
 
 function get_real_ip()
 {   
-   if( $_SERVER['HTTP_X_FORWARDED_FOR'] != '' )
+   if( isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] != '' )
    {
       $client_ip =
          ( !empty($_SERVER['REMOTE_ADDR']) ) ?
@@ -23,7 +23,8 @@ function get_real_ip()
       $entries = explode('[, ]', $_SERVER['HTTP_X_FORWARDED_FOR']);
    
       reset($entries);
-      while (list(, $entry) = each($entries))
+      //while (list(, $entry) = each($entries))
+      foreach($entries as $entry)
       {
          $entry = trim($entry);
          if ( preg_match("/^([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)/", $entry, $ip_list) )
