@@ -16,5 +16,7 @@
 @endif
 @section('scripts')
     @parent
-    <script type="text/javascript">CKEDITOR.replace( '{{$attribute_name}}');</script>
+    <script type="text/javascript">
+        CKEDITOR.replace( '{{$attribute_name}}' @if(file_exists(public_path().'/extras/ckeditor_config.js')),  {customConfig: '/extras/ckeditor_config.js'}@endif);
+    </script>
 @endsection
