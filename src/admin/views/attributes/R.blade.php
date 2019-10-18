@@ -103,7 +103,11 @@
                                     
                                     <td class="id"><a href="{{ route('editora.action', 'view_instance?p_class_id='.$item['child_class_id'].'&p_inst_id='.$item['inst_id']) }}">{{$item['inst_id']}}</a></td>
                                     <td class="tit"><a href="{{ route('editora.action', 'view_instance?p_class_id='.$item['child_class_id'].'&p_inst_id='.$item['inst_id']) }}">{{$item['key_fields']}}</a></td>
-                                    <td class="type">{{$item['class_realname']}}</td>
+                                    <td class="type">
+                                        <a href="{{ route('editora.action', 'list_instances?p_class_id=' . $item['child_class_id']) }}">
+                                            {{$item['class_realname']}}
+                                        </a>
+                                    </td>
                                     <td class="actions">
                                         <ul>
                                         <li><a onclick="reldelete('{{route('editora.action', 'delete_relation_instance?p_relation_id='.$item['id'].'&p_class_id='.$item['parent_class_id'].'&parent_inst_id='.$instance['id'].'&p_inst_id='.$item['inst_id'].'&p_tab='.$tab['id'].'&p_rel_id='.$attribute['id'])}}')" class="btn-square clr-default"><i class="icon-unlink-rel"></i><span class="hide-txt">{{getMessage('unlink')}}</span></a></li>
