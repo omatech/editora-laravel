@@ -4,48 +4,58 @@
     <div class="column column-media">
         <span class="form-label">{{$attribute['caption']}} {!! _attributeInfo($attribute['id'], $attribute['name'], $attribute['type']) !!}</span>
         <div class="media-group">
-        @if(isset($file) && !empty($file))
-            <figure class="media-preview">
-                <img src="{{$file}}" alt="{{$file}}">
-            </figure>
-            <div class="media-info">
-                <dl class="media-dada">
-                    <dt class="media-param">{{getMessage('theoric_size')}}:</dt>
-                    <dd class="media-value">{{$attribute['img_w']}}x{{$attribute['img_h']}}&nbsp;</dd>
-                    <dt class="media-param">{{getMessage('real_size')}}:</dt>
-                    <dd class="media-value">{{str_replace_first('.','x',$attribute['atrib_values'][0]['img_info'])}}&nbsp;</dd>
-                    <dt class="media-param">{{getMessage('preview_format')}}:</dt>
-                    <dd class="media-value">{{_fileExtension($file)}}&nbsp;</dd>
-                    <dt class="media-param">{{getMessage('size')}}:</dt>
-                    <dd class="media-value">{{ _getFileSize($file) }}&nbsp;</dd>
-                    <dt class="media-param">{{getMessage('path')}}:</dt>
-                    <dd class="media-value">{{$attribute['atrib_values'][0]['text_val']}}&nbsp;</dd>
-                </dl>
-                <ul class="controls-list">
-                    <li><a class="btn-square clr-default" data-toggle="modal" data-target="#{{$attribute['id']}}"><i class="icon-eye"></i><span class="sr-only">{{getMessage('preview')}}</span></a></li>
-                </ul>
-            </div>
+            @if(isset($file) && !empty($file))
+                <figure class="media-preview">
+                    <img src="{{$file}}" alt="{{$file}}">
+                </figure>
+                <div class="media-info">
+                    <dl class="media-dada">
+                        <dt class="media-param">{{getMessage('theoric_size')}}:</dt>
+                        <dd class="media-value">{{$attribute['img_w']}}x{{$attribute['img_h']}}&nbsp;</dd>
+                        <dt class="media-param">{{getMessage('real_size')}}:</dt>
+                        <dd class="media-value">{{str_replace_first('.','x',$attribute['atrib_values'][0]['img_info'])}}
+                            &nbsp;
+                        </dd>
+                        <dt class="media-param">{{getMessage('preview_format')}}:</dt>
+                        <dd class="media-value">{{_fileExtension($file)}}&nbsp;</dd>
+                        <dt class="media-param">{{getMessage('size')}}:</dt>
+                        <dd class="media-value">{{ _getFileSize($file) }}&nbsp;</dd>
+                        <dt class="media-param">{{getMessage('path')}}:</dt>
+                        <dd class="media-value">{{$attribute['atrib_values'][0]['text_val']}}&nbsp;</dd>
+                    </dl>
+                    <ul class="controls-list">
+                        <li>
+                            <a class="btn-square clr-default" data-toggle="modal" data-target="#i-modal-{{$attribute['id']}}">
+                                <i class="icon-eye"></i>
+                                <span class="sr-only">
+                                {{getMessage('preview')}}
+                            </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
             @else
-            <figure class="media-preview">
-                <img src="{{ asset('/vendor/editora/img/img_no_available.png') }}" alt="no image">
-            </figure>
-            <div class="media-info">
-                <dl class="media-dada">
-                    <dt class="media-param">{{getMessage('theoric_size')}}:</dt>
-                    <dd class="media-value">{{$attribute['img_w']}}x{{$attribute['img_h']}}&nbsp;</dd>
-                </dl>
-            </div>
+                <figure class="media-preview">
+                    <img src="{{ asset('/vendor/editora/img/img_no_available.png') }}" alt="no image">
+                </figure>
+                <div class="media-info">
+                    <dl class="media-dada">
+                        <dt class="media-param">{{getMessage('theoric_size')}}:</dt>
+                        <dd class="media-value">{{$attribute['img_w']}}x{{$attribute['img_h']}}&nbsp;</dd>
+                    </dl>
+                </div>
             @endif
 
         </div>
     </div>
 
-    <div id="{{$attribute['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="{{$attribute_name}}" aria-hidden="true">
+    <div id="i-modal-{{$attribute['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="{{$attribute_name}}"
+         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 1020px; max-height: 670px;">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <img src="{{$file}}"  style="max-width: 1000px; max-height: 650px">
+            <div class="modal-content" style="margin: 50px;">
+                <div class="modal-body" style="display: flex; justify-content: center; padding: 50px;">
+                    <img src="{{$file}}" style="max-width: 1000px; max-height: 650px">
                 </div>
             </div>
         </div>
@@ -55,10 +65,11 @@
     <div class="column column-text">
         <div class="form-group">
             <label for="{{$attribute_name}}" class="form-label">{{$attribute['caption']}}</label>
-            <input id="input_{{$attribute_name}}" type="text" class="form-control" name="{{$attribute_name}}" value="{{$attribute['atrib_values'][0]['text_val']}}">
+            <input id="input_{{$attribute_name}}" type="text" class="form-control" name="{{$attribute_name}}"
+                   value="{{$attribute['atrib_values'][0]['text_val']}}">
         </div>
         <div class="form-group">
-            <div id="file_{{$attribute_name}}" class="dropzone fallback" ></div>
+            <div id="file_{{$attribute_name}}" class="dropzone fallback"></div>
         </div>
     </div>
 
@@ -68,9 +79,9 @@
                 <span class="form-label">{{$attribute['caption']}}</span>
             </div>
             @if(isset($file) && !empty($file))
-            <figure class="image-preview">
-                <img id="img_{{$attribute_name}}" src="{{$file}}" alt="{{$file}}">
-            </figure>
+                <figure class="image-preview">
+                    <img id="img_{{$attribute_name}}" src="{{$file}}" alt="{{$file}}">
+                </figure>
             @endif
 
             <span class="properties">
@@ -79,14 +90,17 @@
         </div>
     </div>
 
-    <div id="cropModal_{{$attribute_name}}" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="cropModal" aria-hidden="true">
+    <div id="cropModal_{{$attribute_name}}" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog"
+         aria-labelledby="cropModal" aria-hidden="true">
         <div class="modal-dialog" style="max-width: 750px">
             <div class="modal-content">
                 <div class="modal-body" style="max-width: 720px">
                 </div>
                 <div class="modal-footer">
-                    <a href="" class="btn clr-danger" data-dismiss="modal"><span class="btn-text">{{getMessage('close')}}</span></a>
-                    <a href="" class="btn clr-secondary" id="btnCrop_{{$attribute_name}}"><span class="btn-text">{{getMessage('save')}}</span></a>
+                    <a href="" class="btn clr-danger" data-dismiss="modal"><span
+                                class="btn-text">{{getMessage('close')}}</span></a>
+                    <a href="" class="btn clr-secondary" id="btnCrop_{{$attribute_name}}"><span
+                                class="btn-text">{{getMessage('save')}}</span></a>
                 </div>
             </div>
         </div>
@@ -100,7 +114,7 @@
         const $cropModal_{{$attribute_name}} = $('#cropModal_{{$attribute_name}}');
         let modalStatus_{{$attribute_name}} = false;
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             /**
              * @type {boolean} Dropzone avoid to autoload.
              */
@@ -140,7 +154,7 @@
              * @param file
              */
             function addedFile(file) {
-                if(dropzone_{{$attribute_name}}.getAcceptedFiles().length >= 1) {
+                if (dropzone_{{$attribute_name}}.getAcceptedFiles().length >= 1) {
                     let files = dropzone_{{$attribute_name}}.getAcceptedFiles();
                     dropzone_{{$attribute_name}}.removeFile(files[0]);
                 }
@@ -151,9 +165,9 @@
                 loadedImage.dataset.name = file.name;
                 loadedImage.dataset.type = file.type;
                 loadedImage.onload = function () {
-                    if(attribH_{{$attribute_name}} == this.height && attribW_{{$attribute_name}} == this.width) {
+                    if (attribH_{{$attribute_name}} == this.height && attribW_{{$attribute_name}} == this.width) {
                         dropzone_{{$attribute_name}}.processQueue();
-                    } 
+                    }
                     else if (attribH_{{$attribute_name}} === '' && attribW_{{$attribute_name}} === '') {
                         dropzone_{{$attribute_name}}.processQueue();
                     }
@@ -164,9 +178,9 @@
                     }
                     else if ((attribH_{{$attribute_name}} != '' || attribW_{{$attribute_name}} != '') &&
                         ((attribH_{{$attribute_name}} != '' && attribH_{{$attribute_name}} != this.height) ||
-                        (attribW_{{$attribute_name}} != '' && attribW_{{$attribute_name}} != this.width))) {
+                            (attribW_{{$attribute_name}} != '' && attribW_{{$attribute_name}} != this.width))) {
                         autoResizeImg(loadedImage);
-                    }else {
+                    } else {
                         dropzone_{{$attribute_name}}.processQueue();
                     }
                 }
@@ -182,11 +196,11 @@
 
             /**
              * Modal events
-             */ 
+             */
             $cropModal_{{$attribute_name}}.on('shown.bs.modal', instanceCrop);
             $cropModal_{{$attribute_name}}.on('hidden.bs.modal', destroyCrop);
 
-            /** 
+            /**
              * Create an instance of croppie with the dropzone image.
              */
             function instanceCrop() {
@@ -210,44 +224,44 @@
                 var gcd, temp, divisor;
 
                 // from: http://pages.pacificcoast.net/~cazelais/euclid.html
-                gcd = function (a, b) { 
+                gcd = function (a, b) {
                     if (b === 0) return a;
                     return gcd(b, a % b);
                 }
-                
+
                 // take care of the simple case
                 if (numerator === denominator) return 1 / 1;
 
                 // make sure numerator is always the larger number
                 if (+numerator < +denominator) {
-                    temp        = numerator;
-                    numerator   = denominator;
+                    temp = numerator;
+                    numerator = denominator;
                     denominator = temp;
                 }
 
                 divisor = gcd(+numerator, +denominator);
-                
-                return 'undefined' === typeof temp ? ( (numerator / divisor) / (denominator / divisor) ) : ( (denominator / divisor) / (numerator / divisor) );
+
+                return 'undefined' === typeof temp ? ((numerator / divisor) / (denominator / divisor)) : ((denominator / divisor) / (numerator / divisor));
             }
 
-            
-            /** 
+
+            /**
              * Destroy crop.
              */
             function destroyCrop() {
                 $cropper_{{$attribute_name}}.destroy();
                 $cropper_{{$attribute_name}} = null;
                 document.querySelector("#cropModal_{{$attribute_name}} .modal-body").innerHTML = '';
-                if(modalStatus_{{$attribute_name}} === false) {
+                if (modalStatus_{{$attribute_name}} === false) {
                     dropzone_{{$attribute_name}}.removeAllFiles();
                 }
                 modalStatus_{{$attribute_name}} = false;
             }
 
-            /** 
+            /**
              * Crop image and push to dropzone.
              */
-            $('#btnCrop_{{$attribute_name}}').on('click', function(e) {
+            $('#btnCrop_{{$attribute_name}}').on('click', function (e) {
                 e.preventDefault();
 
                 let canvas = $cropper_{{$attribute_name}}.getCroppedCanvas({
@@ -257,27 +271,26 @@
                     imageSmoothingQuality: 'high',
                 });
 
-                canvas.toBlob( (blob) => {
+                canvas.toBlob((blob) => {
                     pushToDrop(loadedImage, blob);
                 }, loadedImage.dataset.type, 0.9);
             });
 
-            /** 
+            /**
              * Resize image with given only one side and push to dropzone
              */
-            function autoResizeImg(img)
-            {
+            function autoResizeImg(img) {
                 var scaleFactor, height, width;
 
-                if(attribH_{{$attribute_name}} !== '') {
+                if (attribH_{{$attribute_name}} !== '') {
                     scaleFactor = attribH_{{$attribute_name}} / img.height;
                     height = attribH_{{$attribute_name}};
                     width = img.width * scaleFactor;
-                } else if(attribW_{{$attribute_name}} !== '') {
+                } else if (attribW_{{$attribute_name}} !== '') {
                     scaleFactor = attribW_{{$attribute_name}} / img.width;
                     width = attribW_{{$attribute_name}};
                     height = img.height * scaleFactor;
-                } 
+                }
 
                 const elem = document.createElement('canvas');
                 elem.width = width;
@@ -285,12 +298,12 @@
                 const ctx = elem.getContext('2d');
                 ctx.drawImage(img, 0, 0, width, height);
 
-                ctx.canvas.toBlob(function(blob) {
+                ctx.canvas.toBlob(function (blob) {
                     pushToDrop(img, blob);
                 }, img.dataset.type, 1);
             }
 
-            /** 
+            /**
              * Push to dropzone and process queue.
              */
             function pushToDrop(img, blob) {
@@ -306,7 +319,7 @@
                 $cropModal_{{$attribute_name}}.modal('hide');
             }
 
-            /** 
+            /**
              * Get the link to the image.
              */
             function successCall(file, response) {

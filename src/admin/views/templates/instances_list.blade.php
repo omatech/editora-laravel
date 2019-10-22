@@ -48,7 +48,11 @@
                     <figure class="pic">{!! getListImage($item['id']) !!}</figure>
                 </td>
                 <td class="tit"><a href="{!! $link !!}">{{$item['key_fields']}} </a></td>
-                <td class="type">{{$item['class_realname']}}</td>
+                <td class="type">
+                    <a href="{{ route('editora.action', 'list_instances?p_class_id=' . $item['class_id']) }}">
+                        {{$item['class_realname']}}
+                    </a>
+                </td>
                 <td class="creation-date"><time class="date">{{$item['creation_date']}}</time></td>
                 <td class="date-condition">
                     <button class="btn-square {!! _activeDate($item['publishing_begins'], $item['publishing_ends']) !!}" data-toggle="popover" data-placement="top" data-content="
