@@ -39,7 +39,8 @@ class AdminSearch extends AuthController
         $viewData = array_merge($menu, [
             'title' => EDITORA_NAME,
             'instances' => $instances,
-            'term' => $params['param4']
+            'term' => $params['param4'],
+            'status' => $params['param8']
         ]);
         return response()->view('editora::pages.search_instances', $viewData);
     }

@@ -10,7 +10,7 @@
 
     <link href="{{ asset('/vendor/editora/img/favicon.ico') }}" rel="shortcut icon" />
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/editora.css') }}" >
+    <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/editora.css') }}?v=1" >
     <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/dropzone.css') }}" >
     <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/color-picker.min.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/datatables.min.css') }}"/>
@@ -125,7 +125,21 @@
 <script type="text/javascript" src="{{ asset('/vendor/editora/js/bootstrap-datepicker.js') }}"> </script>
 
 <script>
+
+    function showMenuInLargeDevices() {
+        var screenWidth = window.innerWidth;
+        if(screenWidth >= 1674 &&  $('body').hasClass('hide-navigation')) {
+            $('body').toggleClass('show-navigation hide-navigation');
+        }
+    }
+
     $(document).ready(function() {
+
+        showMenuInLargeDevices();
+
+        $(window).resize(function() {
+            showMenuInLargeDevices();
+        });
 
         $('.datepicker').datepicker();
 
