@@ -14,7 +14,7 @@ class Controller extends LaravelController
     {
         $urls = new Urls();
 
-        session_start();
+        //session_start();
         //ob_start('ob_gzhandler');
 
         ini_set("memory_limit", "500M");
