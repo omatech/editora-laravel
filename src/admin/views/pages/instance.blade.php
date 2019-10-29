@@ -4,9 +4,9 @@
 <main id="main">
 	<div id="toolbar" class="container-fluid">
 		<span class="toolbar-left">
-			{{--<a href="{{route('editora.action', 'list_instances/?p_pagina=1&p_class_id='.$instance['class_id'])}}" class="btn-square clr-dark">--}}
-				{{--<span class="icon-arrow-left"></span>--}}
-			{{--</a>--}}
+			<a href="{{route('editora.action', 'list_instances/?p_pagina=1&p_class_id='.$instance['class_id'])}}" class="btn-square clr-dark">
+				<span class="icon-arrow-left"></span>
+			</a>
 			<ul id="instancetabs" class="language-tabs nav nav-tabs">
 			@php($count=0)
 			@foreach($instance['instance_tabs'] as $tab)
@@ -30,19 +30,11 @@
 
 				{{--<li><button class="btn-square clr-dark"><i class="icon-eye"></i><span class="sr-only">Previsionalizar</span></button></li>--}}
 				@if($p_mode=='V')
-					<li>
-                        <a href="{{route('editora.action', 'add_favorite/?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}"
-                           title="{{getMessage('info_word_addfavorites')}}">
-                            <button class="btn-square clr-dark" id="btn-toggle-relations">
-                            <i class="icon-star"></i>
-                            </button>
-                        </a>
-					</li>
-
 					<li class="dropdown related-dropdown">
 						<button class="btn-square clr-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-settings"></i></button>
 						<div class="dropdown-menu">
 							<div>
+								<a href="{{route('editora.action', 'add_favorite/?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}" class="dropdown-item"><i class="icon-star"></i>{{getMessage('info_word_addfavorites')}}</a>
 								<a href="{{route('editora.action', 'clone_instance/?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}" class="dropdown-item"><i class="icon-content-copy"></i>{{getMessage('info_word_clone')}}</a>
 								@if($instance['status']!="O")
 								<a href="{{route('editora.action', 'delete_instance/?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}" class="dropdown-item"><i class="icon-delete"></i>{{getMessage('info_word_delete')}}</a>
