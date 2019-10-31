@@ -10,7 +10,7 @@
 
     <link href="{{ asset('/vendor/editora/img/favicon.ico') }}" rel="shortcut icon" />
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/editora.css') }}?v=1" >
+    <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/editora.css') }}?v={{rand()}}" >
     <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/dropzone.css') }}" >
     <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/color-picker.min.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/datatables.min.css') }}"/>
@@ -188,6 +188,35 @@
             container: 'body',
             html: true
         });
+        // Select
+        $('select').selectric();
+        // Añadir o quitar clase 'expanded' a .block-item cuando abrimos un desplegable
+        $('.collapse').on('show.bs.collapse', function(){
+            $(this).parent().addClass('expanded');
+        });
+        $('.collapse').on('hide.bs.collapse', function(){
+            $(this).parent().removeClass('expanded');
+        })
+        // Mostrar/ocultar la fila de editar parámetros
+        $('.edit-item-btn').on('click', function(){
+            if( $('.edit-item-parameters').is(':hidden') ) {
+                $('.item-parameters').hide();
+                $('.edit-item-parameters').show();
+            }
+            else {
+                $('.item-parameters').show();
+                $('.edit-item-parameters').hide();
+            }
+        });
+        
+        //Toast
+        $('.toast').toast({
+            animation: true,
+            autohide: true,
+            delay: 10000
+        });
+        $('.toast').toast('show');
+        
         // Add favorited class to table row
         $('.btn-favorite input[type="checkbox"]').change(function () {
             if ($(this).is(':checked')) {
@@ -205,12 +234,7 @@
             $(this).addClass('hidden');
         });
 
-        $('.toast').toast({
-            animation: true,
-            autohide: false,
-            delay: 10000
-        });
-        $('.toast').toast('show');
+        
     });
 
     function activeSortable() {

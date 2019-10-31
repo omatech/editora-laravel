@@ -7,14 +7,32 @@
 			<a href="{{route('editora.action', 'list_instances/?p_pagina=1&p_class_id='.$instance['class_id'])}}" class="btn-square clr-dark">
 				<span class="icon-arrow-left"></span>
 			</a>
-			<ul id="instancetabs" class="language-tabs nav nav-tabs">
+			<ul id="instancetabs" class="language-tabs">
 			@php($count=0)
 			@foreach($instance['instance_tabs'] as $tab)
-				<li @if($count==0) class="active" @endif><a class="tab-lang" data-toggle="tab" href="#tab-{{$tab['id']}}">{{$tab['caption']}}</a></li>
+				@if($count==0)
+				<li class="active"><a data-toggle="tab" href="#tab-{{$tab['id']}}">{{$tab['caption']}}</a></li>
+				@endif
+				@if($count>0 && $count<=3)
+				<li class="hidden-mobile"><a  data-toggle="tab" href="#tab-{{$tab['id']}}">{{$tab['caption']}}</a></li>
+				@endif
 				@php($count++)
 			@endforeach
+			
 			@includeIf('Editora.extraTabMenu')
 			</ul>
+			<div class="dropdown language-dropdown">
+					<button class="btn-square clr-transparent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<span class="icon-dots-horizontal"></span>
+					</button>
+					<div class="dropdown-menu">
+						@php($count=0)
+						@foreach($instance['instance_tabs'] as $tab)
+						<a class="@if($count<=3)hidden-tablet-up @endif dropdown-item" data-toggle="tab" href="#tab-{{$tab['id']}}">{{$tab['caption']}}</a>
+						@php($count++)
+						@endforeach
+					</div>
+				</div>
 		</span>
 
 		<div class="toolbar-right">
