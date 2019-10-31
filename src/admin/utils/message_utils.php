@@ -9,55 +9,34 @@
 
 function html_message($p_text, $p_mode)
 {
-  if ($p_mode=='E')
-  {
-       $html='
-        <div class="col_item alert alert_wrong">
-            <span></span>
-            <div><p>'.$p_text.'</p></div>
-            
-            <p class="btn_close"><a onclick="$(&quot;.alert&quot;).hide();" href="javascript://">Cerrar</a></p>
-        </div>';
-       /*
-            $icon=APP_BASE.'/images/error.gif';
-            $class='omp_message_error';
-            $html='<div id="message">
-            <img src="'.$icon.'" border="0" class="img_message" />
-            <h3 class="ko_message">'.$p_text.'</h3>
-            </div>';
-        */
+
+  switch($p_mode){
+    case 'E':
+      $class = 'message-wrong';
+      break;
+      
+    case 'W':
+      $class = 'message-wrong';
+      break;
+    case 'O':
+      $class = 'message-ok';
+      break;
+    default:
+      $class = 'message-wrong';
+      break;
   }
-  if ($p_mode=='O'||$p_mode=='W')
-  {
-    
-        $html='
-        <div class="col_item alert alert_right">
-            <span></span>
-            <div><p>'.$p_text.'</p></div>
-           
-            <p class="btn_close"><a onclick="$(&quot;.alert&quot;).hide();" href="javascript://">Cerrar</a></p>
-        </div>';
-        /*
-        $icon=APP_BASE.'/images/valid.gif';
-	$class='omp_message_ok';
-	$html='<div id="message">
-		<img src="'.$icon.'" border="0" class="img_message" />
-		<h3 class="ok_message">'.$p_text.'</h3>
-	</div>';
-        */
-  }
-  /*
-  if ($p_mode=='W')
-  {
-    $icon=APP_BASE.'/images/alert.gif';
-	$class='omp_message_ko';
-	$html='<div id="message">
-		<img src="'.$icon.'" border="0" class="img_message" />
-		<h3 class="ko_message">'.$p_text.'</h3>
-	</div>
-	';
-  }
-    */
+  $html = '<div class="toaster">
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="toast-body">
+          <p class="message '.$class.'"><i class="icon-circle-alert"></i> <span class="txt">'.$p_text.'</span></p>
+        </div>
+      </div> 
+    </div>';
   
 	return $html;
 

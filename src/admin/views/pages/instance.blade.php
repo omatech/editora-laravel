@@ -176,6 +176,7 @@
 		<div class="container-fluid">
 			<div class="tab-content">
 				@php($count=0)
+				@php($mandatories='')
 				@foreach($instance['instance_tabs'] as $tab)
 					@php($exist_relations=false)
 					<div id="tab-{{$tab['id']}}" class="tab-pane  @if($count==0)in active @endif">
@@ -189,6 +190,9 @@
 											<div class="form default-block-form">
 												@if($attribute['type']!='R')
 													@php($attribute_name=_attributeName($attribute))
+													@if($attribute['mandatory']=='Y')
+														@php($mandatories.=$attribute['id'].',')
+													@endif
 													@includeIf('editora::attributes.'.$attribute['type'])
 												@elseif($attribute['type']=='R')
 													@php($exist_relations=true)
@@ -219,6 +223,7 @@
 						@endif
 					</div>
 				@endforeach
+				<input type="hidden" name="p_mandatories" value="{{substr($mandatories,0,strlen($mandatories)-1)}}"/>
 				@includeIf('Editora.extraTabInstance')
 			</div>
 		</div>

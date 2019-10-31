@@ -127,7 +127,6 @@ function check_mandatories() {
 		}
 		next($_REQUEST);
 	}
-
 	if ($mandatories) { // Tenim algun mandatory, continuem mirant
 		if ($informats) { // Tenim algun informat, comprovem si es un subconjunt dels mandatories
 			$diff=array_diff($mandatories, $informats);

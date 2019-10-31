@@ -16,7 +16,7 @@ class AdminEditInstance2 extends AuthController
     {
         $security = new Security;
         $params=get_params_info();
-
+        $message = null;
 
         if ($_SESSION['rol_id']==1 || $security->getAccess('editable',$params)) {
             $instances = new Instances;
@@ -31,17 +31,28 @@ class AdminEditInstance2 extends AuthController
 
             $instances->logAccess($params);
             $res=$instances->insertAttributes($params);
-
+            
             $menu = $this->loadMenu($instances, $params);
 
             $init = '';
+            
+            if (!$res || $res < 0) {
+                $params['p_mode']='V';
+                $params['p_acces_type']='A';
+                $p_mode = 'U';
+                if ($params['param1'] == '' or $params['param1']<0){
+                    $params['param1']=$params['param12'];
+                }
+                $instance = $at->getInstanceAttributes('U', $params);
 
-            if ($res==-1) {
-                $message=html_message_error(getMessage('error_param_mandatory'));
-            } elseif ($res==-2) {
-                $message=html_message_error(getMessage('error_param_data'));
-            } elseif ($res==-3) {
-                $message=html_message_error(getMessage('error_param_urlnice'));
+                if ($res==-1) {
+                    $message=html_message_error(getMessage('error_param_mandatory'));
+                }elseif ($res==-2) {
+                    $message=html_message_error(getMessage('error_param_data'));
+                }elseif ($res==-3) {
+                    $message=html_message_error(getMessage('error_param_urlnice'));
+                }
+                
             } else { //sabem que s'han insertat be els atribs, peticio de refresc de cache
                 $params['p_acces_type']='A';
                 $instances->logAccess($params);
@@ -79,6 +90,7 @@ class AdminEditInstance2 extends AuthController
                 return redirect(route('editora.action', 'view_instance?p_pagina=1&p_class_id='.$params['param1'].'&p_inst_id='.$params['param2']));
                 break;
             default:
+                $instance['instance_info']['class_id']=$params['param1'];
                 $viewData = array_merge($menu, [
                     'instance' => $instance['instance_info'],
                     'p_mode' => $p_mode,
@@ -86,6 +98,7 @@ class AdminEditInstance2 extends AuthController
                     'title' => $title,
                     'instances' => $instances,
                     'parents' => $parents,
+                    'message' => $message
                 ]);
 
                 return response()->view('editora::pages.instance', $viewData);

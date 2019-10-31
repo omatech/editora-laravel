@@ -16,24 +16,22 @@ class AdminNewInstance2 extends AuthController
     {
         $security = new Security;
         $params = get_params_info();
-
+        $message = null;
         if($_SESSION['rol_id']==1 || $security->getAccess('insertable',$params)) {
             $instances = new Instances;
             $at=new attributes();
             $ly_t=new LayoutTemplate();
             $at_t=new attributesTemplate();
             $re=new relations();
-
+            
             $params['p_mode']= $p_mode = 'V';
-
             $menu = $this->loadMenu($instances, $params);
             $title=EDITORA_NAME." -> ".getMessage('info_create_object')." ".getClassName($params['param1']);
             $res=$instances->insertAttributes($params);
-
-
+            
             if (!$res || $res < 0) {
                 $instance = $at->getInstanceAttributes('I', $params);
-
+                $p_mode='I';
                 if ($res==-1) {
                     $message=html_message_error(getMessage('error_param_mandatory'));
                 }elseif ($res==-2) {
@@ -41,11 +39,9 @@ class AdminNewInstance2 extends AuthController
                 }elseif ($res==-3) {
                     $message=html_message_error(getMessage('error_param_urlnice'));
                 }
-
+                
                 $_REQUEST['view']='container';
-
-            }
-            else {
+            } else {
                 $params['p_acces_type']='A';
                 $params['param2']=$res;
                 $instances->logAccess($params);
@@ -100,16 +96,17 @@ class AdminNewInstance2 extends AuthController
                 $_REQUEST['view']='container';
             }
         }
-
+        $instance['instance_info']['class_id']=$params['param1'];
         $viewData = array_merge($menu, [
             'instance' => $instance['instance_info'],
             'p_mode' => $p_mode,
             'body_class' => 'edit-view',
             'title' => $title,
             'instances' => $instances,
-            'parents' => $parents
-        ]);
-
+            'parents' => $parents,
+            'message' => $message
+            ]);
+            
         return response()->view('editora::pages.instance', $viewData);
     }
 

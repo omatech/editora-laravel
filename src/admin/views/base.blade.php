@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/auto-complete.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/datepicker.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/font-awesome/css/font-awesome.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/extras.css') }}" >
 </head>
 <body class="hide-navigation hide-favorites hide-modifications hide-relations @if(isset($body_class)) {{$body_class}} @endif">
     <header id="topbar" class="container-fluid">
@@ -94,6 +95,10 @@
 @include('editora::templates.last_accessed_menu')
 
 @yield('body')
+
+@if(isset($message) && $message!=null)
+{!!$message!!}
+@endif
 
 <footer id="footer">
     <div class="container">
@@ -200,6 +205,12 @@
             $(this).addClass('hidden');
         });
 
+        $('.toast').toast({
+            animation: true,
+            autohide: false,
+            delay: 10000
+        });
+        $('.toast').toast('show');
     });
 
     function activeSortable() {

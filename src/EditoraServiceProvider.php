@@ -65,6 +65,7 @@ class EditoraServiceProvider extends ServiceProvider
             __DIR__.'/admin/csss/auto-complete.css' => public_path('vendor/editora/css/auto-complete.css'),
             __DIR__.'/admin/csss/datepicker.css' => public_path('vendor/editora/css/datepicker.css'),
             __DIR__.'/admin/js/DataTables/datatables.min.css' => public_path('vendor/editora/css/datatables.min.css'),
+            __DIR__.'/admin/css/extras.css' => public_path('vendor/editora/css/extras.css'),
 
             /* JS */
             __DIR__.'/admin/js/bootstrap.min.js' => public_path('vendor/editora/js/bootstrap.min.js'),

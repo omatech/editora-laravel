@@ -506,7 +506,7 @@ class Instances extends model
             return -3;
         }
         $res='';
-
+        
         if ($_REQUEST['p_status']==null) {
             $inst_status='P';
         } else {
