@@ -870,10 +870,12 @@ class Instances extends model
 
         //////////////////////////
         ///URL////////////////////
-        $desti= "inst_id, language, niceurl";
-        $origen=  "'".$dolly_id."', language, ''";
-        $sql = "insert into omp_niceurl (".$desti.") (select ".$origen." from omp_niceurl where inst_id='$inst_id')";
-        
+        // $desti= "inst_id, language, niceurl";
+        //$origen=  "'".$dolly_id."', language, '".$dolly_id."'";
+        //$sql = "insert into omp_niceurl (".$desti.") (select ".$origen." from omp_niceurl where inst_id='$inst_id')";
+
+        $url_origen = parent::get_data("select  language, niceurl from omp_niceurl where inst_id='$inst_id'");
+        $sql = "insert into omp_niceurl (inst_id, language, niceurl) values (".$dolly_id.", '".$url_origen[0]['language']."', '".$url_origen[0]['niceurl']."-".$dolly_id."')";
         $result=parent::insert_one($sql);
 
         //////////////////////////
