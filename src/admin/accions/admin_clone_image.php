@@ -89,7 +89,7 @@ else {
 			$_REQUEST['footer']=false;
 		}
 		else { // ja estem llançant el form
-			// require_once(DIR_APLI_ADMIN.'utils/upload_class.php');
+			require_once(DIR_APLI_ADMIN.'utils/upload_class.php');
 			$in=new instances();
 			$cloned = 0;
 			if (!empty($_REQUEST['p_clone'])) {
