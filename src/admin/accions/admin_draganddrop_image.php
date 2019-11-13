@@ -6,7 +6,7 @@ session_start();
 header("Cache-Control: no-cache, must-revalidate");
 header("Cache-control: private");
 require_once($_SERVER['DOCUMENT_ROOT'].'/conf/ompinfo.php');
-require_once(DIR_APLI_ADMIN.'/utils/upload_class.php');
+// require_once(DIR_APLI_ADMIN.'/utils/upload_class.php');
 require_once(DIR_APLI_ADMIN . '/models/Security.php');
 
 $sc=new security();

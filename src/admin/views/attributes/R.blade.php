@@ -211,7 +211,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-
+                                @if(isset($attribute['related_instances']))
                                 @foreach($attribute['related_instances']['instances'] as $item)
                                     <tr class="published" id="{{$item['inst_id']}}">
                                         <td class="status">
@@ -230,6 +230,7 @@
                                         <td class="type">{{$item['class_realname']}}</td>
                                     </tr>
                                 @endforeach
+                                @endif
                                 </tbody>
                             </table>
                         </section>

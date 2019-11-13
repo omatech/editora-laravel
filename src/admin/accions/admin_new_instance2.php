@@ -3,12 +3,13 @@
 namespace Omatech\Editora\Admin\Accions;
 
 use function Couchbase\defaultDecoder;
-use Omatech\Editora\Admin\Models\attributes;
-use Omatech\Editora\Admin\Models\Instances;
+use Illuminate\Support\Facades\Session;
 use Omatech\Editora\Admin\Models\Security;
+use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Relations;
-use Omatech\Editora\Admin\Templates\AttributesTemplate;
+use Omatech\Editora\Admin\Models\attributes;
 use Omatech\Editora\Admin\Templates\LayoutTemplate;
+use Omatech\Editora\Admin\Templates\AttributesTemplate;
 
 class AdminNewInstance2 extends AuthController
 {
