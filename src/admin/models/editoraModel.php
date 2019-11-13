@@ -3,6 +3,7 @@
 namespace Omatech\Editora\Admin\Models;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Session;
 
 class editoraModel extends model{
 
@@ -25,7 +26,7 @@ class editoraModel extends model{
 
     function get_class_info($class_id) {
 
-        $sql = "select c.id, c.name_".$_SESSION['u_lang']." as class_name, c.name as class_internal_name
+        $sql = "select c.id, c.name_".Session::get('u_lang') ." as class_name, c.name as class_internal_name
 		from omp_classes c
 		where id = ".$class_id.";";
 

@@ -26,7 +26,7 @@ class AdminNewInstance extends AuthController
 
         $menu = $this->loadMenu($instances, $params);
 
-        if($_SESSION['rol_id']==1 || $security->getAccess('insertable',$params)) {
+        if(Session::get('rol_id')==1 || $security->getAccess('insertable',$params)) {
             $instance = $at->getInstanceAttributes($p_mode, $params);
             $instance['instance_info']['class_id'] = $params['param1'];
             $class_info = $editora->get_class_info($params['param1']);

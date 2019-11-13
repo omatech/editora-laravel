@@ -1,6 +1,7 @@
 <?php
 //à
 require_once(DIR_APLI_ADMIN . '/models/Model.php');
+use Illuminate\Support\Facades\Session;
 
 class cache extends model 
 {
@@ -17,9 +18,9 @@ class cache extends model
 
 		if($idiomes) {
 			foreach($idiomes as $idioma) {
-				$cache_xml=$mainobject->getInstanceInfo($inst_id, $idioma, 'cache', '', 'D',$_SESSION['rol_id']);
+				$cache_xml=$mainobject->getInstanceInfo($inst_id, $idioma, 'cache', '', 'D',Session::get('rol_id'));
 
-				$sql_cache='insert omp_instances_backup (inst_id,language,xml_cache,date,user) values ('.$inst_id.', "'.$idioma.'", "'.mysql_real_escape_string($cache_xml, $dbh).'", now(),'.$_SESSION['user_id'].');';
+				$sql_cache='insert omp_instances_backup (inst_id,language,xml_cache,date,user) values ('.$inst_id.', "'.$idioma.'", "'.mysql_real_escape_string($cache_xml, $dbh).'", now(),'.Session::get('user_id').');';
 				$ret_cache=parent::insert_one($sql_cache);
 				if (!$ret_cache) echo mysql_error($dbh).chr(13).chr(10).chr(13).chr(10);
 			}
@@ -58,8 +59,8 @@ class cache extends model
 
 		if($idiomes) {
 			foreach($idiomes as $idioma) {
-				$cache_xml_r=$mainobject->getInstanceInfo($inst_id, $idioma, '%cache_name%', '%cache_relid%', 'R',$_SESSION['rol_id']);
-				$cache_xml_d=$mainobject->getInstanceInfo($inst_id, $idioma, '%cache_name%', '%cache_relid%', 'D',$_SESSION['rol_id']);
+				$cache_xml_r=$mainobject->getInstanceInfo($inst_id, $idioma, '%cache_name%', '%cache_relid%', 'R',Session::get('rol_id'));
+				$cache_xml_d=$mainobject->getInstanceInfo($inst_id, $idioma, '%cache_name%', '%cache_relid%', 'D',Session::get('rol_id'));
 				
 				// nou codi cache a memcache, apons 20130919
 				if (class_exists('Memcache')) {

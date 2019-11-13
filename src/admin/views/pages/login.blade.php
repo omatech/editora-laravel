@@ -47,11 +47,11 @@
                     </form>
                 </div>
             </div>
-            @if(Session::has('error_login'))
+            @if(session('error_login'))
                 <div class="enter">
-                    <p>{{Session::get('error_login')}}</p>
+                    <p>{{session('error_login')}}</p>
                 </div>
-                @php(Session::remove('error_login'))
+                @php(session()->forget('error_login'))
             @endif
         </div>
     </div>

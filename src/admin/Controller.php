@@ -13,7 +13,6 @@ class Controller extends LaravelController
     public function __construct()
     {
         $urls = new Urls();
-
         //session_start();
         //ob_start('ob_gzhandler');
 
@@ -47,12 +46,7 @@ class Controller extends LaravelController
         $googlemaps=false;
         $pag_num=null;
         $urls->extract_url_info();
-        global $array_langs;
-        $array_langs = config('editora-admin.languages');
-        $lg = getDefaultLanguage();
 
-        //REQUIRES
-        require_once(DIR_APLI_ADMIN.DIR_LANGS.$lg.'/messages.inc');
         require_once(DIR_APLI_ADMIN . 'models/Security.php');
         require_once(DIR_APLI_ADMIN . 'utils/redirect.php');
         require_once(DIR_APLI_ADMIN . 'utils/message_utils.php');
@@ -81,13 +75,11 @@ class Controller extends LaravelController
         $accion_name='admin_'.$_REQUEST['action'].'.php';
         $action = $_REQUEST['action'];
 
-        if (isset($_SESSION['error_login']) && $_SESSION['error_login']!='') {
-            Session::put('error_login', $_SESSION['error_login']);
+        if (Session::has('error_login') && Session::get('error_login') !='') {
+            Session::put('error_login', Session::get('error_login'));
         } else {
             Session::remove('error_login');
         }
-
-        $_SESSION['error_login']='';
 
         $mini_actions = array(
             'view_instance', 'edit_instance', 'join', 'join_all', 'delete_instance', 'edit_instance2',
@@ -118,6 +110,13 @@ class Controller extends LaravelController
 
     public function init()
     {
+        global $array_langs;
+        $array_langs = config('editora-admin.languages');
+        $lg = getDefaultLanguage();
+
+        //REQUIRES
+        require_once(DIR_APLI_ADMIN.DIR_LANGS.$lg.'/messages.inc');
+        
         return $this->action->render();
     }
 }

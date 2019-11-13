@@ -1,6 +1,7 @@
 <?php
 
 namespace Omatech\Editora\Admin\Templates;
+use Illuminate\Support\Facades\Session;
 
 class Template
 {
@@ -104,7 +105,7 @@ class Template
 	}
 
 	function getClassList($p_class_id) {
-		$cc = $_SESSION['classes_cache'];
+		$cc = Session::get('classes_cache');
                 asort($cc);
 
 		$ret = "";

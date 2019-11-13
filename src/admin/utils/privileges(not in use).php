@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Session;
 
 function deleteUser($p_user_id) {
 	global $dbh;
@@ -417,12 +418,12 @@ function editPrivilege2($p_rol_class_id, $p_browseable, $p_insertable, $p_editab
 
 function LogAccess ($p_inst_id, $p_tipo)
 {
-  LogAccessUser($_SESSION["user_id"], $p_inst_id, $p_tipo);
+  LogAccessUser(Session::get("user_id"), $p_inst_id, $p_tipo);
 }
 
 function DeleteLogAccess ($p_inst_id, $p_tipo)
 {
-  DeleteLogAccessUser($_SESSION["user_id"], $p_inst_id, $p_tipo);
+  DeleteLogAccessUser(Session::get("user_id"), $p_inst_id, $p_tipo);
 }
 
 function LogAccessUser ($p_user_id, $p_inst_id, $p_tipo) {

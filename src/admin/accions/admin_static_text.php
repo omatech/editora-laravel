@@ -6,6 +6,7 @@ namespace Omatech\Editora\Admin\Accions;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\statictext;
+use Illuminate\Support\Facades\Session;
 
 class AdminStaticText extends AuthController
 {
@@ -14,7 +15,7 @@ class AdminStaticText extends AuthController
         $security = new Security;
         $params = get_params_info();
 
-        if(isset($_SESSION['rol_id'])) {
+        if(Session::has('rol_id')) {
             $instances = new Instances;
             $st = new statictext();
             $params=get_params_info();

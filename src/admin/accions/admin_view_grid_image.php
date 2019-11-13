@@ -5,6 +5,7 @@ namespace Omatech\Editora\Admin\Accions;
 use Omatech\Editora\Admin\Models\attributes;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Security;
+use Illuminate\Support\Facades\Session;
 
 class AdminViewGridImage extends AuthController
 {
@@ -12,7 +13,7 @@ class AdminViewGridImage extends AuthController
     {
         $security = new Security;
         $params=get_params_info();
-        if(isset($_SESSION['rol_id'])) {
+        if(Session::has('rol_id')) {
             $instances = new Instances;
             $at=new attributes();
 

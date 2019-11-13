@@ -1,5 +1,7 @@
 <?php
 //à
+	use Illuminate\Support\Facades\Session;
+
 	$sc=new security();	
 	if ($sc->testSession()==0) {
 		$sc->endSession();
@@ -33,7 +35,7 @@
 			$_REQUEST['view']='container';
 		}
 		else {
-			$_SESSION['missatge']=html_message_error(getMessage('error_role_privileges'));
+			Session::put('missatge', html_message_error(getMessage('error_role_privileges')));
 			$sc->redirect_url(APP_BASE.'/get_main');
 		}
 	}

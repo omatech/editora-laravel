@@ -84,7 +84,7 @@
                                     <span class="link-text">{{getMessage('unlinked_files')}}</span>
                                 </a>
                             </li>
-                            @if($_SESSION['user_type']=='O' && $_SESSION['rol_id']==1 )
+                            @if(session('user_type')=='O' && session('rol_id')==1 )
                                 <li>
                                     <a href="{{ route('editora.action', 'create_users') }}" class="link-list">
                                         <span class="link-text">{{getMessage('create_users')}}</span>
@@ -92,7 +92,7 @@
                                 </li>
                             @endif
 
-                            @if($_SESSION['user_type']=='O' && $_SESSION['rol_id']==1 )
+                            @if(session('user_type')=='O' && session('rol_id')==1 )
                                 <li>
                                     <a href="{{ route('editora.action', 'list_class') }}" class="link-list">
                                         <span class="link-text">{{getMessage('load_content')}}</span>

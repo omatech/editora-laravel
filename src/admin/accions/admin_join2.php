@@ -5,6 +5,7 @@ namespace Omatech\Editora\Admin\Accions;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\Relations;
+use Illuminate\Support\Facades\Session;
 
 class AdminJoin2 extends AuthController
 {
@@ -13,7 +14,7 @@ class AdminJoin2 extends AuthController
         $security = new Security;
         $params = get_params_info();
 
-        if ($_SESSION['rol_id']==1 || $security->getAccess('browseable',$params)) {
+        if (Session::get('rol_id')==1 || $security->getAccess('browseable',$params)) {
             $instances = new Instances;
             $re=new relations();
 

@@ -1,4 +1,6 @@
 <?php
+
+use Illuminate\Support\Facades\Session;
 //à
 $_REQUEST['footer']='';
 
@@ -8,7 +10,7 @@ if ($sc->testSession()==0) {
 }
 else {
 	$params=get_params_info();
-	if($_SESSION['rol_id']==1 || $sc->getAccess('editable',$params) ) {
+	if(Session::get('rol_id')==1 || $sc->getAccess('editable',$params) ) {
 		$at=new attributes();
 		$inst_id=$_REQUEST['p_inst_id'];
 		$p_class_id=$params['param1'];
@@ -143,10 +145,10 @@ else {
 			}
 			if ($cloned > 0) { // Actualitzem la data
 				$in->instance_update_date_and_backup($inst_id);
-				$_SESSION['missatge']=html_message_ok($cloned.' imágenes clonadas con éxito');
+				Session::put('missatge', html_message_ok($cloned.' imágenes clonadas con éxito'));
 			}
 			else {
-				$_SESSION['missatge']=html_message_error('No se ha clonado ninguna imagen');
+				Session::put('missatge', html_message_error('No se ha clonado ninguna imagen'));
 			}
 
 			$sc->redirect_url(APP_BASE."/view_instance/?p_class_id=$p_class_id&p_inst_id=$inst_id&p_tab=$p_tab");
@@ -154,7 +156,7 @@ else {
 		}
 	}
 	else {
-		$_SESSION['missatge']=html_message_error(getMessage('error_role_privileges'));
+		Session::put('missatge', html_message_error(getMessage('error_role_privileges')));
 		$sc->redirect_url(APP_BASE.'/get_main');
 	}
 }

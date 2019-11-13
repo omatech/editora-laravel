@@ -2,9 +2,10 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
-use Omatech\Editora\Admin\Models\attributes;
-use Omatech\Editora\Admin\Models\Instances;
+use Illuminate\Support\Facades\Session;
 use Omatech\Editora\Admin\Models\Security;
+use Omatech\Editora\Admin\Models\Instances;
+use Omatech\Editora\Admin\Models\attributes;
 
 class AdminAddAndJoin extends AuthController
 {
@@ -27,7 +28,7 @@ class AdminAddAndJoin extends AuthController
         $menu = $this->loadMenu($instances, $params);
 
 
-        if ( $_SESSION['rol_id']==1 || $security->getAccess('insertable',$params)) {
+        if (Session::get('rol_id') == 1 || $security->getAccess('insertable',$params)) {
             $instance = $at->getInstanceAttributes($p_mode, $params);
             $instance['instance_info']['class_id'] = $params['param1'];
             $instance['instance_info']['form_relation'] = $params;

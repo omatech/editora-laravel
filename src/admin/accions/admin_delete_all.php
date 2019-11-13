@@ -1,4 +1,6 @@
 <?php
+
+use Illuminate\Support\Facades\Session;
 //à
 	$sc=new security();	
 	if ($sc->testSession()==0) {
@@ -45,13 +47,13 @@
 			}
 			else
 			{
-				$_SESSION['missatge']=html_message_error(getMessage('error_role_privileges'));
+				Session::put('missatge', html_message_error(getMessage('error_role_privileges')));
 				$sc->redirect_url(APP_BASE.'/get_main');
 			}
 		}
 		else //JORDI !!!! canviar missatge
 		{
-			$_SESSION['missatge']=html_message_error(getMessage('NO HAS SELECCIOAT CAP INSTANCIA'));
+			Session::put('missatge', html_message_error(getMessage('NO HAS SELECCIOAT CAP INSTANCIA')));
 			$sc->redirect_url(APP_BASE.'/get_main');
 		}
 

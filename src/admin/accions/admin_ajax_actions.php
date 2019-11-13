@@ -2,10 +2,11 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
-use Omatech\Editora\Admin\Models\Security;
-use Omatech\Editora\Admin\Models\Relations;
-use Omatech\Editora\Admin\Models\Instances;
 use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Session;
+use Omatech\Editora\Admin\Models\Security;
+use Omatech\Editora\Admin\Models\Instances;
+use Omatech\Editora\Admin\Models\Relations;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class AdminAjaxActions extends AuthController
@@ -15,7 +16,7 @@ class AdminAjaxActions extends AuthController
         $security = new Security;
         $params=get_params_info();
 
-        if(isset($_SESSION['rol_id'])) {
+        if(Session::has('rol_id')) {
             $is_ajax=true;
             $sended = false;
             if(isset($_REQUEST['ajax'])) {

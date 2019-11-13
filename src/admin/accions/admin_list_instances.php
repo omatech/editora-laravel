@@ -6,6 +6,7 @@ use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\editoraModel;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Templates\InstancesTemplate;
+use Illuminate\Support\Facades\Session;
 
 class AdminListInstances extends AuthController
 {
@@ -27,7 +28,7 @@ class AdminListInstances extends AuthController
 
         $count = 0;
         $page = 1;
-        if($_SESSION['rol_id']==1 || $security->getAccess('browseable',$params)) {
+        if(Session::get('rol_id')==1 || $security->getAccess('browseable',$params)) {
             $editora = new editoraModel();
 
             $params = get_params_info();

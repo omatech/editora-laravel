@@ -3,6 +3,7 @@
 namespace Omatech\Editora\Admin\Templates;
 
 use Omatech\Editora\Admin\Util\Urls;
+use Illuminate\Support\Facades\Session;
 
 class InstancesTemplate extends Template
 {
@@ -194,7 +195,7 @@ class InstancesTemplate extends Template
 
 					// nou bloc per permetre a l'admin veure l'status de la cache de memcache, apons 20130914
 					$cache_add='';
-					/*if ($_SESSION['rol_id']==1) {
+					/*if (Session::get('rol_id')==1) {
 						$cache_add='<small style="display: inline-block; margin: 0 0 0 4.2em;">0</small>';
 						if (class_exists('Memcache')) {
 							$mc=new Memcache;
@@ -220,12 +221,12 @@ class InstancesTemplate extends Template
 							$res.='<li class="ico fav"><a href="'.ADMIN_URL.'/add_favorite/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.getMessage('info_word_addfavorites').'"/>'.getMessage('info_word_addfavorites').'</a></li>';
 							if ($Row['edit']=='Y') $res.='<li class="ico edi"><a href="'.ADMIN_URL.'/edit_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.getMessage('info_word_edit').'"/>'.getMessage('info_word_edit').'</a></li>';
 							if ($Row['status']!='O' && $Row['deletea']=='Y') {
-								if($Row['id']<USERINSTANCES && $_SESSION['rol_id']<>SUPERROLID) $res.='&nbsp;';
+								if($Row['id']<USERINSTANCES && Session::get('rol_id')<>SUPERROLID) $res.='&nbsp;';
 								else $res.='<li><a href="'.ADMIN_URL.'/delete_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.getMessage('info_word_delete').'"/> <i class="fa fa-trash-o fa-lg"></i> </a></li>';
 							}
 							else $res.='&nbsp;';
 							if (!INST_PERM) {
-								if (getAccess('permisos',$Row['class_id'],$_SESSION['rol_id'])==1) {
+								if (getAccess('permisos',$Row['class_id'],Session::get('rol_id'))==1) {
 									$res.='<a href="controller.php?p_action=view_permisos&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'"><img src="'.ICONO_PERM.'" border="0" title="'.getMessage('info_word_modifyperm').'"/></a>&nbsp;';
 								}
 								else {

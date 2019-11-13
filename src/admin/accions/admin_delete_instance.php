@@ -5,6 +5,7 @@ namespace Omatech\Editora\Admin\Accions;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Templates\InstancesTemplate;
+use Illuminate\Support\Facades\Session;
 
 class AdminDeleteInstance extends AuthController
 {
@@ -13,7 +14,7 @@ class AdminDeleteInstance extends AuthController
         $security = new Security;
         $params = get_params_info();
 
-        if($_SESSION['rol_id']==1 || $security->getAccess('deleteable',$params)) {
+        if(Session::get('rol_id')==1 || $security->getAccess('deleteable',$params)) {
             $instances = new Instances;
 
             $params['p_mode']='V';

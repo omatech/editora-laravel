@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 if (!function_exists('_attributeName')) {
     function _attributeName($attribute)
@@ -194,7 +195,7 @@ if (!function_exists('_attributeInfo')) {
     function _attributeInfo($id, $name, $type)
     {
         $info ='';
-        if($_SESSION['user_type']=='O' && $_SESSION['rol_id']==1 ) {
+        if(Session::get('user_type')=='O' && Session::get('rol_id')==1 ) {
             $info ='<a class="clr-default" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="<p>ID: '.$id.' - Name: '.$name.' - Type: '.$type.'</p>">
                         <i class="icon-information-outline"></i><span class="hide-txt">Info</span>
                     </a>';

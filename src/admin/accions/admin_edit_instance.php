@@ -6,6 +6,7 @@ use Omatech\Editora\Admin\Models\attributes;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Templates\AttributesTemplate;
+use Illuminate\Support\Facades\Session;
 
 class AdminEditInstance extends AuthController
 {
@@ -14,7 +15,7 @@ class AdminEditInstance extends AuthController
         $security = new Security;
         $params=get_params_info();
 
-        if($_SESSION['rol_id']==1 || $security->getAccess('editable',$params)) {
+        if(Session::get('rol_id')==1 || $security->getAccess('editable',$params)) {
             $instances = new Instances;
             $at=new attributes();
             $at_t=new attributesTemplate();

@@ -1,12 +1,14 @@
 <?php
-session_start();
+
+use Illuminate\Support\Facades\Session;
+
 
 //SEND TWIT TO TWITTER
 // The twitter API address
 require_once($_SERVER['DOCUMENT_ROOT'].'/conf/ompinfo.php');
-if(is_numeric($_SESSION['user_id'])) {
+if(is_numeric(Session::get('user_id'))) {
 	$message = $_REQUEST['message'];
-	$lg = $_SESSION['u_lang'];
+	$lg = Session::get('u_lang');
 	
 	require_once($_SERVER['DOCUMENT_ROOT'].DIR_LANGS.$lg.'/messages.inc');
 	

@@ -25,7 +25,7 @@
                     <div class="rel-group">
                         <div class="rel-controls">
                             <ul class="controls-list">
-                                @if($_SESSION['user_type']=='O' && $_SESSION['rol_id']==1 )
+                                @if(session('user_type')=='O' && session('rol_id')==1 )
                                     <li>
                                         {!! _attributeInfo($attribute['id'], $attribute['name'], $attribute['type']) !!}
                                     </li>
@@ -211,6 +211,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+
                                 @foreach($attribute['related_instances']['instances'] as $item)
                                     <tr class="published" id="{{$item['inst_id']}}">
                                         <td class="status">

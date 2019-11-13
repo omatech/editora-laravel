@@ -8,6 +8,7 @@ use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Templates\AttributesTemplate;
 use Omatech\Editora\Admin\Templates\LayoutTemplate;
 use Omatech\Editora\Admin\Templates\InstancesTemplate;
+use Illuminate\Support\Facades\Session;
 
 class AdminJoin extends AuthController
 {
@@ -15,7 +16,7 @@ class AdminJoin extends AuthController
     {
         $security = new Security;
         $params = get_params_info();
-        if($_SESSION['rol_id']==1 ||$security->getAccess('browseable',$params)) {
+        if(Session::get('rol_id')==1 ||$security->getAccess('browseable',$params)) {
             $instances = new Instances;
             $at=new attributes();
             $ly_t=new LayoutTemplate();

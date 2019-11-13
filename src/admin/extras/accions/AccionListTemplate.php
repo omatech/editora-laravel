@@ -2,6 +2,7 @@
 	
 namespace Omatech\Editora\Admin\Extras\Accions;
 
+use Illuminate\Support\Facades\Session;
 use Omatech\Editora\Admin\Templates\Template;
 
 class AccionListTemplate extends Template
@@ -10,7 +11,7 @@ class AccionListTemplate extends Template
 		$html = '';
 		
 		//Textos por idioma
-		$lang = $_SESSION['u_lang']; 
+		$lang = Session::get('u_lang') ; 
 		switch ($lang){
 			case 'ca':
 

@@ -8,6 +8,7 @@ use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\relations;
 use Omatech\Editora\Admin\Templates\AttributesTemplate;
 use Omatech\Editora\Admin\Templates\LayoutTemplate;
+use Illuminate\Support\Facades\Session;
 
 class AdminEditInstance2 extends AuthController
 {
@@ -18,7 +19,7 @@ class AdminEditInstance2 extends AuthController
         $params=get_params_info();
         $message = null;
 
-        if ($_SESSION['rol_id']==1 || $security->getAccess('editable',$params)) {
+        if (Session::get('rol_id')==1 || $security->getAccess('editable',$params)) {
             $instances = new Instances;
             $at=new attributes();
             $ly_t=new LayoutTemplate();

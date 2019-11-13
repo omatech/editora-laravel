@@ -8,6 +8,7 @@ use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\statictext;
 
 use Omatech\Editora\Loader\Loader;
+use Illuminate\Support\Facades\Session;
 
 class AdminListClass extends AuthController
 {
@@ -16,7 +17,7 @@ class AdminListClass extends AuthController
         $security = new Security;
         $params = get_params_info();
 
-        if(INST_PERM || $_SESSION['rol_id']==1 || $security->buscaAccessTotal($params) || $security->getAccess2($params)|| $security->getAccess('insertable',$params)) {
+        if(INST_PERM || Session::get('rol_id')==1 || $security->buscaAccessTotal($params) || $security->getAccess2($params)|| $security->getAccess('insertable',$params)) {
             $instances = new Instances;
             //$st = new statictext();
             $params=get_params_info();

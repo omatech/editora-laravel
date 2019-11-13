@@ -1,11 +1,12 @@
 <?php
 
 namespace Omatech\Editora\Admin\Models;
+use Illuminate\Support\Facades\Session;
 
 class attributes extends Model
 {
 	public function getImageAttributes ($p_class_id) {
-		$lg = $_SESSION['u_lang'];
+		$lg = Session::get('u_lang') ;
 
 		$sql = "SELECT a.id id
 		, a.name name
@@ -54,7 +55,7 @@ class attributes extends Model
 	}
 
 	private function getClassTabs($p_class_id) {
-		$lg = $_SESSION['u_lang'];
+		$lg = Session::get('u_lang');
 
 		$sql = "SELECT ca.tab_id id, t.name name, t.name_".$lg." caption
 		FROM omp_class_attributes ca left outer join omp_tabs t on ca.tab_id = t.id 
@@ -67,7 +68,7 @@ class attributes extends Model
 	}
 
 	private function getClassAttributes ($p_class_id, $tab_id) {
-		$lg = $_SESSION['u_lang'];
+		$lg = Session::get('u_lang');
 
 		$sql = "SELECT a.id id
 		, a.name name
@@ -189,7 +190,7 @@ class attributes extends Model
 		$sc=new security();
 		$in=new instances();
 		$instance_arr=$in->getInstInfo($p_inst_id);
-		for ($st=1; $st<=3; $st++) $status_arr['status'.$st]=$sc->getStatus($st, $p_class_id, $_SESSION['rol_id']);
+		for ($st=1; $st<=3; $st++) $status_arr['status'.$st]=$sc->getStatus($st, $p_class_id, Session::get('rol_id'));
 
 		$tabs=$this->getClassTabs($p_class_id);
 		foreach ($tabs as $tab) {
@@ -289,7 +290,7 @@ class attributes extends Model
 		}
 
 		if ($p_mode!='V') { // Mode insert o update
-			$lg = $_SESSION['u_lang'];
+			$lg = Session::get('u_lang') ;
 
 			$sql="select l.id lookup_id
 			,l.default_id default_id
@@ -311,7 +312,7 @@ class attributes extends Model
 	}
 	
 	private function getLookupValue($p_lookup_id, $p_lookup_value_id) {
-		$lg = $_SESSION['u_lang'];
+		$lg = Session::get('u_lang');
 		$sql_add = "";
 		
 		if ($p_lookup_value_id) $sql_add = " and lv.id=".$p_lookup_value_id;
@@ -349,7 +350,7 @@ class attributes extends Model
 		, i.status
 		, i.class_id child_class_id
 		, r.parent_class_id parent_class_id
-		, c.name_".$_SESSION['u_lang']." class_realname
+		, c.name_".Session::get('u_lang') ." class_realname
 		from omp_instances i
 		, omp_relations r
 		, omp_relation_instances ri
@@ -362,7 +363,8 @@ class attributes extends Model
 		".$order_chunk." LIMIT ".$num;
 
 		$ret=parent::get_data($sql);
-		//if(!$ret) return array();
+
+		if(!$ret) $ret = [];
 			
 		$rel_inst['instances']=$ret;
 
