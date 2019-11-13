@@ -1,8 +1,5 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-return;
+session_start();
 error_reporting(1);
 /**
  * <p>
