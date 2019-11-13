@@ -1,4 +1,6 @@
 <?php
+
+use Illuminate\Support\Facades\Session;
 session_start();
 
 header("Cache-Control: no-cache, must-revalidate");
@@ -9,7 +11,7 @@ require_once(DIR_APLI_ADMIN . '/models/Security.php');
 
 $sc=new security();
 if ($sc->testSession()==0) {
-	$_SESSION['last_page']='';
+	Session::put('u_lang', '');
 	$arr=array('status'=>'ko', 'type'=>'Session');
 	echo json_encode($arr);
 	die;

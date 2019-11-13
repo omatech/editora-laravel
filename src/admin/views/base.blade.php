@@ -63,7 +63,7 @@
 
             <button class="btn clr-default" data-toggle="dropdown" aria-expanded="false">
                 <i class="icon-account"></i>
-                <span class="btn-text">{{$_SESSION['user_nom']}}</span>
+                <span class="btn-text">{{session('user_nom')}}</span>
                 <i class="icon-dots-vertical"></i>
             </button>
 

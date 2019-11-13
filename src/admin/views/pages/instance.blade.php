@@ -24,7 +24,7 @@
 				@endif
 
 
-				@if($_SESSION['user_type']=='O' && $_SESSION['rol_id']==1 )
+				@if(session('user_type')=='O' && session('rol_id')==1 )
 					{{-- <li><button class="btn-square clr-dark"><i class="icon-information-outline"></i><span class="sr-only">Información</span></button></li> --}}
 				@endif
 
@@ -102,7 +102,7 @@
 						@if(isset($instance['external_id']) && !empty($instance['external_id']))
 							<span style="font-weight: bold; padding-left:50px"> External id: </span>{{$instance['external_id']}}
 						@endif
-						@if( isset($_SESSION) && isset($_SESSION['user_type']) && isset($_SESSION['rol_id']) && $_SESSION['user_type']=='O' && $_SESSION['rol_id']==1 && isset($instance['batch_id']) && !empty($instance['batch_id']))
+						@if(session('user_type')=='O' && session('rol_id')==1 && isset($instance['batch_id']) && !empty($instance['batch_id']))
 							<span style="font-weight: bold; padding-left:25px"> Batch id: </span>{{$instance['batch_id']}}
 						@endif
 					</span>

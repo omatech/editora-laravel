@@ -1,4 +1,6 @@
 <?php
+
+use Illuminate\Support\Facades\Session;
 session_start();
 error_reporting(1);
 require_once($_SERVER['DOCUMENT_ROOT'].'/conf/ompinfo.php');
@@ -9,7 +11,7 @@ function mostrar_imatge($image) {
 	echo '<li>
 		<img src="'.FRONT_END_UPLOAD_URL.$fileparts[count($fileparts)-2]."/".$fileparts[count($fileparts)-1].'" width="100"/>
 		<span><!--a href="/'.FRONT_END_UPLOAD_URL.$fileparts[count($fileparts)-2]."/".$fileparts[count($fileparts)-1].'" target="_blank"-->'.FRONT_END_UPLOAD_URL.$fileparts[count($fileparts)-2]."/".$fileparts[count($fileparts)-1].'<!--/a--></span>
-		<a class="ico attach" href="javascript://" onclick="setNewImgValue(\''.$_SESSION['arr_images_id'].'\', \''.FRONT_END_UPLOAD_URL.$fileparts[count($fileparts)-2]."/".$fileparts[count($fileparts)-1].'\')">Attach</a>
+		<a class="ico attach" href="javascript://" onclick="setNewImgValue(\''.Session::get('arr_images_id').'\', \''.FRONT_END_UPLOAD_URL.$fileparts[count($fileparts)-2]."/".$fileparts[count($fileparts)-1].'\')">Attach</a>
 	</li>';
 }
 
@@ -51,21 +53,21 @@ function check_dir ($dir_name, $recursive) {
 }
 
 if (isset($_REQUEST['arr_images_id']) && $_REQUEST['arr_images_id']!='') {
-	$_SESSION['arr_images_id']=$_REQUEST['arr_images_id'];
+	Session::put('arr_images_id', $_REQUEST['arr_images_id']);
 }
 
-if (!isset($_SESSION['arr_images_id']) || $_SESSION['arr_images_id']=='') {
+if (!Session::has('arr_images_id') || Session::get('arr_images_id')=='') {
 	echo 'Error al obtener el id del atributo';
 	return;
 }
 
-if (!isset($_SESSION['arr_images']) || $_REQUEST['reload_arr_images']=='true') {
+if (!Session::has('arr_images') || $_REQUEST['reload_arr_images']=='true') {
 	check_dir(FRONT_END_UPLOAD_DIR, true);
-	$_SESSION['arr_images']=$arr_images;
+	Session::put('arr_images', $arr_images);
 }
 else {
 	echo '<a href="javascript://" onclick="reload_arr_images();"><img id="actualizar" src="'.APP_BASE.'/images/actualizar.gif" border="0"/></a><br />';
-	$arr_images=$_SESSION['arr_images'];
+	$arr_images=Session::get('arr_images');
 }
 
 echo '<script type="text/javascript">

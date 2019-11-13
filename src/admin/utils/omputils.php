@@ -6,6 +6,7 @@
  * @copyright 2004 
  **/
 
+use Illuminate\Support\Facades\Session;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -295,14 +296,13 @@ function getDefaultLanguage() {
         $lg=control_idioma($_REQUEST['u_lang']);
     }elseif (isset($_COOKIE['u_language'])) {
 		$lg=control_idioma($_COOKIE['u_language']);
-	}elseif (isset($_SESSION['u_lang'])) {
-		$lg=control_idioma($_SESSION['u_lang']);
+	}elseif (Session::has('u_lang')) {
+		$lg=control_idioma(Session::get('u_lang'));
 	}else{
 		$lg=control_idioma('');
 	}
-	setcookie('u_language', control_idioma($lg), -1 , '/', DOMAIN_SERVER);
-	$_SESSION['u_lang']=$lg;
-	
+	//setcookie('u_language', control_idioma($lg), -1 , '/', DOMAIN_SERVER);
+
 	return $lg;
 }
 

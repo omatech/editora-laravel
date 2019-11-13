@@ -1,5 +1,6 @@
 <?php
 // à
+use Illuminate\Support\Facades\Session;
 
 class MainObject
 {
@@ -448,8 +449,8 @@ class MainObject
 
 			if (isset($this->params['num_paginacio']) && $this->params['num_paginacio']<>'') $blocs = $this->params['num_paginacio'];
 
-			$this->xml.=$this->generaXML_paginacio($this->params['lang'], $this->tag, $_SESSION['pagina_paginacio'], $max_pag, $blocs);
-			$this->from_ROW = (($_SESSION['pagina_paginacio']-1)*$this->params['obj']);
+			$this->xml.=$this->generaXML_paginacio($this->params['lang'], $this->tag, Session::get('pagina_paginacio'), $max_pag, $blocs);
+			$this->from_ROW = ((Session::get('pagina_paginacio')-1)*$this->params['obj']);
 		}
 	}
 
@@ -549,7 +550,7 @@ class MainObject
 		$res.='</auto_link>'.chr(13).chr(10);
 
 		$res.='<instance id="'.$p_instance_id.'" status="'.$row['status'].'" tipus="'.$row['type'].'" lang="'.$p_lang.'" rel="'.$p_relacio.'" rel_type="'.(xx($rel_type)?$rel_type:$this->rel_type).'" class_name="'.$row['c_nom'].'" nice="'.$lanice.'" creation="'.$row['creation_date'].'" publishing="'.$row['publi_b'].'" update="'.$row['update_date'].'">'.chr(13).chr(10);
-			if(isset ($_SESSION['rol_id']) && $_SESSION['rol_id']!='' && $row['type']!="" && $p_instance_id!="") {
+			if(Session::has('rol_id') && Session::get('rol_id')!='' && $row['type']!="" && $p_instance_id!="") {
 				$res.="<edit>'".APP_BASE."'/view_instance?p_class_id=".$row['type']."&amp;p_inst_id=$p_instance_id</edit>";
 			}
 
@@ -601,7 +602,7 @@ class MainObject
 					$res.='<'.$row2['tag'].' type="'.$row2['type'].'">';
 						$res.='<![CDATA[';
 							$fn = create_function('$lg, $inst_id',$row2['val_text']);
-							$res.= $fn($p_lang, $_SESSION['actual_inst']);
+							$res.= $fn($p_lang, Session::get('actual_inst'));
 						$res.=']]>';
 					$res.='</'.$row2['tag'].'>'.chr(13).chr(10);
 				}

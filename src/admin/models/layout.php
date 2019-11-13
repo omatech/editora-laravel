@@ -2,6 +2,8 @@
 
 namespace Omatech\Editora\Admin\Models;
 
+use Illuminate\Support\Facades\Session;
+
 class layout extends model 
 {
 	var $class_name = 'menu';
@@ -18,7 +20,7 @@ class layout extends model
 			from omp_classes c, omp_roles_classes rc 
 			where c.grp_id = ".$r['id']." 
 			and c.id = rc.class_id 
-			and rc.rol_id = ".$_SESSION['rol_id']."
+			and rc.rol_id = ".Session::get('rol_id')."
 			and browseable='Y'
 			order by c.grp_order";
 			$ret2=parent::get_data($sql2);

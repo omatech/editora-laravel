@@ -1,5 +1,6 @@
 <?php
-	session_start();
+use Illuminate\Support\Facades\Session;
+
 	require_once("Security.php");
 	require_once($_SERVER['DOCUMENT_ROOT'].'/conf/ompinfo.php');
 
@@ -12,7 +13,7 @@
 			$atr_id=$_REQUEST['xatri'];
 
 			$sql='insert into omp_values (inst_id, atri_id, text_val, date_val, num_val)
-				values("'.$instance_id.'", "'.$atr_id.'", "'.$_SESSION['uploadfile'].'");';
+				values("'.$instance_id.'", "'.$atr_id.'", "'.Session::get('uploadfile').'");';
 			echo $sql;
 		}
 		else {
@@ -31,7 +32,7 @@
 		//echo $sql;
 		$ret = mysql_query($sql, $dbh);
 		$row = mysql_fetch_array($ret, MYSQL_ASSOC);*/
-		echo $_SESSION['last_upload_file'];
+		echo Session::get('last_upload_file');
 	}
 	else {
 		echo "KO";

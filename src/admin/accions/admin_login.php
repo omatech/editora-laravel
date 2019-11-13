@@ -11,16 +11,10 @@ class AdminLogin extends BaseController
     {
         $security = new Security();
         if ($security->login($_REQUEST['p_username'], $_REQUEST['p_password'], $_REQUEST['u_lang'])==1) {
-            redirect_action(route('editora.action', 'get_main'));
-            // if (isset($_SESSION['last_page']) && $_SESSION['last_page']!='') {
-            //     redirect_action($_SESSION['last_page']);
-            // } else {
-            //     redirect_action(route('editora.action', 'get_main'));
-            // }
+            return response()->redirectTo(route('editora.action', 'get_main'));
         } else {
-            $_SESSION['error_login'] = getMessage('info_error');
-            redirect_action(route('editora.action', '/'));
-            return;
+            Session::put('error_login', getMessage('info_error'));
+            return response()->redirectTo(route('editora.action', '/'));
         }
     }
 }

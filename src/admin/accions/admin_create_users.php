@@ -3,8 +3,9 @@
 namespace Omatech\Editora\Admin\Accions;
 
 
-use Omatech\Editora\Admin\Models\Instances;
+use Illuminate\Support\Facades\Session;
 use Omatech\Editora\Admin\Models\Security;
+use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\editoraModel;
 
 class AdminCreateUsers extends AuthController
@@ -31,7 +32,7 @@ class AdminCreateUsers extends AuthController
 
         $roles = $editora->get_roles();
 
-        if($_SESSION['user_type']=='O' && $_SESSION['rol_id']==1 ) {
+        if(Session::get('user_type')=='O' && Session::get('rol_id')==1 ) {
 
             if(isset($_REQUEST['hiddencheck'])){
                 if ($_REQUEST['hiddencheck'] == 'create_user') {

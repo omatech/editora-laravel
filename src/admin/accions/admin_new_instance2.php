@@ -17,7 +17,7 @@ class AdminNewInstance2 extends AuthController
         $security = new Security;
         $params = get_params_info();
         $message = null;
-        if($_SESSION['rol_id']==1 || $security->getAccess('insertable',$params)) {
+        if(Session::get('rol_id')==1 || $security->getAccess('insertable',$params)) {
             $instances = new Instances;
             $at=new attributes();
             $ly_t=new LayoutTemplate();

@@ -73,7 +73,9 @@ oCMenu.level[2].borderClass="clLevel2border"
 oCMenu.makeMenu('js_menu_inicio','','<?php echo getMessage('navigation_home'); ?>','/get_main','','120',0)
 
 <?php
-	$lg = $_SESSION['u_lang'];
+use Illuminate\Support\Facades\Session;
+
+	$lg = Session::get('u_lang');
 	$sql = "select id, caption_".$lg." as lg_cap from omp_class_groups order by ordering";
 
 	global $dbh;
@@ -84,7 +86,7 @@ oCMenu.makeMenu('js_menu_inicio','','<?php echo getMessage('navigation_home'); ?
 
 	while ($row = mysql_fetch_array($ret, MYSQL_ASSOC)) {
 		echo "oCMenu.makeMenu('js_menu".$row['id']."','','".$row['lg_cap']."','','','200')"."\n";;
-		$sql2 = "select c.id, c.name_".$lg." as lg_name from omp_classes c, omp_roles_classes rc where c.grp_id = ".$row['id']." and c.id = rc.class_id and rc.rol_id = ".$_SESSION['user_id']." order by c.grp_order";
+		$sql2 = "select c.id, c.name_".$lg." as lg_name from omp_classes c, omp_roles_classes rc where c.grp_id = ".$row['id']." and c.id = rc.class_id and rc.rol_id = ".Session::get('user_id')." order by c.grp_order";
         $ret2 = mysql_query($sql2, $dbh);
 		while ($row2 = mysql_fetch_array($ret2, MYSQL_ASSOC)) {
 			echo "oCMenu.makeMenu('js_menu1_".$row2['id']."','js_menu".$row['id']."','".$row2['lg_name']."','','','120',0)"."\n";

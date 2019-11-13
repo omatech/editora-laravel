@@ -7,6 +7,7 @@ use Omatech\Editora\admin\Exceptions\CustomExceptionHandler;
 use Omatech\Editora\Admin\Middleware\EditoraAuth;
 use Omatech\Editora\Admin\Providers\HelperServiceProvider;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Omatech\Editora\Admin\Middleware\EditoraLocale;
 
 class EditoraServiceProvider extends ServiceProvider
 {

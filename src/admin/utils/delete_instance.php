@@ -6,6 +6,7 @@
  * @version $Id$
  * @copyright 2004 
  **/
+use Illuminate\Support\Facades\Session;
 
 function check_delete_instance ($p_inst_id)
 {
@@ -179,7 +180,7 @@ function check_delete_instanceArr ($p_inst_arr) {
 		while ($row = mysql_fetch_array($ret, MYSQL_ASSOC))
 			$total = $row['total'];
 			
-		$sql = "select ic.id id, key_fields as key_fields, name_".$_SESSION['u_lang']." as name, status, class_id
+		$sql = "select ic.id id, key_fields as key_fields, name_".Session::get('u_lang') ." as name, status, class_id
 				from omp_instances ic
 				, omp_classes oc
 				where  ic.id = '".str_replace("\"", "\\\"", str_replace("[\]","",$value['p_inst_id']))."'

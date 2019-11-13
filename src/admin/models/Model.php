@@ -17,7 +17,7 @@ class Model
     {
         $rows = $this->db->select($sql, $params);
 
-        if (!\count($rows)) {
+        if (!isset($rows)) {
             return false;
         }
 
@@ -28,7 +28,7 @@ class Model
     {
         $row = $this->db->selectOne($sql, $params);
 
-        if (!\count($row)) {
+        if (!isset($row)) {
 			return false;
 		}
 

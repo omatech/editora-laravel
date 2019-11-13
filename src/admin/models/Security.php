@@ -3,6 +3,7 @@
 namespace Omatech\Editora\Admin\Models;
 
 use Illuminate\Hashing\BcryptHasher;
+use Illuminate\Support\Facades\Session;
 
 class Security extends Model
 {
@@ -24,14 +25,14 @@ class Security extends Model
             return 0;
         }
 
-        $_SESSION['user_id'] = $user['u_id'];
-        $_SESSION['user_nom'] = $user['nom'];
-        $_SESSION['rol_id'] = $user['r_id'];
-        $_SESSION['rol_nom'] = $user['r_nom'];
-        $_SESSION['user_type'] = $user['tipus'];
-        $_SESSION['user_language'] = $user['language'];
-        $_SESSION['u_language'] = $u_lang;
-        $_SESSION['u_lang'] = $u_lang;
+        Session::put('user_id',$user['u_id']);
+        Session::put('user_nom', $user['nom']);
+        Session::put('rol_id', $user['r_id']);
+        Session::put('rol_nom', $user['r_nom']);
+        Session::put('user_type', $user['tipus']);
+        Session::put('user_language', $user['language']);
+        Session::put('u_language', $u_lang);
+        Session::put('u_lang', $u_lang);
         
         $this->cacheClasses($user['id']);
         $this->cleanUserInstances($user['id']);
@@ -41,7 +42,7 @@ class Security extends Model
 
     private function cacheClasses($userId)
     {
-        $_SESSION['classes_cache'] = [];
+        Session::put('classes_cache', []);
 
         $sql = "select c.id, c.name_".getDefaultLanguage(). " name
                 from omp_classes c
@@ -62,7 +63,7 @@ class Security extends Model
         foreach ($result as $row) {
             $cc[$row['id']]=$row['name'];
         }
-        $_SESSION['classes_cache'] = $cc;
+        Session::put('classes_cache', $cc);
 
         return true;
     }
@@ -78,9 +79,9 @@ class Security extends Model
     function testSession()
     {
         if ($_SERVER['REQUEST_URI']!='') {
-            $_SESSION['last_page']=$_SERVER['REQUEST_URI'];
+            Session::put('last_page', $_SERVER['REQUEST_URI']);
         }
-        if (isset($_SESSION['user_id']) && $_SESSION['user_id']!='') {
+        if (Session::has('user_id') && Session::get('user_id')!='') {
             return 1;
         } else {
             return 0;
@@ -89,15 +90,13 @@ class Security extends Model
     
     function endSession()
     {
-        $_SESSION['u_message'] = getMessage('info_word_privileges');
-        $this->redirect_url(APP_BASE);
-        return;
+        return response()->redirectTo(APP_BASE)->send(); die();
     }
     
     
     function getStatus($p_status, $p_class_id)
     {
-        $p_rol_id=$_SESSION['rol_id'];
+        $p_rol_id=Session::get('rol_id');
         $sql = "select status".$p_status." st from omp_roles_classes where class_id = :classId and rol_id = :rolId";
 
         $ret=$this->get_one($sql, ['classId' => $p_class_id, 'rolId' => $p_rol_id]);
@@ -120,22 +119,18 @@ class Security extends Model
             //es una relación, miramos el parent_class_id
             $p_class_id=$param_arr['param10'];
         }
-        $p_rol_id=$_SESSION['rol_id'];
+        $p_rol_id=Session::get('rol_id');
         
         $sql = "select ".$p_camp_nom." x_able from omp_roles_classes where class_id = :classId and rol_id = :rolId";
 
         $ret = $this->get_one($sql, ['classId' => $p_class_id, 'rolId' => $p_rol_id]);
 
-        if (!$ret) {
+        if (count($ret) == 0) {
             return 0;
         }
 
-        foreach ($ret as $row) {
-            if ($row['x_able']=="Y") {
-                return 1;
-            } elseif ($row['x_able']=="P") {
-                return 1;
-            }
+        if($ret['x_able'] == "Y" || $ret['x_able'] == "P") {
+            return 1;
         }
         
         return 0;
@@ -146,7 +141,7 @@ class Security extends Model
     {
         global $dbh;
         $p_inst_id=$param_arr['param2'];
-        $p_rol_id=$_SESSION['rol_id'];
+        $p_rol_id=Session::get('rol_id');
 
         $sql = "select i.status st, rc.status1 st1, rc.status2 st2, rc.status3 st3
 		from omp_instances i, omp_roles_classes rc

@@ -2,9 +2,10 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
-use Omatech\Editora\Admin\Models\attributes;
+use Illuminate\Support\Facades\Session;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\relations;
+use Omatech\Editora\Admin\Models\attributes;
 
 class AdminAutocompleteAdd extends AuthController
 {
@@ -13,7 +14,7 @@ class AdminAutocompleteAdd extends AuthController
         $security = new Security;
         $params = get_params_info();
 
-        if(isset($_SESSION['rol_id'])) {
+        if(Session::has('rol_id')) {
             $at = new attributes();
             $r = new relations();
 

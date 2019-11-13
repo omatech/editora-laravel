@@ -4,6 +4,7 @@ namespace Omatech\Editora\Admin\Templates;
 
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Util\Urls;
+use Illuminate\Support\Facades\Session;
 
 class AttributesTemplate extends Template
 {
@@ -226,11 +227,11 @@ class AttributesTemplate extends Template
 			$res.='<ul>
 				<li class="ico fav"><a href="'.APP_BASE.'/add_favorite/?p_pagina=1&amp;p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'" title="Afegir a favorits">Afegir a favorits</a></li>'.$html_edit.$html_delete;
 
-            if ( (defined('ACTIVATE_CLONE') && ACTIVATE_CLONE) || $_SESSION['user_type']=='O' ) {
+            if ( (defined('ACTIVATE_CLONE') && ACTIVATE_CLONE) || Session::get('user_type')=='O' ) {
                 $html_clone = '<li class="ico clon"><a href="' . APP_BASE . '/clone_instance/?p_pagina=1&amp;p_class_id=' . $p_class_id . '&amp;p_inst_id=' . $p_inst_id . '&p_tab=' . $param_arr['param14'] . '" title="Clonar" class="link_tabs">Clonar</a></li>';
                 $res.=$html_clone;
             }
-            if ( (defined('ACTIVATE_RECURSIVE_CLONE') && ACTIVATE_RECURSIVE_CLONE) || $_SESSION['user_type']=='O' ) {
+            if ( (defined('ACTIVATE_RECURSIVE_CLONE') && ACTIVATE_RECURSIVE_CLONE) || Session::get('user_type')=='O' ) {
                 $html_rec_clone='<li class="ico clon_rec"><a title="Clonar recursivament" href="'.APP_BASE.'/recursive_clone/?p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'">Clonar recursivament</a></li>';
 
                 $res.=$html_rec_clone;
@@ -718,7 +719,7 @@ class AttributesTemplate extends Template
 	private function getDescription($row) {
 		$ret = "";
         /* PINTA LA DIV AMB INFO PELS DESENVOLUPADORS */
-		if ($_SESSION['user_type']=='O') {
+		if (Session::get('user_type')=='O') {
 			if ($row['type']=="R") {       //Informació del usuari OMATECH
 				$ret='<li class="ico info_admin"><span class="info_alert alert_admin"><a href="#">Informació</a> <span class="info_bubble"><span class="arrow"></span><span class="text">ID-> '.$row["id"].'<br/>Type-> '.$row['type'].'<br/>Tag-> '.$row["tag"].'<br/>Name-> '.$row["name"].'<br/>Lang-> '.$row["language"].'<br/>Detail-> '.$row['cadetail'].'</span></span></span></li>';
 			}
@@ -988,7 +989,7 @@ class AttributesTemplate extends Template
 							crop_actions(id, data, \'image\');
 						}
 					});';
-            if ($_SESSION['user_type']=='O'){
+            if (Session::get('user_type')=='O'){
                 $ret.='<a class="ico lupa" href="javascript://" onclick="browseImage(\''.$prefix.$row['id'].$postfix.'\');"></a>';
             }
             $ret.='<div class="clear"></div>
@@ -1467,7 +1468,7 @@ class AttributesTemplate extends Template
         else { // Mode insert o update
             //$ret=$this->getDescription($p_row);
             //$ret.="<br />";
-            $lg = $_SESSION['u_lang'];
+            $lg = Session::get('u_lang');
 
             $lookup_rows = $p_row['lookup_info'];
             if ($lookup_rows['info']['type']=="L") {

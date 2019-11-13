@@ -1,6 +1,7 @@
 <?php
 
 namespace Omatech\Editora\Admin\Models;
+use Illuminate\Support\Facades\Session;
 
 class Instances extends model
 {
@@ -63,7 +64,7 @@ class Instances extends model
 		, i.key_fields key_fields
 		, i.status status
 		, c.name class_name
-		, c.name_".$_SESSION['u_lang']." class_realname
+		, c.name_".Session::get('u_lang') ." class_realname
 		, date_format(i.publishing_begins, '".STANDARD_DATE_FORMAT."') publishing_begins
 		, publishing_begins pb_ordre
 		, date_format(i.publishing_ends, '".STANDARD_DATE_FORMAT."') publishing_ends
@@ -82,13 +83,13 @@ class Instances extends model
         }
         $sql.=$sql_add."
 		and rc.class_id = i.class_id
-		and rol_id=".$_SESSION['rol_id']."
+		and rol_id=".Session::get('rol_id')."
 		and browseable='Y'
 		group by i.id 
 		, i.key_fields 
 		, i.status 
 		, c.name 
-		, c.name_".$_SESSION['u_lang']." 
+		, c.name_".Session::get('u_lang') ." 
 		, i.publishing_begins
 		, publishing_begins 
 		, i.publishing_ends
@@ -180,7 +181,7 @@ class Instances extends model
         }
         $sql_count.=$sql_add."
 		and rc.class_id = i.class_id
-		and rol_id=".$_SESSION['rol_id']."
+		and rol_id=".Session::get('rol_id')."
 		and browseable='Y'";
 
         $ret=parent::get_one($sql_count);
@@ -193,12 +194,12 @@ class Instances extends model
 
     function getLastInstances()
     {
-        return $this->getUserBoxInstances($_SESSION['user_id'], 'A', 'desc', 10);
+        return $this->getUserBoxInstances(Session::get('user_id'), 'A', 'desc', 10);
     }
 
     function getFavorites()
     {
-        return $this->getUserBoxInstances($_SESSION['user_id'], 'F', 'asc', 30);
+        return $this->getUserBoxInstances(Session::get('user_id'), 'F', 'asc', 30);
     }
 
     function getUserBoxInstances($p_user_id, $p_tipo, $order, $limit)
@@ -234,7 +235,7 @@ class Instances extends model
 		, i.key_fields key_fields
 		, i.status status
 		, c.name class_name
-		, c.name_".$_SESSION['u_lang']." class_realname
+		, c.name_".Session::get('u_lang') ." class_realname
 		, date_format(i.publishing_begins, '".STANDARD_DATE_FORMAT."') publishing_begins
 		, date_format(i.publishing_ends, '".STANDARD_DATE_FORMAT."') publishing_ends
 		, date_format(i.creation_date, '".STANDARD_DATE_FORMAT."') creation_date
@@ -250,7 +251,7 @@ class Instances extends model
 		 , i.key_fields 
 		, i.status 
 		, c.name 
-		, c.name_".$_SESSION['u_lang']." 
+		, c.name_".Session::get('u_lang') ." 
 		, i.publishing_begins
 		, i.publishing_ends
 		, i.creation_date
@@ -276,7 +277,7 @@ class Instances extends model
 		, i.key_fields key_fields
 		, i.status status
 		, c.name class_name
-		, c.name_".$_SESSION['u_lang']." class_realname
+		, c.name_".Session::get('u_lang') ." class_realname
 		, date_format(i.publishing_begins, '".STANDARD_DATE_FORMAT."') publishing_begins
 		, date_format(i.publishing_ends, '".STANDARD_DATE_FORMAT."') publishing_ends
 		, date_format(i.creation_date, '".STANDARD_DATE_FORMAT."') creation_date
@@ -290,7 +291,7 @@ class Instances extends model
 		 , i.key_fields 
 		, i.status 
 		, c.name 
-		, c.name_".$_SESSION['u_lang']." 
+		, c.name_".Session::get('u_lang') ." 
 		, i.publishing_begins
 		, i.publishing_ends
 		, i.creation_date
@@ -314,7 +315,7 @@ class Instances extends model
 		, i.key_fields key_fields
 		, i.status status
 		, c.name class_name
-		, c.name_".$_SESSION['u_lang']." class_realname
+		, c.name_".Session::get('u_lang') ." class_realname
 		, date_format(i.publishing_begins, '".STANDARD_DATE_FORMAT."') publishing_begins
 		, date_format(i.publishing_ends, '".STANDARD_DATE_FORMAT."') publishing_ends
 		, date_format(i.creation_date, '".STANDARD_DATE_FORMAT."') creation_date
@@ -330,7 +331,7 @@ class Instances extends model
 		, i.key_fields 
 		, i.status 
 		, c.name 
-		, c.name_".$_SESSION['u_lang']." 
+		, c.name_".Session::get('u_lang') ." 
 		, i.publishing_begins
 		, i.publishing_ends
 		, i.creation_date
@@ -357,7 +358,7 @@ class Instances extends model
 		, i.key_fields key_fields
 		, i.status status
 		, c.name class_name
-		, c.name_".$_SESSION['u_lang']." class_realname
+		, c.name_".Session::get('u_lang') ." class_realname
 		, date_format(i.publishing_begins, '".STANDARD_DATE_FORMAT."') publishing_begins
 		, date_format(i.publishing_ends, '".STANDARD_DATE_FORMAT."') publishing_ends
 		, date_format(i.creation_date, '".STANDARD_DATE_FORMAT."') creation_date
@@ -380,7 +381,7 @@ class Instances extends model
 		, i.key_fields 
 		, i.status 
 		, c.name 
-		, c.name_".$_SESSION['u_lang']." 
+		, c.name_".Session::get('u_lang') ." 
 		, i.publishing_begins
 		, i.publishing_ends
 		, i.creation_date
@@ -400,14 +401,14 @@ class Instances extends model
     {
         $p_inst_id=$param_arr['param2'];
         $p_tipo=$param_arr['p_acces_type'];
-        $this->LogAccessUser($_SESSION["user_id"], $p_inst_id, $p_tipo);
+        $this->LogAccessUser(Session::get("user_id"), $p_inst_id, $p_tipo);
     }
 
     function deleteLogAccess($param_arr)
     {
         $p_inst_id=$param_arr['param2'];
         $p_tipo=$param_arr['p_acces_type'];
-        $this->DeleteLogAccessUser($_SESSION["user_id"], $p_inst_id, $p_tipo);
+        $this->DeleteLogAccessUser(Session::get("user_id"), $p_inst_id, $p_tipo);
     }
 
     private function LogAccessUser($p_user_id, $p_inst_id, $p_tipo)
@@ -766,7 +767,7 @@ class Instances extends model
                 return array('unexpeted');
             }
 
-            $sql = "select ic.id id, key_fields as key_fields, name_".$_SESSION['u_lang']." as name, status, class_id
+            $sql = "select ic.id id, key_fields as key_fields, name_".Session::get('u_lang') ." as name, status, class_id
 			from omp_instances ic
 			, omp_classes oc
 			where  ic.id = '".str_replace("\"", "\\\"", str_replace("[\]", "", $value['param2']))."'
@@ -1218,9 +1219,9 @@ class Instances extends model
 
         if ($idiomes) {
             foreach ($idiomes as $idioma) {
-                $backup_xml = $mainobject->getInstanceInfo($inst_id, $idioma, 'cache', '', 'D', $_SESSION['rol_id']);
+                $backup_xml = $mainobject->getInstanceInfo($inst_id, $idioma, 'cache', '', 'D', Session::get('rol_id'));
 
-                $sql_backup ='insert omp_instances_backup (inst_id,language,xml_cache,date,user) values ('.$inst_id.', "'.$idioma.'", "'.mysql_real_escape_string($backup_xml, $dbh).'", now(),'.$_SESSION['user_id'].');';
+                $sql_backup ='insert omp_instances_backup (inst_id,language,xml_cache,date,user) values ('.$inst_id.', "'.$idioma.'", "'.mysql_real_escape_string($backup_xml, $dbh).'", now(),'.Session::get('user_id').');';
                 $ret_backup = parent::insert_one($sql_backup);
                 if (!$ret_backup) {
                     echo mysql_error($dbh).chr(13).chr(10).chr(13).chr(10);

@@ -2,6 +2,7 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
+use Illuminate\Support\Facades\Session;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Templates\InstancesTemplate;
@@ -24,7 +25,7 @@ class AdminAddFavorite extends AuthController
         $security = new Security;
         $params = get_params_info();
 
-        if ($_SESSION['rol_id']==1 || $security->getAccess('browseable',$params)) {
+        if (Session::get('rol_id') ==1 || $security->getAccess('browseable',$params)) {
             $params['p_mode']='V';
             $params['p_acces_type']='F';
 

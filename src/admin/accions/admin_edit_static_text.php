@@ -6,6 +6,7 @@ namespace Omatech\Editora\Admin\Accions;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\statictext;
+use Illuminate\Support\Facades\Session;
 
 class AdminEditStaticText extends AuthController
 {
@@ -14,7 +15,7 @@ class AdminEditStaticText extends AuthController
         $security = new Security;
         $params = get_params_info();
 
-        if (isset($_SESSION['rol_id'])) {
+        if (Session::has('rol_id')) {
             $instances = new Instances;
             $st = new statictext();
 
@@ -28,7 +29,7 @@ class AdminEditStaticText extends AuthController
 
             if (isset($_REQUEST['hiddencheck'])) {
                 if ($st->set_static_text($_POST, $key)) {
-                    $_SESSION['flashmessage'] = 'Se ha guardado ok';
+                    Session::put('flashmessage', 'Se ha guardado ok');
                     $security->redirect_url(APP_BASE . '/static_text');
                 }
             }
