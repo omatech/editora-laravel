@@ -664,7 +664,7 @@ class Instances extends model
                                 if($this->getExistsColumnDatabase('omp_values', 'json_val')) {
                                     //Get json value from API video
                                     $json_val = $this->getJsonValVideo( $this->getParseVideo($valor) );
-                                    if(empty($json_val)){
+                                    if(!empty($json_val)){
                                         $sql='insert into omp_values (inst_id, atri_id, text_val, date_val, num_val, img_info, json_val) values ('.$new_instance_id.', '.$atr_id.', '.$insert_chunk.', "'. addslashes($json_val) .'");';
                                     }else{
                                         $sql='insert into omp_values (inst_id, atri_id, text_val, date_val, num_val, img_info) values ('.$new_instance_id.', '.$atr_id.', '.$insert_chunk.');';
