@@ -458,41 +458,48 @@ class Instances extends model
                 $ret='"'.$p_valor.'",NULL, NULL, NULL';
             }
         } elseif ($p_type == 'Y') { //Es link de Youtube
-            if (strpos($p_valor, 'youtube.com') || strpos($p_valor, 'youtu.be')) {
-                $explode_youtube=explode('/', $p_valor);
-                $p_valor=$explode_youtube[count($explode_youtube)-1];
-                if (strpos($p_valor, '=') != false) {
-                    $explode_youtube=explode('=', $p_valor);
-                    $p_valor=$explode_youtube[1];
-                }
-                if (strpos($p_valor, '&') != false) {
-                    $explode_youtube=explode('&', $p_valor);
-                    $p_valor=$explode_youtube[0];
-                }
-                $p_valor='youtube:'.$p_valor;
-            } elseif (strpos($p_valor, 'vimeo.com')) {
-                $explode_vimeo1=explode('vimeo.com/', $p_valor);
-                $explode_vimeo2=explode('/', $explode_vimeo1[count($explode_vimeo1)-1]);
-                $explode_vimeo2=explode('#', $explode_vimeo2[0]);
-                $p_valor='vimeo:'.$explode_vimeo2[count($explode_vimeo2)-1];
-            } elseif (strpos($p_valor, 'tv3.cat')) {
-                $explode_tv3=explode('/', $p_valor);
-                $p_valor='tv3:'.$explode_tv3[count($explode_tv3)-1];
-                if (is_nan($explode_tv3[count($explode_tv3)-1])) {
-                    $p_valor='tv3:'.$explode_tv3[count($explode_tv3)-2];
-                }
-            } elseif (!strpos($p_valor, 'http://') && $p_valor!='') {
-                    $explode_nice=explode(':', $p_valor);
-                if ($explode_nice[0]!='nicepeople' && $explode_nice[0]!='youtube' && $explode_nice[0]!='vimeo' && $explode_nice[0]!='tv3') {
-                    $p_valor='nicepeople:'.$p_valor;
-                }
-            }
+            $p_valor = $this->getParseVideo($p_valor);
+
             $ret='"'.$p_valor.'", NULL, NULL, NULL';
         } else {
             $ret='"'.$p_valor.'", NULL, NULL, NULL';
         }
 
         return $ret;
+    }
+
+    function getParseVideo($p_valor){
+        if (strpos($p_valor, 'youtube.com') || strpos($p_valor, 'youtu.be')) {
+            $explode_youtube=explode('/', $p_valor);
+            $p_valor=$explode_youtube[count($explode_youtube)-1];
+            if (strpos($p_valor, '=') != false) {
+                $explode_youtube=explode('=', $p_valor);
+                $p_valor=$explode_youtube[1];
+            }
+            if (strpos($p_valor, '&') != false) {
+                $explode_youtube=explode('&', $p_valor);
+                $p_valor=$explode_youtube[0];
+            }
+            $p_valor='youtube:'.$p_valor;
+        } elseif (strpos($p_valor, 'vimeo.com')) {
+            $explode_vimeo1=explode('vimeo.com/', $p_valor);
+            $explode_vimeo2=explode('/', $explode_vimeo1[count($explode_vimeo1)-1]);
+            $explode_vimeo2=explode('#', $explode_vimeo2[0]);
+            $p_valor='vimeo:'.$explode_vimeo2[count($explode_vimeo2)-1];
+        } elseif (strpos($p_valor, 'tv3.cat')) {
+            $explode_tv3=explode('/', $p_valor);
+            $p_valor='tv3:'.$explode_tv3[count($explode_tv3)-1];
+            if (is_nan($explode_tv3[count($explode_tv3)-1])) {
+                $p_valor='tv3:'.$explode_tv3[count($explode_tv3)-2];
+            }
+        } elseif (!strpos($p_valor, 'http://') && $p_valor!='') {
+            $explode_nice=explode(':', $p_valor);
+            if ($explode_nice[0]!='nicepeople' && $explode_nice[0]!='youtube' && $explode_nice[0]!='vimeo' && $explode_nice[0]!='tv3') {
+                $p_valor='nicepeople:'.$p_valor;
+            }
+        }
+
+        return $p_valor;
     }
 
     function insertAttributes($param_arr)
@@ -649,6 +656,25 @@ class Instances extends model
                                 $sql='insert into omp_values (inst_id, atri_id, text_val, date_val, num_val, img_info) values ('.$new_instance_id.', '.$atr_id.', '.$insert_chunk.');';
                                 parent::insert_one($sql);
                                 break;
+                            case "Y":
+                                //If not exists, create json_val in omp_values for save json info for video.
+                                if(!$this->getExistsColumnDatabase('omp_values', 'json_val')) {
+                                    $result_json_val = $this->createJsonVal();
+                                }
+                                if($this->getExistsColumnDatabase('omp_values', 'json_val')) {
+                                    //Get json value from API video
+                                    $json_val = $this->getJsonValVideo( $this->getParseVideo($valor) );
+                                    if(empty($json_val)){
+                                        $sql='insert into omp_values (inst_id, atri_id, text_val, date_val, num_val, img_info, json_val) values ('.$new_instance_id.', '.$atr_id.', '.$insert_chunk.', "'. addslashes($json_val) .'");';
+                                    }else{
+                                        $sql='insert into omp_values (inst_id, atri_id, text_val, date_val, num_val, img_info) values ('.$new_instance_id.', '.$atr_id.', '.$insert_chunk.');';
+                                    }
+                                }else{
+                                    $sql='insert into omp_values (inst_id, atri_id, text_val, date_val, num_val, img_info) values ('.$new_instance_id.', '.$atr_id.', '.$insert_chunk.');';
+                                }
+                                parent::insert_one($sql);
+                                break;
+
                             default:
                                 $sql='insert into omp_values (inst_id, atri_id, text_val, date_val, num_val, img_info) values ('.$new_instance_id.', '.$atr_id.', '.$insert_chunk.');';
                                 parent::insert_one($sql);
@@ -708,6 +734,53 @@ class Instances extends model
         $res = $new_instance_id;
 
         return $res;
+    }
+
+    function getJsonValVideo( $p_valor ){
+
+        $video = explode( ':', $p_valor);
+        $json_val = NULL;
+
+        if( !empty($video) && isset($video[0]) && isset($video[1]) ){
+
+            switch($video[0]){
+
+                case 'vimeo':
+                    $json_val = file_get_contents("http://vimeo.com/api/v2/video/$video[1].json");
+                    break;
+
+                case 'youtube':
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        return $json_val;
+    }
+    function getExistsColumnDatabase( $table, $column ){
+        $sql = "SHOW COLUMNS FROM $table LIKE '$column'; ";
+        $query_result=parent::get_data($sql);
+        return $query_result;
+    }
+
+    function createJsonVal(){
+        $create = false;
+        $sql = "show columns from omp_values";
+        $rows=parent::get_data($sql);
+
+        $json_val_found = false;
+        foreach ($rows as $row) {
+            if ($row['Field'] == 'json_val')
+                $json_val_found = true;
+        }
+        if (!$json_val_found) {
+            $sql = "alter table omp_values add column json_val TEXT default null\n";
+            parent::insert_one($sql);
+            $create = true;
+        }
+
+        return $create;
     }
 
     function checkDeleteInstance($param_arr)
