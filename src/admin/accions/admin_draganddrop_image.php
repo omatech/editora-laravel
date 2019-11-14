@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Session;
-session_start();
 
 header("Cache-Control: no-cache, must-revalidate");
 header("Cache-control: private");
