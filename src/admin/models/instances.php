@@ -741,21 +741,26 @@ class Instances extends model
         $video = explode( ':', $p_valor);
         $json_val = NULL;
 
-        if( !empty($video) && isset($video[0]) && isset($video[1]) ){
+        try{
+            if( !empty($video) && isset($video[0]) && isset($video[1]) ){
 
-            switch($video[0]){
+                switch($video[0]){
 
-                case 'vimeo':
-                    $json_val = file_get_contents("http://vimeo.com/api/v2/video/$video[1].json");
-                    break;
+                    case 'vimeo':
+                        $json_val = file_get_contents("http://vimeo.com/api/v2/video/$video[1].json");
+                        break;
 
-                case 'youtube':
-                    break;
+                    case 'youtube':
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
+                }
             }
+        }catch(\Exception $e){
+            
         }
+
         return $json_val;
     }
     function getExistsColumnDatabase( $table, $column ){
