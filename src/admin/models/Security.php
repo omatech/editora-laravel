@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Session;
 
 class Security extends Model
 {
-    public function login($p_username, $p_password, $u_lang=null)
+    public function login($p_username, $p_password, $u_lang = null)
     {
         $hasher = new BcryptHasher();
 
@@ -25,7 +25,7 @@ class Security extends Model
             return 0;
         }
 
-        Session::put('user_id',$user['u_id']);
+        Session::put('user_id', $user['u_id']);
         Session::put('user_nom', $user['nom']);
         Session::put('rol_id', $user['r_id']);
         Session::put('rol_nom', $user['r_nom']);
@@ -90,7 +90,8 @@ class Security extends Model
     
     function endSession()
     {
-        return response()->redirectTo(APP_BASE)->send(); die();
+        return response()->redirectTo(APP_BASE)->send();
+        die();
     }
     
     
@@ -113,9 +114,9 @@ class Security extends Model
     
     public function getAccess($p_camp_nom, $param_arr)
     {
-        if ($param_arr['param1']!=0){
+        if ($param_arr['param1']!=0) {
             $p_class_id=$param_arr['param1'];
-        }else{
+        } else {
             //es una relación, miramos el parent_class_id
             $p_class_id=$param_arr['param10'];
         }
@@ -125,11 +126,11 @@ class Security extends Model
 
         $ret = $this->get_one($sql, ['classId' => $p_class_id, 'rolId' => $p_rol_id]);
 
-        if (count($ret) == 0) {
+        if (!$ret) {
             return 0;
         }
 
-        if($ret['x_able'] == "Y" || $ret['x_able'] == "P") {
+        if ($ret['x_able'] == "Y" || $ret['x_able'] == "P") {
             return 1;
         }
         

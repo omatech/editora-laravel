@@ -64,7 +64,8 @@ class Controller extends LaravelController
         if (file_exists(DIR_APLI_ADMIN.'/extras/models')) {
             $directorio = opendir(DIR_APLI_ADMIN.'/extras/models');
             while ($archivo = readdir($directorio)) {
-                $extension = end(explode(".", $archivo));
+                $exploded = explode(".", $archivo);
+                $extension = end($exploded);
                 if ($extension=='php') {
                     require_once(DIR_APLI_ADMIN.'/extras/models/'.$archivo);
                 }
