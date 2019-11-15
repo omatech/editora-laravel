@@ -89,7 +89,10 @@ if (!function_exists('_activeDate')) {
 if (!function_exists('_getFileSize')) {
     function _getLocalFileSize($file)
     {
-        return filesize($file);
+        if(file_exists($file)){
+            return filesize($file);
+        }
+        return 0;
     }
     function _getRemoteFileSize($file)
     {
