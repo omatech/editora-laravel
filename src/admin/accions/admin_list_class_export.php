@@ -2,7 +2,6 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
-
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\statictext;
@@ -12,6 +11,7 @@ use Omatech\Editora\Loader\Loader;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Support\Facades\Session;
 
 class AdminListClassExport extends AuthController
 {
@@ -38,9 +38,9 @@ class AdminListClassExport extends AuthController
 
         //$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(0, 1 , 'S#nom_intern');
 
-        foreach ($attributes as $key=>$attribute){
+        foreach ($attributes as $key => $attribute) {
             //Nomes camps strings per ara
-            $spreadsheet->getActiveSheet()->setCellValueByColumnAndRow($key+1, 1 , $attribute['type'].'#'.$attribute['name']);
+            $spreadsheet->getActiveSheet()->setCellValueByColumnAndRow($key+1, 1, $attribute['type'].'#'.$attribute['name']);
         }
 
         $writer = new Xlsx($spreadsheet);

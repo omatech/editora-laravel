@@ -9,6 +9,7 @@ use Omatech\Editora\Admin\Models\attributes;
 use Omatech\Editora\Admin\Templates\LayoutTemplate;
 use Omatech\Editora\Admin\Templates\InstancesTemplate;
 use Omatech\Editora\Admin\Templates\AttributesTemplate;
+use Illuminate\Support\Facades\Session;
 
 class AdminUploadCrop extends AuthController
 {
@@ -48,7 +49,7 @@ class AdminUploadCrop extends AuthController
         $file = $disk->putFileAs($path, $file, $fileInfo['fileName']);
         $accessUrl = $disk->url($file);
         
-        if(config('editora-admin.url-storage-relative')==true){
+        if (config('editora-admin.url-storage-relative')==true) {
             $accessUrl = $fileInfo['filePath'];
         }
         

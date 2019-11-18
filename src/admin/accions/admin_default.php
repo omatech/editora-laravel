@@ -2,6 +2,8 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
+use Illuminate\Support\Facades\Session;
+
 class AdminDefault extends BaseController
 {
     public function render()

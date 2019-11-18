@@ -6,6 +6,7 @@ use Omatech\Editora\Admin\Models\attributes;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\editoraModel;
+use Illuminate\Support\Facades\Session;
 
 class AdminNewInstance extends AuthController
 {
@@ -26,12 +27,12 @@ class AdminNewInstance extends AuthController
 
         $menu = $this->loadMenu($instances, $params);
 
-        if(Session::get('rol_id')==1 || $security->getAccess('insertable',$params)) {
+        if (Session::get('rol_id')==1 || $security->getAccess('insertable', $params)) {
             $instance = $at->getInstanceAttributes($p_mode, $params);
             $instance['instance_info']['class_id'] = $params['param1'];
             $class_info = $editora->get_class_info($params['param1']);
             $view ='editora::pages.instance';
-        }else{
+        } else {
             $instance['instance_info']=null;
             $title = getMessage('error_role_privileges');
             $view ='editora::pages.permission_denied';
@@ -48,5 +49,4 @@ class AdminNewInstance extends AuthController
 
         return response()->view($view, $viewData);
     }
-
 }

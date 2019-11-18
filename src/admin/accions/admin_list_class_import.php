@@ -2,7 +2,6 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
-
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\statictext;
@@ -13,6 +12,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use SKAgarwal\GoogleApi\PlacesApi;
+use Illuminate\Support\Facades\Session;
 
 class AdminListClassImport extends AuthController
 {
@@ -53,15 +53,12 @@ class AdminListClassImport extends AuthController
         $count_rows = 0;
 
         foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
-
             $values = '';
             $count = 0;
 
             $have_niceurl = false;
 
             foreach ($worksheet->getRowIterator() as $row) {
-
-
                 $cellIterator = $row->getCellIterator();
                 $cellIterator->setIterateOnlyExistingCells(true); // Loop all cells, even if it is not set
 
@@ -70,12 +67,9 @@ class AdminListClassImport extends AuthController
                     foreach ($cellIterator as $key => $cell) {
                         $attributes[$key] = $cell->getValue();
                     }
-
                 } else {
-
                     $instance = array();
                     foreach ($cellIterator as $key => $cell) {
-
                         $type_attribute = explode('#', $attributes[$key]);
 
                         //S, U, K, T, Y
@@ -88,10 +82,8 @@ class AdminListClassImport extends AuthController
                         $value_attr = $cell->getValue();
 
 
-                        if ( !empty($value) ) {
-
+                        if (!empty($value)) {
                             switch ($excel_type_attribute) {
-
                                 case 'B':
                                     $instance[$excel_attribute] = $value;
                                     break;
@@ -127,7 +119,7 @@ class AdminListClassImport extends AuthController
                                 case 'M':
                                     //map
                                     $maps = $this->searchAddressOnGoogle($value);
-                                    if(isset($maps['geometry']) && isset($maps['geometry']['location']) && isset($maps['geometry']['location']['lat']) && isset($maps['geometry']['location']['lng']) ){
+                                    if (isset($maps['geometry']) && isset($maps['geometry']['location']) && isset($maps['geometry']['location']['lat']) && isset($maps['geometry']['location']['lng'])) {
                                         $instance[$excel_attribute] = $maps['geometry']['location']['lat'].':'.$maps['geometry']['location']['lng'].'@'.$value;
                                     }
 
@@ -144,9 +136,7 @@ class AdminListClassImport extends AuthController
                                     break;
 
                                 case 'S':
-
                                     if (strcmp($excel_attribute, 'nom_intern') == 0) {
-
                                         $inst_id = 1;
                                         $count = 0;
 
@@ -158,7 +148,6 @@ class AdminListClassImport extends AuthController
                                             $count++;
                                         }
                                         $instance[$excel_attribute] = $value;
-
                                     } else {
                                         $instance[$excel_attribute] = $value;
                                     }
@@ -166,7 +155,6 @@ class AdminListClassImport extends AuthController
                                     break;
 
                                 case 'T':
-
                                     $instance[$excel_attribute] = $value;
                                     break;
 
@@ -181,16 +169,15 @@ class AdminListClassImport extends AuthController
                                     break;
 
                                 case 'Z':
-
                                     if (!empty($value)) {
-                                        $value = str_replace(".","-",$value);
-                                        $value = str_replace(",","-",$value);
-                                        $value = str_replace(" ","-",$value);
-                                        $value = str_replace("-----","-",$value);
-                                        $value = str_replace("----","-",$value);
-                                        $value = str_replace("---","-",$value);
-                                        $value = str_replace("--","-",$value);
-                                        if(strcmp(substr("value", -1) == '-' ) == 0  ){
+                                        $value = str_replace(".", "-", $value);
+                                        $value = str_replace(",", "-", $value);
+                                        $value = str_replace(" ", "-", $value);
+                                        $value = str_replace("-----", "-", $value);
+                                        $value = str_replace("----", "-", $value);
+                                        $value = str_replace("---", "-", $value);
+                                        $value = str_replace("--", "-", $value);
+                                        if (strcmp(substr("value", -1) == '-') == 0) {
                                             $value = substr($value, 0, -1);
                                         }
 
@@ -201,10 +188,8 @@ class AdminListClassImport extends AuthController
                                         $search = false;
 
                                         while ($end == false) {
-
                                             //languages: 'all', 'ca', 'es', 'en'
                                             foreach ($langs as $lang) {
-
                                                 $nice_url = $loader->clean_url($value);
 
                                                 if ($search == false) {
@@ -224,7 +209,6 @@ class AdminListClassImport extends AuthController
                                                 $count++;
                                                 $search = false;
                                             }
-
                                         }
 
                                         $instance[$excel_attribute] = $loader->clean_url($value);
@@ -232,23 +216,18 @@ class AdminListClassImport extends AuthController
                                     }
 
                                     break;
-
                             }
                         }
-
-
                     }
-                    if( !empty($instance) ){
+                    if (!empty($instance)) {
                         $inst_id = $loader->insertInstanceWithExternalID($id_class, $instance['nom_intern'], '', $batch_id, $instance, 'P');
 
                         if (isset($inst_id) && !empty($inst_id) && $have_niceurl == true && isset($niceurls) && !empty($niceurls)) {
                             foreach ($niceurls as $name_atr => $urlnice) {
-
                                 $lang = explode('_', $name_atr);
                                 $lang = end($lang);
 
                                 if (!empty($urlnice)) {
-
                                     $result = $loader->insertUrlNice($urlnice, $inst_id, $lang);
                                 }
                             }
@@ -256,35 +235,30 @@ class AdminListClassImport extends AuthController
 
                         if (isset($inst_id) && !empty($inst_id)) {
                             $count_rows++;
-
                         }
                     }
                 }
             }
-
         }
 
         $viewData['message'] = 'Good!';
         $viewData['count_rows'] = $count_rows;
         return response()->view('editora::pages.list_classes_export', $viewData);
-
     }
 
 
 
     public function searchAddressOnGoogle($address)
-
     {
         $key = env('GOOGLE_API_KEY');
         $googlePlaces = new PlacesApi($key);
         $response = $googlePlaces->placeAutocomplete($address);
 
         if ($response['status'] !== 'ZERO_RESULTS') {
-
             $placeId = $response->first()[0]['place_id'];
             $response = $googlePlaces->placeDetails($placeId)['result'];
 
-        return $response;
+            return $response;
 
             $componentAddress = [
                 'street_number' => 'short_name',
@@ -309,6 +283,5 @@ class AdminListClassImport extends AuthController
             ];
         }
         return false;
-
     }
 }
