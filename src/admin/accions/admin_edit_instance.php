@@ -14,8 +14,9 @@ class AdminEditInstance extends AuthController
     {
         $security = new Security;
         $params=get_params_info();
+        $menu = [];
 
-        if(Session::get('rol_id')==1 || $security->getAccess('editable',$params)) {
+        if (Session::get('rol_id')==1 || $security->getAccess('editable', $params)) {
             $instances = new Instances;
             $at=new attributes();
             $at_t=new attributesTemplate();
@@ -23,7 +24,7 @@ class AdminEditInstance extends AuthController
             $params['p_mode']='V';
             $params['p_acces_type']='A';
             $p_mode = 'U';
-            if ($params['param1'] == '' or $params['param1']<0){
+            if ($params['param1'] == '' or $params['param1']<0) {
                 $params['param1']=$params['param12'];
             }
 

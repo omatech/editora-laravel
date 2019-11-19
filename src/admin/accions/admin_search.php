@@ -8,7 +8,6 @@ use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Templates\InstancesTemplate;
 use Illuminate\Support\Facades\Session;
 
-
 class AdminSearch extends AuthController
 {
     private $instances;
@@ -26,8 +25,9 @@ class AdminSearch extends AuthController
     {
         $security = new Security;
         $params = get_params_info();
+        $menu = [];
 
-        if(Session::get('rol_id')==1 || Session::get('rol_id')==2 || $security->getAccess('browseable',$params)) {
+        if (Session::get('rol_id')==1 || Session::get('rol_id')==2 || $security->getAccess('browseable', $params)) {
             $editora = new editoraModel();
 
             $params['p_mode']='V';
@@ -45,5 +45,4 @@ class AdminSearch extends AuthController
         ]);
         return response()->view('editora::pages.search_instances', $viewData);
     }
-
 }

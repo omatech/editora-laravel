@@ -28,12 +28,12 @@ class AdminAddAndJoin extends AuthController
         $menu = $this->loadMenu($instances, $params);
 
 
-        if (Session::get('rol_id') == 1 || $security->getAccess('insertable',$params)) {
+        if (Session::get('rol_id') == 1 || $security->getAccess('insertable', $params)) {
             $instance = $at->getInstanceAttributes($p_mode, $params);
             $instance['instance_info']['class_id'] = $params['param1'];
             $instance['instance_info']['form_relation'] = $params;
             $view ='editora::pages.instance';
-        }else{
+        } else {
             $instance['instance_info']=null;
             $title = getMessage('error_role_privileges');
             $view ='editora::pages.permission_denied';

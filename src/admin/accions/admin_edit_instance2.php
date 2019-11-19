@@ -18,8 +18,9 @@ class AdminEditInstance2 extends AuthController
         $security = new Security;
         $params=get_params_info();
         $message = null;
+        $menu = [];
 
-        if (Session::get('rol_id')==1 || $security->getAccess('editable',$params)) {
+        if (Session::get('rol_id')==1 || $security->getAccess('editable', $params)) {
             $instances = new Instances;
             $at=new attributes();
             $ly_t=new LayoutTemplate();
@@ -41,19 +42,18 @@ class AdminEditInstance2 extends AuthController
                 $params['p_mode']='V';
                 $params['p_acces_type']='A';
                 $p_mode = 'U';
-                if ($params['param1'] == '' or $params['param1']<0){
+                if ($params['param1'] == '' or $params['param1']<0) {
                     $params['param1']=$params['param12'];
                 }
                 $instance = $at->getInstanceAttributes('U', $params);
 
                 if ($res==-1) {
                     $message=html_message_error(getMessage('error_param_mandatory'));
-                }elseif ($res==-2) {
+                } elseif ($res==-2) {
                     $message=html_message_error(getMessage('error_param_data'));
-                }elseif ($res==-3) {
+                } elseif ($res==-3) {
                     $message=html_message_error(getMessage('error_param_urlnice'));
                 }
-                
             } else { //sabem que s'han insertat be els atribs, peticio de refresc de cache
                 $params['p_acces_type']='A';
                 $instances->logAccess($params);

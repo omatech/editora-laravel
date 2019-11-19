@@ -18,7 +18,9 @@ class AdminNewInstance2 extends AuthController
         $security = new Security;
         $params = get_params_info();
         $message = null;
-        if(Session::get('rol_id')==1 || $security->getAccess('insertable',$params)) {
+        $menu = [];
+
+        if (Session::get('rol_id')==1 || $security->getAccess('insertable', $params)) {
             $instances = new Instances;
             $at=new attributes();
             $ly_t=new LayoutTemplate();
@@ -35,9 +37,9 @@ class AdminNewInstance2 extends AuthController
                 $p_mode='I';
                 if ($res==-1) {
                     $message=html_message_error(getMessage('error_param_mandatory'));
-                }elseif ($res==-2) {
+                } elseif ($res==-2) {
                     $message=html_message_error(getMessage('error_param_data'));
-                }elseif ($res==-3) {
+                } elseif ($res==-3) {
                     $message=html_message_error(getMessage('error_param_urlnice'));
                 }
                 
@@ -49,7 +51,7 @@ class AdminNewInstance2 extends AuthController
                 $message=html_message_ok(getMessage('info_word_object').' '.$res.' '.getMessage('info_object_created'));
 
                 $p_multiple = false;
-                if(isset($_REQUEST['p_multiple'])) {
+                if (isset($_REQUEST['p_multiple'])) {
                     $p_multiple=$_REQUEST['p_multiple'];
                 }
 
@@ -57,8 +59,7 @@ class AdminNewInstance2 extends AuthController
                     $title=EDITORA_NAME." -> ".getMessage('info_view_object');
                     $res2=$re->createRelation($params);
                     $instance = $at->getInstanceAttributes($p_mode, $params);
-                }
-                elseif ($params['param11']) {// Vengo del relacionar
+                } elseif ($params['param11']) {// Vengo del relacionar
                     $params['param2']=$params['param11'];
 //                    $instances->refreshCache($params);
                     $params['param13']=$res;
@@ -85,12 +86,11 @@ class AdminNewInstance2 extends AuthController
                         'p_acces_type' => 'A'
                     );
                     $instance = $at->getInstanceAttributes($p_mode, $params_redirect);
-                    $parents=$ly_t->paintParentsList($instances->getParents($params_redirect),$params_redirect);
-                }
-                else {// No vengo del relacionar
+                    $parents=$ly_t->paintParentsList($instances->getParents($params_redirect), $params_redirect);
+                } else {// No vengo del relacionar
                     $params['param2'] = $res;
                     $instance = $at->getInstanceAttributes($p_mode, $params);
-                    $parents=$ly_t->paintParentsList($instances->getParents($params),$params);
+                    $parents=$ly_t->paintParentsList($instances->getParents($params), $params);
                 }
                 $inst_id=$params['param2'];
                 $instances->instance_update_date_and_backup($inst_id);
@@ -110,5 +110,4 @@ class AdminNewInstance2 extends AuthController
             
         return response()->view('editora::pages.instance', $viewData);
     }
-
 }

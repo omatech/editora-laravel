@@ -2,7 +2,6 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
-
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\statictext;
@@ -14,6 +13,7 @@ class AdminEditStaticText extends AuthController
     {
         $security = new Security;
         $params = get_params_info();
+        $menu = [];
 
         if (Session::has('rol_id')) {
             $instances = new Instances;
@@ -56,6 +56,4 @@ class AdminEditStaticText extends AuthController
 
         return response()->view('editora::pages.static_texts_edit', $viewData);
     }
-
 }
-

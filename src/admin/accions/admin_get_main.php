@@ -22,13 +22,14 @@ class AdminGetMain extends AuthController
     public function render()
     {
         $params=get_params_info();
-        $params['p_mode']='V';
+        $params['p_mode'] = $p_mode = 'V';
 
         $title = EDITORA_NAME;
         $instances = $this->instances->instanceList($params);
         $menu = $this->loadMenu($this->instances, $params);
 
         $viewData = array_merge($menu, [
+            'p_mode' => $p_mode,
             'title' => $title,
             'instances' => $instances,
         ]);

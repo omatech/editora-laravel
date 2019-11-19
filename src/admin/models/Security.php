@@ -34,8 +34,8 @@ class Security extends Model
         Session::put('u_language', $u_lang);
         Session::put('u_lang', $u_lang);
         
-        $this->cacheClasses($user['id']);
-        $this->cleanUserInstances($user['id']);
+        $this->cacheClasses($user['u_id']);
+        $this->cleanUserInstances($user['u_id']);
 
         return 1;
     }

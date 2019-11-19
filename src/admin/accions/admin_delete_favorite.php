@@ -12,7 +12,9 @@ class AdminDeleteFavorite extends AuthController
     {
         $security = new Security;
         $params=get_params_info();
-        if(Session::get('rol_id')==1 || $security->getAccess('browseable',$params)) {
+        $menu = [];
+
+        if (Session::get('rol_id')==1 || $security->getAccess('browseable', $params)) {
             $instances = new Instances;
 
             $params['p_mode']='V';

@@ -13,8 +13,9 @@ class AdminDeleteInstance extends AuthController
     {
         $security = new Security;
         $params = get_params_info();
+        $menu = [];
 
-        if(Session::get('rol_id')==1 || $security->getAccess('deleteable',$params)) {
+        if (Session::get('rol_id')==1 || $security->getAccess('deleteable', $params)) {
             $instances = new Instances;
 
             $params['p_mode']='V';
@@ -34,5 +35,4 @@ class AdminDeleteInstance extends AuthController
 
         return response()->view('editora::pages.delete_instance', $viewData);
     }
-
 }

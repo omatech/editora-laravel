@@ -2,7 +2,6 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
-
 use Illuminate\Support\Facades\Session;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\Instances;
@@ -14,8 +13,9 @@ class AdminConfigure extends AuthController
     {
         $security = new Security;
         $params = get_params_info();
-
-        if(Session::has('rol_id')) {
+        $menu = [];
+        
+        if (Session::has('rol_id')) {
             $instances = new Instances;
             $editora = new EditoraModel();
 
@@ -29,7 +29,7 @@ class AdminConfigure extends AuthController
             $user = $editora->get_user_info(Session::get('user_id'));
             $menu = $this->loadMenu($instances, $params);
             $messages = [];
-            if(isset($_REQUEST['hiddencheck'])){
+            if (isset($_REQUEST['hiddencheck'])) {
                 if ($_REQUEST['hiddencheck'] == 'change_password') {
                     if ($security->check_change_password(Session::get('user_id'), $_REQUEST['old_password'])) {
                         if ($_REQUEST['password'] != $_REQUEST['repeat_password']) {
@@ -44,26 +44,24 @@ class AdminConfigure extends AuthController
                     } else {
                         $messages['ko_pass'] = 'La contraseña actual no es correcta';
                     }
-                }elseif ($_REQUEST['hiddencheck'] == 'change_user'){
+                } elseif ($_REQUEST['hiddencheck'] == 'change_user') {
                     $user_name = trim(addslashes($_REQUEST['username']));
                     $complete_name = trim(addslashes($_REQUEST['complete_name']));
 
-                    if ($user_name!='' && $complete_name!=''){
-                        if ($editora->exist_username(Session::get('user_id'), $user_name)){
+                    if ($user_name!='' && $complete_name!='') {
+                        if ($editora->exist_username(Session::get('user_id'), $user_name)) {
                             $messages['ko_user'] = 'ya existe este identificador de usuario';
-                        }else{
+                        } else {
                             $res = $editora->update_user_info(Session::get('user_id'), $user_name, $complete_name);
 
-                            if ($res){
+                            if ($res) {
                                 $messages['ok_user'] = 'datos guardados correctamente';
                                 Session::put('user_nom', $complete_name);
-                            }else{
+                            } else {
                                 $messages['ko_user'] = 'no se han podido guardar los datos';
                             }
                         }
-
-
-                    }else{
+                    } else {
                         $messages['ko_user'] = 'Todos los campos son obligatorios';
                     }
 
@@ -82,5 +80,4 @@ class AdminConfigure extends AuthController
 
         return response()->view('editora::pages.change_password', $viewData);
     }
-
 }
