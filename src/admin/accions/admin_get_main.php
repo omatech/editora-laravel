@@ -26,12 +26,15 @@ class AdminGetMain extends AuthController
 
         $title = EDITORA_NAME;
         $instances = $this->instances->instanceList($params);
+        $count = $this->instances->instanceList_count($params);
+
         $menu = $this->loadMenu($this->instances, $params);
 
         $viewData = array_merge($menu, [
             'p_mode' => $p_mode,
             'title' => $title,
             'instances' => $instances,
+            'count' => $count,
         ]);
 
         return response()->view('editora::pages.home', $viewData);

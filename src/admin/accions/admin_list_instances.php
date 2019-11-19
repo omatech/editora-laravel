@@ -28,6 +28,7 @@ class AdminListInstances extends AuthController
 
         $count = 0;
         $page = 1;
+        $p_mode = '';
 
         $menu = [];
 
@@ -35,7 +36,7 @@ class AdminListInstances extends AuthController
             $editora = new editoraModel();
 
             $params = get_params_info();
-            $params['p_mode'] = 'V';
+            $params['p_mode'] = $p_mode = 'V';
             if ($params['param3']!="") {
                 $page = $params['param3'];
             }
@@ -48,6 +49,7 @@ class AdminListInstances extends AuthController
         }
         $viewData = array_merge($menu, [
             'title' => EDITORA_NAME,
+            'p_mode' => $p_mode,
             'instances' => $instances,
             'class' => $class_info,
             'count' => $count,
