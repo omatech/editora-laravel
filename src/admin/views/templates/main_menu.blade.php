@@ -6,62 +6,64 @@
                 <span class="link-text">{{getMessage('navigation_home')}}</span>
             </a>
             <ul class="level-2-nav">
-                @foreach($menu as $section)
-                    @if(isset($section['list']))
-                        <li>
-                            <a href="#subnav-{{$section['id']}}" data-toggle="collapse" aria-expanded="false" aria-controls="subnav-{{$section['id']}}">
-                                <span class="link-text">{{$section['lg_cap']}}</span>
-                                <i class="icon-chevron-down"></i>
-                            </a>
-                            <div class="collapse" id="subnav-{{$section['id']}}">
-                                <ul class="level-3-nav">
-                                    @foreach($section['list'] as $item)
+                @if(isset($menu))
+                    @foreach($menu as $section)
+                        @if(isset($section['list']))
+                            <li>
+                                <a href="#subnav-{{$section['id']}}" data-toggle="collapse" aria-expanded="false" aria-controls="subnav-{{$section['id']}}">
+                                    <span class="link-text">{{$section['lg_cap']}}</span>
+                                    <i class="icon-chevron-down"></i>
+                                </a>
+                                <div class="collapse" id="subnav-{{$section['id']}}">
+                                    <ul class="level-3-nav">
+                                        @foreach($section['list'] as $item)
 
-                                        @if( empty( config('editora-admin.special_classes')) && $item['id']==1){{--global--}}
-                                        <li>
-                                            <a href="{{ route('editora.action', 'view_instance/?p_pagina=1&p_class_id='.$item['id'].'&p_inst_id=2') }}" class="link-list">
-                                                <span class="link-text">{{$item['lg_name']}}</span>
-                                            </a>
-                                        </li>
-                                        @elseif(  empty( config('editora-admin.special_classes')) && $item['id']==10){{--home--}}
-                                        <li>
-                                            <a href="{{ route('editora.action', 'view_instance/?p_pagina=1&p_class_id='.$item['id'].'&p_inst_id=1') }}" class="link-list">
-                                                <span class="link-text">{{$item['lg_name']}}</span>
-                                            </a>
-                                        </li>
-                                        @else
-
-                                            @if( !empty( config('editora-admin.special_classes') ) && array_key_exists( $item['id'],config('editora-admin.special_classes') ) )
-                                                <li>
-                                                    <a href="{{ route('editora.action', 'view_instance/?p_pagina=1&p_class_id='.$item['id'].'&p_inst_id='.config('editora-admin.special_classes')[$item['id']]) }}" class="link-list">
-                                                        <span class="link-text">{{$item['lg_name']}}</span>
-                                                    </a>
-                                                </li>
+                                            @if( empty( config('editora-admin.special_classes')) && $item['id']==1){{--global--}}
+                                            <li>
+                                                <a href="{{ route('editora.action', 'view_instance/?p_pagina=1&p_class_id='.$item['id'].'&p_inst_id=2') }}" class="link-list">
+                                                    <span class="link-text">{{$item['lg_name']}}</span>
+                                                </a>
+                                            </li>
+                                            @elseif(  empty( config('editora-admin.special_classes')) && $item['id']==10){{--home--}}
+                                            <li>
+                                                <a href="{{ route('editora.action', 'view_instance/?p_pagina=1&p_class_id='.$item['id'].'&p_inst_id=1') }}" class="link-list">
+                                                    <span class="link-text">{{$item['lg_name']}}</span>
+                                                </a>
+                                            </li>
                                             @else
-                                                <li>
-                                                    <a href="{{ route('editora.action', 'list_instances/?p_class_id='.$item['id']) }}" class="link-list">
-                                                        <span class="link-text">{{$item['lg_name']}}</span>
-                                                    </a>
-                                                    <a href="{{ route('editora.action', 'new_instance/?p_class_id='.$item['id']) }}" class="link-new">
-                                                        <i class="icon-plus-box"></i>
-                                                    </a>
-                                                </li>
-                                            @endif
 
-                                        @endif
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </li>
-                    @else
-                        <li>
-                            <a href="">
-                                <span class="link-text">{{$section['lg_cap']}}</span>
-                                <i class="icon-chevron-down"></i>
-                            </a>
-                        </li>
-                    @endif
-                @endforeach
+                                                @if( !empty( config('editora-admin.special_classes') ) && array_key_exists( $item['id'],config('editora-admin.special_classes') ) )
+                                                    <li>
+                                                        <a href="{{ route('editora.action', 'view_instance/?p_pagina=1&p_class_id='.$item['id'].'&p_inst_id='.config('editora-admin.special_classes')[$item['id']]) }}" class="link-list">
+                                                            <span class="link-text">{{$item['lg_name']}}</span>
+                                                        </a>
+                                                    </li>
+                                                @else
+                                                    <li>
+                                                        <a href="{{ route('editora.action', 'list_instances/?p_class_id='.$item['id']) }}" class="link-list">
+                                                            <span class="link-text">{{$item['lg_name']}}</span>
+                                                        </a>
+                                                        <a href="{{ route('editora.action', 'new_instance/?p_class_id='.$item['id']) }}" class="link-new">
+                                                            <i class="icon-plus-box"></i>
+                                                        </a>
+                                                    </li>
+                                                @endif
+
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </li>
+                        @else
+                            <li>
+                                <a href="">
+                                    <span class="link-text">{{$section['lg_cap']}}</span>
+                                    <i class="icon-chevron-down"></i>
+                                </a>
+                            </li>
+                        @endif
+                    @endforeach
+                @endif
             </ul>
         </li>
         <li>

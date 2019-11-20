@@ -29,7 +29,7 @@ class AdminListInstances extends AuthController
         $count = 0;
         $page = 1;
         $p_mode = '';
-
+        $instances = [];
         $menu = [];
 
         if (Session::get('rol_id')==1 || $security->getAccess('browseable', $params)) {

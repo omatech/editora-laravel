@@ -112,6 +112,8 @@ class Controller extends LaravelController
     {
         global $array_langs;
         $array_langs = config('editora-admin.languages');
+        
+        global $lg;
         $lg = getDefaultLanguage();
 
         //REQUIRES

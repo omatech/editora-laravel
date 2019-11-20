@@ -23,6 +23,11 @@ class AdminGetMain extends AuthController
     {
         $params=get_params_info();
         $params['p_mode'] = $p_mode = 'V';
+        $page = 1;
+
+        if ($params['param3']!="") {
+            $page = $params['param3'];
+        }
 
         $title = EDITORA_NAME;
         $instances = $this->instances->instanceList($params);
@@ -35,6 +40,7 @@ class AdminGetMain extends AuthController
             'title' => $title,
             'instances' => $instances,
             'count' => $count,
+            'page' => $page
         ]);
 
         return response()->view('editora::pages.home', $viewData);
