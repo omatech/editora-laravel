@@ -31,6 +31,7 @@ class AdminListInstances extends AuthController
         $p_mode = '';
         $instances = [];
         $menu = [];
+        $class_info = null;
 
         if (Session::get('rol_id')==1 || $security->getAccess('browseable', $params)) {
             $editora = new editoraModel();
@@ -40,7 +41,10 @@ class AdminListInstances extends AuthController
             if ($params['param3']!="") {
                 $page = $params['param3'];
             }
-            $class_info = $editora->get_class_info($params['param1']);
+ 
+            if ($params['param1'] != "") {
+                $class_info = $editora->get_class_info($params['param1']);
+            }
 
             $instances = $this->instances->instanceList($params);
             $count = $this->instances->instanceList_count($params);
@@ -55,6 +59,7 @@ class AdminListInstances extends AuthController
             'count' => $count,
             'page' => $page
         ]);
+
         return response()->view('editora::pages.list_instances', $viewData);
     }
 }
