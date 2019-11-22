@@ -85,17 +85,25 @@ class AdminNewInstance2 extends AuthController
                         'p_mode' => 'V',
                         'p_acces_type' => 'A'
                     );
+
                     $instance = $at->getInstanceAttributes($p_mode, $params_redirect);
                     $parents=$ly_t->paintParentsList($instances->getParents($params_redirect), $params_redirect);
+                    $redirect_class_id = $params_redirect['param1'];
+                    $redirect_inst_id = $params_redirect['param2'];
                 } else {// No vengo del relacionar
                     $params['param2'] = $res;
                     $instance = $at->getInstanceAttributes($p_mode, $params);
                     $parents=$ly_t->paintParentsList($instances->getParents($params), $params);
+                    $redirect_class_id = $params['param1'];
+                    $redirect_inst_id = $params['param2'];
                 }
-                $inst_id=$params['param2'];
+                $class_id = $params['param1'];
+                $inst_id = $params['param2'];
                 $instances->instance_update_date_and_backup($inst_id);
                 $_REQUEST['view']='container';
+                return redirect(route('editora.action', 'view_instance?p_pagina=1&p_class_id='.$redirect_class_id.'&p_inst_id='. $redirect_inst_id));
             }
+
         }
         $instance['instance_info']['class_id']=$params['param1'];
         $viewData = array_merge($menu, [

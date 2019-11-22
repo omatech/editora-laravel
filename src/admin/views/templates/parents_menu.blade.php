@@ -1,4 +1,4 @@
-@if(isset($parents) && !empty($parents))
+@if(isset($parents) && !empty($parents) && is_array($parents))
 <div id="relations-menu">
     <header class="side-menu-header">
         <span class="tit">{{getMessage('container_objetos_padre')}}</span>

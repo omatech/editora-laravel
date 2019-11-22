@@ -86,7 +86,7 @@ if (!function_exists('_activeDate')) {
 
 }
 
-if (!function_exists('_getFileSize')) {
+if (!function_exists('_getLocalFileSize')) {
     function _getLocalFileSize($file)
     {
         if(file_exists($file)){
@@ -94,13 +94,17 @@ if (!function_exists('_getFileSize')) {
         }
         return 0;
     }
+}
+
+if (!function_exists('_getRemoteFileSize')) {
     function _getRemoteFileSize($file)
     {
         $head = array_change_key_case(get_headers($file, 1));
         $size = isset($head['content-length']) ? $head['content-length'] : 0;
         return $size;
     }
-
+}
+if (!function_exists('_getFileSize')) {
     function _getFileSize($file)
     {
         $size = 0;
