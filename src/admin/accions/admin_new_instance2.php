@@ -113,8 +113,9 @@ class AdminNewInstance2 extends AuthController
             'title' => $title,
             'instances' => $instances,
             'parents' => $parents,
-            'message' => $message
-            ]);
+            'message' => $message,
+            'status_list' => isset($instance['status_list']) ? $instance['status_list'] : null
+        ]);
             
         return response()->view('editora::pages.instance', $viewData);
     }

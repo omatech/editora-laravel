@@ -36,6 +36,12 @@ class AdminEditInstance extends AuthController
             $javascript_attributes = $at_t->javascript_attributes;
 
             $instance = $at->getInstanceAttributes('U', $params);
+            $view = 'editora::pages.instance';
+
+        }else{
+            $instance['instance_info']=null;
+            $title = getMessage('error_role_privileges');
+            $view ='editora::pages.permission_denied';
         }
 
         $viewData = array_merge($menu, [
@@ -44,9 +50,10 @@ class AdminEditInstance extends AuthController
             'body_class' => 'edit-view',
             'title' => $title,
             'instances' => $instances,
-            'javascript_attributes' => $javascript_attributes
+            'javascript_attributes' => $javascript_attributes,
+            'status_list' => isset($instance['status_list']) ? $instance['status_list'] : null
         ]);
 
-        return response()->view('editora::pages.instance', $viewData);
+        return response()->view($view, $viewData);
     }
 }

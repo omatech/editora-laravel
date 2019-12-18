@@ -29,6 +29,12 @@ class AdminViewInstance extends AuthController
             $instance = $at->getInstanceAttributes($p_mode, $params);
 
             $parents = $instances->getDistinctParents($params);
+
+            $view = 'editora::pages.instance';
+        }else{
+            $instance['instance_info']=null;
+            $title = getMessage('error_role_privileges');
+            $view ='editora::pages.permission_denied';
         }
 
         $viewData = array_merge($menu, [
@@ -37,8 +43,10 @@ class AdminViewInstance extends AuthController
             'body_class' => 'edit-view',
             'title' => $title,
             'parents' => $parents,
+            'status_list' => isset($instance['status_list']) ? $instance['status_list'] : null
+
         ]);
 
-        return response()->view('editora::pages.instance', $viewData);
+        return response()->view( $view, e$viewData);
     }
 }

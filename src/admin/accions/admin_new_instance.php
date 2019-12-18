@@ -43,7 +43,8 @@ class AdminNewInstance extends AuthController
             'p_mode' => $p_mode,
             'body_class' => 'edit-view',
             'title' => $title,
-            'class' => $class_info
+            'class' => $class_info,
+            'status_list' => isset($instance['status_list']) ? $instance['status_list'] : null
         ]);
 
 

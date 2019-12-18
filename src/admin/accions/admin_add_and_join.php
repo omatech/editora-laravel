@@ -43,7 +43,8 @@ class AdminAddAndJoin extends AuthController
             'instance' => $instance['instance_info'],
             'p_mode' => $p_mode,
             'body_class' => 'edit-view',
-            'title' => $title
+            'title' => $title,
+            'status_list' => isset($instance['status_list']) ? $instance['status_list'] : null
         ]);
 
         return response()->view($view, $viewData);
