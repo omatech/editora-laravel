@@ -47,6 +47,6 @@ class AdminViewInstance extends AuthController
 
         ]);
 
-        return response()->view( $view, e$viewData);
+        return response()->view( $view, $viewData);
     }
 }
