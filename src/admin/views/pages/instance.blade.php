@@ -135,31 +135,29 @@
 					<div class="form-row top">
 						<div class="form-group">
 							<label for="p_status" class="form-label">{{getMessage('info_word_status')}}</label>
+							<select class="form-control" name="p_status">
 							@if($p_mode=='U' && ( $instance['status'] == "P" && $status_list['status1']==0 || $instance['status'] == "V" && $status_list['status2']==0 || $instance['status'] == "O" && $status_list['status3']==0) )
-								<select class="form-control" name="p_status" disabled>
-									@if($instance['status'] == "P")
-										<option value="P" @if($instance['status']=="P") selected @endif>{{getMessage('info_word_status_pending')}}</option>
-									@endif
-									@if($instance['status'] == "V")
-										<option value="V" @if($instance['status']=="V") selected @endif>{{getMessage('info_word_status_reviewed')}}</option>
-									@endif
-									@if($instance['status'] == "O")
-										<option value="O" @if($instance['status']=="O") selected @endif>{{getMessage('info_word_status_published')}}</option>
-									@endif
-								</select>
+								@if($instance['status'] == "P")
+									<option value="P" @if($instance['status']=="P") selected @endif>{{getMessage('info_word_status_pending')}}</option>
+								@endif
+								@if($instance['status'] == "V")
+									<option value="V" @if($instance['status']=="V") selected @endif>{{getMessage('info_word_status_reviewed')}}</option>
+								@endif
+								@if($instance['status'] == "O")
+									<option value="O" @if($instance['status']=="O") selected @endif>{{getMessage('info_word_status_published')}}</option>
+								@endif
 							@else
-								<select class="form-control" name="p_status" @if( $status_list['status1']==0 && $status_list['status2']==0 && $status_list['status3']==0 && $p_mode=='I' ) disabled @endif>
-									@if($status_list['status1']==1 || $instance['status'] == "P" ||  $status_list['status1']==0 && $status_list['status2']==0 && $status_list['status3']==0 && $p_mode=='I' )
-										<option value="P" @if($instance['status']=="P") selected @endif>{{getMessage('info_word_status_pending')}}</option>
-									@endif
-									@if($status_list['status2']==1 || $instance['status'] == "V")
-										<option value="V" @if($instance['status']=="V") selected @endif>{{getMessage('info_word_status_reviewed')}}</option>
-									@endif
-									@if($status_list['status3']==1 || $instance['status'] == "O")
-										<option value="O" @if($instance['status']=="O") selected @endif>{{getMessage('info_word_status_published')}}</option>
-									@endif
-								</select>
+								@if($status_list['status1']==1 || $instance['status'] == "P" ||  $status_list['status1']==0 && $status_list['status2']==0 && $status_list['status3']==0 && $p_mode=='I' )
+									<option value="P" @if($instance['status']=="P") selected @endif>{{getMessage('info_word_status_pending')}}</option>
+								@endif
+								@if($status_list['status2']==1 || $instance['status'] == "V")
+									<option value="V" @if($instance['status']=="V") selected @endif>{{getMessage('info_word_status_reviewed')}}</option>
+								@endif
+								@if($status_list['status3']==1 || $instance['status'] == "O")
+									<option value="O" @if($instance['status']=="O") selected @endif>{{getMessage('info_word_status_published')}}</option>
+								@endif
 							@endif
+							</select>
 						</div>
 						<div class="form-group">
 							@php($attribute = $instance['instance_tabs'][0]['elsatribs'][0])
