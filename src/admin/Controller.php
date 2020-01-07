@@ -12,6 +12,15 @@ class Controller extends LaravelController
 
     public function __construct()
     {
+
+        if( env('EDITORA_MAINTENANCE_MODE') && env('EDITORA_MAINTENANCE_MODE') === true){
+            if( env('EDITORA_MAINTENANCE_MESSAGE')){
+                die( env('EDITORA_MAINTENANCE_MESSAGE') );
+            }else{
+                die('En mantenimiento');
+            }
+        }
+
         $urls = new Urls();
         //ob_start('ob_gzhandler');
 
