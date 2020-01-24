@@ -10,6 +10,11 @@
 			@if($p_mode!='R')
 				<a href="{{route('editora.action', 'new_instance/?p_class_id='.$class['id'])}}"><span class="btn clr-secondary" style="font-size:14px">{{getMessage('info_create_object')}}: {{$class['class_name']}}</span></a>
 			@endif
+
+			@if(file_exists(public_path().'/vendor/editora/extras/classes_sample/'.$class['class_internal_name'].'.jpg'))
+				<a href="#" id="showClassSample" role="button" data-toggle="modal" class="btn-square clr-gray"><span class="mdi mdi-file-eye-outline" style="font-size:30px"></span></a>
+			@endif
+
 			<form action="{{ route('editora.action', 'search') }}">
 				<span class="input-group">
 					@if(isset($class['id']))<input type="hidden" id="p_class_id" name="p_class_id" value="{{$class['id']}}">@endif
@@ -27,4 +32,7 @@
 		</div>
 	</section>
 </main>
+
+@include('editora::modals.classes_sample')
+
 @endsection
