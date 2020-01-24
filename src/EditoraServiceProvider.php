@@ -58,7 +58,6 @@ class EditoraServiceProvider extends ServiceProvider
             __DIR__.'/admin/csss/jquery-ui.min.css' => public_path('vendor/editora/css/jquery-ui.min.css'),
             __DIR__.'/admin/csss/jquery.dataTables.min.css' => public_path('vendor/editora/css/jquery.dataTables.min.css'),
             __DIR__.'/admin/csss/uploadfile.css' => public_path('vendor/editora/css/uploadfile.css'),
-            __DIR__.'/admin/fonts/font-awesome' => public_path('vendor/editora/css/font-awesome'),
             __DIR__.'/admin/csss/jquery.Jcrop.css' => public_path('vendor/editora/css/jquery.Jcrop.css'),
             __DIR__.'/admin/csss/dropzone.css' => public_path('vendor/editora/css/dropzone.css'),
             __DIR__.'/admin/csss/color-picker.min.css' => public_path('vendor/editora/css/color-picker.min.css'),
@@ -96,6 +95,9 @@ class EditoraServiceProvider extends ServiceProvider
 
             /* FONTS */
             __DIR__.'/admin/fonts/editora' => public_path('vendor/editora/fonts'),
+            __DIR__.'/admin/fonts/font-awesome' => public_path('vendor/editora/css/font-awesome'),
+            __DIR__.'/admin/fonts/material-design' => public_path('vendor/editora/css/material-design'),
+
 
         ], 'editora-publish');
     }
