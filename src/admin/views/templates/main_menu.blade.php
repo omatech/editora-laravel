@@ -9,6 +9,8 @@
                 @if(isset($menu))
                     @foreach($menu as $section)
                         @if(isset($section['list']))
+
+                            @if(session('user_type')=='O' || $section['lg_cap'] != 'Hidden_Group' )
                             <li>
                                 <a href="#subnav-{{$section['id']}}" data-toggle="collapse" aria-expanded="false" aria-controls="subnav-{{$section['id']}}">
                                     <span class="link-text">{{$section['lg_cap']}}</span>
@@ -31,7 +33,6 @@
                                                 </a>
                                             </li>
                                             @else
-
                                                 @if( !empty( config('editora-admin.special_classes') ) && array_key_exists( $item['id'],config('editora-admin.special_classes') ) )
                                                     <li>
                                                         <a href="{{ route('editora.action', 'view_instance/?p_pagina=1&p_class_id='.$item['id'].'&p_inst_id='.config('editora-admin.special_classes')[$item['id']]) }}" class="link-list">
@@ -39,7 +40,8 @@
                                                         </a>
                                                     </li>
                                                 @else
-                                                    <li>
+
+                                                     <li>
                                                         <a href="{{ route('editora.action', 'list_instances/?p_class_id='.$item['id']) }}" class="link-list">
                                                             <span class="link-text">{{$item['lg_name']}}</span>
                                                         </a>
@@ -54,6 +56,7 @@
                                     </ul>
                                 </div>
                             </li>
+                            @endif
                         @else
                             <li>
                                 <a href="">
