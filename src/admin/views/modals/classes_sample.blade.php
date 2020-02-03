@@ -1,16 +1,17 @@
 @if(file_exists(public_path().'/vendor/editora/extras/classes_sample/'.$class['class_internal_name'].'.jpg'))
-
-    <div class="modal fade bd-example-modal-lg show" id="imagemodal" role="dialog" style="">
-        <div class="modal-dialog modal-lg">
+    <div class="modal modal-related fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel{{$instance['id']}}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-
-                    {{getMessage('classes_sample_modal')}}
-                    @if(isset($class) && isset($class['class_name']))
-                        {{$class['class_name']}}
-                    @endif
-
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title">
+                        {{getMessage('classes_sample_modal')}}
+                        @if(isset($class) && isset($class['class_name']))
+                            {{$class['class_name']}}
+                        @endif
+                    </h5>
+                    <button type="button" class="btn-ico" data-dismiss="modal" aria-label="Close">
+                        <i class="icon-close"></i>
+                    </button>
                 </div>
                 <div class="modal-body" id="dynamic-content">
                     <img src="" id="imagepreview" class="img-fluid" alt=""/>
@@ -19,7 +20,6 @@
         </div>
     </div>
 @endif
-
 
 @section('scripts')
     @parent
@@ -32,6 +32,5 @@
             $('#imagemodal').modal('show');
         });
         @endif
-
     </script>
 @endsection

@@ -17,10 +17,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/cropper.min.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/auto-complete.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/datepicker.css') }}"/>
-
     <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/font-awesome/css/font-awesome.css') }}"/>
-
-    <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/material-design/css/materialdesignicons.css') }}"/>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/extras.css') }}" >
 </head>

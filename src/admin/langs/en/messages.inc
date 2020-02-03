@@ -268,6 +268,7 @@ function getMessage ($id) {
 	$mess_arr['close'] = 'Close';
 
     $mess_arr['classes_sample_modal'] = 'Sample:';
+    $mess_arr['classes_modal_not_image'] = 'No preview';
 
     return $mess_arr[$id];
 }

@@ -268,6 +268,7 @@ function getMessage ($id) {
 	$mess_arr['close'] = 'Tancar';
 
     $mess_arr['classes_sample_modal'] = 'Exemple:';
+    $mess_arr['classes_modal_not_image'] = 'Sense previsualització';
 
     return $mess_arr[$id];
 }

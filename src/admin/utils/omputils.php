@@ -88,6 +88,13 @@ function getClassName($p_id) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
+function getClassNameInternalName($p_id) {
+    $editora = new Omatech\Editora\Admin\Models\editoraModel;
+    $class_info = $editora->get_class_info($p_id);
+    return $class_info['class_internal_name'];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
 function getTag ($p_inst_id) {
 	global $dbh;
 
