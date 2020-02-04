@@ -85,7 +85,9 @@
     @endif
     </tbody>
 </table>
+@if($count!=-1)
 <h3>{{$count}} {{getMessage('info_objects_found')}}</h3>
+@endif
 @if($count>40)
 @php($pages = ceil($count/40))
 <div class="dataTables_paginate paging_simple_numbers" id="pages-table_paginate">

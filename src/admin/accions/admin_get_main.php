@@ -31,7 +31,7 @@ class AdminGetMain extends AuthController
 
         $title = EDITORA_NAME;
         $instances = $this->instances->instanceList($params);
-        $count = $this->instances->instanceList_count($params);
+        $count = -1;//$this->instances->instanceList_count($params);
 
         $menu = $this->loadMenu($this->instances, $params);
 
