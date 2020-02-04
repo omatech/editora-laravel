@@ -29072,6 +29072,8 @@ textarea.form-control {
       font-size: 2.2rem; }
   #navigation .level-3-nav {
     padding-bottom: 10px; }
+    #navigation .level-3-nav > li.active {
+      background-color: #da5a13; }
     #navigation .level-3-nav > li:hover {
       background-color: #da5a13; }
       #navigation .level-3-nav > li:hover .link-new {
