@@ -67,7 +67,7 @@
                 dictRemoveFile: "Eliminar fichero", //"{{__('strings.attributes.F.dropzone_delete_file')}}",
                 addRemoveLinks : false,
                 createImageThumbnails: false,
-                acceptedFiles: 'image/*,application/pdf,text/csv,text/html,text/plain,text/tab-separated-values,application/xls,application/excel,application/vnd.ms-excel,application/vnd.ms-excel; charset=binary,application/msexcel,application/x-excel,application/x-msexcel,application/x-ms-excel,application/x-dos_ms_excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.mp4,.mkv,.avi,video/*',
+                acceptedFiles: null,//accepted all extensions
                 init: function () {
                     this.on("success", function(file, response) {
                         $('#input_{{$attribute_name}}').val(response.accessUrl);
