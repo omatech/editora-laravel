@@ -29040,6 +29040,8 @@ textarea.form-control {
       margin-right: 10px; }
     #navigation .level-1-nav > li > a .link-text {
       text-transform: uppercase; }
+      #navigation .level-1-nav > li.active {
+        background-color: #da5a13; }
   #navigation .level-2-nav {
     padding: 10px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15); }
