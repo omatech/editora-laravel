@@ -4,6 +4,7 @@ namespace Omatech\Editora\Admin;
 
 use Illuminate\Routing\Controller as LaravelController;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Omatech\Editora\Admin\Util\Urls;
 
 class Controller extends LaravelController
@@ -104,7 +105,7 @@ class Controller extends LaravelController
         }
 
         if (file_exists(DIR_APLI_ADMIN.'accions/'.$accion_name)) {
-            $action = ucfirst(camel_case(str_replace('.php', '', $accion_name)));
+            $action = ucfirst(Str::camel(str_replace('.php', '', $accion_name)));
             $action = 'Omatech\\Editora\\Admin\\Accions\\'.$action;
             $this->action = new $action();
             $this->middleware = $this->action->getMiddleware();
