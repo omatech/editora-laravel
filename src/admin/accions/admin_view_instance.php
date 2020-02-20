@@ -3,6 +3,7 @@
 namespace Omatech\Editora\Admin\Accions;
 
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\attributes;

@@ -13,7 +13,7 @@
                         <dt class="media-param">{{getMessage('theoric_size')}}:</dt>
                         <dd class="media-value">{{$attribute['img_w']}}x{{$attribute['img_h']}}&nbsp;</dd>
                         <dt class="media-param">{{getMessage('real_size')}}:</dt>
-                        <dd class="media-value">{{str_replace_first('.','x',$attribute['atrib_values'][0]['img_info'])}}
+                        <dd class="media-value">{{Str::replaceFirst('.','x',$attribute['atrib_values'][0]['img_info'])}}
                             &nbsp;
                         </dd>
                         <dt class="media-param">{{getMessage('preview_format')}}:</dt>
