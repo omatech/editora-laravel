@@ -111,6 +111,16 @@ class Controller extends LaravelController
             $this->middleware = $this->action->getMiddleware();
         } elseif (file_exists(DIR_APLI_ADMIN.'extras/accions/'.$accion_name)) {
             eval('require_once(DIR_APLI_ADMIN."extras/accions/$accion_name");');
+        } elseif (file_exists(FRONT_END_DIR.'/app/Http/Controllers/Editora/Extras/'.$accion_name)) {
+            $params = [];
+            for ($i=1; $i<10; $i++) {
+                if (isset($_REQUEST['p'.$i])) {
+                    $params[$i] = $_REQUEST['p'.$i];
+                }
+            }
+            $action = str_replace('.php', '', $accion_name);
+            $action = 'App\\Http\\Controllers\\Editora\\Extras\\'.$action;
+            $this->action = new $action();
         } else {
             header('HTTP/1.1 404 Not Found');
             eval('require_once(DIR_APLI_ADMIN."accions/admin_get_main.php");');
@@ -122,13 +132,13 @@ class Controller extends LaravelController
     {
         global $array_langs;
         $array_langs = config('editora-admin.languages');
-        
+
         global $lg;
         $lg = getDefaultLanguage();
 
         //REQUIRES
         require_once(DIR_APLI_ADMIN.DIR_LANGS.$lg.'/messages.inc');
-        
+
         return $this->action->render();
     }
 }
