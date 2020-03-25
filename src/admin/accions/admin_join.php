@@ -27,6 +27,15 @@ class AdminJoin extends AuthController
 
             $params['p_mode']= $p_mode = 'R';
             $params['p_acces_type']='A';
+            $p_action = $params['p_action'];
+
+            $params_relation['class_id'] = $params['param1'];
+            $params_relation['inst_id'] = $params['param2'];
+            $params_relation['relation_id'] = $params['param9'];
+            $params_relation['parent_inst_id'] = $params['param11'];
+            $params_relation['parent_class_id'] = $params['param10'];
+            $params_relation['child_class_id'] = $params['param12'];
+
 
             if (isset($params['param12']) && $params['param12']!='') {
                 $title=EDITORA_NAME." -> ".getMessage('info_joinsearch_object')." ".getClassName($params['param12'])." ".getMessage('info_word_joinwith')." ".getClassName($params['param10']);
@@ -43,6 +52,7 @@ class AdminJoin extends AuthController
             $parent['rel_id'] = $params['param9'];
             $parent['inst_id'] = $params['param11'];
             $parent['class_id'] = $params['param10'];
+            
         }
 
         $viewData = array_merge($menu, [
@@ -50,7 +60,9 @@ class AdminJoin extends AuthController
             'instances' => $instances_list,
             'parents' => $parents,
             'p_mode' => $p_mode,
-            'parent' => $parent
+            'p_action' => $p_action,
+            'parent' => $parent,
+            'params_relation' => $params_relation
         ]);
 
 

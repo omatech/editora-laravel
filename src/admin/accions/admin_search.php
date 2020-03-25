@@ -29,7 +29,6 @@ class AdminSearch extends AuthController
 
         if (Session::get('rol_id')==1 || Session::get('rol_id')==2 || $security->getAccess('browseable', $params)) {
             $editora = new editoraModel();
-
             $params['p_mode']='V';
 
             $instances = $this->instances->instanceList($params);
@@ -41,7 +40,8 @@ class AdminSearch extends AuthController
             'title' => EDITORA_NAME,
             'instances' => $instances,
             'term' => $params['param4'],
-            'status' => $params['param8']
+            'status' => $params['param8'],
+            'class_id' => $params['param1']
         ]);
         return response()->view('editora::pages.search_instances', $viewData);
     }

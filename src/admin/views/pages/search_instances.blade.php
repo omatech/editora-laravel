@@ -27,6 +27,8 @@
                             <span class="input-group">
                                 @if(isset($class['id']))
                                     <input type="hidden" id="p_class_id" name="p_class_id" value="{{$class['id']}}">
+                                @elseif(isset($class_id))
+                                    <input type="hidden" id="p_class_id" name="p_class_id" value="{{$class_id}}">
                                 @endif
                                 <input type="text" class="form-control" id="p_search_query" name="p_search_query"
                                        placeholder="Buscar" value="{{ $term ?? null }}">

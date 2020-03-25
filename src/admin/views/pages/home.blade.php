@@ -10,15 +10,16 @@
 				</span>
 				<h3 class="tit">{{getMessage('container_ultimos_objetos')}}</h3>
 			</span>
-			<div class="form">
-				<div class="form-group">
+			<div class="form-group" style="margin-bottom:0;">
+				<form action="{{ route('editora.action', 'search') }}">
 					<span class="input-group">
-						<input id="search_instances" type="text" class="form-control" placeholder="Buscar">
-						<span class="input-addon">
+						<input type="text" class="form-control" id="p_search_query" name="p_search_query"
+							placeholder="Buscar" value="{{ $term ?? null }}">
+						<button type="submit" class="input-addon">
 							<i class="icon-magnify"></i>
-						</span>
+						</button>
 					</span>
-				</div>
+				</form>
 			</div>
 		</div>
 	</section>
