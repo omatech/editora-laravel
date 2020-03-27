@@ -89,7 +89,7 @@ if (!function_exists('_activeDate')) {
 if (!function_exists('_getLocalFileSize')) {
     function _getLocalFileSize($file)
     {
-        if(file_exists($file)){
+        if(file_exists($file) && !is_dir($file)){
             return filesize($file);
         }
         return 0;
@@ -121,7 +121,7 @@ if (!function_exists('_getFileSize')) {
                 $suffixes = array(' bytes', ' KB', ' MB', ' GB', ' TB');
                 return round(pow(1024, $base - floor($base)), 2) . $suffixes[floor($base)];
         } else {
-            return $size;
+            return '';
         }
     }
 }
