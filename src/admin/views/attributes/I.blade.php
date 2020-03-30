@@ -97,7 +97,13 @@
                 <div class="modal-body" style="max-width: 720px">
                 </div>
                 <div class="modal-footer">
-                    <a href="" class="btn clr-danger" data-dismiss="modal"><span
+                    
+                      <a href="" class="btn clr-secondary" id="btnRotate_L_{{$attribute_name}}"><span
+                        class="btn-text"><i class="fa fa-undo" aria-hidden="true"></i></span></a>
+                    <a href="" class="btn clr-secondary" id="btnRotate_R_{{$attribute_name}}"><span
+                        class="btn-text"><i class="fa fa-repeat" aria-hidden="true"></i></span></a>
+                                
+                                <a href="" class="btn clr-danger" data-dismiss="modal"><span
                                 class="btn-text">{{getMessage('close')}}</span></a>
                     <a href="" class="btn clr-secondary" id="btnCrop_{{$attribute_name}}"><span
                                 class="btn-text">{{getMessage('save')}}</span></a>
@@ -257,6 +263,23 @@
                 }
                 modalStatus_{{$attribute_name}} = false;
             }
+
+            /**
+             * Rotate Left image.
+             */
+             $('#btnRotate_L_{{$attribute_name}}').on('click', function (e) {
+                e.preventDefault();
+                $cropper_{{$attribute_name}}.rotate(-90);
+            });
+            
+            /**
+             * Rotate Right image.
+             */
+             $('#btnRotate_R_{{$attribute_name}}').on('click', function (e) {
+                e.preventDefault();
+                $cropper_{{$attribute_name}}.rotate(90);
+            });
+
 
             /**
              * Crop image and push to dropzone.
