@@ -21,6 +21,9 @@ class EditoraAuth
 
         if($security->testSession() == 0) {
             $security->endSession();
+            setcookie("editorasession", 1, time()-3600, '/', request()->getHost());
+        }else{
+            setcookie("editorasession", 1, time()+10800, '/', request()->getHost());
         }
 
         return $next($request);

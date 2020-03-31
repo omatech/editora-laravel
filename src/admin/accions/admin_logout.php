@@ -20,6 +20,8 @@ class AdminLogout extends BaseController
         Session::remove('error_login');
         Session::remove('classes_cache');
 
+        setcookie("editorasession", 1, time()-3600, '/', request()->getHost());
+
         return response()->redirectTo(route('editora.action', '/'));
     }
 }
