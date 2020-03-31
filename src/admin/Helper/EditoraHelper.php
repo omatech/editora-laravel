@@ -86,6 +86,16 @@ if (!function_exists('_activeDate')) {
 
 }
 
+if (!function_exists('_formatDate')) {
+    function _formatDate($date)
+    {
+        $carbon = Carbon::parse($date);
+        $date_formated = $carbon->format('d/m/Y H:i:s');
+        return $date_formated;
+    }
+
+}
+
 if (!function_exists('_getLocalFileSize')) {
     function _getLocalFileSize($file)
     {

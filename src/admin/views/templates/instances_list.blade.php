@@ -20,7 +20,7 @@
         <th class="picture"><span>{{getMessage('info_word_img')}}</span></th>
         <th class="tit"><span>{{getMessage('info_word_keyword')}}</span></th>
         <th class="type"><span>{{getMessage('info_word_type')}}</span></th>
-        <th class="creation-date"><span>{{getMessage('info_word_creation_date')}}</span></th>
+        <th class="creation-date"><span>{{getMessage('info_word_update_date')}}</span></th>
         <th class="date-condition"><span class="hidden">{{getMessage('info_word_date_condition')}}</span></th>
         <th class="favorite"><span class="hidden">{{getMessage('acciones')}}</span></th>
     </tr>
@@ -53,7 +53,7 @@
                         {{$item['class_realname']}}
                     </a>
                 </td>
-                <td class="creation-date"><time class="date">{{$item['creation_date']}}</time></td>
+                <td class="creation-date"><time class="date">{{_formatDate($item['cd_ordre'])}}</time></td>
                 <td class="date-condition">
                     <button class="btn-square {!! _activeDate($item['publishing_begins'], $item['publishing_ends']) !!}" data-toggle="popover" data-placement="top" data-content="
                     @if($item['publishing_ends']!=null)
