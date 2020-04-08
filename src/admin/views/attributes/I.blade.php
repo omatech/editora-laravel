@@ -99,6 +99,8 @@
                 <div class="modal-footer">
                     <a href="" class="btn clr-secondary" id="btnRotate_L_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-undo" aria-hidden="true"></i></span></a>
                     <a href="" class="btn clr-secondary" id="btnRotate_R_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-repeat" aria-hidden="true"></i></span></a>            
+                    <a href="" class="btn clr-secondary" id="btnInvertX_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-arrows-h" aria-hidden="true"></i></span></a>            
+                    <a href="" class="btn clr-secondary" id="btnReset_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-refresh" aria-hidden="true"></i></span></a>            
                     <a href="" class="btn clr-danger" data-dismiss="modal"><span class="btn-text">{{getMessage('close')}}</span></a>
                     <a href="" class="btn clr-secondary" id="btnCrop_{{$attribute_name}}"><span class="btn-text">{{getMessage('save')}}</span></a>
                 </div>
@@ -274,6 +276,22 @@
                 $cropper_{{$attribute_name}}.rotate(90);
             });
 
+
+            /**
+             * Invert horizontal image.
+             */
+             $('#btnInvertX_{{$attribute_name}}').on('click', function (e) {
+                e.preventDefault();
+                $cropper_{{$attribute_name}}.scaleX(-1);
+            });
+
+            /**
+             * Reset crop image.
+             */
+             $('#btnReset_{{$attribute_name}}').on('click', function (e) {
+                e.preventDefault();
+                $cropper_{{$attribute_name}}.reset();
+            });
 
             /**
              * Crop image and push to dropzone.
