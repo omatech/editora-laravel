@@ -103,7 +103,8 @@
                 dictRemoveFile: "Eliminar fichero",
                 addRemoveLinks: false,
                 createImageThumbnails: true,
-                acceptedFiles: "image/*",
+                @isset($attribute['params']->maxFilesize) maxFilesize:  {{$attribute['params']->maxFilesize}}, @endif
+                acceptedFiles: @isset($attribute['params']->acceptedFiles) "{{$attribute['params']->acceptedFiles}}" @else "image/*" @endif,
                 init: function () {
                     this.on('addedfile', addedFile);
                     this.on('success', successCall);

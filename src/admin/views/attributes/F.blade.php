@@ -67,7 +67,8 @@
                 dictRemoveFile: "Eliminar fichero", //"{{__('strings.attributes.F.dropzone_delete_file')}}",
                 addRemoveLinks : false,
                 createImageThumbnails: false,
-                acceptedFiles: null,//accepted all extensions
+                @isset($attribute['params']->maxFilesize) maxFilesize:  {{$attribute['params']->maxFilesize}}, @endif
+                acceptedFiles: @isset($attribute['params']->acceptedFiles) "{{$attribute['params']->acceptedFiles}}" @else null @endif,
                 init: function () {
                     this.on("success", function(file, response) {
                         $('#input_{{$attribute_name}}').val(response.accessUrl);
