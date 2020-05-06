@@ -3,26 +3,24 @@
     @php($file = $attribute['atrib_values'][0]['text_val'])
     <div class="column column-text">
         <div class="form-group">
-            <label for="{{$attribute_name}}" class="form-label">{{$attribute['caption']}} {!! _attributeInfo($attribute['id'], $attribute['name'], $attribute['type']) !!}</label>
-            <input type="text" class="form-control" name="{{$attribute_name}}" value="{{$file}}" disabled="disabled">
-        </div>
-    </div>
-    <div class="column column-media">
-        <div class="field-image">
-            <div class="top">
-                <span class="form-label">{{$attribute['caption']}}</span>
-            </div>
-            <div class="bottom">
-                <div class="image-properties">
-                    <span class="properties">
-                        <span class="extension">{{_fileExtension($file)}}</span>
-                        <span class="size">{{_getFileSize($file)}}</span>
+            <label for="{{$attribute_name}}" class="form-label">{{$attribute['caption']}}
+                <a class="clr-default" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="<p>Extension: {{_fileExtension($file)}} - Size: {{_getFileSize($file)}}</p>">
+                    <i class="icon-information-outline"></i><span class="hide-txt">Info</span>
+                </a>
+                {!! _attributeInfo($attribute['id'], $attribute['name'], $attribute['type']) !!}
+            </label>
+            @if(_fileExtension($file)=='PDF' || _fileExtension($file)=='PNG' || _fileExtension($file)=='JPG')
+                <div class="input-group">
+                    <input type="text" class="form-control" name="{{$attribute_name}}" value="{{$file}}" disabled="disabled">
+                    <span class="btn-square clr-default">
+                        <a href="{{$file}}" target="_blank"><i class="icon-eye"></i></a>
                     </span>
                 </div>
-            </div>
+            @else
+                <input type="text" class="form-control" name="{{$attribute_name}}" value="{{$file}}" disabled="disabled">
+            @endif
         </div>
     </div>
-
 @elseif($p_mode=='U' || $p_mode=='I')
     @php($file = $attribute['atrib_values'][0]['text_val'])
     <div class="column column-text">
