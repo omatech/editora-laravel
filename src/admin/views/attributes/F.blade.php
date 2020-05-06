@@ -25,31 +25,20 @@
     @php($file = $attribute['atrib_values'][0]['text_val'])
     <div class="column column-text">
         <div class="form-group">
-            <label for="{{$attribute_name}}" class="form-label">{{$attribute['caption']}}</label>
+            <label for="{{$attribute_name}}" class="form-label">{{$attribute['caption']}}
+                @if(isset($file) && !empty($file))
+                <a class="clr-default" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="<p>Extension: {{_fileExtension($file)}} - Size: {{_getFileSize($file)}}</p>">
+                    <i class="icon-information-outline"></i><span class="hide-txt">Info</span>
+                </a>
+                @endif
+            </label>
             <input id="input_{{$attribute_name}}" type="text" class="form-control" name="{{$attribute_name}}" value="{{$attribute['atrib_values'][0]['text_val']}}">
         </div>
         <div class="form-group">
             <div id="file_{{$attribute_name}}" class="dropzone fallback"></div>
         </div>
     </div>
-    <div class="column column-media">
-        <div class="field-image">
-            <div class="top">
-                <span class="form-label">{{$attribute['caption']}}</span>
-            </div>
-            <div class="bottom">
-                <div class="image-properties">
-                    <span class="properties">
-                    @if(isset($file) && !empty($file))
-                        <span class="extension">{{_fileExtension($file)}}</span>
-                        <span class="size">{{_getFileSize($file)}}</span>
-                    @endif
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    
     @section('scripts')
         @parent
     <script>
