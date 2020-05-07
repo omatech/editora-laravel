@@ -38,6 +38,8 @@ composer update
 
 ```
 php artisan vendor:publish --provider=Omatech\Editora\Connector\ConnectorServiceProvider
+php artisan vendor:publish --provider=Omatech\Editora\EditoraServiceProvider
+php artisan vendor:publish --tag=editora-publish
 ```
 
 ### Remove default route in routes/web.php
