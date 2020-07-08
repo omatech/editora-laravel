@@ -177,9 +177,9 @@ class AdminListClassImport extends AuthController
                                         $value = str_replace("----", "-", $value);
                                         $value = str_replace("---", "-", $value);
                                         $value = str_replace("--", "-", $value);
-                                        if (strcmp(substr("value", -1) == '-') == 0) {
-                                            $value = substr($value, 0, -1);
-                                        }
+                                        // if (strcmp(substr("value", -1) == '-') == 0) {
+                                        //     $value = substr($value, 0, -1);
+                                        // }
 
                                         $langs = $loader->getLanguagesFromAttributes();
 
