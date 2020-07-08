@@ -9,6 +9,9 @@ use Omatech\Editora\Admin\Providers\HelperServiceProvider;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Omatech\Editora\Admin\Middleware\EditoraLocale;
 
+use Omatech\Editora\app\Repositories\Eloquent\InstancesRepository;
+use Omatech\Editora\app\Repositories\Interfaces\InstancesRepositoryInterface;
+
 class EditoraServiceProvider extends ServiceProvider
 {
     /**
@@ -26,7 +29,9 @@ class EditoraServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__.'/routes.php');
-        $this->loadViewsFrom(__DIR__.'/admin/views', 'editora');
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'editora');
+        $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'editora_lang');
+
     }
 
     /**
@@ -39,10 +44,15 @@ class EditoraServiceProvider extends ServiceProvider
         $this->app->register(HelperServiceProvider::class);
         $this->app['router']->aliasMiddleware('editoraAuth', EditoraAuth::class);
 
-        $this->app->bind(ExceptionHandler::class, CustomExceptionHandler::class);
+        $this->app->bind(
+            ExceptionHandler::class 
+            , CustomExceptionHandler::class
+            , InstancesRepository::class
+            , InstancesRepositoryInterface::class
+        );
 
         $this->mergeConfigFrom(
-            __DIR__.'/config/config.php',
+            __DIR__.'/config/admin.php',
             'editora-admin'
         );
 

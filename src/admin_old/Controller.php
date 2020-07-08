@@ -1,6 +1,6 @@
 <?php
 
-namespace Omatech\Editora\Admin;
+namespace Omatech\Editora\Admin\Controllers;
 
 use Illuminate\Routing\Controller as LaravelController;
 use Illuminate\Support\Facades\Session;
