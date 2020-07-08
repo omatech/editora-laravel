@@ -109,7 +109,7 @@ class AdminListClassImport extends AuthController
                                     break;
 
                                 case 'K':
-                                    $instance[$excel_attribute] = $value;
+                                    $instance[$excel_attribute] = nl2br($value);
                                     break;
 
                                 case 'L':
