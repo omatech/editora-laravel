@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 
 // use Omatech\Editora\app\Models\InstancesModel;
 // use Omatech\Editora\Templates\InstancesTemplate;
-use Omatech\Editora\app\Repositories\Interfaces\InstancesRepositoryInterface;
+// use Omatech\Editora\app\Repositories\Interfaces\InstancesRepositoryInterface;
+use Omatech\Editora\app\Repositories\Eloquent\InstancesRepository;
 
 class Instance extends Controller {
 
@@ -17,7 +18,7 @@ class Instance extends Controller {
     /** @var InstancesRepositoryInterface */
     private $repository;
 
-    public function __construct(InstancesRepositoryInterface $repository)
+    public function __construct(InstancesRepository $repository)
     {
         parent::__construct();
         $this->repository = $repository;
@@ -25,14 +26,15 @@ class Instance extends Controller {
         // $this->instacesTemplate = new InstancesTemplate;
     }
     
-	public function get_main(Request $request) {
+    public function get_main(Request $request) 
+    {
         
         $params['p_mode'] = $p_mode = 'V';
         $page = 1;
 
-        $title = 'EDITORA_NAME';die();
-        // $instances = InstancesModel::getLastInstances();
-        $instances = $this->repository->get_last_instances(40);
+        $title = 'EDITORA_NAME';
+
+        $instances = $this->repository->getLastInstances(40);
         $count = -1;
 
         $menu = [];//$this->loadMenu($this->instances, $params);

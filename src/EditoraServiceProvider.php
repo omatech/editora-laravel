@@ -48,7 +48,7 @@ class EditoraServiceProvider extends ServiceProvider
             ExceptionHandler::class 
             , CustomExceptionHandler::class
             , InstancesRepository::class
-            , InstancesRepositoryInterface::class
+            
         );
 
         $this->mergeConfigFrom(

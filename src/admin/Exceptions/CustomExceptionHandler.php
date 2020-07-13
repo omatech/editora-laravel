@@ -1,6 +1,6 @@
 <?php
 
-namespace Omatech\Editora\Admin\Exceptions;
+namespace Omatech\Editora\admin\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
@@ -17,7 +17,7 @@ class CustomExceptionHandler extends ExceptionHandler
     public function render($request, \Exception $exception)
     {
         if ($exception instanceof TokenMismatchException) {
-            return redirect()->route('editora.logout');
+            return redirect()->route('editora.action', 'logout');
         }
 
         return parent::render($request, $exception);

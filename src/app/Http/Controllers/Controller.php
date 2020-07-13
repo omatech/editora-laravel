@@ -26,8 +26,8 @@ class Controller extends LaravelController {
     
     private $action;
 
-    public function __construct() {
-
+    public function __construct() 
+    {
         $this->middleware([EditoraAuth::class]);
 
         global $array_langs;

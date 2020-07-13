@@ -7,14 +7,11 @@ use Illuminate\Routing\Controller as LaravelController;
 use Omatech\Editora\app\Models\Security;
 use Illuminate\Support\Facades\Session;
 
-class AuthController extends LaravelController {
-    
-
-
+class AuthController extends LaravelController
+{
     public function authenticate()
     {
-        if (Auth::attempt(['email' => $email, 'password' => $password]))
-        {
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
             return redirect()->intended('dashboard');
         }
     }
@@ -22,17 +19,16 @@ class AuthController extends LaravelController {
 
 
 
-    public function login() {
-
+    public function login()
+    {
         $security = new Security();
-        
         if ($security->testSession()) {
             return response()->redirectTo(route('editora.get_main'));
         }
 
 
-        if(isset($_REQUEST['p_username']) && isset($_REQUEST['p_password'])){
-            if($security->login($_REQUEST['p_username'], $_REQUEST['p_password'], $_REQUEST['u_lang'])){
+        if (isset($_REQUEST['p_username']) && isset($_REQUEST['p_password'])) {
+            if ($security->login($_REQUEST['p_username'], $_REQUEST['p_password'], $_REQUEST['u_lang'])) {
                 return response()->redirectTo(route('editora.get_main'));
             } else {
                 // Session::put('error_login', getMessage('info_error'));
@@ -58,8 +54,8 @@ class AuthController extends LaravelController {
         return response()->redirectTo(route('editora.login'));
     }
 
-    public function maintenance_mode(){
-
+    public function maintenance_mode()
+    {
         if (!env('EDITORA_MAINTENANCE_MODE') || env('EDITORA_MAINTENANCE_MODE') != true) {
             return response()->redirectTo(route('editora.login'));
         }
@@ -70,6 +66,5 @@ class AuthController extends LaravelController {
             $message = 'En mantenimiento';
         }
         return response()->view('editora::pages.maintenance_mode');
-        
     }
 }

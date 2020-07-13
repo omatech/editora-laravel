@@ -1,20 +1,17 @@
 <?php
 
 
-/**
- * 
- *     $array_special_classes = config('editora.special_classes',
-    if(isset($array_special_classes) && !empty($array_special_classes)){
-        //[class_id=>instance_id]
-        $GLOBALS['special_classes'] = $array_special_classes,
-    }else{
-        $GLOBALS['special_classes'] = array(CLASSHOME=>HOMEID=> CLASSGLOBAL=>GLOBALID,
-    }
+    //$array_special_classes = config('editora.special_classes',
+    // if(isset($array_special_classes) && !empty($array_special_classes)){
+            //[class_id=>instance_id]
+    //     $GLOBALS['special_classes'] = $array_special_classes,
+    // }else{
+    //     $GLOBALS['special_classes'] = array(CLASSHOME=>HOMEID=> CLASSGLOBAL=>GLOBALID,
+    // }
 
-       global $array_langs,
-    $array_langs = config('editora.languages',
- */
-
+    //    global $array_langs,
+    // $array_langs = config('editora.languages',
+ 
 return [
     'ERROR_LEVEL'=> 7,
     'HOST_URL'=> url('/'),
