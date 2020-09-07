@@ -53,14 +53,14 @@ class Template
 
 
 		if ($last_row+1 == 0) // Comprovacio del numero de rows per si no n'hi ha cap
-			$res.='<h2>'.getMessage('paginacion_registros_del').' 0 '.getMessage('paginacion_al').' '.($last_row+1).' '.getMessage('paginacion_de').' '.$conta.'</h2>';
+			$res.='<h2>'.__('editora_lang::messages.paginacion_registros_del').' 0 '.__('editora_lang::messages.paginacion_al').' '.($last_row+1).' '.__('editora_lang::messages.paginacion_de').' '.$conta.'</h2>';
 
 		else // Perfecte tenim mes de 0 rows
-			$res.='<h2>'.getMessage('paginacion_registros_del').' '.($first_row+1).' '.getMessage('paginacion_al').' '.($last_row+1).' '.getMessage('paginacion_de').' '.$conta.'</h2>';
+			$res.='<h2>'.__('editora_lang::messages.paginacion_registros_del').' '.($first_row+1).' '.__('editora_lang::messages.paginacion_al').' '.($last_row+1).' '.__('editora_lang::messages.paginacion_de').' '.$conta.'</h2>';
                  $res.='<ul>';
 		if ($p_pagina!=1 && $p_pagina!=null)
 
-			$res.='<li class="prev"><a href="'.APP_BASE.'/'.$p_action.'?p_pagina='.($p_pagina-1).$p_params.'" title="'.getMessage('paginacion_anteriores').'">'.getMessage('paginacion_anteriores').'</a></li>';
+			$res.='<li class="prev"><a href="'.APP_BASE.'/'.$p_action.'?p_pagina='.($p_pagina-1).$p_params.'" title="'.__('editora_lang::messages.paginacion_anteriores').'">'.__('editora_lang::messages.paginacion_anteriores').'</a></li>';
 		
 
 		if (!$flag_ultima)
@@ -69,7 +69,7 @@ class Template
 			if ($p_pagina == null || $p_pagina <= 0)
 				$p_pagina=1;
 
-			$res.='<li class="next"><a href="'.APP_BASE.'/'.$p_action.'?p_pagina='.($p_pagina+1).$p_params.'" title="'.getMessage('paginacion_siguientes').'">'.getMessage('paginacion_siguientes').'</a></li>';
+			$res.='<li class="next"><a href="'.APP_BASE.'/'.$p_action.'?p_pagina='.($p_pagina+1).$p_params.'" title="'.__('editora_lang::messages.paginacion_siguientes').'">'.__('editora_lang::messages.paginacion_siguientes').'</a></li>';
 		}
 		$res.='</ul></div>';
 
@@ -80,28 +80,28 @@ class Template
 	{
          
 	if ($p_status=='P')
-		return '<span class="status pending" title="'.getMessage('not_published').'"></span>';
+		return '<span class="status pending" title="'.__('editora_lang::messages.not_published').'"></span>';
 
 	if ($p_status=='O')
-		return '<span class="status publish" title="'.getMessage('published').'"></span>';
+		return '<span class="status publish" title="'.__('editora_lang::messages.published').'"></span>';
 
 	if ($p_status=='V')
-		return '<span class="status revised" title="'.getMessage('pending').'"></span>';
+		return '<span class="status revised" title="'.__('editora_lang::messages.pending').'"></span>';
 	}
 
 	function status_to_html2($p_status)
 	{
 		if ($p_status=='P')
-                    return'<input type="text" id="" name="" value="'.getMessage('pending').'" disabled="disabled" class="w_50 disabled" />
-                           <span class="status pending" title="'.getMessage('pending').'">'.getMessage('pending').'</span><!-- "publish" "pending" "revised"-->';
+                    return'<input type="text" id="" name="" value="'.__('editora_lang::messages.pending').'" disabled="disabled" class="w_50 disabled" />
+                           <span class="status pending" title="'.__('editora_lang::messages.pending').'">'.__('editora_lang::messages.pending').'</span><!-- "publish" "pending" "revised"-->';
 			
 		if ($p_status=='O')
-			return '<input type="text" id="" name="" value="'.getMessage('published').'" disabled="disabled" class="w_50 disabled" />
-                           <span class="status publish" title="'.getMessage('published').'">'.getMessage('published').'</span><!-- "publish" "pending" "revised" -->';
+			return '<input type="text" id="" name="" value="'.__('editora_lang::messages.published').'" disabled="disabled" class="w_50 disabled" />
+                           <span class="status publish" title="'.__('editora_lang::messages.published').'">'.__('editora_lang::messages.published').'</span><!-- "publish" "pending" "revised" -->';
 
 		if ($p_status=='V')
-			return '<input type="text" id="" name="" value="'.getMessage('info_word_status_reviewed').'" disabled="disabled" class="w_50 disabled" />
-                           <span class="status revised" title="'.getMessage('info_word_status_reviewed').'">'.getMessage('info_word_status_reviewed').'</span><!-- "publish" "pending" "revised" -->';
+			return '<input type="text" id="" name="" value="'.__('editora_lang::messages.info_word_status_reviewed').'" disabled="disabled" class="w_50 disabled" />
+                           <span class="status revised" title="'.__('editora_lang::messages.info_word_status_reviewed').'">'.__('editora_lang::messages.info_word_status_reviewed').'</span><!-- "publish" "pending" "revised" -->';
 	}
 
 	function getClassList($p_class_id) {
@@ -111,7 +111,7 @@ class Template
 		$ret = "";
 
 		$ret.='<select name="p_class_id" class="maxw_150">';
-		$ret.='<option value="">'.getMessage('all').'</option>';
+		$ret.='<option value="">'.__('editora_lang::messages.all').'</option>';
 
 		//for ($i = 0; $i < sizeof($classes_ids); $i++)
                 foreach ($cc as $id => $nom)

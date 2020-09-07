@@ -2,7 +2,6 @@
 
 namespace Omatech\Editora\app\Http\Controllers;
 
-
 use Illuminate\Routing\Controller as LaravelController;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -16,17 +15,17 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Omatech\Editora\app\Middleware\EditoraAuth;
 use Omatech\Editora\app\Middleware\EditoraLocale;
 // use Omatech\Editora\Admin\Util\Urls;
-use Omatech\Editora\app\Models\layout;
+use Omatech\Editora\app\Models\Layout;
 use Omatech\Editora\app\Models\Security;
 use Omatech\Editora\cofig\admin;
 
-class Controller extends LaravelController {
-
+class Controller extends LaravelController
+{
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     
     private $action;
 
-    public function __construct() 
+    public function __construct()
     {
         $this->middleware([EditoraAuth::class]);
 
@@ -37,14 +36,14 @@ class Controller extends LaravelController {
         $lg = $array_langs[0];
     }
 
-    public function loadMenu($in, $params)
+    public function loadMenu($instances)
     {
         // $lg = getDefaultLanguage();
         $lg = 'es';
-        $ly=new layout();
+        $ly = new Layout();
         $menu = $ly->get_topMenu($lg);
-        $favorites = $in->getFavorites();
-        $last_accessed = $in->getLastInstances();
+        $favorites = $instances->getFavorites();
+        $last_accessed = $instances->getLastInstances();
 
         return [
             'menu' => $menu,
@@ -52,6 +51,4 @@ class Controller extends LaravelController {
             'favorites' => $favorites,
         ];
     }
-
-   
 }

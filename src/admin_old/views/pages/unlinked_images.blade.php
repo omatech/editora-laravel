@@ -5,7 +5,7 @@
 	<section class="table-view-header">
 		<div class="container">
 			<span class="data">
-				<h3 class="tit">{{getMessage('view_unlinked_files')}}</h3>
+				<h3 class="tit">{{__('editora_lang::messages.view_unlinked_files')}}</h3>
 			</span>
 		</div>
 	</section>
@@ -14,11 +14,11 @@
 			<table class="table main-table" id="pages-table">
 				<thead>
 				<tr>
-					<th class="id"><span>{{getMessage('path')}}</span></th>
-					<th class="type"><span>{{getMessage('size')}}</span></th>
-					<th class="tit"><span>{{getMessage('image')}}</span></th>
-					<th class="creation-date"><span>{{getMessage('info_word_creation_date')}}</span></th>
-					<th class="actions"><span class="hidden">{{getMessage('info_word_delete')}}</span></th>
+					<th class="id"><span>{{__('editora_lang::messages.path')}}</span></th>
+					<th class="type"><span>{{__('editora_lang::messages.size')}}</span></th>
+					<th class="tit"><span>{{__('editora_lang::messages.image')}}</span></th>
+					<th class="creation-date"><span>{{__('editora_lang::messages.info_word_creation_date')}}</span></th>
+					<th class="actions"><span class="hidden">{{__('editora_lang::messages.info_word_delete')}}</span></th>
 				</tr>
 				</thead>
 				<tbody>

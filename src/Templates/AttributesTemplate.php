@@ -129,17 +129,17 @@ class AttributesTemplate extends Template
 				$res.='<input type="hidden" name="p_mandatories" value="'.substr($mandatory_hidden,0,strlen($mandatory_hidden)-1).'"/>';
 				if ($p_mode=='I' || $p_mode=='U') $res.='<input type="hidden" name="enviat" value="1"/>';
 				$res.='<div class="column">
-					<p class="btn_back"><a href="javascript://" onclick="history.go(-1)" title="'.getMessage('navigation_back').'">'.getMessage('navigation_back').'</a></p>';
+					<p class="btn_back"><a href="javascript://" onclick="history.go(-1)" title="'.__('editora_lang::messages.navigation_back').'">'.__('editora_lang::messages.navigation_back').'</a></p>';
 				$res.='</div>';
 				$res.='<div class="column">';
 					if ($p_mode=='I') {
-						$res.='<p class="btn"><input type="submit" value="'.getMessage('info_word_add_button').'" class="boto20" /></p>'.csrf_field();
+						$res.='<p class="btn"><input type="submit" value="'.__('editora_lang::messages.info_word_add_button').'" class="boto20" /></p>'.csrf_field();
 					}
 					elseif ($p_mode=='U') {
-						$res.='<p class="btn"><input type="submit" value="'.getMessage('info_word_update_button').'" class="boto20" /></p>'.csrf_field();
+						$res.='<p class="btn"><input type="submit" value="'.__('editora_lang::messages.info_word_update_button').'" class="boto20" /></p>'.csrf_field();
 					}
 					elseif ($p_mode=='V') {
-						$res.='<p class="btn"><a href="'.APP_BASE.'/edit_instance/?p_pagina=1&amp;p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'&p_tab='.$param_arr['param14'].'" title="'.getMessage('info_word_edit_button').'" class="boto20 link_tabs">'.getMessage('info_word_edit_button').'</a></p>';
+						$res.='<p class="btn"><a href="'.APP_BASE.'/edit_instance/?p_pagina=1&amp;p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'&p_tab='.$param_arr['param14'].'" title="'.__('editora_lang::messages.info_word_edit_button').'" class="boto20 link_tabs">'.__('editora_lang::messages.info_word_edit_button').'</a></p>';
 					}
 				$res.='</div>
 			</div>
@@ -154,7 +154,7 @@ class AttributesTemplate extends Template
 		$res = '';
 
 		if ($p_mode=='I') {//objecte nou
-			$res.='<div class="edi_tit wrap"><h2>'.getMessage('creando_objeto').'  '.getMessage('viendo_objeto2').': <span>'.getClassName($p_class_id).'</span></h2></div>';
+			$res.='<div class="edi_tit wrap"><h2>'.__('editora_lang::messages.creando_objeto').'  '.__('editora_lang::messages.viendo_objeto2').': <span>'.getClassName($p_class_id).'</span></h2></div>';
 
 			$res.= '<div class="edi_panel wrap">';
 
@@ -167,13 +167,13 @@ class AttributesTemplate extends Template
 									<!-- COLUMNA ESQUERRA -->
 									<div class="column">
 										<div class="col_item">';
-			$res.= '<p><label for="">'.getMessage('info_word_status').'</label>';
+			$res.= '<p><label for="">'.__('editora_lang::messages.info_word_status').'</label>';
 			$res.= '<span class="ico_field">
 
 			<select name="p_status" id="p_status" onchange="changestatusimg(this);">';
-			if ($row['status_list']['status1']==1) $res.= '<option value="P">'.getMessage('info_word_status_pending').'</option>';
-			if ($row['status_list']['status2']==1) $res.='<option value="V">'.getMessage('info_word_status_reviewed').'</option>';
-			if ($row['status_list']['status3']==1) $res.='<option value="O">'.getMessage('info_word_status_published').'</option>';
+			if ($row['status_list']['status1']==1) $res.= '<option value="P">'.__('editora_lang::messages.info_word_status_pending').'</option>';
+			if ($row['status_list']['status2']==1) $res.='<option value="V">'.__('editora_lang::messages.info_word_status_reviewed').'</option>';
+			if ($row['status_list']['status3']==1) $res.='<option value="O">'.__('editora_lang::messages.info_word_status_published').'</option>';
 			$res.='</select><span class="status pending" title="Pendiente" id="statusimg">Pendiente</span>
 							</span></p><div class="clear"></div>';
 						$res.='</div>';
@@ -186,7 +186,7 @@ class AttributesTemplate extends Template
 											<div class="p">
 												<p>';
 
-			$res.= '<label for="">'.getMessage('info_word_publishing_begins').'</label>
+			$res.= '<label for="">'.__('editora_lang::messages.info_word_publishing_begins').'</label>
 
 			<span class="field">';
 			if (isset($row['instance_info']['publishing_begins'])) $res.='<input type="text" length="35" name="p_publishing_begins" value="'.$row['instance_info']['publishing_begins'].'" id="date1" class="datepicker"/>';
@@ -200,7 +200,7 @@ class AttributesTemplate extends Template
 											<div class="p">
 											<p>';
 			$res.='
-			 <label for="date_s2">'.getMessage('info_word_publishing_ends').':</label>';
+			 <label for="date_s2">'.__('editora_lang::messages.info_word_publishing_ends').':</label>';
 			$res.='<span class="ico_field">';
 			if (isset($row['instance_info']['publishing_ends'])) $res.='<input type="text" class="w_100" size="10" name="p_publishing_ends" value="'.$row['instance_info']['publishing_ends'].'" id="date2" class="datepicker"/></span>';
 			else $res.='<input type="text" length="35" name="p_publishing_ends" id="date2" class="datepicker"/></span></td></tr>';
@@ -222,7 +222,7 @@ class AttributesTemplate extends Template
 
 			$res.='<!-- TITOL -->
                             <div class="edi_tit wrap">';
-			$res.='<h2>'.getMessage('viendo_objeto').'<span> "'.$row['instance_info']['key_fields'].'"</span>'.getMessage('viendo_objeto2').': <span>'.getClassName($p_class_id).'</span></h2>';
+			$res.='<h2>'.__('editora_lang::messages.viendo_objeto').'<span> "'.$row['instance_info']['key_fields'].'"</span>'.__('editora_lang::messages.viendo_objeto2').': <span>'.getClassName($p_class_id).'</span></h2>';
 
 			$res.='<ul>
 				<li class="ico fav"><a href="'.APP_BASE.'/add_favorite/?p_pagina=1&amp;p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'" title="Afegir a favorits">Afegir a favorits</a></li>'.$html_edit.$html_delete;
@@ -250,7 +250,7 @@ class AttributesTemplate extends Template
 					<div class="column">
 						<div class="col_item">
 							<p>
-								<label for="">'.getMessage('info_word_status').'</label>
+								<label for="">'.__('editora_lang::messages.info_word_status').'</label>
 								<span class="ico_field">
 									'.parent::status_to_html2($row['instance_info']['status']).'
 								</span>
@@ -263,14 +263,14 @@ class AttributesTemplate extends Template
 					<div class="column">
 						<div class="col_item">
 							<p>
-								<label for="">'.getMessage('info_word_publishing_begins').'</label>
+								<label for="">'.__('editora_lang::messages.info_word_publishing_begins').'</label>
 								<input type="text" id="date_s1" value="'.$row['instance_info']['publishing_begins'].'" size="10" name="p_fecha_ini" class="w_100 disabled" readonly="readonly">
 							</p>
 						</div>
 						<div class="col_item">
 							<div class="p">
 								<p>
-									<label for="date_s2">'.getMessage('info_word_publishing_ends').'</label>
+									<label for="date_s2">'.__('editora_lang::messages.info_word_publishing_ends').'</label>
 									<input type="text" id="date_s2" value="'.$row['instance_info']['publishing_ends'].'" size="10" name="p_fecha_fin" disabled="disabled" readonly="readonly" class="w_100 disabled" />
 								</p>
 						   </div>
@@ -284,7 +284,7 @@ class AttributesTemplate extends Template
 		}
 		elseif ($p_mode=='U') {  //edit
 			$res.='<div class="edi_tit wrap">';
-			$res.='<h2>'.getMessage('info_edit_object').' <span>"'.$row['instance_info']['key_fields'].'"</span> '.getMessage('info_word_typeof').' : <span>'.getClassName($p_class_id).'</span></h2>';
+			$res.='<h2>'.__('editora_lang::messages.info_edit_object').' <span>"'.$row['instance_info']['key_fields'].'"</span> '.__('editora_lang::messages.info_word_typeof').' : <span>'.getClassName($p_class_id).'</span></h2>';
 			$res .= '</div>
                             <div class="edi_panel wrap">';
 			$res.= '<form class="form" method="post" ENCTYPE="multipart/form-data" name="Form1" action="'.APP_BASE.'/edit_instance2">
@@ -296,37 +296,37 @@ class AttributesTemplate extends Template
 						<div class="column">
 							<div class="col_item">
 							<p>
-							<label for="">'.getMessage('info_word_status').'</label>
+							<label for="">'.__('editora_lang::messages.info_word_status').'</label>
 							<span class="ico_field">';
 
 			$res .='<select name="p_status" name="id" onchange="changestatusimg(this);">';
 			if ($row['status_list']['status1']==1) {
 				if ($row['instance_info']['status']=='P') {
-					$res.='<option value="P" SELECTED>'.getMessage('info_word_status_pending').'</option>';
-					$img='<span id="statusimg" title="'.getMessage('info_word_status_pending').'" class="status pending">'.getMessage('info_word_status_pending').'</span>';
+					$res.='<option value="P" SELECTED>'.__('editora_lang::messages.info_word_status_pending').'</option>';
+					$img='<span id="statusimg" title="'.__('editora_lang::messages.info_word_status_pending').'" class="status pending">'.__('editora_lang::messages.info_word_status_pending').'</span>';
 				}
 				else {
-					$res.='<option value="P">'.getMessage('info_word_status_pending').'</option>';
+					$res.='<option value="P">'.__('editora_lang::messages.info_word_status_pending').'</option>';
 				}
 			}
 
 			if ($row['status_list']['status2']==1) {
 				if ($row['instance_info']['status']=='V') {
-					$res.='<option value="V" SELECTED>'.getMessage('info_word_status_reviewed').'</option>';
-					$img='<span id="statusimg" title="'.getMessage('info_word_status_reviewed').'" class="status revised">'.getMessage('info_word_status_reviewed').'</span>';
+					$res.='<option value="V" SELECTED>'.__('editora_lang::messages.info_word_status_reviewed').'</option>';
+					$img='<span id="statusimg" title="'.__('editora_lang::messages.info_word_status_reviewed').'" class="status revised">'.__('editora_lang::messages.info_word_status_reviewed').'</span>';
 				}
 				else {
-					$res.='<option value="V">'.getMessage('info_word_status_reviewed').'</option>';
+					$res.='<option value="V">'.__('editora_lang::messages.info_word_status_reviewed').'</option>';
 				}
 			}
 
 			if ($row['status_list']['status3']==1) {
 				if ($row['instance_info']['status']=='O') {
-					$res.='<option value="O" SELECTED>'.getMessage('info_word_status_published').'</option>';
-					$img='<span id="statusimg" title="'.getMessage('info_word_status_published').'" class="status publish">'.getMessage('info_word_status_published').'</span>';
+					$res.='<option value="O" SELECTED>'.__('editora_lang::messages.info_word_status_published').'</option>';
+					$img='<span id="statusimg" title="'.__('editora_lang::messages.info_word_status_published').'" class="status publish">'.__('editora_lang::messages.info_word_status_published').'</span>';
 				}
 				else {
-					$res.='<option value="O">'.getMessage('info_word_status_published').'</option>';
+					$res.='<option value="O">'.__('editora_lang::messages.info_word_status_published').'</option>';
 				}
 			}
 			$res .='</select>'.$img;
@@ -345,7 +345,7 @@ class AttributesTemplate extends Template
 					<div class="p">
 						<p>
 
-						<label for="date_s1">'.getMessage('info_word_publishing_begins').'</label>
+						<label for="date_s1">'.__('editora_lang::messages.info_word_publishing_begins').'</label>
 						<input type="text" length="35" name="p_publishing_begins" value="'.$row['instance_info']['publishing_begins'].'" id="date1" class="datepicker" />
 
 						</p>
@@ -354,7 +354,7 @@ class AttributesTemplate extends Template
 				<div class="col_item">
 					<div class="p">
 						<p>
-						<label for="date_s2">'.getMessage('info_word_publishing_ends').'</label>
+						<label for="date_s2">'.__('editora_lang::messages.info_word_publishing_ends').'</label>
 						<input type="text" length="35" name="p_publishing_ends" value="'.$row['instance_info']['publishing_ends'].'" id="date2" class="datepicker"/>
 						</p>
 					</div>
@@ -466,22 +466,22 @@ class AttributesTemplate extends Template
 				if ($row['type']=="R" && $p_mode=='V') {
 					if ($row['join_icon']=='Y') {
 						$params_url=$url->generate_url_params($param_arr['param4'],str_replace("-", "/", $param_arr['param5']),str_replace("-", "/", $param_arr['param6']),$param_arr['param7'],$param_arr['param8'],$row['id'],$param_arr['param2'],$row['lookup_id'],$row['max_length'],$param_arr['param13']);
-						$ret.='<li class="ico link"><a title="'.getMessage('info_word_join').'" href="'.APP_BASE.'/join/?p_pagina=1&amp;p_class_id='.$row['max_length'].'&amp;p_inst_id='.$param_arr['param2'].$params_url.'">'.getMessage('info_word_join').'</a></li>';
+						$ret.='<li class="ico link"><a title="'.__('editora_lang::messages.info_word_join').'" href="'.APP_BASE.'/join/?p_pagina=1&amp;p_class_id='.$row['max_length'].'&amp;p_inst_id='.$param_arr['param2'].$params_url.'">'.__('editora_lang::messages.info_word_join').'</a></li>';
 					}
                     if ($row['create_icon']=='Y' && $row['max_length']!=0) {
                         $params_url=$url->generate_url_params($param_arr['param4'],str_replace("-", "/", $param_arr['param5']),str_replace("-", "/", $param_arr['param6']),$param_arr['param7'],$param_arr['param8'],$row['id'],null,$row['lookup_id'],$row['max_length'],$param_arr['param13']);
-                        $ret.='<li class="ico add"><a title="'.getMessage('info_word_addjoin').'" href="'.APP_BASE.'/add_and_join/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_inst_id='.$p_inst_id.'&amp;p_parent_class_id='.$row['lookup_id'].'&amp;p_child_class_id='.$row['max_length'].'&amp;p_tab='.$tab_id.'">'.getMessage('info_word_addjoin').'</a></li>';
+                        $ret.='<li class="ico add"><a title="'.__('editora_lang::messages.info_word_addjoin').'" href="'.APP_BASE.'/add_and_join/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_inst_id='.$p_inst_id.'&amp;p_parent_class_id='.$row['lookup_id'].'&amp;p_child_class_id='.$row['max_length'].'&amp;p_tab='.$tab_id.'">'.__('editora_lang::messages.info_word_addjoin').'</a></li>';
                     }
 
                 }
 				// CLONAR IMATGES
 				if ($row['type']=="I" && $p_mode=='V') {
-					$ret.='<li class="ico clon2"><a title="'.getMessage('info_word_clone').'" href="javascript://" onclick="cloneImage('.$row['class_id'].','.$p_inst_id.','.$row['id'].',\''.$tab_id.'\');">'.getMessage('info_word_clone').'</a></li>';
+					$ret.='<li class="ico clon2"><a title="'.__('editora_lang::messages.info_word_clone').'" href="javascript://" onclick="cloneImage('.$row['class_id'].','.$p_inst_id.','.$row['id'].',\''.$tab_id.'\');">'.__('editora_lang::messages.info_word_clone').'</a></li>';
 				}
 				if ($row['join_massive']=='Y' && $row['max_length']!=0 && $p_mode=='V') {
-						$ret.='<a href="controller.php?p_action=add_massive&amp;p_relation_id='.$row['id'].'&amp;p_inst_id='.$p_inst_id.'&amp;p_parent_class_id='.$row['lookup_id'].'&amp;p_child_class_id='.$row['max_length'].'&amp;p_tab='.$tab_id.'" class="omp_field ico lupa"><img class="icon" src="'.APP_BASE.'/images/plus_nova.gif" border="0" title="'.getMessage('info_word_addmassive').'"/></a>';
-						$ret.='<a href="controller.php?p_action=export_massive&amp;p_relation_id='.$row['id'].'&amp;p_inst_id='.$p_inst_id.'&amp;p_parent_class_id='.$row['lookup_id'].'&amp;p_child_class_id='.$row['max_length'].'&amp;p_tab='.$tab_id.'" class="omp_field ico lupa"><img class="icon" src="'.APP_BASE.'/images/export_massiu.gif" border="0" title="'.getMessage('info_word_exportmassive').'"/></a>';
-						$ret.='<a onclick="function dr(){if (confirm(\''.getMessage('delete_massive_confirmation').'\')) return true; else return false;}return dr();"href="controller.php?p_action=delete_relation_instance_all&amp;p_relation_id='.$row['rel_id'].'&amp;p_class_id='.$row['lookup_id'].'&amp;p_inst_id='.$p_inst_id.'&amp;p_tab='.$tab_id.'" class="omp_field ico lupa"><img class="icon" src="'.APP_BASE.'/images/plus_delete.gif" border="0" title="'.getMessage('info_word_unjoin_all').'"/></a>';
+						$ret.='<a href="controller.php?p_action=add_massive&amp;p_relation_id='.$row['id'].'&amp;p_inst_id='.$p_inst_id.'&amp;p_parent_class_id='.$row['lookup_id'].'&amp;p_child_class_id='.$row['max_length'].'&amp;p_tab='.$tab_id.'" class="omp_field ico lupa"><img class="icon" src="'.APP_BASE.'/images/plus_nova.gif" border="0" title="'.__('editora_lang::messages.info_word_addmassive').'"/></a>';
+						$ret.='<a href="controller.php?p_action=export_massive&amp;p_relation_id='.$row['id'].'&amp;p_inst_id='.$p_inst_id.'&amp;p_parent_class_id='.$row['lookup_id'].'&amp;p_child_class_id='.$row['max_length'].'&amp;p_tab='.$tab_id.'" class="omp_field ico lupa"><img class="icon" src="'.APP_BASE.'/images/export_massiu.gif" border="0" title="'.__('editora_lang::messages.info_word_exportmassive').'"/></a>';
+						$ret.='<a onclick="function dr(){if (confirm(\''.__('editora_lang::messages.delete_massive_confirmation').'\')) return true; else return false;}return dr();"href="controller.php?p_action=delete_relation_instance_all&amp;p_relation_id='.$row['rel_id'].'&amp;p_class_id='.$row['lookup_id'].'&amp;p_inst_id='.$p_inst_id.'&amp;p_tab='.$tab_id.'" class="omp_field ico lupa"><img class="icon" src="'.APP_BASE.'/images/plus_delete.gif" border="0" title="'.__('editora_lang::messages.info_word_unjoin_all').'"/></a>';
 				}elseif ($row['create_icon']=='Y' && $row['max_length']==0 && $row['related_instances']['info']['multiple_child_class_id']!=null && $p_mode=='V'){
                     $child_classes = explode(',', $row['related_instances']['info']['multiple_child_class_id']);
                     $join = "<ul>";
@@ -490,7 +490,7 @@ class AttributesTemplate extends Template
                     }
                     $join .= "</ul>";
 
-                    $ret.='<li class="ico add"><a title="'.getMessage('info_word_addjoin').'" href="#" data-featherlight="'.$join.'">'.getMessage('info_word_addjoin').'</a></li>';
+                    $ret.='<li class="ico add"><a title="'.__('editora_lang::messages.info_word_addjoin').'" href="#" data-featherlight="'.$join.'">'.__('editora_lang::messages.info_word_addjoin').'</a></li>';
                 }
 
 			$ret.='</ul>';
@@ -531,9 +531,9 @@ class AttributesTemplate extends Template
 							.append(function() {
 								var html = \'<a href="javascript://">\' +
 									item.label;
-									if (item.status == "O") html += \'<span class="status publish" title="'.getMessage('info_word_status_pending').'"></span>\';
-									else if (item.status == "V") html += \'<span class="status revised" title="'.getMessage('info_word_status_reviewed').'"></span>\';
-									else if (item.status == "P") html += \'<span class="status pending" title="'.getMessage('info_word_status_pending').'"></span>\';
+									if (item.status == "O") html += \'<span class="status publish" title="'.__('editora_lang::messages.info_word_status_pending').'"></span>\';
+									else if (item.status == "V") html += \'<span class="status revised" title="'.__('editora_lang::messages.info_word_status_reviewed').'"></span>\';
+									else if (item.status == "P") html += \'<span class="status pending" title="'.__('editora_lang::messages.info_word_status_pending').'"></span>\';
 									html += \' [\' + item.className + \']\'
 								\'</a>\';
 								return html;
@@ -679,23 +679,23 @@ class AttributesTemplate extends Template
 						$res.='<ul class="sortableitem" id="relid'.($row["id"]+1).'">';
 							if ($order_type=='M') {//Pintem les fletxetes d'ordenacio manual
 								if ($current_row==0) { //Es el primer
-									$res.='<li class="mov_begin"><span>'.getMessage('info_word_ordertop').'</span></li>';
-									$res.='<li class="mov_final"><a title="'.getMessage('info_word_orderbottom').'" href="'.APP_BASE.'/order_down_bottom/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderbottom').'</a></li>';
-									$res.='<li class="mov_up sep"><span>'.getMessage('info_word_orderup').'</span></li>';
-									$res.='<li class="mov_down"><a title="'.getMessage('info_word_orderdown').'" href="'.APP_BASE.'/order_down/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderdown').'</a></li>';
+									$res.='<li class="mov_begin"><span>'.__('editora_lang::messages.info_word_ordertop').'</span></li>';
+									$res.='<li class="mov_final"><a title="'.__('editora_lang::messages.info_word_orderbottom').'" href="'.APP_BASE.'/order_down_bottom/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.__('editora_lang::messages.info_word_orderbottom').'</a></li>';
+									$res.='<li class="mov_up sep"><span>'.__('editora_lang::messages.info_word_orderup').'</span></li>';
+									$res.='<li class="mov_down"><a title="'.__('editora_lang::messages.info_word_orderdown').'" href="'.APP_BASE.'/order_down/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.__('editora_lang::messages.info_word_orderdown').'</a></li>';
 								}
 								else {
 									if($current_row==($num_rows-1)) { // Es l'ultim
-										$res.='<li class="mov_begin"><a href="'.APP_BASE.'/order_up_top/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'" title="'.getMessage('info_word_ordertop').'">'.getMessage('info_word_ordertop').'</a></li>';
-										$res.='<li class="mov_final"><span>'.getMessage('info_word_orderbottom').'</span></li>';
-										$res.='<li class="mov_up sep"><a title="'.getMessage('info_word_orderup').'" href="'.APP_BASE.'/order_up/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderup').'</a></li>';
-										$res.='<li class="mov_down"><span>'.getMessage('info_word_orderdown').'</span></li>';
+										$res.='<li class="mov_begin"><a href="'.APP_BASE.'/order_up_top/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'" title="'.__('editora_lang::messages.info_word_ordertop').'">'.__('editora_lang::messages.info_word_ordertop').'</a></li>';
+										$res.='<li class="mov_final"><span>'.__('editora_lang::messages.info_word_orderbottom').'</span></li>';
+										$res.='<li class="mov_up sep"><a title="'.__('editora_lang::messages.info_word_orderup').'" href="'.APP_BASE.'/order_up/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.__('editora_lang::messages.info_word_orderup').'</a></li>';
+										$res.='<li class="mov_down"><span>'.__('editora_lang::messages.info_word_orderdown').'</span></li>';
 									}
 									else { // Cas normal, element que no es el primer ni l'ultim
-										$res.='<li class="mov_begin"><a href="'.APP_BASE.'/order_up_top/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'" title="'.getMessage('info_word_ordertop').'">'.getMessage('info_word_ordertop').'</a></li>';
-										$res.='<li class="mov_final"><a title="'.getMessage('info_word_orderbottom').'" href="'.APP_BASE.'/order_down_bottom/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderbottom').'</a></li>';
-										$res.='<li class="mov_up sep"><a title="'.getMessage('info_word_orderup').'" href="'.APP_BASE.'/order_up/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderup').'</a></li>';
-										$res.='<li class="mov_down"><a title="'.getMessage('info_word_orderdown').'" href="'.APP_BASE.'/order_down/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderdown').'</a></li>';
+										$res.='<li class="mov_begin"><a href="'.APP_BASE.'/order_up_top/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'" title="'.__('editora_lang::messages.info_word_ordertop').'">'.__('editora_lang::messages.info_word_ordertop').'</a></li>';
+										$res.='<li class="mov_final"><a title="'.__('editora_lang::messages.info_word_orderbottom').'" href="'.APP_BASE.'/order_down_bottom/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.__('editora_lang::messages.info_word_orderbottom').'</a></li>';
+										$res.='<li class="mov_up sep"><a title="'.__('editora_lang::messages.info_word_orderup').'" href="'.APP_BASE.'/order_up/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.__('editora_lang::messages.info_word_orderup').'</a></li>';
+										$res.='<li class="mov_down"><a title="'.__('editora_lang::messages.info_word_orderdown').'" href="'.APP_BASE.'/order_down/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.__('editora_lang::messages.info_word_orderdown').'</a></li>';
 									}
 								}
 							}
@@ -707,8 +707,8 @@ class AttributesTemplate extends Template
 				$res.='</td>';
 				$res.='<th scope="row"><span>'.$row['inst_id'].'</span></th>';
 				$res.='<td class="instance"><a href="'.APP_BASE.'/view_instance/?p_pagina=1&amp;p_class_id='.$row['child_class_id'].'&amp;p_inst_id='.$row['inst_id'].'" title="Ver '.$row['key_fields'].'">'.$row['key_fields'].'</a></td>';
-				$res.='<td class="ico del"><a class="reldelete" href="'.APP_BASE.'/delete_relation_instance/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_class_id='.$row['parent_class_id'].'&amp;p_inst_id='.$p_parent_inst_id.'&amp;p_tab='.$tab.'&amp;p_rel_id='.$rel_id.'" title="'.getMessage('info_word_unjoin').'">'.getMessage('info_word_unjoin').'</a></td>';
-				$res.='<td class="ico edi"><a href="'.APP_BASE.'/edit_instance/?p_pagina=1&amp;p_class_id='.$row['child_class_id'].'&amp;p_inst_id='.$row['inst_id'].'" title="'.getMessage('info_word_edit').'">'.getMessage('info_word_edit').'</a></td>';
+				$res.='<td class="ico del"><a class="reldelete" href="'.APP_BASE.'/delete_relation_instance/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_class_id='.$row['parent_class_id'].'&amp;p_inst_id='.$p_parent_inst_id.'&amp;p_tab='.$tab.'&amp;p_rel_id='.$rel_id.'" title="'.__('editora_lang::messages.info_word_unjoin').'">'.__('editora_lang::messages.info_word_unjoin').'</a></td>';
+				$res.='<td class="ico edi"><a href="'.APP_BASE.'/edit_instance/?p_pagina=1&amp;p_class_id='.$row['child_class_id'].'&amp;p_inst_id='.$row['inst_id'].'" title="'.__('editora_lang::messages.info_word_edit').'">'.__('editora_lang::messages.info_word_edit').'</a></td>';
 			$res.='</tr>';
 			$current_row++;
 		}
@@ -960,9 +960,9 @@ class AttributesTemplate extends Template
             $ret.='<div class="photo">';
             $ret.='<img id="img'.$prefix.$row['id'].$postfix.'" class="clone_drag_img" alt="" src="'.APP_BASE.'/images/noimage.png"/>';
             $ret.='<dl>
-						<dt>'.getMessage('theoric_size').':</dt>
+						<dt>'.__('editora_lang::messages.theoric_size').':</dt>
 							<dd><span id="wt'.$prefix.$row['id'].$postfix.'">'.$img_w.'</span>x<span id="ht'.$prefix.$row['id'].$postfix.'">'.$img_h.'</span></dd>
-						<dt>'.getMessage('real_size').':</dt>
+						<dt>'.__('editora_lang::messages.real_size').':</dt>
 							<dd><span id="w'.$prefix.$row['id'].$postfix.'"></span>x<span id="h'.$prefix.$row['id'].$postfix.'"></span></dd>';
             $ret.='</dl>';
             $ret.='</div>';
@@ -1006,9 +1006,9 @@ class AttributesTemplate extends Template
             else $ret.=APP_BASE.'/images/noimage.png';
             $ret.='"/>';
             $ret.='<dl>
-						<dt>'.getMessage('theoric_size').':</dt>
+						<dt>'.__('editora_lang::messages.theoric_size').':</dt>
 							<dd><span id="wt'.$prefix.$row['id'].$postfix.'">'.$img_w.'</span>x<span id="ht'.$prefix.$row['id'].$postfix.'">'.$img_h.'</span></dd>
-						<dt>'.getMessage('real_size').':</dt>';
+						<dt>'.__('editora_lang::messages.real_size').':</dt>';
             if (($img_w!=$mida_real[0] && $img_w!=null) || ($img_h!=$mida_real[1] && $img_h!=null)) $ret.='<dd class="mida_ko"><span id="w'.$prefix.$row['id'].$postfix.'">'.$mida_real[0].'</span>x<span id="h'.$prefix.$row['id'].$postfix.'">'.$mida_real[1].'</span></dd>';
             else $ret.='<dd class="real"><span id="w'.$prefix.$row['id'].$postfix.'">'.$mida_real[0].'</span>x<span id="h'.$prefix.$row['id'].$postfix.'">'.$mida_real[1].'</span></dd>';
             $ret.='</dl>';
@@ -1035,9 +1035,9 @@ class AttributesTemplate extends Template
 
             $ret.='<div>
 						<dl>
-							<dt>'.getMessage('theoric_size').':</dt>
+							<dt>'.__('editora_lang::messages.theoric_size').':</dt>
 								<dd>'.$img_w.'x'.$img_h.'</dd>
-							<dt>'.getMessage('real_size').':</dt>';
+							<dt>'.__('editora_lang::messages.real_size').':</dt>';
             if (($img_w!=$mida_real[0] && $img_w!=null) || ($img_h!=$mida_real[1] && $img_h!=null)) $ret.='<dd class="mida_ko">'.$mida_real[0].'x'.$mida_real[1].'</dd>';
             else $ret.='<dd class="real">'.$mida_real[0].'x'.$mida_real[1].'</dd>';
             $ret.='</dl>

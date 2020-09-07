@@ -24,7 +24,7 @@ function html_delete_relation_instance ($p_relinst_id) {
 	$sql4 = "update omp_relation_instances set weight = (weight + 10) where rel_id = ".$row3['rel_id']." and parent_inst_id = ".$row3['parent_inst_id']." and weight < ".$row3['weight'].";";
 	$ret4 = mysql_query($sql4, $dbh);
 
-	return html_message_ok(getMessage('info_word_deletejoin'));
+	return html_message_ok(__('editora_lang::messages.info_word_deletejoin'));
 }
 
 function html_delete_relation_instance_all ($p_inst_id,$p_rel_id) {
@@ -50,7 +50,7 @@ function html_delete_relation_instance_all ($p_inst_id,$p_rel_id) {
 		return html_message_error("Error a l'esborrar: ".mysql_error());
 	}
 
-	return html_message_ok(getMessage('info_word_deletejoin'));
+	return html_message_ok(__('editora_lang::messages.info_word_deletejoin'));
 }
 
 function delete_relation_instance ($p_relinst_id) {

@@ -29,18 +29,18 @@ class AdminNewInstance2 extends AuthController
             
             $params['p_mode']= $p_mode = 'V';
             $menu = $this->loadMenu($instances, $params);
-            $title=EDITORA_NAME." -> ".getMessage('info_create_object')." ".getClassName($params['param1']);
+            $title=EDITORA_NAME." -> ".__('editora_lang::messages.info_create_object')." ".getClassName($params['param1']);
             $res=$instances->insertAttributes($params);
             
             if (!$res || $res < 0) {
                 $instance = $at->getInstanceAttributes('I', $params);
                 $p_mode='I';
                 if ($res==-1) {
-                    $message=html_message_error(getMessage('error_param_mandatory'));
+                    $message=html_message_error(__('editora_lang::messages.error_param_mandatory'));
                 } elseif ($res==-2) {
-                    $message=html_message_error(getMessage('error_param_data'));
+                    $message=html_message_error(__('editora_lang::messages.error_param_data'));
                 } elseif ($res==-3) {
-                    $message=html_message_error(getMessage('error_param_urlnice'));
+                    $message=html_message_error(__('editora_lang::messages.error_param_urlnice'));
                 }
                 
                 $_REQUEST['view']='container';
@@ -48,7 +48,7 @@ class AdminNewInstance2 extends AuthController
                 $params['p_acces_type']='A';
                 $params['param2']=$res;
                 $instances->logAccess($params);
-                $message=html_message_ok(getMessage('info_word_object').' '.$res.' '.getMessage('info_object_created'));
+                $message=html_message_ok(__('editora_lang::messages.info_word_object').' '.$res.' '.__('editora_lang::messages.info_object_created'));
 
                 $p_multiple = false;
                 if (isset($_REQUEST['p_multiple'])) {
@@ -56,7 +56,7 @@ class AdminNewInstance2 extends AuthController
                 }
 
                 if ($p_multiple) {
-                    $title=EDITORA_NAME." -> ".getMessage('info_view_object');
+                    $title=EDITORA_NAME." -> ".__('editora_lang::messages.info_view_object');
                     $res2=$re->createRelation($params);
                     $instance = $at->getInstanceAttributes($p_mode, $params);
                 } elseif ($params['param11']) {// Vengo del relacionar
@@ -64,7 +64,7 @@ class AdminNewInstance2 extends AuthController
 //                    $instances->refreshCache($params);
                     $params['param13']=$res;
                     $params['param2']=$params['param13'];
-                    $title=EDITORA_NAME." -> ".getMessage('info_view_object');
+                    $title=EDITORA_NAME." -> ".__('editora_lang::messages.info_view_object');
                     $res2=$re->createRelation($params);
 
                     $params_redirect = array(

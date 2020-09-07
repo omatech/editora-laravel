@@ -5,21 +5,21 @@
         <section class="table-view-header">
             <div class="container">
 			<span class="data">
-				<h3 class="tit">{{getMessage('results_for')}}: "{{$term}}"</h3>
+				<h3 class="tit">{{__('editora_lang::messages.results_for')}}: "{{$term}}"</h3>
 			</span>
                 <form action="{{ route('editora.action', 'search') }}">
                     <div class="form-row">
                         <div class="form-group" style="margin-bottom:0; margin-right:5px; min-width:140px;">
                             <select class="form-control" name="p_search_state">
-                                <option value="">{{ getMessage('info_word_status') }}</option>
+                                <option value="">{{ __('editora_lang::messages.info_word_status') }}</option>
                                 <option value="O" @if($status === 'O') selected @endif>
-                                    {{getMessage('info_word_status_published')}}
+                                    {{__('editora_lang::messages.info_word_status_published')}}
                                 </option>
                                 <option value="P" @if($status === 'P') selected @endif>
-                                    {{getMessage('info_word_status_pending')}}
+                                    {{__('editora_lang::messages.info_word_status_pending')}}
                                 </option>
                                 <option value="V" @if($status === 'V') selected @endif>
-                                    {{getMessage('info_word_status_reviewed')}}
+                                    {{__('editora_lang::messages.info_word_status_reviewed')}}
                                 </option>
                             </select>
                         </div>

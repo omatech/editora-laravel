@@ -7,7 +7,7 @@ class Instances extends model
 {
     private function generaQuery($p_search_query, $p_class_id, $p_fecha_ini, $p_fecha_fin, $p_search_state, $p_parent_inst_id, &$sql_add, &$from_add, $p_mode, $p_relation_id = '')
     {
-        if ($p_class_id) { // TODO: Aki s'hauria de mirar a kines classes pot accedir el menda
+        if ($p_class_id) { // TODO:comprobar a que clases puede acceder el usuario
             $p_class_id = str_replace("\"", "\\\"", str_replace("[\]", "", $p_class_id));
             $sql_add.=' and i.class_id='.$p_class_id.' ';
         }
@@ -815,7 +815,7 @@ class Instances extends model
         $sql = "delete from omp_instances where id = ".str_replace("\"", "\\\"", str_replace("[\]", "", $p_inst_id)).";";
         parent::execute($sql);
 
-        return getMessage('info_object_deleted');
+        return __('editora_lang::messages.info_object_deleted');
     }
 
     function deleteImage($full_path)
@@ -874,7 +874,7 @@ class Instances extends model
                 parent::execute($sql);
             }
         }
-        return getMessage('info_object_deleted_plural');
+        return __('editora_lang::messages.info_object_deleted_plural');
     }
 
     function getClassID_from_Instance($p_inst_id)

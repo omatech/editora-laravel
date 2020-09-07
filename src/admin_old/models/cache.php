@@ -95,14 +95,14 @@ class cache extends model
 	
 	function eraseCache() {
 		$this->deleteCache();
-		return html_message_ok(getMessage('info_erase_cache'));
+		return html_message_ok(__('editora_lang::messages.info_erase_cache'));
 	}
 	
 	function cleanCache() {
 		$idiomes = count($this->busca_idiomes);
 		$this->deleteCacheIncomplete($idiomes);
 		
-		return html_message_ok(getMessage('info_clean_cache'));
+		return html_message_ok(__('editora_lang::messages.info_clean_cache'));
 	}
 	
 	function regenerateCacheWithout() {
@@ -110,7 +110,7 @@ class cache extends model
 		$return='';
 		foreach ($instances as $inst_id) $this->updateCache($inst_id,'N');
 
-		return html_message_ok(getMessage('info_regenerate_cache'));
+		return html_message_ok(__('editora_lang::messages.info_regenerate_cache'));
 	}
 	
 	//Despres d'una carrega massiva
@@ -120,7 +120,7 @@ class cache extends model
 		$return='';
 		foreach ($instances as $inst_id) $this->updateCache($inst_id,'N');
 
-		return html_message_ok(getMessage('info_regenerate_cache'));
+		return html_message_ok(__('editora_lang::messages.info_regenerate_cache'));
 	}
 	
 	function busca_idiomes() {

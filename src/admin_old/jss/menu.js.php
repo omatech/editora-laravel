@@ -70,7 +70,7 @@ oCMenu.level[2].regClass="clLevel2"
 oCMenu.level[2].overClass="clLevel2over"
 oCMenu.level[2].borderClass="clLevel2border"
 
-oCMenu.makeMenu('js_menu_inicio','','<?php echo getMessage('navigation_home'); ?>','/get_main','','120',0)
+oCMenu.makeMenu('js_menu_inicio','','<?php echo __('editora_lang::messages.navigation_home'); ?>','/get_main','','120',0)
 
 <?php
 use Illuminate\Support\Facades\Session;
@@ -90,8 +90,8 @@ use Illuminate\Support\Facades\Session;
         $ret2 = mysql_query($sql2, $dbh);
 		while ($row2 = mysql_fetch_array($ret2, MYSQL_ASSOC)) {
 			echo "oCMenu.makeMenu('js_menu1_".$row2['id']."','js_menu".$row['id']."','".$row2['lg_name']."','','','120',0)"."\n";
-			echo "oCMenu.makeMenu('js_menu".$row2['id']."_edit','js_menu1_".$row2['id']."','".getMessage('navigation_list')."','listinstances/".$row2['id']."','','120',0)"."\n";
-			echo "oCMenu.makeMenu('js_menu".$row2['id']."_new','js_menu1_".$row2['id']."','".getMessage('navigation_new')."','newinstance/".$row2['id']."','','120',0)"."\n";
+			echo "oCMenu.makeMenu('js_menu".$row2['id']."_edit','js_menu1_".$row2['id']."','".__('editora_lang::messages.navigation_list')."','listinstances/".$row2['id']."','','120',0)"."\n";
+			echo "oCMenu.makeMenu('js_menu".$row2['id']."_new','js_menu1_".$row2['id']."','".__('editora_lang::messages.navigation_new')."','newinstance/".$row2['id']."','','120',0)"."\n";
 		}		
 	}
 ?>

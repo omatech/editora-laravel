@@ -10,7 +10,7 @@
     <div class="column column-media">
         <div class="field-video">
             <div class="top">
-                <span class="form-label">{{getMessage('video_preview')}}</span>
+                <span class="form-label">{{__('editora_lang::messages.video_preview')}}</span>
             </div>
             <figure class="video-preview ratio16by9">
                 <iframe src="{{_videoembed($attribute['atrib_values'][0]['text_val'])}}" allowfullscreen></iframe>

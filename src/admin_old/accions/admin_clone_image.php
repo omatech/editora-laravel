@@ -41,7 +41,7 @@ else {
 							foreach ($images as $image) {
 								$previous_image='';
 								$message='';
-								if ($prev_tab!=$image['tab_name']) $body.='<label for="">'.getMessage('info_word_clone').'. '.getMessage('tab').': '.$image['tab_name'].'</label><span class="clear"></span>';
+								if ($prev_tab!=$image['tab_name']) $body.='<label for="">'.__('editora_lang::messages.info_word_clone').'. '.__('editora_lang::messages.tab').': '.$image['tab_name'].'</label><span class="clear"></span>';
 								$prev_tab=$image['tab_name'];
 								$previous_image_value=$at->getAttributeValues($image['id'], $inst_id);
 								if (!empty($previous_image_value)) {
@@ -57,15 +57,15 @@ else {
 												$checked=' checked="checked"';
 											}
 											else {
-												$message=' -- ['.getMessage('small_original').']';
+												$message=' -- ['.__('editora_lang::messages.small_original').']';
 											}
 										}
 										else {
-											$message=' -- ['.getMessage('not_empty').']';
+											$message=' -- ['.__('editora_lang::messages.not_empty').']';
 										}
 									}
 									else { // es la mateixa imatge
-										$message=' -- ['.getMessage('original').']';
+										$message=' -- ['.__('editora_lang::messages.original').']';
 									}
 								}
 								else { // no teniem imatge previament
@@ -74,7 +74,7 @@ else {
 										$checked=' checked="checked"';
 									}
 									else {
-										$message=' -- <span class="red">['.getMessage('small_original').']</span>';
+										$message=' -- <span class="red">['.__('editora_lang::messages.small_original').']</span>';
 									}
 								}
 								$check='<input type="checkbox" name="p_clone[]" value="'.$image['id'].'" '.$checked.'/>';
@@ -156,7 +156,7 @@ else {
 		}
 	}
 	else {
-		Session::put('missatge', html_message_error(getMessage('error_role_privileges')));
+		Session::put('missatge', html_message_error(__('editora_lang::messages.error_role_privileges')));
 		$sc->redirect_url(APP_BASE.'/get_main');
 	}
 }

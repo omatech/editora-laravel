@@ -34,7 +34,7 @@ class InstancesTemplate extends Template
 		$res = '';
 		if ($p_class_id!= null){
 		    $classname = getClassName($p_class_id);
-		    $res .= '<br><p class="btn"><a href="'.ADMIN_URL.'/new_instance/?p_class_id='.$p_class_id.'">'.getMessage('class_new').': '.$classname.'</a></p>';
+		    $res .= '<br><p class="btn"><a href="'.ADMIN_URL.'/new_instance/?p_class_id='.$p_class_id.'">'.__('editora_lang::messages.class_new').': '.$classname.'</a></p>';
         }
 
 		$ins_title=$this->getActionTitle($p_search_query, $p_class_id, $p_fecha_ini, $p_fecha_fin);
@@ -51,25 +51,25 @@ class InstancesTemplate extends Template
 					<div class="visible">
 						<div class="p">
 							<p>
-								<label for="p_search_query">'.getMessage('info_word_text').':</label>
+								<label for="p_search_query">'.__('editora_lang::messages.info_word_text').':</label>
 								<input type="text" name="p_search_query" size="16" value="'.$p_search_query.'"/>
 							</p>
 						</div>
 						<div class="p">
 							<p>
-								<label for="">'.getMessage('info_word_initial_date').'</label>
+								<label for="">'.__('editora_lang::messages.info_word_initial_date').'</label>
 								<input type="text" name="p_fecha_ini" size="10" value="'.$p_fecha_ini.'" class="inputcerca" id="date_s1"/>
 							</p>
 						</div>
 						<div class="p">
 							<p>
-								<label for="date_s2">'.getMessage('info_word_final_date').'</label>
+								<label for="date_s2">'.__('editora_lang::messages.info_word_final_date').'</label>
 								<input type="text" name="p_fecha_fin" size="10" value="'.$p_fecha_fin.'" class="inputcerca" id="date_s2"/>
 							</p>
 						</div>
 					 </div>
 				</fieldset>
-				<p class="btn btn2"><input type="submit" value="'.getMessage('info_word_search_button').'" title="'.getMessage('info_word_search_button').'" /></p>';
+				<p class="btn btn2"><input type="submit" value="'.__('editora_lang::messages.info_word_search_button').'" title="'.__('editora_lang::messages.info_word_search_button').'" /></p>';
 
 				$res.='<input type="hidden" name="p_pagina" value="1"/>
 				<input type="hidden" name="p_class_id" value="'.$p_class_id.'"/>
@@ -128,25 +128,25 @@ class InstancesTemplate extends Template
 						.'&amp;p_child_class_id='.$p_child_class_id.'&amp;p_fecha_ini='.$p_fecha_ini.'&amp;p_fecha_fin='.$p_fecha_fin;
 						if ($p_mode=='R') {
 							$res.='<th scope="col"><input type="checkbox" id="select_all" name="select_all" onclick="select_unselect_all()" /></th>
-							<th scope="col"><span><a href="'.order_link($url_ordre,$p_order_by,'id').'" title="'.getMessage('info_word_ID_explanation').'">'.getMessage('info_word_ID').'</label></th>
+							<th scope="col"><span><a href="'.order_link($url_ordre,$p_order_by,'id').'" title="'.__('editora_lang::messages.info_word_ID_explanation').'">'.__('editora_lang::messages.info_word_ID').'</label></th>
 							<th scope="col"><span>Rel</span></th>
 							<th scope="col"><span></span></th>
-							<th scope="col"><span><a href="'.order_link($url_ordre,$p_order_by,'key_fields').'" title="'.getMessage('info_word_keyword_explanation').'">'.getMessage('info_word_keyword').'</a></span></th>
-							<th scope="col"><span><a href="'.order_link($url_ordre,$p_order_by,'class_realname').'" title="'.getMessage('info_word_type_explanation').'">'.getMessage('info_word_type').'</a></span></th>
-							<th scope="col" class="center"><span><a href="'.order_link($url_ordre,$p_order_by,'status').'" title='.getMessage('info_word_status_explanation').'">'.getMessage('info_word_status').'</a></span></th>
-							<th scope="col"><span><a href="'.order_link($url_ordre,$p_order_by,'cd_ordre').'" title="'.getMessage('info_word_publishing_update_explanation').'">'.getMessage('info_word_update_date').'</a></span></th>
-							<th scope="col"><span>'.getMessage('acciones').'</span></th>';
+							<th scope="col"><span><a href="'.order_link($url_ordre,$p_order_by,'key_fields').'" title="'.__('editora_lang::messages.info_word_keyword_explanation').'">'.__('editora_lang::messages.info_word_keyword').'</a></span></th>
+							<th scope="col"><span><a href="'.order_link($url_ordre,$p_order_by,'class_realname').'" title="'.__('editora_lang::messages.info_word_type_explanation').'">'.__('editora_lang::messages.info_word_type').'</a></span></th>
+							<th scope="col" class="center"><span><a href="'.order_link($url_ordre,$p_order_by,'status').'" title='.__('editora_lang::messages.info_word_status_explanation').'">'.__('editora_lang::messages.info_word_status').'</a></span></th>
+							<th scope="col"><span><a href="'.order_link($url_ordre,$p_order_by,'cd_ordre').'" title="'.__('editora_lang::messages.info_word_publishing_update_explanation').'">'.__('editora_lang::messages.info_word_update_date').'</a></span></th>
+							<th scope="col"><span>'.__('editora_lang::messages.acciones').'</span></th>';
 						}
 						else {       
 							$res.='<th scope="col"><input type="checkbox" id="select_all" name="select_all" onclick="select_unselect_del_all()" /></th>
-							<th scope="col"><span><a href="'.order_link($url_ordre,$p_order_by,'id').'" title="'.getMessage('info_word_ID_explanation').'">'.getMessage('info_word_ID').'</span></a></th>
+							<th scope="col"><span><a href="'.order_link($url_ordre,$p_order_by,'id').'" title="'.__('editora_lang::messages.info_word_ID_explanation').'">'.__('editora_lang::messages.info_word_ID').'</span></a></th>
 							<th scope="col"><span></span></th>
 							<th scope="col"><span></span></th>
-							<th scope="col"><span><a href="'.order_link($url_ordre,$p_order_by,'key_fields').'" title="'.getMessage('info_word_keyword_explanation').'">'.getMessage('info_word_keyword').'</a></span></th>
-							<th scope="col"><span><a href="'.order_link($url_ordre,$p_order_by,'class_realname').'" title="'.getMessage('info_word_type_explanation').'">'.getMessage('info_word_type').'</a></span></th>
-							<th scope="col" class="center"><span><a href="'.order_link($url_ordre,$p_order_by,'status').'" title='.getMessage('info_word_status_explanation').'">'.getMessage('info_word_status').'</a></span></th>
-							<th scope="col"><span><a href="'.order_link($url_ordre,$p_order_by,'cd_ordre').'" title="'.getMessage('info_word_publishing_update_explanation').'">'.getMessage('info_word_update_date').'</a></span></th>
-							<th scope="col"><span>'.getMessage('acciones').'</span></th>';
+							<th scope="col"><span><a href="'.order_link($url_ordre,$p_order_by,'key_fields').'" title="'.__('editora_lang::messages.info_word_keyword_explanation').'">'.__('editora_lang::messages.info_word_keyword').'</a></span></th>
+							<th scope="col"><span><a href="'.order_link($url_ordre,$p_order_by,'class_realname').'" title="'.__('editora_lang::messages.info_word_type_explanation').'">'.__('editora_lang::messages.info_word_type').'</a></span></th>
+							<th scope="col" class="center"><span><a href="'.order_link($url_ordre,$p_order_by,'status').'" title='.__('editora_lang::messages.info_word_status_explanation').'">'.__('editora_lang::messages.info_word_status').'</a></span></th>
+							<th scope="col"><span><a href="'.order_link($url_ordre,$p_order_by,'cd_ordre').'" title="'.__('editora_lang::messages.info_word_publishing_update_explanation').'">'.__('editora_lang::messages.info_word_update_date').'</a></span></th>
+							<th scope="col"><span>'.__('editora_lang::messages.acciones').'</span></th>';
 						}
 					$res.='</tr>
 					<!-- /end CAPÇALERA -->';
@@ -163,31 +163,31 @@ class InstancesTemplate extends Template
 					else $pijama=' class="even"';
 					if ($p_mode=='R') {
 						$res.='<td><input id="rel_chb_'.$id_rel.'" name="rel_chb[]" type="checkbox" value="'.$Row['id'].'" /></td>';
-						$res.='<td class="bold"><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.getMessage('info_word_view').'">'.$Row['id'].'</a></td>';
-						$res.='<td><ul class="icos_list"><li class="ico link"><a href="'.ADMIN_URL.'/join2/?p_pagina=1&amp;p_relation_id='.$p_relation_id.'&amp;p_parent_class_id='.$p_parent_class_id.'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_child_inst_id='.$Row['id'].'&amp;p_tab='.$tab.'" title="'.getMessage('info_word_join').'">Rel</a></li></ul></td>';
+						$res.='<td class="bold"><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.__('editora_lang::messages.info_word_view').'">'.$Row['id'].'</a></td>';
+						$res.='<td><ul class="icos_list"><li class="ico link"><a href="'.ADMIN_URL.'/join2/?p_pagina=1&amp;p_relation_id='.$p_relation_id.'&amp;p_parent_class_id='.$p_parent_class_id.'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_child_inst_id='.$Row['id'].'&amp;p_tab='.$tab.'" title="'.__('editora_lang::messages.info_word_join').'">Rel</a></li></ul></td>';
 						//Pintem miniatura d'imatge
 						if (isset($array_images[$Row['class_id']]) && !empty($array_images[$Row['class_id']])) {
 							$image = getListImage($Row['id'], $array_images[$Row['class_id']]);
 						}
-						if (isset($image) && $image != '') $res.='<td><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.getMessage('info_word_view').'"><img alt="" src="'.$image.'" width="50" /></a></td>';
+						if (isset($image) && $image != '') $res.='<td><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.__('editora_lang::messages.info_word_view').'"><img alt="" src="'.$image.'" width="50" /></a></td>';
 						else $res.='<td></td>';
 						//Fi pintem miniatura d'imatge
-						$res.='<td><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.getMessage('info_word_view').'"><strong>'.$Row['key_fields'].'</strong></a></td>';
+						$res.='<td><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.__('editora_lang::messages.info_word_view').'"><strong>'.$Row['key_fields'].'</strong></a></td>';
 						$res.='<td><span>'.$Row['class_realname'].'</span></td>';
 						$id_rel++;
 					}
 					else {
 						$res.='<td><input id="del_chb_'.$id_del.'" name="del_chb[]" type="checkbox" value="'.$Row['id'].'" /></td>';
-						$res.='<th scope="row"><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.getMessage('info_word_view').'">'.$Row['id'].'</a></th>';
+						$res.='<th scope="row"><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.__('editora_lang::messages.info_word_view').'">'.$Row['id'].'</a></th>';
 						$res.='<td></td>';
 						//Pintem miniatura d'imatge
 						if (isset($array_images[$Row['class_id']]) && !empty($array_images[$Row['class_id']])) {
 							$image = getListImage($Row['id'], $array_images[$Row['class_id']]);
 						}
-						if (isset($image) && $image != '') $res.='<td><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.getMessage('info_word_view').'"><img alt="" src="'.$image.'" width="50" /></a></td>';
+						if (isset($image) && $image != '') $res.='<td><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.__('editora_lang::messages.info_word_view').'"><img alt="" src="'.$image.'" width="50" /></a></td>';
 						else $res.='<td></td>';
 						//Fi pintem miniatura d'imatge
-						$res.='<td><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.getMessage('info_word_view').'">'.$Row['key_fields'].'</a></td>';
+						$res.='<td><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.__('editora_lang::messages.info_word_view').'">'.$Row['key_fields'].'</a></td>';
 						$res.='<td class="bold"><a href="'.ADMIN_URL.'/list_instances/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'">'.$Row['class_realname'].'</a></td>';
 						$id_del++;
 					}
@@ -218,16 +218,16 @@ class InstancesTemplate extends Template
 					$res.='<td><span>'.$Row['cd_ordre'].'</span></td>';
 					$res.='<td class="edi_tit">
 						<ul>';
-							$res.='<li class="ico fav"><a href="'.ADMIN_URL.'/add_favorite/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.getMessage('info_word_addfavorites').'"/>'.getMessage('info_word_addfavorites').'</a></li>';
-							if ($Row['edit']=='Y') $res.='<li class="ico edi"><a href="'.ADMIN_URL.'/edit_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.getMessage('info_word_edit').'"/>'.getMessage('info_word_edit').'</a></li>';
+							$res.='<li class="ico fav"><a href="'.ADMIN_URL.'/add_favorite/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.__('editora_lang::messages.info_word_addfavorites').'"/>'.__('editora_lang::messages.info_word_addfavorites').'</a></li>';
+							if ($Row['edit']=='Y') $res.='<li class="ico edi"><a href="'.ADMIN_URL.'/edit_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.__('editora_lang::messages.info_word_edit').'"/>'.__('editora_lang::messages.info_word_edit').'</a></li>';
 							if ($Row['status']!='O' && $Row['deletea']=='Y') {
 								if($Row['id']<USERINSTANCES && Session::get('rol_id')<>SUPERROLID) $res.='&nbsp;';
-								else $res.='<li><a href="'.ADMIN_URL.'/delete_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.getMessage('info_word_delete').'"/> <i class="fa fa-trash-o fa-lg"></i> </a></li>';
+								else $res.='<li><a href="'.ADMIN_URL.'/delete_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.__('editora_lang::messages.info_word_delete').'"/> <i class="fa fa-trash-o fa-lg"></i> </a></li>';
 							}
 							else $res.='&nbsp;';
 							if (!INST_PERM) {
 								if (getAccess('permisos',$Row['class_id'],Session::get('rol_id'))==1) {
-									$res.='<a href="controller.php?p_action=view_permisos&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'"><img src="'.ICONO_PERM.'" border="0" title="'.getMessage('info_word_modifyperm').'"/></a>&nbsp;';
+									$res.='<a href="controller.php?p_action=view_permisos&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'"><img src="'.ICONO_PERM.'" border="0" title="'.__('editora_lang::messages.info_word_modifyperm').'"/></a>&nbsp;';
 								}
 								else {
 									$res.='&nbsp;';
@@ -245,13 +245,13 @@ class InstancesTemplate extends Template
 			$res.='
 			 <div class="left">
 				<input type="hidden" id="num_rel" name="num_rel" value="'.$id_rel.'"/>
-				<p class="btn"><input type="submit" value="'.getMessage('relacionar_varis').'" title="'.getMessage('relacionar_varis').'" /></p>
+				<p class="btn"><input type="submit" value="'.__('editora_lang::messages.relacionar_varis').'" title="'.__('editora_lang::messages.relacionar_varis').'" /></p>
 			</div>';
 		}
 /*		else {
 			$res.='<div class="left">
 				<input type="hidden" id="num_del" name="num_del" value="'.$id_del.'"/>
-				<p class="btn"><input type="submit" value="'.getMessage('eliminar_varis').'" title="'.getMessage('eliminar_varis').'" /></p>
+				<p class="btn"><input type="submit" value="'.__('editora_lang::messages.eliminar_varis').'" title="'.__('editora_lang::messages.eliminar_varis').'" /></p>
 			</div>';
 		}*/
 		//$res.='</div>';
@@ -287,7 +287,7 @@ class InstancesTemplate extends Template
 		
 		//$ins_title = $this->getActionTitle();
 		$res='<div id="taula" class="col_item tbl_objects" style="width: 100%">';
-		$res.='<div id="titol_taula"><h2>'.getMessage('related_objects').':</h2></div>';
+		$res.='<div id="titol_taula"><h2>'.__('editora_lang::messages.related_objects').':</h2></div>';
 		
 		$res.='<div id="lasupertabla">';
 			$res.='<table id="tabla-objects" width="100%">
@@ -299,18 +299,18 @@ class InstancesTemplate extends Template
 				</colgroup>
 				<tbody>';
 					$res.='<tr class="thead">
-						<th class="center" scope="col"><span>'.getMessage('info_word_ID').'</span></th>
-						<th class="center" scope="col"><span>'.getMessage('info_word_keyword').'</span></th>
-						<th class="center" scope="col"><span>'.getMessage('info_word_type').'</span></th>
-						<th class="center" scope="col"><span>'.getMessage('info_word_status').'</span></th>
+						<th class="center" scope="col"><span>'.__('editora_lang::messages.info_word_ID').'</span></th>
+						<th class="center" scope="col"><span>'.__('editora_lang::messages.info_word_keyword').'</span></th>
+						<th class="center" scope="col"><span>'.__('editora_lang::messages.info_word_type').'</span></th>
+						<th class="center" scope="col"><span>'.__('editora_lang::messages.info_word_status').'</span></th>
 					</tr>';
 					$pijama=' class="even"';
 					foreach ($inst_arr['pares'] as $row) {
 						$res.='<tr'.$pijama.'>';
 							if ($pijama==' class="even"') $pijama=' class="odd"';
 							else $pijama=' class="even"';
-							$res.='<th scope="row" class="center"><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.getMessage('info_word_view').'">'.$row['id'].'</a></th>
-							<td class="center"><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.getMessage('info_word_view').'">'.$row['key_fields'].'</a></td>
+							$res.='<th scope="row" class="center"><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.__('editora_lang::messages.info_word_view').'">'.$row['id'].'</a></th>
+							<td class="center"><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.__('editora_lang::messages.info_word_view').'">'.$row['key_fields'].'</a></td>
 							<td class="bold center"><span>'.getClassName($row['class_id']).'</span></td>
 							<td><span class="status publish">'.parent::status_to_html($row['status']).'</span></td>
 						</tr>';
@@ -322,8 +322,8 @@ class InstancesTemplate extends Template
 							if ($pijama==' class="even"') $pijama=' class="odd"';
 							else $pijama=' class="even"';
 
-							$res.='<th class="omp_listelement"><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.getMessage('info_word_view').'">'.$row['id'].'</a></th>
-							<td class="omp_listelement"><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.getMessage('info_word_view').'">'.$row['key_fields'].'</a></td>
+							$res.='<th class="omp_listelement"><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.__('editora_lang::messages.info_word_view').'">'.$row['id'].'</a></th>
+							<td class="omp_listelement"><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.__('editora_lang::messages.info_word_view').'">'.$row['key_fields'].'</a></td>
 							<td class="bold omp_list_element"><span>'.getClassName($row['class_id']).'</span></td>
 							<td class="omp_listelement">'.parent::status_to_html($row['status']).'</td>
 						</tr>';
@@ -334,11 +334,11 @@ class InstancesTemplate extends Template
 		$res.='</div>';
 
 		if ($l_cont >= 1) {
-			$message='<div id="fill_ariadna2">'.html_message_error(''.getMessage('error_object_delete').'&nbsp;<a href="javascript: history.go(-1)" class="omp_copyright">'.getMessage('navigation_back').'</a>').'</div>';
+			$message='<div id="fill_ariadna2">'.html_message_error(''.__('editora_lang::messages.error_object_delete').'&nbsp;<a href="javascript: history.go(-1)" class="omp_copyright">'.__('editora_lang::messages.navigation_back').'</a>').'</div>';
 		}
 
 		if ($l_cont == 0) {
-			$message.='<div id="fill_ariadna2">'.html_message_warning(''.getMessage('info_word_areyousure').'&nbsp;<a href="'.ADMIN_URL.'/delete_instance2/?p_pagina=1&amp;p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'">'.getMessage('info_word_yes').'</a> &nbsp;&nbsp; <a href="javascript: history.go(-1)" class="omp_copyright">'.getMessage('info_word_no').'</a>').'</div>';
+			$message.='<div id="fill_ariadna2">'.html_message_warning(''.__('editora_lang::messages.info_word_areyousure').'&nbsp;<a href="'.ADMIN_URL.'/delete_instance2/?p_pagina=1&amp;p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'">'.__('editora_lang::messages.info_word_yes').'</a> &nbsp;&nbsp; <a href="javascript: history.go(-1)" class="omp_copyright">'.__('editora_lang::messages.info_word_no').'</a>').'</div>';
 		}
 		$res.='</div>';
 		
@@ -349,9 +349,9 @@ class InstancesTemplate extends Template
 	function imagesConfirm() {
 		$res='';
 		$res.='<div id="fill_ariadna2">
-			'.html_message_warning(''.getMessage('info_word_areyousure').'&nbsp;
-			<a href="'.ADMIN_URL.'/delete_image2/?image_full='.$_REQUEST['image_full'].'&image='.$_REQUEST['image'].'">'.getMessage('info_word_yes').'</a>
-			&nbsp;&nbsp;<a href="javascript: history.go(-1)" class="omp_copyright">'.getMessage('info_word_no').'</a>').'
+			'.html_message_warning(''.__('editora_lang::messages.info_word_areyousure').'&nbsp;
+			<a href="'.ADMIN_URL.'/delete_image2/?image_full='.$_REQUEST['image_full'].'&image='.$_REQUEST['image'].'">'.__('editora_lang::messages.info_word_yes').'</a>
+			&nbsp;&nbsp;<a href="javascript: history.go(-1)" class="omp_copyright">'.__('editora_lang::messages.info_word_no').'</a>').'
 		</div>
 		<br /><img alt="'.$_REQUEST['image'].'" src="'.urldecode($_REQUEST['image']).'" />';
 
@@ -375,11 +375,11 @@ class InstancesTemplate extends Template
 					</colgroup>
 					<tbody>';
 						$res.='<tr class="thead">
-							<th scope="col" class="center"><strong>'.getMessage('info_word_ID').'</strong></th>
-							<th scope="col" class="center"><strong>'.getMessage('info_word_keyword').'</strong></th>
-							<th scope="col" class="center"><strong>'.getMessage('info_word_type').'</strong></th>
-							<th scope="col" class="center"><strong>'.getMessage('info_word_status').'</strong></th>
-							<th scope="col" class="center"><strong>'.getMessage('info_word_childs').'</strong></th>
+							<th scope="col" class="center"><strong>'.__('editora_lang::messages.info_word_ID').'</strong></th>
+							<th scope="col" class="center"><strong>'.__('editora_lang::messages.info_word_keyword').'</strong></th>
+							<th scope="col" class="center"><strong>'.__('editora_lang::messages.info_word_type').'</strong></th>
+							<th scope="col" class="center"><strong>'.__('editora_lang::messages.info_word_status').'</strong></th>
+							<th scope="col" class="center"><strong>'.__('editora_lang::messages.info_word_childs').'</strong></th>
 						</tr>';
 
 						$to_eliminate = $res;
@@ -388,8 +388,8 @@ class InstancesTemplate extends Template
 						$insts = '';
 						foreach($delete_array as $row) {
 							$sentence ='<tr class="odd">
-								<th class="center" scope="row"><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.getMessage('info_word_view').'">'.$row['id'].'</a></th>
-								<td class="center"><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.getMessage('info_word_view').'">'.$row['key_fields'].'</a></td>
+								<th class="center" scope="row"><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.__('editora_lang::messages.info_word_view').'">'.$row['id'].'</a></th>
+								<td class="center"><a href="'.ADMIN_URL.'/view_instance/?p_pagina=1&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.__('editora_lang::messages.info_word_view').'">'.$row['key_fields'].'</a></td>
 								<td class="bold center"><span>'.getClassName($row['class_id']).'</span></td>
 								<td><span class="status publish">'.parent::status_to_html($row['status']).'</span></td>
 								<td class="center"><span>'.$row['num_fills'].'</span></td></tr>';
@@ -416,18 +416,18 @@ class InstancesTemplate extends Template
 
 		$insts = substr($insts, 0 , strlen($insts)-1);
 		if($total_eliminate >= 0 && $total_res == 0) {
-			$message = '<div id="fill_ariadna2">'.html_message_warning(''.getMessage('info_word_areyousure').'	<a href="'.ADMIN_URL.'/delete_all2/?p_pagina=1&amp;p_inst_id='.$insts.'">'.getMessage('info_word_yes').'</a> &nbsp;&nbsp; <a href="javascript: history.go(-1)" class="omp_copyright">'.getMessage('info_word_no').'</a></span>').'</div>';
+			$message = '<div id="fill_ariadna2">'.html_message_warning(''.__('editora_lang::messages.info_word_areyousure').'	<a href="'.ADMIN_URL.'/delete_all2/?p_pagina=1&amp;p_inst_id='.$insts.'">'.__('editora_lang::messages.info_word_yes').'</a> &nbsp;&nbsp; <a href="javascript: history.go(-1)" class="omp_copyright">'.__('editora_lang::messages.info_word_no').'</a></span>').'</div>';
 			return $message.$to_eliminate;
 		}
 
 		if($total_res >= 0 && $total_eliminate == 0) {
-			$message = '<div id="fill_ariadna2">'.html_message_warning(''.getMessage('info_word_not_eliminate').' <a class="omp_copyright" href="javascript: history.go(-1)">Volver</a>').'</div>';
+			$message = '<div id="fill_ariadna2">'.html_message_warning(''.__('editora_lang::messages.info_word_not_eliminate').' <a class="omp_copyright" href="javascript: history.go(-1)">Volver</a>').'</div>';
 			return $message.$res;
 		}
 
 		if($total_res > 0 && $total_eliminate > 0) {
-			$message2 = '<div id="fill_ariadna2">'.html_message_warning(''.getMessage('info_word_not_eliminate').' <a class="omp_copyright" href="javascript: history.go(-1)">Tornar</a>').'</div>';
-			$message = '<div id="fill_ariadna2">'.html_message_warning(''.getMessage('info_word_areyousure_arr').'	<a href="'.ADMIN_URL.'/delete_all2/?p_pagina=1&amp;p_inst_id='.$insts.'">'.getMessage('info_word_yes').'</a> &nbsp;&nbsp; <a href="javascript: history.go(-1)" class="omp_copyright">'.getMessage('info_word_no').'</a></span>').'</div>';
+			$message2 = '<div id="fill_ariadna2">'.html_message_warning(''.__('editora_lang::messages.info_word_not_eliminate').' <a class="omp_copyright" href="javascript: history.go(-1)">Tornar</a>').'</div>';
+			$message = '<div id="fill_ariadna2">'.html_message_warning(''.__('editora_lang::messages.info_word_areyousure_arr').'	<a href="'.ADMIN_URL.'/delete_all2/?p_pagina=1&amp;p_inst_id='.$insts.'">'.__('editora_lang::messages.info_word_yes').'</a> &nbsp;&nbsp; <a href="javascript: history.go(-1)" class="omp_copyright">'.__('editora_lang::messages.info_word_no').'</a></span>').'</div>';
 			return $message.$to_eliminate.$message2.$res;
 		}
 	}
@@ -454,10 +454,10 @@ class InstancesTemplate extends Template
 				$res.='<!-- CAPÇALERA -->
 				<tbody>
 					<tr class="thead">
-						<th scope="col"><strong>'.getMessage('file_name').'</label></th>
-						<th scope="col"><strong>'.getMessage('file_image').'</strong></th>
-						<th scope="col"><strong>'.getMessage('file_upload_date').'</strong></th>
-						<th scope="col"><strong>'.getMessage('acciones').'</strong></th>
+						<th scope="col"><strong>'.__('editora_lang::messages.file_name').'</label></th>
+						<th scope="col"><strong>'.__('editora_lang::messages.file_image').'</strong></th>
+						<th scope="col"><strong>'.__('editora_lang::messages.file_upload_date').'</strong></th>
+						<th scope="col"><strong>'.__('editora_lang::messages.acciones').'</strong></th>
 					</tr>
 				<!-- /end CAPÇALERA -->';
 				$pijama=' class="even"';
@@ -475,7 +475,7 @@ class InstancesTemplate extends Template
 						$res.='<td><span>'.$file['date'].'</span></td>';
 						$res.='<td class="edi_tit">
 							<ul>';
-								$res.='<li><a href="'.ADMIN_URL.'/delete_image/?image_full='.urlencode($file['full_url']).'&image='.urlencode($file['url']).'" title="'.getMessage('info_word_delete').'"/> <i class="fa fa-trash-o"></i> '.getMessage('info_word_delete').'</a></li>';
+								$res.='<li><a href="'.ADMIN_URL.'/delete_image/?image_full='.urlencode($file['full_url']).'&image='.urlencode($file['url']).'" title="'.__('editora_lang::messages.info_word_delete').'"/> <i class="fa fa-trash-o"></i> '.__('editora_lang::messages.info_word_delete').'</a></li>';
 							$res.='</ul>';
 						$res.='</td>
 					</tr>';

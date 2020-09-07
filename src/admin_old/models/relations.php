@@ -127,25 +127,25 @@ class relations extends model
 	///////////////////////////////////////////////////////////////////////////////////////////
 	function relationInstanceUp($param_arr) {
 		$this->relationShake($param_arr['param9'], -10);
-		return getMessage('info_word_orderjoin');
+		return __('editora_lang::messages.info_word_orderjoin');
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 	function relationInstanceDown($param_arr) {
 		$this->relationShake($param_arr['param9'], 10);
-		return getMessage('info_word_orderjoin');
+		return __('editora_lang::messages.info_word_orderjoin');
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 	function relationInstanceUpTop($param_arr) {
 		$this->relationShakeTop($param_arr['param9'], 10);
-		return getMessage('info_word_orderjoin');
+		return __('editora_lang::messages.info_word_orderjoin');
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 	function relationInstanceDownBottom($param_arr) {
 		$this->relationShakeTop($param_arr['param9'], -10);
-		return getMessage('info_word_orderjoin');
+		return __('editora_lang::messages.info_word_orderjoin');
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////

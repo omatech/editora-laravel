@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Session;
 			else 
 				$message=html_message_warning("Unexpected error: ".$ret);
 
-			$title=EDITORA_NAME." -> ".getMessage('info_view_object');
+			$title=EDITORA_NAME." -> ".__('editora_lang::messages.info_view_object');
 			$ly_t->pinta_CommonLayout($top_menu, $buscador, $last_accessed, $favorites, $special, $ly, $in, $lg, $params);
 			$body=$at_t->instanceAttributes_view($at->getInstanceAttributes('V', $params), $params);
 			$parents=$ly_t->paintParentsList($in->getParents($params),$params);
@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Session;
 			$_REQUEST['view']='container';
 		}
 		else {
-			Session::put('missatge', html_message_error(getMessage('error_role_privileges')));
+			Session::put('missatge', html_message_error(__('editora_lang::messages.error_role_privileges')));
 			$sc->redirect_url(APP_BASE.'/get_main');
 		}
 	}

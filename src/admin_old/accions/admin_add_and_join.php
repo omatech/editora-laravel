@@ -22,7 +22,7 @@ class AdminAddAndJoin extends AuthController
 
         $params['p_mode'] = 'V';
         $p_mode = 'I';
-        $title=EDITORA_NAME." -> ".getMessage('info_view_object');
+        $title=EDITORA_NAME." -> ".__('editora_lang::messages.info_view_object');
 
         $params['p_inst_id']= $_REQUEST['p_inst_id'];
         $menu = $this->loadMenu($instances, $params);
@@ -35,7 +35,7 @@ class AdminAddAndJoin extends AuthController
             $view ='editora::pages.instance';
         } else {
             $instance['instance_info']=null;
-            $title = getMessage('error_role_privileges');
+            $title = __('editora_lang::messages.error_role_privileges');
             $view ='editora::pages.permission_denied';
         }
 

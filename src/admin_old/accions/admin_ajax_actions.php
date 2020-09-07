@@ -33,9 +33,9 @@ class AdminAjaxActions extends AuthController
                         $sended = true;
                     }
                     if ($sended) {
-                        echo getMessage('saved');
+                        echo __('editora_lang::messages.saved');
                     }else {
-                        echo getMessage('saved_wrong');
+                        echo __('editora_lang::messages.saved_wrong');
                     }
                 }elseif($_REQUEST['ajax'] == 'refresh_view'){
                     

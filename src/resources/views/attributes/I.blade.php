@@ -10,17 +10,17 @@
                 </figure>
                 <div class="media-info">
                     <dl class="media-dada">
-                        <dt class="media-param">{{getMessage('theoric_size')}}:</dt>
+                        <dt class="media-param">{{__('editora_lang::messages.theoric_size')}}:</dt>
                         <dd class="media-value">{{$attribute['img_w']}}x{{$attribute['img_h']}}&nbsp;</dd>
-                        <dt class="media-param">{{getMessage('real_size')}}:</dt>
+                        <dt class="media-param">{{__('editora_lang::messages.real_size')}}:</dt>
                         <dd class="media-value">{{Str::replaceFirst('.','x',$attribute['atrib_values'][0]['img_info'])}}
                             &nbsp;
                         </dd>
-                        <dt class="media-param">{{getMessage('preview_format')}}:</dt>
+                        <dt class="media-param">{{__('editora_lang::messages.preview_format')}}:</dt>
                         <dd class="media-value">{{_fileExtension($file)}}&nbsp;</dd>
-                        <dt class="media-param">{{getMessage('size')}}:</dt>
+                        <dt class="media-param">{{__('editora_lang::messages.size')}}:</dt>
                         <dd class="media-value">{{ _getFileSize($file) }}&nbsp;</dd>
-                        <dt class="media-param">{{getMessage('path')}}:</dt>
+                        <dt class="media-param">{{__('editora_lang::messages.path')}}:</dt>
                         <dd class="media-value">{{$attribute['atrib_values'][0]['text_val']}}&nbsp;</dd>
                     </dl>
                     <ul class="controls-list">
@@ -28,7 +28,7 @@
                             <a class="btn-square clr-default" data-toggle="modal" data-target="#i-modal-{{$attribute['id']}}">
                                 <i class="icon-eye"></i>
                                 <span class="sr-only">
-                                {{getMessage('preview')}}
+                                {{__('editora_lang::messages.preview')}}
                             </span>
                             </a>
                         </li>
@@ -41,7 +41,7 @@
                 </figure>
                 <div class="media-info">
                     <dl class="media-dada">
-                        <dt class="media-param">{{getMessage('theoric_size')}}:</dt>
+                        <dt class="media-param">{{__('editora_lang::messages.theoric_size')}}:</dt>
                         <dd class="media-value">{{$attribute['img_w']}}x{{$attribute['img_h']}}&nbsp;</dd>
                     </dl>
                 </div>
@@ -101,8 +101,8 @@
                     <a href="" class="btn clr-secondary" id="btnRotate_R_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-repeat" aria-hidden="true"></i></span></a>            
                     <a href="" class="btn clr-secondary" id="btnInvertX_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-arrows-h" aria-hidden="true"></i></span></a>            
                     <a href="" class="btn clr-secondary" id="btnReset_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-refresh" aria-hidden="true"></i></span></a>            
-                    <a href="" class="btn clr-danger" data-dismiss="modal"><span class="btn-text">{{getMessage('close')}}</span></a>
-                    <a href="" class="btn clr-secondary" id="btnCrop_{{$attribute_name}}"><span class="btn-text">{{getMessage('save')}}</span></a>
+                    <a href="" class="btn clr-danger" data-dismiss="modal"><span class="btn-text">{{__('editora_lang::messages.close')}}</span></a>
+                    <a href="" class="btn clr-secondary" id="btnCrop_{{$attribute_name}}"><span class="btn-text">{{__('editora_lang::messages.save')}}</span></a>
                 </div>
             </div>
         </div>

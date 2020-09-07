@@ -26,15 +26,15 @@
                         <?php echo csrf_field() ?>
                         <input type="hidden" name="p_action" value="login"/>
                         <div class="form-group">
-                            <label for="p_username" class="form-label"><?php echo getMessage('login_label_username');?></label>
+                            <label for="p_username" class="form-label"><?php echo __('editora_lang::messages.login_label_username');?></label>
                             <input type="text" name="p_username" id="p_username" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="p_password" class="form-label"><?php echo getMessage('login_label_password');?></label>
+                            <label for="p_password" class="form-label"><?php echo __('editora_lang::messages.login_label_password');?></label>
                             <input type="password" id="p_password" name="p_password" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="u_lang" class="form-label"><?php echo getMessage('login_label_language');?></label>
+                            <label for="u_lang" class="form-label"><?php echo __('editora_lang::messages.login_label_language');?></label>
                             <select name="u_lang" onChange="javascript:changeLang(this.options[this.selectedIndex].value)" id="u_lang"  class="form-control">
                                 @foreach( $arrayLangs as $menuLang )
                                     <option {{ selectedTrue($lg, $menuLang) }} value="{{ $menuLang }}">{{ getMessage("language_choose_$menuLang") }}</option>
@@ -42,7 +42,7 @@
                             </select>
                         </div>
                         <div class="btn-row">
-                            <button type="submit" class="btn"><?php echo getMessage('login_label_submit');?></button>
+                            <button type="submit" class="btn"><?php echo __('editora_lang::messages.login_label_submit');?></button>
                         </div>
                     </form>
                 </div>

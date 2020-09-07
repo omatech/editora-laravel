@@ -53,7 +53,7 @@ function get_add_to_twitter($p_inst_id, $p_class_id) {
 			if(matches) {
 				number = parseInt(maxcount) - matches.length;
 			}
-			$(count).text( number + ' ".getMessage('caracters')."');
+			$(count).text( number + ' ".__('editora_lang::messages.caracters')."');
 		}
 
 		function do_twit() {
@@ -64,7 +64,7 @@ function get_add_to_twitter($p_inst_id, $p_class_id) {
 				});
 			}
 			else {
-				$('div#example1_count').text('".getMessage('too_long')."');
+				$('div#example1_count').text('".__('editora_lang::messages.too_long')."');
 			}
 		}
 
@@ -357,7 +357,7 @@ function html_inst_preview ($p_class_id, $inst_id) {
 		 $res.='<table>';
 			 $res.='<tr>';
 				 $res.='<td>';
-				 $res.=getMessage('login_label_language').'<select name="lang">';
+				 $res.=__('editora_lang::messages.login_label_language').'<select name="lang">';
 				 global $array_langs;
 				 foreach ($array_langs as $l) {
 				   $res.='<option value="'.$l.'">'.$l.'</option>';
@@ -365,15 +365,15 @@ function html_inst_preview ($p_class_id, $inst_id) {
 				 $res.='</select>';
 				 $res.='</td>';
 				 $res.='<td>';
-				 $res.=getMessage('preview_format').'<select name="format">';
+				 $res.=__('editora_lang::messages.preview_format').'<select name="format">';
 				 $res.='</select>';
 				 $res.='</td>';
 				 $res.='<td>';
-				 $res.=getMessage('preview_debug').'<input type="checkbox" name="req_debug" value="1"/>';
+				 $res.=__('editora_lang::messages.preview_debug').'<input type="checkbox" name="req_debug" value="1"/>';
 				 $res.='</td>';
 			 $res.='</tr>';
 			 $res.='<tr>';
-				 $res.='<td colspan="4" align="center"><input type="submit" value="'.getMessage('preview_enviar').'"/></td>';
+				 $res.='<td colspan="4" align="center"><input type="submit" value="'.__('editora_lang::messages.preview_enviar').'"/></td>';
 			 $res.='</tr>';
 		 $res.='</table>';
 	$res.='</form>';

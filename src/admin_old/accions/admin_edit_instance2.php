@@ -29,7 +29,7 @@ class AdminEditInstance2 extends AuthController
 
             $params['p_mode']= $p_mode = 'V';
             $params['p_acces_type']='A';
-            $title=EDITORA_NAME." -> ".getMessage('info_create_object')." ".getClassName($params['param1']);
+            $title=EDITORA_NAME." -> ".__('editora_lang::messages.info_create_object')." ".getClassName($params['param1']);
 
             $instances->logAccess($params);
             $res=$instances->insertAttributes($params);
@@ -48,16 +48,16 @@ class AdminEditInstance2 extends AuthController
                 $instance = $at->getInstanceAttributes('U', $params);
 
                 if ($res==-1) {
-                    $message=html_message_error(getMessage('error_param_mandatory'));
+                    $message=html_message_error(__('editora_lang::messages.error_param_mandatory'));
                 } elseif ($res==-2) {
-                    $message=html_message_error(getMessage('error_param_data'));
+                    $message=html_message_error(__('editora_lang::messages.error_param_data'));
                 } elseif ($res==-3) {
-                    $message=html_message_error(getMessage('error_param_urlnice'));
+                    $message=html_message_error(__('editora_lang::messages.error_param_urlnice'));
                 }
             } else { //sabem que s'han insertat be els atribs, peticio de refresc de cache
                 $params['p_acces_type']='A';
                 $instances->logAccess($params);
-                $message=html_message_ok(getMessage('info_word_object').' '.$res.' '.getMessage('info_object_updated'));
+                $message=html_message_ok(__('editora_lang::messages.info_word_object').' '.$res.' '.__('editora_lang::messages.info_object_updated'));
                 if (isset($_REQUEST['p_multiple'])) {
                     $p_multiple=$_REQUEST['p_multiple'];
                 } else {
@@ -65,11 +65,11 @@ class AdminEditInstance2 extends AuthController
                 }
 
                 if ($p_multiple) {
-                    $title=EDITORA_NAME." -> ".getMessage('info_view_object');
+                    $title=EDITORA_NAME." -> ".__('editora_lang::messages.info_view_object');
                     $res=$re->createRelation($params);
                     $instance = $at->getInstanceAttributes($p_mode, $params);
                 } elseif ($params['param11']) { // Vengo del relacionar
-                    $title=EDITORA_NAME." -> ".getMessage('info_view_object');
+                    $title=EDITORA_NAME." -> ".__('editora_lang::messages.info_view_object');
                     $res=$re->createRelation($params);
                     $instance = $at->getInstanceAttributes($p_mode, $params);
                     $init = 'edit_and_join';

@@ -23,7 +23,7 @@ class AdminViewInstance extends AuthController
             $params['p_mode']= $p_mode = 'V';
             $params['p_acces_type']='A';
 
-            $title=EDITORA_NAME." -> ".getMessage('info_view_object');
+            $title=EDITORA_NAME." -> ".__('editora_lang::messages.info_view_object');
 
             $instances->logAccess($params);
             $menu = $this->loadMenu($instances, $params);
@@ -34,7 +34,7 @@ class AdminViewInstance extends AuthController
             $view = 'editora::pages.instance';
         }else{
             $instance['instance_info']=null;
-            $title = getMessage('error_role_privileges');
+            $title = __('editora_lang::messages.error_role_privileges');
             $view ='editora::pages.permission_denied';
         }
 

@@ -8,7 +8,7 @@
 				<span class="holder-icon">
 					<i class="icon-clock"></i>
 				</span>
-				<h3 class="tit">{{getMessage('container_ultimos_objetos')}}</h3>
+				<h3 class="tit">{{__('editora_lang::messages.container_ultimos_objetos')}}</h3>
 			</span>
 			<div class="form-group" style="margin-bottom:0;">
 				<form action="{{ route('editora.action', 'search') }}">

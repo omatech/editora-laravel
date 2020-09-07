@@ -16,7 +16,7 @@ if ($sc->testSession()==0) {
 
     $params['p_mode']='V';
 
-    $title=EDITORA_NAME." -> ".getMessage('info_delete_image');
+    $title=EDITORA_NAME." -> ".__('editora_lang::messages.info_delete_image');
     $ly_t->pinta_CommonLayout($top_menu, $buscador, $last_accessed, $favorites, $special, $ly, $in, $lg, $params);
     $body=$in_t->imagesConfirm();
 

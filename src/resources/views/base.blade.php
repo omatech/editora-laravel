@@ -82,18 +82,18 @@
     </ul>
 </header>
 
-{{-- @include('editora::templates.main_menu') --}}
+@include('editora::templates.main_menu')
 <div id="favorites-menu">
     <header class="side-menu-header">
         <span class="tit">Mis favoritos</span>
         <button class="btn-square clr-gray" id="btn-hide-favorites"><i class="icon-close"></i></button>
     </header>
     <div class="side-menu-content" id="favorites-menu-list">
-        {{-- @include('editora::templates.favorites_menu') --}}
+        @include('editora::templates.favorites_menu')
     </div>
 </div>
-{{-- @include('editora::templates.parents_menu') --}}
-{{-- @include('editora::templates.last_accessed_menu') --}}
+@include('editora::templates.parents_menu')
+@include('editora::templates.last_accessed_menu')
 
 @yield('body')
 

@@ -2,7 +2,7 @@
     @php($id_rel=0)
     <form class="form" id="relation_all" name="relation_all" method="post" enctype="multipart/form-data" action="{{route('editora.action', 'join_all')}}">
         {{ csrf_field() }}
-        <button class="btn clr-secondary" style="font-size:14px">{{getMessage('info_word_join')}}</button>
+        <button class="btn clr-secondary" style="font-size:14px">{{__('editora_lang::messages.info_word_join')}}</button>
         <input type="hidden" name="p_pagina" value="1"/>
         <input type="hidden" name="p_class_id" value="{{$parent['class_id']}}"/>
         <input type="hidden" name="p_relation_id" value="{{$parent['rel_id']}}"/>
@@ -15,14 +15,14 @@
 <table class="table main-table" id="pages-table">
     <thead>
     <tr>
-        <th class="status"><span>{{getMessage('info_word_status')}}</span></th>
-        <th class="id"><span>{{getMessage('info_word_ID')}}</span></th>
-        <th class="picture"><span>{{getMessage('info_word_img')}}</span></th>
-        <th class="tit"><span>{{getMessage('info_word_keyword')}}</span></th>
-        <th class="type"><span>{{getMessage('info_word_type')}}</span></th>
-        <th class="creation-date"><span>{{getMessage('info_word_update_date')}}</span></th>
-        <th class="date-condition"><span class="hidden">{{getMessage('info_word_date_condition')}}</span></th>
-        <th class="favorite"><span class="hidden">{{getMessage('acciones')}}</span></th>
+        <th class="status"><span>{{__('editora_lang::messages.info_word_status')}}</span></th>
+        <th class="id"><span>{{__('editora_lang::messages.info_word_ID')}}</span></th>
+        <th class="picture"><span>{{__('editora_lang::messages.info_word_img')}}</span></th>
+        <th class="tit"><span>{{__('editora_lang::messages.info_word_keyword')}}</span></th>
+        <th class="type"><span>{{__('editora_lang::messages.info_word_type')}}</span></th>
+        <th class="creation-date"><span>{{__('editora_lang::messages.info_word_update_date')}}</span></th>
+        <th class="date-condition"><span class="hidden">{{__('editora_lang::messages.info_word_date_condition')}}</span></th>
+        <th class="favorite"><span class="hidden">{{__('editora_lang::messages.acciones')}}</span></th>
     </tr>
     </thead>
     <tbody>
@@ -69,7 +69,7 @@
                 @if($p_mode=='R')
                     @php($link=route('editora.action', 'join2/?p_pagina=1&p_relation_id='.$parent['rel_id'].'&p_parent_class_id='.$parent['class_id'].'&p_parent_inst_id='.$parent['inst_id'].'&p_child_inst_id='.$item['id'].'&p_tab='))
                     <td class="actions">
-                        <a href="{{$link}}" class="btn-square clr-mid"><i class="icon-link-rel"></i><span class="hide-txt">{{getMessage('info_word_join')}}</span> </a>
+                        <a href="{{$link}}" class="btn-square clr-mid"><i class="icon-link-rel"></i><span class="hide-txt">{{__('editora_lang::messages.info_word_join')}}</span> </a>
                     </td>
                     @php($id_rel++)
                 @else
@@ -86,20 +86,20 @@
     </tbody>
 </table>
 @if($count!=-1)
-<h3>{{$count}} {{getMessage('info_objects_found')}}</h3>
+<h3>{{$count}} {{__('editora_lang::messages.info_objects_found')}}</h3>
 @endif
 @if($count>40)
 @php($pages = ceil($count/40))
 <div class="dataTables_paginate paging_simple_numbers" id="pages-table_paginate">
     <ul class="pagination">
         @if($page>1)
-        <li class="paginate_button page-item previous"><a href="{{ route('editora.action', 'list_instances/?p_pagina='.($page-1).'&p_class_id='.$class['id']) }}"  class="page-link">{{getMessage('paginacion_anteriores')}}</a></li>
+        <li class="paginate_button page-item previous"><a href="{{ route('editora.action', 'list_instances/?p_pagina='.($page-1).'&p_class_id='.$class['id']) }}"  class="page-link">{{__('editora_lang::messages.paginacion_anteriores')}}</a></li>
         @endif
         @for($i=1; $i<=$pages; $i++)
         <li class="paginate_button page-item @if($i==$page) active @endif"><a href="{{ route('editora.action', 'list_instances/?p_pagina='.$i.'&p_class_id='.$class['id']) }}" class="page-link">{{$i}}</a></li>
         @endfor
         @if($page<$pages)
-        <li class="paginate_button page-item next"><a href="{{ route('editora.action', 'list_instances/?p_pagina='.($page+1).'&p_class_id='.$class['id']) }}" class="page-link">{{getMessage('paginacion_siguientes')}}</a></li>
+        <li class="paginate_button page-item next"><a href="{{ route('editora.action', 'list_instances/?p_pagina='.($page+1).'&p_class_id='.$class['id']) }}" class="page-link">{{__('editora_lang::messages.paginacion_siguientes')}}</a></li>
         @endif
     </ul>
 </div>

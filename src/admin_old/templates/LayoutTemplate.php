@@ -8,7 +8,7 @@ class LayoutTemplate extends Template
 {
 	///////////////////////////////////////////////////////////////////////////////////////////
 	function pinta_topMenu($arr_menu) {
-		$html='<li><h2><a href="'.APP_BASE.'/get_main">'.getMessage('navigation_home').'</a></h2></li>';
+		$html='<li><h2><a href="'.APP_BASE.'/get_main">'.__('editora_lang::messages.navigation_home').'</a></h2></li>';
         foreach($arr_menu as $am) {
 
 			if ($am['list']){
@@ -71,53 +71,53 @@ class LayoutTemplate extends Template
 		$html = '<!-- CERCADOR GRAN -->
 		<form method="post" action="'.APP_BASE.'/search" name="Form_search" class="form visible">
 			<fieldset>
-				<legend>'.getMessage('info_word_search').'</legend>
+				<legend>'.__('editora_lang::messages.info_word_search').'</legend>
 				<span class="split"></span>
 				<div>
 					<p>
-						<label for="p_class_id">'.getMessage('info_word_type').'</label>'.$class_selector.'
+						<label for="p_class_id">'.__('editora_lang::messages.info_word_type').'</label>'.$class_selector.'
 						<input type="hidden" name="p_pagina" value="1" class="inputcerca"/>
 						<input type="hidden" name="p_order_by" value="'.$p_order_by.'" class="inputcerca"/>
 					</p>
 					<p>
-						<label for="p_search_query">'.getMessage('info_word_text').'</label>
+						<label for="p_search_query">'.__('editora_lang::messages.info_word_text').'</label>
 						<input type="text" name="p_search_query" id="p_search_query" size="20" value="'.$p_search_query.'"/>
 					</p>
 					<p>
-						<label for="p_search_state">'.getMessage('info_word_status').'</label>
+						<label for="p_search_state">'.__('editora_lang::messages.info_word_status').'</label>
 						<select name="p_search_state" id="p_search_state">
 							<option value="">&nbsp;</option>';
-							if ($p_search_state == 'P') $html.='<option value="P" selected="selected">'.getMessage('info_word_status_pending').'</option>';
-							else $html.='<option value="P">'.getMessage('info_word_status_pending').'</option>';
-							if ($p_search_state == 'R') $html.='<option value="R" selected="selected">'.getMessage('info_word_status_reviewed').'</option>';
-							else $html.='<option value="R">'.getMessage('info_word_status_reviewed').'</option>';
-							if ($p_search_state == 'O') $html.='<option value="O" selected="selected">'.getMessage('info_word_status_published').'</option>';
-							else $html.='<option value="O">'.getMessage('info_word_status_published').'</option>';
+							if ($p_search_state == 'P') $html.='<option value="P" selected="selected">'.__('editora_lang::messages.info_word_status_pending').'</option>';
+							else $html.='<option value="P">'.__('editora_lang::messages.info_word_status_pending').'</option>';
+							if ($p_search_state == 'R') $html.='<option value="R" selected="selected">'.__('editora_lang::messages.info_word_status_reviewed').'</option>';
+							else $html.='<option value="R">'.__('editora_lang::messages.info_word_status_reviewed').'</option>';
+							if ($p_search_state == 'O') $html.='<option value="O" selected="selected">'.__('editora_lang::messages.info_word_status_published').'</option>';
+							else $html.='<option value="O">'.__('editora_lang::messages.info_word_status_published').'</option>';
 						$html.='</select>
 					</p>
 			   </div>
 			</fieldset>
 			<fieldset class="adv_search">
 				<span class="split"></span>
-				<h3 class="adv_show"> <a href="javascript://" onclick="$(\'#advsearch\').toggle();">  <i class="fa fa-search-plus"></i> '.getMessage('advanced_search').'</a> </h3>';
+				<h3 class="adv_show"> <a href="javascript://" onclick="$(\'#advsearch\').toggle();">  <i class="fa fa-search-plus"></i> '.__('editora_lang::messages.advanced_search').'</a> </h3>';
 				if ($p_fecha_ini <> '' || $p_fecha_fin<>'') $html.='<div class="adv_show visible" id="advsearch">';
 				else $html.='<div class="adv_hide visible"" id="advsearch"><!-- adv_hide -->';
 					$html.='<div class="p">
 						<p>
-							<label for="">'.getMessage('info_word_initial_date').'</label>
+							<label for="">'.__('editora_lang::messages.info_word_initial_date').'</label>
 							<input type="text" name="p_fecha_ini" size="10" value="'.$p_fecha_ini.'" class="inputcerca" id="date_s1"/>
 						</p>
 					</div>
 					<div class="p">
 						<p>
-							<label for="date_s2">'.getMessage('info_word_final_date').'</label>
+							<label for="date_s2">'.__('editora_lang::messages.info_word_final_date').'</label>
 							<input type="text" name="p_fecha_fin" size="10" value="'.$p_fecha_fin.'" class="inputcerca" id="date_s2"/>
 						</p>
 					</div>
 					<div class="clear"></div>
 			  </div>
 			 </fieldset>
-		<p class="btn"><input type="submit" value="'.getMessage('info_word_search_button').'" title="'.getMessage('info_word_search_button').'" /></p>
+		<p class="btn"><input type="submit" value="'.__('editora_lang::messages.info_word_search_button').'" title="'.__('editora_lang::messages.info_word_search_button').'" /></p>
 		<div class="clear"></div>
 		</form> ';
 
@@ -132,21 +132,21 @@ class LayoutTemplate extends Template
 		<!-- Cercador -->
 		<form method="post" action="'.APP_BASE.'/search" name="Form_search" class="form">
 			<fieldset>
-				<legend>'.getMessage('container_mini_cercador').'</legend>
+				<legend>'.__('editora_lang::messages.container_mini_cercador').'</legend>
 
 				<span class="split"></span>
 				<p>
-					<label for="mini_p_class_id">'.getMessage('info_word_type').'</label>
+					<label for="mini_p_class_id">'.__('editora_lang::messages.info_word_type').'</label>
 					'.$class_selector.'
 					<input type="hidden" name="p_pagina" value="1" class="inputcerca"/>
 					<input type="hidden" name="mini_p_order_by" value="" />
 				</p>
 				<p>
-					<label for="mini_p_search_query">'.getMessage('info_word_text').'</label>
+					<label for="mini_p_search_query">'.__('editora_lang::messages.info_word_text').'</label>
 					<input type="text" name="p_search_query" id="p_search_query" size="20" value="'.$p_search_query.'" />
 				</p>
 		   </fieldset>
-		   <p class="btn"><input type="submit" value="'.getMessage('info_word_search_button').'" title="'.getMessage('info_word_search_button').'" /></p>
+		   <p class="btn"><input type="submit" value="'.__('editora_lang::messages.info_word_search_button').'" title="'.__('editora_lang::messages.info_word_search_button').'" /></p>
 		</form>
 		<!-- Fi codi del Cercador -->';
 
@@ -169,7 +169,7 @@ class LayoutTemplate extends Template
 			foreach ($inst_arr as $row) {
 				$html.=' <tr>
 					<th scope="row"><span>'.$row['id'].'</span></th>
-					<td><a href="'.APP_BASE.'/view_instance/?p_pagina=1&amp;p_class_id='.$row['class_id'].'&amp;p_inst_id='.$row['id'].'" title="'.getMessage('info_word_view').' '.$row['key_fields'].'">';
+					<td><a href="'.APP_BASE.'/view_instance/?p_pagina=1&amp;p_class_id='.$row['class_id'].'&amp;p_inst_id='.$row['id'].'" title="'.__('editora_lang::messages.info_word_view').' '.$row['key_fields'].'">';
 						if (strlen($row['key_fields'])>25) $html.= mb_substr($row['key_fields'],0,20).'...';
 						else $html.=$row['key_fields'];
 					$html.='</a></td>';
@@ -205,7 +205,7 @@ class LayoutTemplate extends Template
 				foreach($inst_arr as $Row) {
 					$html.='<tr>
 						<th scope="row" id="parent_rel'.$Row['ri_id'].'"><span>'.$Row['id'].' </span></th>
-						<td><a href="'.APP_BASE.'/view_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.getMessage('info_word_view').' '.$Row['key_fields'].'">';
+						<td><a href="'.APP_BASE.'/view_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.__('editora_lang::messages.info_word_view').' '.$Row['key_fields'].'">';
 						if (strlen($Row['key_fields'])>25) $html.=mb_substr($Row['key_fields'],0,25).'...';
                         else $html.=$Row['key_fields'];
 						$html.='</a></td>';

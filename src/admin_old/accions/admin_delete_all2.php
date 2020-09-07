@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Session;
 
 				$params['p_mode']='V';
 
-				$title=EDITORA_NAME." -> ".getMessage('info_delete_multiple_object').": ".substr($class_names,0, count($class_names)- 2 /*eliminem el ', ' del final del str*/);
+				$title=EDITORA_NAME." -> ".__('editora_lang::messages.info_delete_multiple_object').": ".substr($class_names,0, count($class_names)- 2 /*eliminem el ', ' del final del str*/);
 				$message=html_message_ok($in->deleteInstanceArr($inst_arr));
 				
 				$ly_t->pinta_CommonLayout($top_menu, $buscador, $last_accessed, $favorites, $special, $ly, $in, $lg, $params);
@@ -46,13 +46,13 @@ use Illuminate\Support\Facades\Session;
 			}
 			else
 			{
-				Session::put('missatge', html_message_error(getMessage('error_role_privileges')));
+				Session::put('missatge', html_message_error(__('editora_lang::messages.error_role_privileges')));
 				$sc->redirect_url(APP_BASE.'/get_main');
 			}
 		}
 		else //JORDI !!!! canviar missatge
 		{
-			Session::put('missatge', html_message_error(getMessage('NO HAS SELECCIOAT CAP INSTANCIA')));
+			Session::put('missatge', html_message_error(__('editora_lang::messages.NO HAS SELECCIOAT CAP INSTANCIA')));
 			$sc->redirect_url(APP_BASE.'/get_main');
 		}
 	}

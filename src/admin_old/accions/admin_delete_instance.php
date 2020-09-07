@@ -22,7 +22,7 @@ class AdminDeleteInstance extends AuthController
 
             $menu = $this->loadMenu($instances, $params);
 
-            $title=EDITORA_NAME." -> ".getMessage('info_delete_object')." ".getClassName($_REQUEST['p_class_id']);
+            $title=EDITORA_NAME." -> ".__('editora_lang::messages.info_delete_object')." ".getClassName($_REQUEST['p_class_id']);
             $related_instances = $instances->checkDeleteInstance($params);
         }
 

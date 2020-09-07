@@ -71,11 +71,11 @@
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="{{route('editora.action', 'configure')}}">
                     <i class="icon-information-outline"></i>
-                    <span class="dd-text">{{getMessage('settings')}}</span>
+                    <span class="dd-text">{{__('editora_lang::messages.settings')}}</span>
                 </a>
                 <a class="dropdown-item" href="{{route('editora.action', 'logout')}}">
                     <i class="icon-power"></i>
-                    <span class="dd-text">{{getMessage('info_word_logout')}}</span>
+                    <span class="dd-text">{{__('editora_lang::messages.info_word_logout')}}</span>
                 </a>
             </div>
         </li>

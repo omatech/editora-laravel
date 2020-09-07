@@ -38,9 +38,9 @@ class AdminJoin extends AuthController
 
 
             if (isset($params['param12']) && $params['param12']!='') {
-                $title=EDITORA_NAME." -> ".getMessage('info_joinsearch_object')." ".getClassName($params['param12'])." ".getMessage('info_word_joinwith')." ".getClassName($params['param10']);
+                $title=EDITORA_NAME." -> ".__('editora_lang::messages.info_joinsearch_object')." ".getClassName($params['param12'])." ".__('editora_lang::messages.info_word_joinwith')." ".getClassName($params['param10']);
             } else {
-                $title=EDITORA_NAME." -> ".getMessage('info_joinsearch_object_lite')." ".getClassName($params['param12'])." ".getMessage('info_word_joinwith')." ".getClassName($params['param10']);
+                $title=EDITORA_NAME." -> ".__('editora_lang::messages.info_joinsearch_object_lite')." ".getClassName($params['param12'])." ".__('editora_lang::messages.info_word_joinwith')." ".getClassName($params['param10']);
             }
             $instances->logAccess($params);
             $menu = $this->loadMenu($instances, $params);

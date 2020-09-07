@@ -244,7 +244,7 @@ function getRoles() {
   }
   
   $res='<center><table id="tabla-objects" width="600">';
-  $res.='<thead><tr><td class="header" width="60" align="center"><b>Rol ID</b></td><td class="header" align="center" width="200"><b>Nombre del rol</b></td><td class="header" align="center" width="60"><b>'.getMessage('acciones').'</b></td><td class="header" align="center" width="60"><b>Activo</b></td></tr>';
+  $res.='<thead><tr><td class="header" width="60" align="center"><b>Rol ID</b></td><td class="header" align="center" width="200"><b>Nombre del rol</b></td><td class="header" align="center" width="60"><b>'.__('editora_lang::messages.acciones').'</b></td><td class="header" align="center" width="60"><b>Activo</b></td></tr>';
 
   while ($row = mysql_fetch_array($ret, MYSQL_ASSOC))
   {
@@ -276,7 +276,7 @@ function viewUsers ($p_rol_id) {
   <td class="header"><b>Username</b></td>
   <td class="header"><b>Password</b></td>
   <td class="header"><b>Nombre Completo</b></td>
-  <td class="header"><b>'.getMessage('acciones').'</b></td>
+  <td class="header"><b>'.__('editora_lang::messages.acciones').'</b></td>
   </tr></thead><tbody>';
 
   while ($row = mysql_fetch_array($ret, MYSQL_ASSOC))

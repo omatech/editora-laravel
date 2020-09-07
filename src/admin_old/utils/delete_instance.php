@@ -29,15 +29,15 @@ function check_delete_instance ($p_inst_id)
 	/*if(is_array(mysql_fetch_array($ret, MYSQL_ASSOC)))
 	{*/
 		$res='<div id="taula" class="col_item tbl_objects" style="width: 100%">';
-		$res.='<div id="titol_taula">'.getMessage('related_objects').' '.$ins_title.':</div>';
+		$res.='<div id="titol_taula">'.__('editora_lang::messages.related_objects').' '.$ins_title.':</div>';
 		
 		$res.='<div id="lasupertabla">';
 		$res.='<table id="tabla-objects" width="100%">';
 		$res.='<tr>
-			<td class="header">'.getMessage('info_word_ID').'</td>
-			<td class="header">'.getMessage('info_word_keyword').'</td>
-			<td class="header">'.getMessage('info_word_type').'</td>
-			<td class="header">'.getMessage('info_word_status').'</td>
+			<td class="header">'.__('editora_lang::messages.info_word_ID').'</td>
+			<td class="header">'.__('editora_lang::messages.info_word_keyword').'</td>
+			<td class="header">'.__('editora_lang::messages.info_word_type').'</td>
+			<td class="header">'.__('editora_lang::messages.info_word_status').'</td>
 		</tr>';
 		$pijama=' class="even"';
 		while ($row = mysql_fetch_array($ret, MYSQL_ASSOC))
@@ -45,8 +45,8 @@ function check_delete_instance ($p_inst_id)
 		 $res.='<tr'.$pijama.'>';
 			if ($pijama==' class="even"') $pijama=' class="odd"';
 			else $pijama=' class="even"';
-			$res.='<td><a href="controller.php?p_action=view_instance&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.getMessage('info_word_view').'"><strong>'.$row['id'].'</strong></a></td>
-			<td><a href="controller.php?p_action=view_instance&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.getMessage('info_word_view').'"><strong>'.$row['key_fields'].'</strong></a></td>
+			$res.='<td><a href="controller.php?p_action=view_instance&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.__('editora_lang::messages.info_word_view').'"><strong>'.$row['id'].'</strong></a></td>
+			<td><a href="controller.php?p_action=view_instance&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.__('editora_lang::messages.info_word_view').'"><strong>'.$row['key_fields'].'</strong></a></td>
 			<td><strong>'.getClassName($row['class_id']).'</strong></td>
 			<td><strong>'.status_to_html($row['status']).'</strong></td>
 		</tr>';
@@ -69,8 +69,8 @@ function check_delete_instance ($p_inst_id)
 		while ($row = mysql_fetch_array($ret, MYSQL_ASSOC))
 		{
 			$res.='<tr><td class="omp_listelement">
-			<a href="controller.php?p_action=view_instance&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.getMessage('info_word_view').'">'.$row['id'].'</a></td>
-			<td class="omp_listelement"><a href="controller.php?p_action=view_instance&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.getMessage('info_word_view').'">'.$row['key_fields'].'</a></td>
+			<a href="controller.php?p_action=view_instance&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.__('editora_lang::messages.info_word_view').'">'.$row['id'].'</a></td>
+			<td class="omp_listelement"><a href="controller.php?p_action=view_instance&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.__('editora_lang::messages.info_word_view').'">'.$row['key_fields'].'</a></td>
 			<td class="omp_list_element">'.getClassName($row['class_id']).'</td>
 			<td class="omp_listelement">'.status_to_html($row['status']).'</td></tr>';
 		$l_cont=$l_cont+1;
@@ -80,12 +80,12 @@ function check_delete_instance ($p_inst_id)
 
 	if ($l_cont >= 1)
 	{
-		$message='<div id="fill_ariadna2">'.html_message_error('<br>'.getMessage('error_object_delete').'&nbsp;<a href="javascript: history.go(-1)" class="omp_copyright">'.getMessage('navigation_back').'</a>').'</div>';
+		$message='<div id="fill_ariadna2">'.html_message_error('<br>'.__('editora_lang::messages.error_object_delete').'&nbsp;<a href="javascript: history.go(-1)" class="omp_copyright">'.__('editora_lang::messages.navigation_back').'</a>').'</div>';
 	}
 
 	if ($l_cont == 0)
 	{
-		$message.='<div id="fill_ariadna2">'.html_message_warning('<br><span="omp_header">'.getMessage('info_word_areyousure').'	</span><a href="controller.php?p_action=delete_instance2&amp;p_inst_id='.$p_inst_id.'">'.getMessage('info_word_yes').'</a> &nbsp;&nbsp; <a href="javascript: history.go(-1)" class="omp_copyright">'.getMessage('info_word_no').'</a>').'</div>';
+		$message.='<div id="fill_ariadna2">'.html_message_warning('<br><span="omp_header">'.__('editora_lang::messages.info_word_areyousure').'	</span><a href="controller.php?p_action=delete_instance2&amp;p_inst_id='.$p_inst_id.'">'.__('editora_lang::messages.info_word_yes').'</a> &nbsp;&nbsp; <a href="javascript: history.go(-1)" class="omp_copyright">'.__('editora_lang::messages.info_word_no').'</a>').'</div>';
 	}
 	$res.='</div>';
 	
@@ -138,7 +138,7 @@ function html_delete_instance ($p_inst_id)
 
 //echo $sql; 
  
-	return getMessage('info_object_deleted');
+	return __('editora_lang::messages.info_object_deleted');
 }
 
 function check_delete_instanceArr ($p_inst_arr) {
@@ -151,11 +151,11 @@ function check_delete_instanceArr ($p_inst_arr) {
 			$res.='<div id="lasupertabla">';
 			$res.='<table id="tabla-objects" width="100%">';
 			$res.='<tr>
-					<td class="header">'.getMessage('info_word_ID').'</td>
-					<td class="header">'.getMessage('info_word_keyword').'</td>
-					<td class="header">'.getMessage('info_word_type').'</td>
-					<td class="header">'.getMessage('info_word_status').'</td>
-					<td class="header">'.getMessage('info_word_childs').'</td>
+					<td class="header">'.__('editora_lang::messages.info_word_ID').'</td>
+					<td class="header">'.__('editora_lang::messages.info_word_keyword').'</td>
+					<td class="header">'.__('editora_lang::messages.info_word_type').'</td>
+					<td class="header">'.__('editora_lang::messages.info_word_status').'</td>
+					<td class="header">'.__('editora_lang::messages.info_word_childs').'</td>
 				</tr>';
 				
 	$to_eliminate = $res;
@@ -194,8 +194,8 @@ function check_delete_instanceArr ($p_inst_arr) {
 		while ($row = mysql_fetch_array($ret2, MYSQL_ASSOC))
 		{
 			$sentence ='<tr><td class="omp_listelement">
-			<a href="controller.php?p_action=view_instance&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.getMessage('info_word_view').'">'.$row['id'].'</a></td>
-			<td class="omp_listelement"><a href="controller.php?p_action=view_instance&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.getMessage('info_word_view').'">'.$row['key_fields'].'</a></td>
+			<a href="controller.php?p_action=view_instance&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.__('editora_lang::messages.info_word_view').'">'.$row['id'].'</a></td>
+			<td class="omp_listelement"><a href="controller.php?p_action=view_instance&amp;p_inst_id='.$row['id'].'&amp;p_class_id='.$row['class_id'].'" title="'.__('editora_lang::messages.info_word_view').'">'.$row['key_fields'].'</a></td>
 			<td class="omp_list_element">'.getClassName($row['class_id']).'</td>
 			<td class="omp_listelement">'.status_to_html($row['status']).'</td>
 			<td class="omp_listelement">'.$total.'</td></tr>';
@@ -226,33 +226,33 @@ function check_delete_instanceArr ($p_inst_arr) {
 	if($total_eliminate >= 0 && $total_res == 0)
 	{
 		
-		$message = '<div id="fill_ariadna2">'.html_message_warning('<br><span class="omp_header">'.getMessage('info_word_areyousure').'	</span><a href="controller.php?p_action=delete_instance2Arr&amp;p_inst_id='.$insts.'">'.getMessage('info_word_yes').'</a> &nbsp;&nbsp; <a href="javascript: history.go(-1)" class="omp_copyright">'.getMessage('info_word_no').'</a></span>').'</div>';
+		$message = '<div id="fill_ariadna2">'.html_message_warning('<br><span class="omp_header">'.__('editora_lang::messages.info_word_areyousure').'	</span><a href="controller.php?p_action=delete_instance2Arr&amp;p_inst_id='.$insts.'">'.__('editora_lang::messages.info_word_yes').'</a> &nbsp;&nbsp; <a href="javascript: history.go(-1)" class="omp_copyright">'.__('editora_lang::messages.info_word_no').'</a></span>').'</div>';
 		return $message.$to_eliminate;
 	}
 	
 	if($total_res >= 0 && $total_eliminate == 0)
 	{
-		$message = '<div id="fill_ariadna2">'.html_message_warning('<br><span class="omp_header">'.getMessage('info_word_not_eliminate').'</span> <a class="omp_copyright" href="javascript: history.go(-1)">Tornar</a>').'</div>';
+		$message = '<div id="fill_ariadna2">'.html_message_warning('<br><span class="omp_header">'.__('editora_lang::messages.info_word_not_eliminate').'</span> <a class="omp_copyright" href="javascript: history.go(-1)">Tornar</a>').'</div>';
 		return $message.$res;
 	}
 	
 	if($total_res > 0 && $total_eliminate > 0)
 	{
-		$message2 = '<div id="fill_ariadna2">'.html_message_warning('<br><span class="omp_header">'.getMessage('info_word_not_eliminate').'</span> <a class="omp_copyright" href="javascript: history.go(-1)">Tornar</a>').'</div>';
+		$message2 = '<div id="fill_ariadna2">'.html_message_warning('<br><span class="omp_header">'.__('editora_lang::messages.info_word_not_eliminate').'</span> <a class="omp_copyright" href="javascript: history.go(-1)">Tornar</a>').'</div>';
 				
-		$message = '<div id="fill_ariadna2">'.html_message_warning('<br><span class="omp_header">'.getMessage('info_word_areyousure_arr').'	</span><a href="controller.php?p_action=delete_instance2Arr&amp;p_inst_id='.$insts.'">'.getMessage('info_word_yes').'</a> &nbsp;&nbsp; <a href="javascript: history.go(-1)" class="omp_copyright">'.getMessage('info_word_no').'</a></span>').'</div>';
+		$message = '<div id="fill_ariadna2">'.html_message_warning('<br><span class="omp_header">'.__('editora_lang::messages.info_word_areyousure_arr').'	</span><a href="controller.php?p_action=delete_instance2Arr&amp;p_inst_id='.$insts.'">'.__('editora_lang::messages.info_word_yes').'</a> &nbsp;&nbsp; <a href="javascript: history.go(-1)" class="omp_copyright">'.__('editora_lang::messages.info_word_no').'</a></span>').'</div>';
 		return $message.$to_eliminate.$message2.$res;
 	}
 	
 	/*
 if ($total >= 1)
 	{
-		$message='<div id="fill_ariadna2">'.html_message_error('<br>'.getMessage('error_object_delete').'&nbsp;<a href="javascript: history.go(-1)" class="omp_copyright">'.getMessage('navigation_back').'</a>').'</div>';
+		$message='<div id="fill_ariadna2">'.html_message_error('<br>'.__('editora_lang::messages.error_object_delete').'&nbsp;<a href="javascript: history.go(-1)" class="omp_copyright">'.__('editora_lang::messages.navigation_back').'</a>').'</div>';
 	}
 
 	if ($total == 0)
 	{
-		$message.='<div id="fill_ariadna2">'.html_message_warning('<br><span="omp_header">'.getMessage('info_word_areyousure').'	</span><a href="controller.php?p_action=delete_instance2&amp;p_inst_id='.$p_inst_id.'">'.getMessage('info_word_yes').'</a> &nbsp;&nbsp; <a href="javascript: history.go(-1)" class="omp_copyright">'.getMessage('info_word_no').'</a></span>').'</div>';
+		$message.='<div id="fill_ariadna2">'.html_message_warning('<br><span="omp_header">'.__('editora_lang::messages.info_word_areyousure').'	</span><a href="controller.php?p_action=delete_instance2&amp;p_inst_id='.$p_inst_id.'">'.__('editora_lang::messages.info_word_yes').'</a> &nbsp;&nbsp; <a href="javascript: history.go(-1)" class="omp_copyright">'.__('editora_lang::messages.info_word_no').'</a></span>').'</div>';
 	}
 	
 */
@@ -278,7 +278,7 @@ function html_delete_instanceArr ($p_inst_idArr)
 		}
 	}
 	 
-	return getMessage('info_object_deleted_plural');
+	return __('editora_lang::messages.info_object_deleted_plural');
 }
 
 ?>

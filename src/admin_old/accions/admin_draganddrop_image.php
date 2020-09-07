@@ -70,7 +70,7 @@ if (isset($_REQUEST['p_width']) && $_REQUEST['p_width'] && isset($_REQUEST['p_he
     $html='<p class="btn_close"><a onclick="hideImgPopup();" href="javascript://">Cerrar</a></p>
 	<input id="crop_p_id" name="crop_p_id" type="hidden" value="'.$nom_fitxer.'" />
 	<input id="crop_p_file" name="crop_p_file" type="hidden" value="'.$nom_fitxer.'" />
-	<h3>'.getMessage('crop_image').'</h3>';
+	<h3>'.__('editora_lang::messages.crop_image').'</h3>';
     if ($_REQUEST['o_width'] < $_REQUEST['p_width'] || $_REQUEST['o_height'] < $_REQUEST['p_height']) {
         $html.='<p>'.$_REQUEST['o_width'].'x'.$_REQUEST['o_height'].' '.$_REQUEST['p_width'].'x'.$_REQUEST['p_height'].'</p>';
     }
@@ -82,10 +82,10 @@ if (isset($_REQUEST['p_width']) && $_REQUEST['p_width'] && isset($_REQUEST['p_he
 			</div>
 		</div>
 		<div class="actions">
-			<h3>'.getMessage('acciones').'</h3>
-			<input id="action_leave_as" class="actions" value="'.getMessage('leave_as_is').'" type="submit" />
-		<input id="action_resize" class="actions" value="'.getMessage('resize').'" type="submit" />
-		<input id="action_crop" class="actions" value="'.getMessage('crop').'" type="submit" />
+			<h3>'.__('editora_lang::messages.acciones').'</h3>
+			<input id="action_leave_as" class="actions" value="'.__('editora_lang::messages.leave_as_is').'" type="submit" />
+		<input id="action_resize" class="actions" value="'.__('editora_lang::messages.resize').'" type="submit" />
+		<input id="action_crop" class="actions" value="'.__('editora_lang::messages.crop').'" type="submit" />
 		</div>
 	</div>
 	<input type="hidden" id="x" />

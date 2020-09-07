@@ -4,7 +4,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        {{getMessage('classes_sample_modal')}}
+                        {{__('editora_lang::messages.classes_sample_modal')}}
                         @if(isset($class) && isset($class['class_name']))
                             {{$class['class_name']}}
                         @endif

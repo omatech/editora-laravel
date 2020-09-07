@@ -59,7 +59,7 @@ class AdminCreateUsers extends AuthController
             $view ='editora::pages.create_user';
         } else {
             $instance['instance_info']=null;
-            $title = getMessage('error_role_privileges');
+            $title = __('editora_lang::messages.error_role_privileges');
             $view ='editora::pages.permission_denied';
         }
 

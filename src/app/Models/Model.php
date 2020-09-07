@@ -1,6 +1,6 @@
 <?php
 
-namespace Omatech\Editora\Admin\Models;
+namespace Omatech\Editora\app\Models;
 
 use Illuminate\Support\Facades\DB;
 

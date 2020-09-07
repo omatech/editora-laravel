@@ -29,11 +29,11 @@ if(is_numeric(Session::get('user_id'))) {
 	curl_close($curl_handle);
 	// check for success or failure
 	if ($buffer===false || $info['http_code'] != 200) {
-		echo getMessage('no_twitted');
+		echo __('editora_lang::messages.no_twitted');
 	} 
 	else {
 		//echo $info['http_code'].'-->'.$buffer;
-		echo getMessage('twitted');
+		echo __('editora_lang::messages.twitted');
 	}
 }
 ?>

@@ -13,15 +13,15 @@
             </figure>
             <div class="media-info">
                 <dl class="media-dada">
-                    <dt class="media-param">{{getMessage('theoric_size')}}:</dt>
+                    <dt class="media-param">{{__('editora_lang::messages.theoric_size')}}:</dt>
                     <dd class="media-value">{{$attribute['img_w']}}x{{$attribute['img_h']}}&nbsp;</dd>
-                    <dt class="media-param">{{getMessage('real_size')}}:</dt>
+                    <dt class="media-param">{{__('editora_lang::messages.real_size')}}:</dt>
                     <dd class="media-value">{{Str::replaceFirst('.','x',$attribute['atrib_values'][0]['img_info'])}}&nbsp;</dd>
-                    <dt class="media-param">{{getMessage('preview_format')}}:</dt>
+                    <dt class="media-param">{{__('editora_lang::messages.preview_format')}}:</dt>
                     <dd class="media-value">{{_fileExtension($file)}}&nbsp;</dd>
-                    <dt class="media-param">{{getMessage('size')}}:</dt>
+                    <dt class="media-param">{{__('editora_lang::messages.size')}}:</dt>
                     <dd class="media-value">{{ _getFileSize($file) }}&nbsp;</dd>
-                    <dt class="media-param">{{getMessage('path')}}:</dt>
+                    <dt class="media-param">{{__('editora_lang::messages.path')}}:</dt>
                     <dd class="media-value">{{$attribute['atrib_values'][0]['text_val']}}&nbsp;</dd>
                     
                 </dl>
@@ -55,7 +55,7 @@
             @endif
 
             <span class="properties">
-                <span class="dimensions">{{getMessage('theoric_size')}}: {{$attribute['img_w']}}x{{$attribute['img_h']}}</span>
+                <span class="dimensions">{{__('editora_lang::messages.theoric_size')}}: {{$attribute['img_w']}}x{{$attribute['img_h']}}</span>
             </span>
         </div>
     </div>
@@ -66,7 +66,7 @@
                 <div class="modal-body">
                 </div>
                 <div class="modal-footer">
-                    <a href="" class="btn clr-secondary" id="btnCrop_{{$attribute_name}}"><span class="btn-text">{{getMessage('save')}}</span></a>
+                    <a href="" class="btn clr-secondary" id="btnCrop_{{$attribute_name}}"><span class="btn-text">{{__('editora_lang::messages.save')}}</span></a>
                 </div>
             </div>
         </div>
