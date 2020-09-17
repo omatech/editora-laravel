@@ -9,7 +9,8 @@ return [
     'route' => [
         'prefix' => 'editora',
     ],
-    'uploads-storage' => 'public',
+    'uploads-storage' => 'editora_public',
+    'private-uploads-storage' => 'editora_private',
     'url-storage-relative' => true,
     'curl-refresh-command' => '',
     'special_classes' => []

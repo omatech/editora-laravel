@@ -622,6 +622,9 @@ class AttributesTemplate extends Template
 			case "F": /* File */
                 $ret .= $this->attribute_file($p_mode, $i, $max_width, $prefix, $row, $postfix, $trueValue);
                 break;
+			case "P": /* Private File */
+                $ret .= $this->attribute_privatefile($p_mode, $i, $max_width, $prefix, $row, $postfix, $trueValue);
+                break;
 			case "G": /* Flash File */
                 $ret .= $this->attribute_flash_file($p_mode, $i, $max_width, $prefix, $row, $postfix, $trueValue);
                 break;
@@ -1108,6 +1111,67 @@ class AttributesTemplate extends Template
         }
         return $ret;
     }
+
+	/* Private File */
+	private function attribute_privatefile($p_mode, $i, $max_width, $prefix, $row, $postfix, $trueValue){
+		$ret = '';
+
+		if ($p_mode=='I') {
+			$ret.= '<input class="w_200 float_left" tabindex="'.$i.'" type="text" size="'.$max_width.'" name="'.$prefix.$row['id'].$postfix.'" id="'.$prefix.$row['id'].$postfix.'" value="'.$trueValue.'" />';
+			$ret.='<div id="div'.$prefix.$row['id'].$postfix.'"></div>';
+			$this->javascript_attributes .= '$("#div'.$prefix.$row['id'].$postfix.'").uploadFile({
+					url:"'.APP_BASE.'/upload_private_crop",
+					fileName:"myfile",
+					multiple:false,
+					autoSubmit:true,
+					formData: {"input_name":"'.$prefix.$row['id'].$postfix.'"},
+					maxFileSize:1024*1024*1024*100 /* 100GB */,
+					returnType:"json",
+					showFileCounter:false,
+					showCancel:true,
+					showAbort:true,
+					showDone:false,
+					showStatusAfterSuccess:false,
+					onSuccess:function(files, data, xhr) {
+						var id = "'.$prefix.$row['id'].$postfix.'";
+						crop_actions(id, data, \'file\');
+					}
+				});';
+			//$ret.= '<a class="ico clip" href="javascript:show_upload(\'Form1.'.$prefix.$row['id'].$postfix.'\');"><!--img class="icon" src="'.ICONO_UPLOAD.'" border="0" title="Seleccionar archivo"--></a>';
+		}
+		if ($p_mode=='U') {
+			$ret.= '<input class="w_200 float_left" tabindex="'.$i.'" type="text" size="'.$max_width.'" name="'.$prefix.$row['id'].$postfix.'" id="'.$prefix.$row['id'].$postfix.'" value="'.$trueValue.'"/>';
+			$ret.='<div id="div'.$prefix.$row['id'].$postfix.'"></div>';
+			$this->javascript_attributes .= '$("#div'.$prefix.$row['id'].$postfix.'").uploadFile({
+					url:"'.APP_BASE.'/upload_private_crop",
+					fileName:"myfile",
+					multiple:false,
+					autoSubmit:true,
+					formData: {"input_name":"'.$prefix.$row['id'].$postfix.'"},
+					maxFileSize:1024*1024*1024*100 /* 100GB */,
+					returnType:"json",
+					showFileCounter:false,
+					showCancel:true,
+					showAbort:true,
+					showDone:false,
+					showStatusAfterSuccess:false,
+					onSuccess:function(files, data, xhr) {
+						var id = "'.$prefix.$row['id'].$postfix.'";
+						crop_actions(id, data, \'file\');
+					}
+				});';
+			//$ret.= '<a class="ico clip" href="javascript:show_upload(\'Form1.'.$prefix.$row['id'].$postfix.'\');"><!--img class="icon" src="'.ICONO_UPLOAD.'" border="0" title="Seleccionar archivo"--></a>';
+		}
+		if ($p_mode=='V') {
+			if ($trueValue!='' && (strpos($trueValue,'http://')!==false || strpos($trueValue,'www')!==false)) {
+				$ret.= '<span class="label">'.$trueValue.'</span>';
+			}
+			elseif ($trueValue!='') {
+				$ret.= '<span class="label">'.$trueValue.'</span>';
+			}
+		}
+		return $ret;
+	}
 
     /* Flash file */
     private function attribute_flash_file($p_mode, $i, $max_width, $prefix, $row, $postfix, $trueValue){
