@@ -3,7 +3,7 @@
 namespace Omatech\Editora;
 
 use Illuminate\Support\ServiceProvider;
-use Omatech\Editora\admin\Exceptions\CustomExceptionHandler;
+use Omatech\Editora\Admin\Exceptions\CustomExceptionHandler;
 use Omatech\Editora\Admin\Middleware\EditoraAuth;
 use Omatech\Editora\Admin\Providers\HelperServiceProvider;
 use Illuminate\Contracts\Debug\ExceptionHandler;
@@ -26,7 +26,7 @@ class EditoraServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__.'/routes.php');
-        $this->loadViewsFrom(__DIR__.'/admin/views', 'editora');
+        $this->loadViewsFrom(__DIR__.'/Admin/views', 'editora');
     }
 
     /**
