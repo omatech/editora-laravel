@@ -2,7 +2,6 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
-use function Couchbase\defaultDecoder;
 use Illuminate\Support\Facades\Session;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\Instances;

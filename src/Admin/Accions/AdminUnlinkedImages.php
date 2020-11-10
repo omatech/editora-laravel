@@ -4,7 +4,6 @@ namespace Omatech\Editora\Admin\Accions;
 
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Templates\InstancesTemplate;
-use Illuminate\Support\Facades\Session;
 
 class AdminUnlinkedImages extends AuthController
 {

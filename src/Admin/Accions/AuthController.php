@@ -3,9 +3,7 @@
 namespace Omatech\Editora\Admin\Accions;
 
 use Omatech\Editora\Admin\Middleware\EditoraAuth;
-use Omatech\Editora\Admin\Middleware\EditoraLocale;
 use Omatech\Editora\Admin\Models\layout;
-use Illuminate\Support\Facades\Session;
 
 class AuthController extends BaseController
 {

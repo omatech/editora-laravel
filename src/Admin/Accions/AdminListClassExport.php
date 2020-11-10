@@ -2,16 +2,11 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
-use Omatech\Editora\Admin\Models\Instances;
-use Omatech\Editora\Admin\Models\Security;
-use Omatech\Editora\Admin\Models\statictext;
 
 use Omatech\Editora\Loader\Loader;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use Illuminate\Support\Facades\Session;
 
 class AdminListClassExport extends AuthController
 {

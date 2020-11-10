@@ -4,12 +4,6 @@ namespace Omatech\Editora\Admin\Accions;
 
 use Illuminate\Support\Facades\Storage;
 use Omatech\Editora\Admin\Models\Security;
-use Omatech\Editora\Admin\Models\Instances;
-use Omatech\Editora\Admin\Models\attributes;
-use Omatech\Editora\Admin\Templates\LayoutTemplate;
-use Omatech\Editora\Admin\Templates\InstancesTemplate;
-use Omatech\Editora\Admin\Templates\AttributesTemplate;
-use Illuminate\Support\Facades\Session;
 
 class AdminUploadPrivateCrop extends AuthController
 {
