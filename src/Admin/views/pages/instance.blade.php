@@ -8,10 +8,10 @@
 				<span class="icon-arrow-left"></span>
 			</a>
 			<ul id="instancetabs" class="language-tabs nav nav-tabs">
-			@php($count=0)
+			@php $count=0  @endphp
 			@foreach($instance['instance_tabs'] as $tab)
 				<li @if($count==0) class="active" @endif><a class="tab-lang" data-toggle="tab" href="#tab-{{$tab['id']}}">{{$tab['caption']}}</a></li>
-				@php($count++)
+				@php $count++ @endphp
 			@endforeach
 			@includeIf('Editora.extraTabMenu')
 			</ul>
@@ -160,8 +160,10 @@
 							</select>
 						</div>
 						<div class="form-group">
-							@php($attribute = $instance['instance_tabs'][0]['elsatribs'][0])
-							@php($attribute_name=_attributeName($attribute))
+							@php 
+								$attribute = $instance['instance_tabs'][0]['elsatribs'][0];
+								$attribute_name=_attributeName($attribute);
+							@endphp
 							<label for="{{$attribute_name}}" class="form-label">{{$attribute['caption']}}</label>
 							<input type="text" class="form-control" name="{{$attribute_name}}" value="{{$attribute['atrib_values'][0]['text_val']}}">
 						</div>
@@ -193,12 +195,14 @@
 
 		<div class="container-fluid">
 			<div class="tab-content">
-				@php($count=0)
-				@php($mandatories='')
+				@php
+					$count=0;
+					$mandatories='';
+				@endphp
 				@foreach($instance['instance_tabs'] as $tab)
-					@php($exist_relations=false)
+					@php $exist_relations=false; @endphp
 					<div id="tab-{{$tab['id']}}" class="tab-pane  @if($count==0)in active @endif">
-						@php($count++)
+						@php $count++; @endphp
 						<section class="fixed-block open-items" style="padding-top:20px">
 							<ul class="block-items-list">
 								<li class="block-item expanded">
@@ -206,14 +210,14 @@
 										<div class="container">
 										@foreach($tab['elsatribs'] as $attribute)
 											<div class="form default-block-form">
-												@if($attribute['type']!='R')
-													@php($attribute_name=_attributeName($attribute))
+												@if($attribute['type']!='R' && $attribute['columna']<1000)
+													@php $attribute_name=_attributeName($attribute); @endphp
 													@if($attribute['mandatory']=='Y')
-														@php($mandatories.=$attribute['id'].',')
+														@php $mandatories.=$attribute['id'].','; @endphp
 													@endif
 													@includeIf('editora::attributes.'.$attribute['type'])
 												@elseif($attribute['type']=='R')
-													@php($exist_relations=true)
+													@php $exist_relations=true; @endphp
 												@endif
 											</div>
 										@endforeach
@@ -222,6 +226,42 @@
 								</li>
 							</ul>
 						</section>
+
+						@if($tab['id']==100)
+							@foreach($instance['instance_tabs'] as $tablang)
+							@if($tablang['id'] >1000)
+								<section class="fixed-block">
+									<header class="block-header">
+										<div class="container">
+											<span class="data">
+												<h2 class="tit">{{ $tablang['caption'] }}</h2>
+											</span>
+										</div>
+									</header>
+									<ul class="block-items-list">
+										<li class="block-item expanded">
+											<div class="collapse show" id="collapseItem5">
+												<div class="container">
+												@foreach($tab['elsatribs'] as $attribute)
+													<div class="form default-block-form">
+														@if($attribute['type']!='R' && $attribute['columna']==$tablang['id'])
+															@php $attribute_name=_attributeName($attribute); @endphp
+															@if($attribute['mandatory']=='Y')
+																@php $mandatories.=$attribute['id'].','; @endphp
+															@endif
+															@includeIf('editora::attributes.'.$attribute['type'])
+														@endif
+													</div>
+												@endforeach
+												</div>
+											</div>
+										</li>
+									</ul>
+								</section>
+								@endif
+							@endforeach
+						@endif
+
 						@if(isset($exist_relations) && $exist_relations == true)
 							<section class="fixed-block">
 								<header class="block-header">
@@ -233,7 +273,7 @@
 								</header>
 								@foreach($tab['elsatribs'] as $attribute)
 									@if($attribute['type']=='R')
-										@php($attribute_name=_attributeName($attribute))
+										@php $attribute_name=_attributeName($attribute); @endphp
 										@includeIf('editora::attributes.R')
 									@endif
 								@endforeach
