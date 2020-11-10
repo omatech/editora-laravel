@@ -80,7 +80,7 @@
             </div>
             @if(isset($file) && !empty($file))
                 <figure class="image-preview">
-                    <img id="img_{{$attribute_name}}" src="{{$file}}" alt="{{$file}}">
+                    <img id="img_{{$attribute_name}}" src="{{$file}}" alt="{{$file}}" style="@if($attribute['img_h']!='') max-height: {{$attribute['img_h']}}px;@endif @if($attribute['img_w']!='') max-width: {{$attribute['img_w']}}px;@endif">
                 </figure>
             @endif
 
