@@ -267,6 +267,7 @@ function getMessage ($id) {
 	$mess_arr['preview'] = 'Preview';
 	$mess_arr['close'] = 'Close';
 
+	$mess_arr['editora_info'] = 'Editora info';
     $mess_arr['classes_sample_modal'] = 'Sample:';
     $mess_arr['classes_modal_not_image'] = 'No preview';
 

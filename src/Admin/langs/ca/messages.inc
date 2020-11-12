@@ -266,7 +266,7 @@ function getMessage ($id) {
 	$mess_arr['not_related_instances'] = 'No hi ha objectes relacionats';
 	$mess_arr['preview'] = 'Previsualitzar';
 	$mess_arr['close'] = 'Tancar';
-
+	$mess_arr['editora_info'] = 'Editora info';
     $mess_arr['classes_sample_modal'] = 'Exemple:';
     $mess_arr['classes_modal_not_image'] = 'Sense previsualització';
 

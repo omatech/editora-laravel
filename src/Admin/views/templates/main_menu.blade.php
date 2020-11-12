@@ -1,9 +1,9 @@
 @if(isset($class))
-    @php($class_id = $class['id'])
+    @php $class_id = $class['id']  @endphp
 @elseif(isset($instance))
-    @php($class_id = $instance['class_id'])
+    @php $class_id = $instance['class_id'] @endphp
 @else
-    @php($class_id = 0)
+    @php $class_id = 0 @endphp
 @endif
 <nav id="navigation">
     <ul class="level-1-nav">
@@ -16,14 +16,18 @@
                 @if(isset($menu))
                     @foreach($menu as $section)
                     @if(isset($section['list']))
-                        @php($menu_active='')	
-                        @php($menu_collpase='false')
-                        @php($menu_show='')
+                        @php
+                            $menu_active='';	
+                            $menu_collpase='false';
+                            $menu_show='';
+                        @endphp
                         @foreach($section['list'] as $item)
                             @if ($item['id']==$class_id)
-                                @php($menu_active='active')	
-                                @php($menu_collpase='true')
-                                @php($menu_show='show')
+                                @php    
+                                    $menu_active='active';	
+                                    $menu_collpase='true';
+                                    $menu_show='show';
+                                @endphp
                             @endif
                         @endforeach
                         
@@ -58,7 +62,7 @@
                                                         </a>
                                                     </li>
                                                 @else
-                                                     <li @if($item['id']==$class_id) class="active" @endif>
+                                                    <li @if($item['id']==$class_id) class="active" @endif>
                                                         <a href="{{ route('editora.action', 'list_instances/?p_class_id='.$item['id']) }}" class="link-list">
                                                             <span class="link-text">{{$item['lg_name']}}</span>
                                                         </a>
@@ -95,13 +99,17 @@
         <li>
             <ul class="level-2-nav">
                 @if( in_array( last(request()->segments()) , ['unlinked_images', 'create_users', 'list_class'] )  )
-                    @php($menu_active='active')	
-                    @php($menu_collpase='true')
-                    @php($menu_show='show')
+                    @php
+                        $menu_active='active';	
+                        $menu_collpase='true';
+                        $menu_show='show';
+                    @endphp
                 @else
-                    @php($menu_active='')	
-                    @php($menu_collpase='false')
-                    @php($menu_show='')
+                    @php
+                        $menu_active='';
+                        $menu_collpase='false';
+                        $menu_show='';
+                    @endphp
                 @endif
                 <li>
                     <a href="#subnav-config" data-toggle="collapse" aria-expanded="{{$menu_collpase}}" aria-controls="subnav-config">
@@ -116,17 +124,19 @@
                                 </a>
                             </li>
                             @if(session('user_type')=='O' && session('rol_id')==1 )
-                            <li @if(last(request()->segments())=='create_users')class="active" @endif>
+                                <li @if(last(request()->segments())=='create_users')class="active" @endif>
                                     <a href="{{ route('editora.action', 'create_users') }}" class="link-list">
                                         <span class="link-text">{{getMessage('create_users')}}</span>
                                     </a>
                                 </li>
-                            @endif
-
-                            @if(session('user_type')=='O' && session('rol_id')==1 )
-                            <li @if(last(request()->segments())=='list_class')class="active" @endif>
+                                <li @if(last(request()->segments())=='list_class')class="active" @endif>
                                     <a href="{{ route('editora.action', 'list_class') }}" class="link-list">
                                         <span class="link-text">{{getMessage('load_content')}}</span>
+                                    </a>
+                                </li>
+                                <li @if(last(request()->segments())=='editora_info')class="active" @endif>
+                                    <a href="{{ route('editora.action', 'editora_info') }}" class="link-list">
+                                        <span class="link-text">{{getMessage('editora_info')}}</span>
                                     </a>
                                 </li>
                             @endif

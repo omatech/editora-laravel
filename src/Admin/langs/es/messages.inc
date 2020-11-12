@@ -268,6 +268,7 @@ function getMessage ($id) {
 	$mess_arr['preview'] = 'Previsualizar';
 	$mess_arr['close'] = 'Cerrar';
 
+	$mess_arr['editora_info'] = 'Editora info';
 	$mess_arr['classes_sample_modal'] = 'Ejemplo:';
     $mess_arr['classes_modal_not_image'] = 'Sin previsualización';
 

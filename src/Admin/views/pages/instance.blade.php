@@ -25,10 +25,19 @@
 
 
 				@if(session('user_type')=='O' && session('rol_id')==1 )
-					{{-- <li><button class="btn-square clr-dark"><i class="icon-information-outline"></i><span class="sr-only">Información</span></button></li> --}}
+					<li class="dropdown related-dropdown">
+						<button class="btn-square clr-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-information-outline"></i></button>
+						<div class="dropdown-menu">
+							<div>
+								<p class="dropdown-item">Class Name: {{$instance['class_name'] }}</p>
+								<p class="dropdown-item">Class Id: {{$instance['class_id'] }}</p>
+								<p class="dropdown-item">Instance Id: {{$instance['id'] }}</p>
+								<p class="dropdown-item">Created at: {{$instance['creation_date']}}</p>
+							</div>
+						</div>
+					</li>
 				@endif
 
-				{{--<li><button class="btn-square clr-dark"><i class="icon-eye"></i><span class="sr-only">Previsionalizar</span></button></li>--}}
 				@if($p_mode=='V')
 					<li class="dropdown related-dropdown">
 						<button class="btn-square clr-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-settings"></i></button>
