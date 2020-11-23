@@ -11,10 +11,10 @@ class CustomExceptionHandler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \Exception $exception
+     * @param  \Throwable $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, \Exception $exception)
+    public function render($request, \Throwable $exception)
     {
         if ($exception instanceof TokenMismatchException) {
             return redirect()->route('editora.action', 'logout');
