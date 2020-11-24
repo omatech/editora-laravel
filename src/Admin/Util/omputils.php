@@ -81,7 +81,10 @@ function get_add_to_twitter($p_inst_id, $p_class_id) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-function getClassName($p_id) {
+function getClassName($p_id=null) {
+    if($p_id==null){
+        return '';
+    }
     $editora = new Omatech\Editora\Admin\Models\EditoraModel;
     $class_info = $editora->get_class_info($p_id);
     return $class_info['class_name'];
