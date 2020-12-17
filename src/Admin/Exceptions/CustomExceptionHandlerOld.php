@@ -5,16 +5,16 @@ namespace Omatech\Editora\Admin\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
 
-class CustomExceptionHandler extends ExceptionHandler
+class CustomExceptionHandlerOld extends ExceptionHandler
 {
     /**
      * Render an exception into an HTTP response.
      *compo
      * @param  \Illuminate\Http\Request $request
-     * @param  \Throwable $exception
+     * @param  \Exception $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, \Throwable $exception)
+    public function render($request, \Exception $exception)
     {
 
         if ($exception instanceof TokenMismatchException) {

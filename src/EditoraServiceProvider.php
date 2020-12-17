@@ -4,6 +4,7 @@ namespace Omatech\Editora;
 
 use Illuminate\Support\ServiceProvider;
 use Omatech\Editora\Admin\Exceptions\CustomExceptionHandler;
+use Omatech\Editora\Admin\Exceptions\CustomExceptionHandlerOld;
 use Omatech\Editora\Admin\Middleware\EditoraAuth;
 use Omatech\Editora\Admin\Providers\HelperServiceProvider;
 use Illuminate\Contracts\Debug\ExceptionHandler;
@@ -39,7 +40,12 @@ class EditoraServiceProvider extends ServiceProvider
         $this->app->register(HelperServiceProvider::class);
         $this->app['router']->aliasMiddleware('editoraAuth', EditoraAuth::class);
 
-        $this->app->bind(ExceptionHandler::class, CustomExceptionHandler::class);
+        if(app()->version()<7){
+            $this->app->bind(ExceptionHandler::class, CustomExceptionHandlerOld::class);
+        }else{
+            $this->app->bind(ExceptionHandler::class, CustomExceptionHandler::class);
+        }
+        
 
         $this->mergeConfigFrom(
             __DIR__.'/config/config.php',
