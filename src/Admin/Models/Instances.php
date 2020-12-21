@@ -656,6 +656,15 @@ class Instances extends model
                                 $sql='insert into omp_values (inst_id, atri_id, text_val, date_val, num_val, img_info) values ('.$new_instance_id.', '.$atr_id.', '.$insert_chunk.');';
                                 parent::insert_one($sql);
                                 break;
+                            case "J":
+                                    //If not exists, create json_val in omp_values for save json value.
+                                    if(!$this->getExistsColumnDatabase('omp_values', 'json_val')) {
+                                        $result_json_val = $this->createJsonVal();
+                                    }
+                                    $json_insert_chunk = $this->get_insert_chunk($type, '');
+                                    $sql='insert into omp_values (inst_id, atri_id, text_val, date_val, num_val, img_info, json_val) values ('.$new_instance_id.', '.$atr_id.', '.$json_insert_chunk.', "'. $valor .'");';
+                                    parent::insert_one($sql);
+                                    break;
                             case "Y":
                                 //If not exists, create json_val in omp_values for save json info for video.
                                 if(!$this->getExistsColumnDatabase('omp_values', 'json_val')) {

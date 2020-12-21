@@ -169,7 +169,7 @@
 							</select>
 						</div>
 						<div class="form-group">
-							@php 
+							@php
 								$attribute = $instance['instance_tabs'][0]['elsatribs'][0];
 								$attribute_name=_attributeName($attribute);
 							@endphp
@@ -223,8 +223,14 @@
 													@php $attribute_name=_attributeName($attribute); @endphp
 													@if($attribute['mandatory']=='Y')
 														@php $mandatories.=$attribute['id'].','; @endphp
-													@endif
-													@includeIf('editora::attributes.'.$attribute['type'])
+                                                    @endif
+                                                    @if(isset($attribute['params']->only_root) && $attribute['params']->only_root==true)
+                                                        @if(session('user_type')=='O' && session('rol_id')==1 )
+                                                            @includeIf('editora::attributes.'.$attribute['type'])
+                                                        @endif
+                                                    @else
+                                                        @includeIf('editora::attributes.'.$attribute['type'])
+                                                    @endif
 												@elseif($attribute['type']=='R')
 													@php $exist_relations=true; @endphp
 												@endif

@@ -167,7 +167,8 @@ class attributes extends Model
 		, v.text_val text_val
 		, date_format(v.date_val, '".STANDARD_DATE_FORMAT."') date_val
 		, v.num_val num_val
-		, img_info
+        , img_info
+        , json_val
 		from omp_values v
 		where v.inst_id = ".$p_inst_id."
 		and v.atri_id = ".$p_atri_id;
