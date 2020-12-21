@@ -2,6 +2,35 @@
 
 @section('body')
 <main id="main">
+    <section class="table-view-header">
+		<div class="container">
+			<span class="data">
+				<h3 class="tit">Plantuml diagrams</h3>
+			</span>
+		</div>
+	</section>
+    <section class="table-view">
+		<div class="container">
+            <table class="table main-table" id="pages-table">
+				<thead>
+				<tr>
+					<th class="type"><span>Plantuml link</span></th>
+				</tr>
+				</thead>
+				<tbody>
+				@if(isset($uml))
+					@foreach($uml as $lang=>$link)
+						<tr>
+							<td class="type"><a href="{{ $link }}" target="_blank">Language {{ $lang }} diagram</a></td>
+						</tr>
+					@endforeach
+				@endif
+				</tbody>
+			</table>
+        </div>
+    </section>
+
+
 	<section class="table-view-header">
 		<div class="container">
 			<span class="data">
@@ -39,17 +68,17 @@
 			</table>
 		</div>
 	</section>
-	
+
 	@isset($roles_classes)
 		@foreach ($roles_classes as $key=>$rol)
-			
+
 			<section class="table-view-header">
 				<div class="container">
 					<span class="data">
 						<h3 class="tit">Rol {{ $key }} @isset($roles[$key]) : {{ $roles[$key] }} @endisset</h3>
 					</span>
 				</div>
-			</section>	
+			</section>
 			<section class="table-view">
 				<div class="container">
 					<table class="table main-table" id="pages-table">

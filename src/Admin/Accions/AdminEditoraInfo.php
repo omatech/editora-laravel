@@ -34,6 +34,15 @@ class AdminEditoraInfo extends AuthController
             $menu = $this->loadMenu($instances, $params);
 
 
+            $command = base_path('vendor/omatech/editora-dbinterface/Commands/export-editora-uml-diagram.php');
+
+
+            $languages = config('editora.availableLanguages');
+
+            foreach($languages as $lang){
+                $uml[$lang] = shell_exec('php '.$command.' --lang='.$lang.' --from=db4 --dbhost='.env('DB_HOST').' --dbuser='.env('DB_USERNAME').' --dbpass='.env('DB_PASSWORD').' --dbname='.env('DB_DATABASE').' --to=url --outputformat=plantuml');
+
+            }
         }
 
 
@@ -41,6 +50,7 @@ class AdminEditoraInfo extends AuthController
             'p_mode' => $p_mode,
             'body_class' => 'edit-view',
             'title' => $title,
+            'uml' => $uml
         ]);
 
         $viewData['users'] = $users;
