@@ -514,11 +514,17 @@ class Instances extends model
             return -3;
         }
         $res='';
-        
+
         if ($_REQUEST['p_status']==null) {
             $inst_status='P';
         } else {
             $inst_status=str_replace("\"", "\\\"", str_replace("[\]", "", $_REQUEST['p_status']));
+        }
+
+        if (isset($_REQUEST['external_id']) && $_REQUEST['external_id']!=null) {
+            $external_id = $_REQUEST['external_id'];
+        }else{
+            $external_id = null;
         }
 
         if ($_REQUEST['p_publishing_begins']==null) {
@@ -571,8 +577,8 @@ class Instances extends model
             } else {
                 $nou_id=USERINSTANCES;
             }
-            $sql='insert into omp_instances (id, class_id, status, publishing_begins, publishing_ends, creation_date)
-			values ('.$nou_id.','.$p_id.',"'.$inst_status.'",'.$inst_publishing_begins.','.$inst_publishing_ends.',now())';
+            $sql='insert into omp_instances (id, class_id, status, publishing_begins, publishing_ends, creation_date, external_id)
+			values ('.$nou_id.','.$p_id.',"'.$inst_status.'",'.$inst_publishing_begins.','.$inst_publishing_ends.',now(), "'.$external_id .'")';
             $new_instance_id=parent::insert_one($sql);
         }
 
@@ -734,6 +740,15 @@ class Instances extends model
             sort($keys);
             $res .= keys_to_string($keys);
         }
+
+
+
+
+        $sql='update omp_instances
+        set external_id = "'.$external_id.'"
+        where id='.str_replace("\"", "\\\"", str_replace("[\]", "", $new_instance_id));
+        parent::update_one($sql);
+
 
         $sql='update omp_instances
         set key_fields = "'.str_replace("\"", "\\\"", str_replace("[\]", "", keys_to_string($keys))).'"

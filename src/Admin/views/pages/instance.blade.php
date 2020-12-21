@@ -174,7 +174,14 @@
 								$attribute_name=_attributeName($attribute);
 							@endphp
 							<label for="{{$attribute_name}}" class="form-label">{{$attribute['caption']}}</label>
-							<input type="text" class="form-control" name="{{$attribute_name}}" value="{{$attribute['atrib_values'][0]['text_val']}}">
+                            <input type="text" class="form-control" name="{{$attribute_name}}" value="{{$attribute['atrib_values'][0]['text_val']}}">
+
+                            @if(session('user_type')=='O' && session('rol_id')==1 )
+                                <label for="external_id" class="form-label">External id</label>
+                                <input type="text" class="form-control" name="external_id" value="{{$instance['external_id']}}">
+                            @elseif(isset($instance['external_id']) && !empty($instance['external_id']))
+                                <input type="hidden" name="external_id" value="{{$instance['external_id']}}">
+                            @endif
 						</div>
 					</div>
 					<div class="form-row date-row">
