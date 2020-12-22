@@ -66,8 +66,8 @@ class Model
     }
 
     protected function execute ($sql, array $params = []) {
-		$res = $this->db->select($sql, $params);
-		//dd($dbh->insert_id);
+		//$res = $this->db->select($sql, $params);
+		$this->db->insert($sql, $params);
 	}
 
     protected function escape ($string) {
