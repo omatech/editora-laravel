@@ -86,7 +86,7 @@
 		</div>
 	</div>
 	@endif
-	<form name="Form1" id="Form1" method="post" @if($p_mode=='U') action="{{route('editora.action', "edit_instance2")}}" @elseif($p_mode=='I') action="	{{route('editora.action', "new_instance2")}}" @else action="" @endif>
+	<form name="Form1" id="Form1" method="post" @if($p_mode=='U') action="{{route('editora.action', "edit_instance2")}}" @elseif($p_mode=='I') action="{{route('editora.action', "new_instance2")}}" @else action="" @endif>
 		{{ csrf_field() }}
 		@if(isset($instance['form_relation']))
 			<input type="hidden" name="p_parent_class_id" value="{{$instance['form_relation']['param10']}}">
