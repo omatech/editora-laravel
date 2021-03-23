@@ -1240,7 +1240,9 @@ class Instances extends model
         $volta=0;
         $return_files=array();
         $directories = @scandir(DIR_UPLOADS, 1);
-
+        if(!$directories){
+            return $return_files;
+        }
         foreach ($directories as $dir) {
             if (is_dir(DIR_UPLOADS.$dir) && $dir != '.' && $dir != '..') {
                 $files = @scandir(DIR_UPLOADS.$dir, 1);
