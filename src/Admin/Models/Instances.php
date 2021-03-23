@@ -1398,4 +1398,34 @@ class Instances extends model
         $Row = parent::get_one($sql);
         return $Row['niceurl'];
     }
+
+    function brokenLinks()
+    {
+        $sql="SELECT i.id as inst_id, i.class_id class_id,  v.text_val as url
+        FROM omp_values AS v, omp_instances AS i
+        WHERE v.atri_id IN (SELECT id FROM omp_attributes WHERE type = 'U')
+        AND v.inst_id = i.id
+        AND i.status='O';";
+        $ret = parent::get_data($sql);
+        $url_errors = [];
+        foreach ($ret as $item) {
+            if (substr($item["url"], 0, 1)=="/") {
+                $item["url"] = env('APP_URL').$item["url"];
+            }
+            if ($this->isUrlBroken($item["url"])) {
+                array_push($url_errors, $item);
+            }
+        }
+        return $url_errors;
+    }
+
+    function isUrlBroken( $url = NULL )
+    {
+        if (!empty($url)) {
+            $headers = @get_headers($url);
+            $headers = (is_array($headers)) ? implode( "\n ", $headers) : $headers;
+            return (bool)preg_match('#^HTTP/.*\s+[(200|301|302)]+\s#i', $headers);
+        }
+        return true;
+    }
 }

@@ -269,6 +269,7 @@ function getMessage ($id) {
 	$mess_arr['editora_info'] = 'Editora info';
     $mess_arr['classes_sample_modal'] = 'Exemple:';
     $mess_arr['classes_modal_not_image'] = 'Sense previsualització';
+	$mess_arr['urls_broken'] = 'Enllaços trencats';
 
     return $mess_arr[$id];
 }

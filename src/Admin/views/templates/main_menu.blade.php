@@ -17,21 +17,21 @@
                     @foreach($menu as $section)
                     @if(isset($section['list']))
                         @php
-                            $menu_active='';	
+                            $menu_active='';
                             $menu_collpase='false';
                             $menu_show='';
                         @endphp
                         @foreach($section['list'] as $item)
                             @if ($item['id']==$class_id)
-                                @php    
-                                    $menu_active='active';	
+                                @php
+                                    $menu_active='active';
                                     $menu_collpase='true';
                                     $menu_show='show';
                                 @endphp
                             @endif
                         @endforeach
-                        
-                        
+
+
                         @if(session('user_type')=='O' || $section['lg_cap'] != 'Hidden_Group' )
                             <li>
                                 <a href="#subnav-{{$section['id']}}" data-toggle="collapse" aria-expanded="{{$menu_collpase}}" aria-controls="subnav-{{$section['id']}}">
@@ -98,9 +98,9 @@
         </li>
         <li>
             <ul class="level-2-nav">
-                @if( in_array( last(request()->segments()) , ['unlinked_images', 'create_users', 'list_class'] )  )
+                @if( in_array( last(request()->segments()) , ['unlinked_images', 'create_users', 'list_class', 'urls_broken'] )  )
                     @php
-                        $menu_active='active';	
+                        $menu_active='active';
                         $menu_collpase='true';
                         $menu_show='show';
                     @endphp
@@ -121,6 +121,11 @@
                             <li @if(last(request()->segments())=='unlinked_images')class="active" @endif>
                                 <a href="{{ route('editora.action', 'unlinked_images') }}" class="link-list">
                                     <span class="link-text">{{getMessage('unlinked_files')}}</span>
+                                </a>
+                            </li>
+                            <li @if(last(request()->segments())=='urls_broken')class="active" @endif>
+                                <a href="{{ route('editora.action', 'urls_broken') }}" class="link-list">
+                                    <span class="link-text">{{getMessage('urls_broken')}}</span>
                                 </a>
                             </li>
                             @if(session('user_type')=='O' && session('rol_id')==1 )

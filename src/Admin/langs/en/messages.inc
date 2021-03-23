@@ -270,6 +270,7 @@ function getMessage ($id) {
 	$mess_arr['editora_info'] = 'Editora info';
     $mess_arr['classes_sample_modal'] = 'Sample:';
     $mess_arr['classes_modal_not_image'] = 'No preview';
+	$mess_arr['urls_broken'] = 'Broken links';
 
     return $mess_arr[$id];
 }
