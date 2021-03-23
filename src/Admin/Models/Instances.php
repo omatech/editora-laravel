@@ -1251,7 +1251,7 @@ class Instances extends model
                         $sql="select count(id) as conta from omp_values where text_val like '%uploads/".$dir.'/'.$file."%';";
                         $ret=parent::get_data($sql);
                         if ($ret[0]['conta']==0) {
-                            $return_files[$conta]['url']='/'.uploads.'/'.$dir.'/'.$file;
+                            $return_files[$conta]['url']='/uploads/'.$dir.'/'.$file;
                             $return_files[$conta]['full_url']=DIR_UPLOADS.$dir.'/'.$file;
                             $return_files[$conta]['name']=$file;
                             $return_files[$conta]['date']=date("d-m-Y H:i:s", filemtime(DIR_UPLOADS.$dir.'/'.$file));
