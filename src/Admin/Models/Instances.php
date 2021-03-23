@@ -1423,11 +1423,23 @@ class Instances extends model
 
     function isUrlBroken( $url = NULL )
     {
-        if (!empty($url)) {
-            $headers = @get_headers($url);
-            $headers = (is_array($headers)) ? implode( "\n ", $headers) : $headers;
-            return (bool)preg_match('#^HTTP/.*\s+[(200|301|302)]+\s#i', $headers);
+        if( empty( $url ) ){
+            return true;
         }
-        return true;
+        $ch = curl_init( $url );
+        curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
+        curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );
+        curl_setopt( $ch, CURLOPT_NOBODY, true );
+        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+        curl_exec( $ch );
+        $httpcode = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
+        curl_close( $ch );
+        $accepted_response = array( 200, 301, 302 );
+        if( in_array( $httpcode, $accepted_response ) ) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
