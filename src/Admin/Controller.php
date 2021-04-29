@@ -13,11 +13,10 @@ class Controller extends LaravelController
 
     public function __construct()
     {
-
-        if( env('EDITORA_MAINTENANCE_MODE') && env('EDITORA_MAINTENANCE_MODE') === true){
-            if( env('EDITORA_MAINTENANCE_MESSAGE')){
-                die( env('EDITORA_MAINTENANCE_MESSAGE') );
-            }else{
+        if (env('EDITORA_MAINTENANCE_MODE') && env('EDITORA_MAINTENANCE_MODE') === true) {
+            if (env('EDITORA_MAINTENANCE_MESSAGE')) {
+                die(env('EDITORA_MAINTENANCE_MESSAGE'));
+            } else {
                 die('En mantenimiento');
             }
         }
@@ -25,8 +24,8 @@ class Controller extends LaravelController
         $urls = new Urls();
         //ob_start('ob_gzhandler');
 
-        ini_set("memory_limit", "500M");
-        set_time_limit(0);
+//        ini_set("memory_limit", "500M");
+//        set_time_limit(0);
 
 
         $_SERVER['DOCUMENT_ROOT'] = __DIR__;
