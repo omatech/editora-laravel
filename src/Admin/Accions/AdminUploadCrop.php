@@ -41,10 +41,12 @@ class AdminUploadCrop extends AuthController
         ]);
 
         $file = $disk->putFileAs($path, $file, $fileInfo['fileName']);
-        $accessUrl = $disk->url($file);
+        
         
         if (config('editora-admin.url-storage-relative')==true) {
             $accessUrl = $fileInfo['filePath'];
+        }else{
+            $accessUrl = $disk->url($file);
         }
         
         return ['accessUrl' => $accessUrl, 'filePath' => $fileInfo['filePath']];
