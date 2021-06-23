@@ -72,7 +72,7 @@
                                 <td class="tit">{{$item['name']}}</td>
                                 <td class="favorite">
                         			<span>
-                                        <a href="{{route('editora.action', 'list_class_export/?id='.$item['class_id'].'&name='.$item['name'])}}" class="btn-square clr-default">
+                                        <a href="{{route('editora.action', 'list_class_export?id='.$item['class_id'].'&name='.$item['name'])}}" class="btn-square clr-default">
                                             <i class="icon-file"></i>
                                         </a>
                         			</span>

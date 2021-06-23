@@ -28,7 +28,7 @@
     <tbody>
     @if(isset($instances))
          @foreach($instances as $item)
-             @php($link=route('editora.action', 'view_instance/?p_pagina=1&p_class_id='.$item['class_id'].'&p_inst_id='.$item['id']))
+             @php($link=route('editora.action', 'view_instance?p_pagina=1&p_class_id='.$item['class_id'].'&p_inst_id='.$item['id']))
             <tr>
                 <td class="status">
                     <button class="btn-square">
@@ -67,16 +67,16 @@
                 </td>
 
                 @if($p_mode=='R')
-                    @php($link=route('editora.action', 'join2/?p_pagina=1&p_relation_id='.$parent['rel_id'].'&p_parent_class_id='.$parent['class_id'].'&p_parent_inst_id='.$parent['inst_id'].'&p_child_inst_id='.$item['id'].'&p_tab='))
+                    @php($link=route('editora.action', 'join2?p_pagina=1&p_relation_id='.$parent['rel_id'].'&p_parent_class_id='.$parent['class_id'].'&p_parent_inst_id='.$parent['inst_id'].'&p_child_inst_id='.$item['id'].'&p_tab='))
                     <td class="actions">
                         <a href="{{$link}}" class="btn-square clr-mid"><i class="icon-link-rel"></i><span class="hide-txt">{{getMessage('info_word_join')}}</span> </a>
                     </td>
                     @php($id_rel++)
                 @else
                     <td class="actions">
-                        <a href="{{ route('editora.action', 'add_favorite/?p_class_id='.$item['class_id'].'&p_inst_id='.$item['id']) }}" class="btn-square clr-default @if(isset($favorites)){{_isFavorited($item['id'], $favorites)}}@endif" id="table-fav-{{$item['id']}}"><i class="icon-star-outline"></i></a>
+                        <a href="{{ route('editora.action', 'add_favorite?p_class_id='.$item['class_id'].'&p_inst_id='.$item['id']) }}" class="btn-square clr-default @if(isset($favorites)){{_isFavorited($item['id'], $favorites)}}@endif" id="table-fav-{{$item['id']}}"><i class="icon-star-outline"></i></a>
                         @if(isset($item['edit']) && $item['edit']=='Y')
-                        <a href="{{ route('editora.action', 'edit_instance/?p_pagina=1&p_class_id='.$item['class_id'].'&p_inst_id='.$item['id']) }}" class="btn-square clr-default"><i class="icon-pencil"></i></a>
+                        <a href="{{ route('editora.action', 'edit_instance?p_pagina=1&p_class_id='.$item['class_id'].'&p_inst_id='.$item['id']) }}" class="btn-square clr-default"><i class="icon-pencil"></i></a>
                         @endif
                     </td>
                 @endif
@@ -93,13 +93,13 @@
 <div class="dataTables_paginate paging_simple_numbers" id="pages-table_paginate">
     <ul class="pagination">
         @if($page>1)
-        <li class="paginate_button page-item previous"><a href="{{ route('editora.action', 'list_instances/?p_pagina='.($page-1).'&p_class_id='.$class['id']) }}"  class="page-link">{{getMessage('paginacion_anteriores')}}</a></li>
+        <li class="paginate_button page-item previous"><a href="{{ route('editora.action', 'list_instances?p_pagina='.($page-1).'&p_class_id='.$class['id']) }}"  class="page-link">{{getMessage('paginacion_anteriores')}}</a></li>
         @endif
         @for($i=1; $i<=$pages; $i++)
-        <li class="paginate_button page-item @if($i==$page) active @endif"><a href="{{ route('editora.action', 'list_instances/?p_pagina='.$i.'&p_class_id='.$class['id']) }}" class="page-link">{{$i}}</a></li>
+        <li class="paginate_button page-item @if($i==$page) active @endif"><a href="{{ route('editora.action', 'list_instances?p_pagina='.$i.'&p_class_id='.$class['id']) }}" class="page-link">{{$i}}</a></li>
         @endfor
         @if($page<$pages)
-        <li class="paginate_button page-item next"><a href="{{ route('editora.action', 'list_instances/?p_pagina='.($page+1).'&p_class_id='.$class['id']) }}" class="page-link">{{getMessage('paginacion_siguientes')}}</a></li>
+        <li class="paginate_button page-item next"><a href="{{ route('editora.action', 'list_instances?p_pagina='.($page+1).'&p_class_id='.$class['id']) }}" class="page-link">{{getMessage('paginacion_siguientes')}}</a></li>
         @endif
     </ul>
 </div>

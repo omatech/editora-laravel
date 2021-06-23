@@ -139,7 +139,7 @@ class AttributesTemplate extends Template
 						$res.='<p class="btn"><input type="submit" value="'.getMessage('info_word_update_button').'" class="boto20" /></p>'.csrf_field();
 					}
 					elseif ($p_mode=='V') {
-						$res.='<p class="btn"><a href="'.APP_BASE.'/edit_instance/?p_pagina=1&amp;p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'&p_tab='.$param_arr['param14'].'" title="'.getMessage('info_word_edit_button').'" class="boto20 link_tabs">'.getMessage('info_word_edit_button').'</a></p>';
+						$res.='<p class="btn"><a href="'.APP_BASE.'/edit_instance?p_pagina=1&amp;p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'&p_tab='.$param_arr['param14'].'" title="'.getMessage('info_word_edit_button').'" class="boto20 link_tabs">'.getMessage('info_word_edit_button').'</a></p>';
 					}
 				$res.='</div>
 			</div>
@@ -215,24 +215,24 @@ class AttributesTemplate extends Template
 								<!-- /end FILA 1 -->';
 		}
 		elseif ($p_mode=='V') { //view
-			if ($row['instance_info']['status']!="O") $html_delete='<li><a href="'.APP_BASE.'/delete_instance/?p_pagina=1&amp;p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'" title="Eliminar"><i class="fa fa-trash-o fa-2x"></i> </a></li>';
+			if ($row['instance_info']['status']!="O") $html_delete='<li><a href="'.APP_BASE.'/delete_instance?p_pagina=1&amp;p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'" title="Eliminar"><i class="fa fa-trash-o fa-2x"></i> </a></li>';
 			else $html_delete='';
 
-			$html_edit='<li class="ico edi"><a href="'.APP_BASE.'/edit_instance/?p_pagina=1&amp;p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'&p_tab='.$param_arr['param14'].'" title="Editar" class="link_tabs">Editar</a></li>';
+			$html_edit='<li class="ico edi"><a href="'.APP_BASE.'/edit_instance?p_pagina=1&amp;p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'&p_tab='.$param_arr['param14'].'" title="Editar" class="link_tabs">Editar</a></li>';
 
 			$res.='<!-- TITOL -->
                             <div class="edi_tit wrap">';
 			$res.='<h2>'.getMessage('viendo_objeto').'<span> "'.$row['instance_info']['key_fields'].'"</span>'.getMessage('viendo_objeto2').': <span>'.getClassName($p_class_id).'</span></h2>';
 
 			$res.='<ul>
-				<li class="ico fav"><a href="'.APP_BASE.'/add_favorite/?p_pagina=1&amp;p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'" title="Afegir a favorits">Afegir a favorits</a></li>'.$html_edit.$html_delete;
+				<li class="ico fav"><a href="'.APP_BASE.'/add_favorite?p_pagina=1&amp;p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'" title="Afegir a favorits">Afegir a favorits</a></li>'.$html_edit.$html_delete;
 
             if ( (defined('ACTIVATE_CLONE') && ACTIVATE_CLONE) || Session::get('user_type')=='O' ) {
-                $html_clone = '<li class="ico clon"><a href="' . APP_BASE . '/clone_instance/?p_pagina=1&amp;p_class_id=' . $p_class_id . '&amp;p_inst_id=' . $p_inst_id . '&p_tab=' . $param_arr['param14'] . '" title="Clonar" class="link_tabs">Clonar</a></li>';
+                $html_clone = '<li class="ico clon"><a href="' . APP_BASE . '/clone_instance?p_pagina=1&amp;p_class_id=' . $p_class_id . '&amp;p_inst_id=' . $p_inst_id . '&p_tab=' . $param_arr['param14'] . '" title="Clonar" class="link_tabs">Clonar</a></li>';
                 $res.=$html_clone;
             }
             if ( (defined('ACTIVATE_RECURSIVE_CLONE') && ACTIVATE_RECURSIVE_CLONE) || Session::get('user_type')=='O' ) {
-                $html_rec_clone='<li class="ico clon_rec"><a title="Clonar recursivament" href="'.APP_BASE.'/recursive_clone/?p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'">Clonar recursivament</a></li>';
+                $html_rec_clone='<li class="ico clon_rec"><a title="Clonar recursivament" href="'.APP_BASE.'/recursive_clone?p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'">Clonar recursivament</a></li>';
 
                 $res.=$html_rec_clone;
             }
@@ -466,11 +466,11 @@ class AttributesTemplate extends Template
 				if ($row['type']=="R" && $p_mode=='V') {
 					if ($row['join_icon']=='Y') {
 						$params_url=$url->generate_url_params($param_arr['param4'],str_replace("-", "/", $param_arr['param5']),str_replace("-", "/", $param_arr['param6']),$param_arr['param7'],$param_arr['param8'],$row['id'],$param_arr['param2'],$row['lookup_id'],$row['max_length'],$param_arr['param13']);
-						$ret.='<li class="ico link"><a title="'.getMessage('info_word_join').'" href="'.APP_BASE.'/join/?p_pagina=1&amp;p_class_id='.$row['max_length'].'&amp;p_inst_id='.$param_arr['param2'].$params_url.'">'.getMessage('info_word_join').'</a></li>';
+						$ret.='<li class="ico link"><a title="'.getMessage('info_word_join').'" href="'.APP_BASE.'/join?p_pagina=1&amp;p_class_id='.$row['max_length'].'&amp;p_inst_id='.$param_arr['param2'].$params_url.'">'.getMessage('info_word_join').'</a></li>';
 					}
                     if ($row['create_icon']=='Y' && $row['max_length']!=0) {
                         $params_url=$url->generate_url_params($param_arr['param4'],str_replace("-", "/", $param_arr['param5']),str_replace("-", "/", $param_arr['param6']),$param_arr['param7'],$param_arr['param8'],$row['id'],null,$row['lookup_id'],$row['max_length'],$param_arr['param13']);
-                        $ret.='<li class="ico add"><a title="'.getMessage('info_word_addjoin').'" href="'.APP_BASE.'/add_and_join/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_inst_id='.$p_inst_id.'&amp;p_parent_class_id='.$row['lookup_id'].'&amp;p_child_class_id='.$row['max_length'].'&amp;p_tab='.$tab_id.'">'.getMessage('info_word_addjoin').'</a></li>';
+                        $ret.='<li class="ico add"><a title="'.getMessage('info_word_addjoin').'" href="'.APP_BASE.'/add_and_join?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_inst_id='.$p_inst_id.'&amp;p_parent_class_id='.$row['lookup_id'].'&amp;p_child_class_id='.$row['max_length'].'&amp;p_tab='.$tab_id.'">'.getMessage('info_word_addjoin').'</a></li>';
                     }
 
                 }
@@ -486,7 +486,7 @@ class AttributesTemplate extends Template
                     $child_classes = explode(',', $row['related_instances']['info']['multiple_child_class_id']);
                     $join = "<ul>";
                     foreach ($child_classes as $child){
-                        $join .= "<li><a style='font-size: 14px; text-decoration: none; color: #000;' href='".APP_BASE."/add_and_join/?p_pagina=1&amp;p_relation_id=".$row['id']."&amp;p_inst_id=".$p_inst_id."&amp;p_parent_class_id=".$row['lookup_id']."&amp;p_child_class_id=".$child."&amp;p_tab=1' >+ ".getClassName($child)."</a></li> ";
+                        $join .= "<li><a style='font-size: 14px; text-decoration: none; color: #000;' href='".APP_BASE."/add_and_join?p_pagina=1&amp;p_relation_id=".$row['id']."&amp;p_inst_id=".$p_inst_id."&amp;p_parent_class_id=".$row['lookup_id']."&amp;p_child_class_id=".$child."&amp;p_tab=1' >+ ".getClassName($child)."</a></li> ";
                     }
                     $join .= "</ul>";
 
@@ -514,7 +514,7 @@ class AttributesTemplate extends Template
 							$instance=new instances();
 							$classes_id = $instance->get_multiples_id($row['id']);
 						}
-						$autocomplete_str.='source: "'.APP_BASE.'/autocomplete/?p_relation_id='.$row['id'].'&p_inst_id='.$p_inst_id.'&p_parent_class_id='.$row['lookup_id'].'&p_child_class_id='.$classes_id.'&p_tab='.$tab_id.'", //change here the source of your values
+						$autocomplete_str.='source: "'.APP_BASE.'/autocomplete?p_relation_id='.$row['id'].'&p_inst_id='.$p_inst_id.'&p_parent_class_id='.$row['lookup_id'].'&p_child_class_id='.$classes_id.'&p_tab='.$tab_id.'", //change here the source of your values
 							focus: function( event, ui ) {
 								$("#autocomplete-'.$row['id'].'").val(ui.item.label);
 								$("#autocomplete-hidden-'.$row['id'].'").val(ui.item.id);
@@ -683,22 +683,22 @@ class AttributesTemplate extends Template
 							if ($order_type=='M') {//Pintem les fletxetes d'ordenacio manual
 								if ($current_row==0) { //Es el primer
 									$res.='<li class="mov_begin"><span>'.getMessage('info_word_ordertop').'</span></li>';
-									$res.='<li class="mov_final"><a title="'.getMessage('info_word_orderbottom').'" href="'.APP_BASE.'/order_down_bottom/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderbottom').'</a></li>';
+									$res.='<li class="mov_final"><a title="'.getMessage('info_word_orderbottom').'" href="'.APP_BASE.'/order_down_bottom?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderbottom').'</a></li>';
 									$res.='<li class="mov_up sep"><span>'.getMessage('info_word_orderup').'</span></li>';
-									$res.='<li class="mov_down"><a title="'.getMessage('info_word_orderdown').'" href="'.APP_BASE.'/order_down/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderdown').'</a></li>';
+									$res.='<li class="mov_down"><a title="'.getMessage('info_word_orderdown').'" href="'.APP_BASE.'/order_down?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderdown').'</a></li>';
 								}
 								else {
 									if($current_row==($num_rows-1)) { // Es l'ultim
-										$res.='<li class="mov_begin"><a href="'.APP_BASE.'/order_up_top/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'" title="'.getMessage('info_word_ordertop').'">'.getMessage('info_word_ordertop').'</a></li>';
+										$res.='<li class="mov_begin"><a href="'.APP_BASE.'/order_up_top?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'" title="'.getMessage('info_word_ordertop').'">'.getMessage('info_word_ordertop').'</a></li>';
 										$res.='<li class="mov_final"><span>'.getMessage('info_word_orderbottom').'</span></li>';
-										$res.='<li class="mov_up sep"><a title="'.getMessage('info_word_orderup').'" href="'.APP_BASE.'/order_up/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderup').'</a></li>';
+										$res.='<li class="mov_up sep"><a title="'.getMessage('info_word_orderup').'" href="'.APP_BASE.'/order_up?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderup').'</a></li>';
 										$res.='<li class="mov_down"><span>'.getMessage('info_word_orderdown').'</span></li>';
 									}
 									else { // Cas normal, element que no es el primer ni l'ultim
-										$res.='<li class="mov_begin"><a href="'.APP_BASE.'/order_up_top/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'" title="'.getMessage('info_word_ordertop').'">'.getMessage('info_word_ordertop').'</a></li>';
-										$res.='<li class="mov_final"><a title="'.getMessage('info_word_orderbottom').'" href="'.APP_BASE.'/order_down_bottom/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderbottom').'</a></li>';
-										$res.='<li class="mov_up sep"><a title="'.getMessage('info_word_orderup').'" href="'.APP_BASE.'/order_up/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderup').'</a></li>';
-										$res.='<li class="mov_down"><a title="'.getMessage('info_word_orderdown').'" href="'.APP_BASE.'/order_down/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderdown').'</a></li>';
+										$res.='<li class="mov_begin"><a href="'.APP_BASE.'/order_up_top?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'" title="'.getMessage('info_word_ordertop').'">'.getMessage('info_word_ordertop').'</a></li>';
+										$res.='<li class="mov_final"><a title="'.getMessage('info_word_orderbottom').'" href="'.APP_BASE.'/order_down_bottom?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderbottom').'</a></li>';
+										$res.='<li class="mov_up sep"><a title="'.getMessage('info_word_orderup').'" href="'.APP_BASE.'/order_up?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderup').'</a></li>';
+										$res.='<li class="mov_down"><a title="'.getMessage('info_word_orderdown').'" href="'.APP_BASE.'/order_down?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$row['parent_class_id'].'&amp;p_tab='.$tab.'">'.getMessage('info_word_orderdown').'</a></li>';
 									}
 								}
 							}
@@ -709,9 +709,9 @@ class AttributesTemplate extends Template
 				$res.=parent::status_to_html($row['status']);
 				$res.='</td>';
 				$res.='<th scope="row"><span>'.$row['inst_id'].'</span></th>';
-				$res.='<td class="instance"><a href="'.APP_BASE.'/view_instance/?p_pagina=1&amp;p_class_id='.$row['child_class_id'].'&amp;p_inst_id='.$row['inst_id'].'" title="Ver '.$row['key_fields'].'">'.$row['key_fields'].'</a></td>';
-				$res.='<td class="ico del"><a class="reldelete" href="'.APP_BASE.'/delete_relation_instance/?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_class_id='.$row['parent_class_id'].'&amp;p_inst_id='.$p_parent_inst_id.'&amp;p_tab='.$tab.'&amp;p_rel_id='.$rel_id.'" title="'.getMessage('info_word_unjoin').'">'.getMessage('info_word_unjoin').'</a></td>';
-				$res.='<td class="ico edi"><a href="'.APP_BASE.'/edit_instance/?p_pagina=1&amp;p_class_id='.$row['child_class_id'].'&amp;p_inst_id='.$row['inst_id'].'" title="'.getMessage('info_word_edit').'">'.getMessage('info_word_edit').'</a></td>';
+				$res.='<td class="instance"><a href="'.APP_BASE.'/view_instance?p_pagina=1&amp;p_class_id='.$row['child_class_id'].'&amp;p_inst_id='.$row['inst_id'].'" title="Ver '.$row['key_fields'].'">'.$row['key_fields'].'</a></td>';
+				$res.='<td class="ico del"><a class="reldelete" href="'.APP_BASE.'/delete_relation_instance?p_pagina=1&amp;p_relation_id='.$row['id'].'&amp;p_class_id='.$row['parent_class_id'].'&amp;p_inst_id='.$p_parent_inst_id.'&amp;p_tab='.$tab.'&amp;p_rel_id='.$rel_id.'" title="'.getMessage('info_word_unjoin').'">'.getMessage('info_word_unjoin').'</a></td>';
+				$res.='<td class="ico edi"><a href="'.APP_BASE.'/edit_instance?p_pagina=1&amp;p_class_id='.$row['child_class_id'].'&amp;p_inst_id='.$row['inst_id'].'" title="'.getMessage('info_word_edit').'">'.getMessage('info_word_edit').'</a></td>';
 			$res.='</tr>';
 			$current_row++;
 		}

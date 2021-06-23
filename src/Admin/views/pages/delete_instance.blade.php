@@ -14,7 +14,7 @@
 		<div class="container">
 				
 
-			<h3 class="tit">{{getMessage('delete_not_possible')}} <a href="{{ route('editora.action', 'view_instance/?p_pagina=1&p_class_id='.$params['param1'].'&p_inst_id='.$params['param2']) }}">{{getMessage('navigation_back')}}</a></h3>
+			<h3 class="tit">{{getMessage('delete_not_possible')}} <a href="{{ route('editora.action', 'view_instance?p_pagina=1&p_class_id='.$params['param1'].'&p_inst_id='.$params['param2']) }}">{{getMessage('navigation_back')}}</a></h3>
 			<h3 class="tit">{{getMessage('related_objects')}}</h3>
 			<table class="table main-table" id="pages-table">
 				<thead>
@@ -46,7 +46,7 @@
 					</tr>
 				@endforeach
 				@foreach($related_instances['fills'] as $item)
-					@php($link=route('editora.action', 'view_instance/?p_pagina=1&p_class_id='.$item['class_id'].'&p_inst_id='.$item['id']))
+					@php($link=route('editora.action', 'view_instance?p_pagina=1&p_class_id='.$item['class_id'].'&p_inst_id='.$item['id']))
 					<tr>
 						<td class="id"><a href="{!! $link !!}">{{$item['id']}}</a></td>
 						<td class="tit"><a href="{!! $link !!}">{{$item['key_fields']}}</a></td>
@@ -71,7 +71,7 @@
     @else
 		<div class="container">
 			<span class="data">
-				<h2 class="tit">{{getMessage('info_word_areyousure')}} <a href="{{route('editora.action', 'delete_instance2/?p_pagina=1&p_class_id='.$params['param1'].'&p_inst_id='.$params['param2'])}}">{{getMessage('info_word_yes')}}</a> <a href="{{route('editora.action', 'view_instance/?p_pagina=1&p_class_id='.$params['param1'].'&p_inst_id='.$params['param2'])}}">{{getMessage('info_word_no')}}</a></h2>
+				<h2 class="tit">{{getMessage('info_word_areyousure')}} <a href="{{route('editora.action', 'delete_instance2?p_pagina=1&p_class_id='.$params['param1'].'&p_inst_id='.$params['param2'])}}">{{getMessage('info_word_yes')}}</a> <a href="{{route('editora.action', 'view_instance?p_pagina=1&p_class_id='.$params['param1'].'&p_inst_id='.$params['param2'])}}">{{getMessage('info_word_no')}}</a></h2>
 			</span>
 		</div>
 	@endif

@@ -29,7 +29,7 @@
 						<tr>
 							<td class="id">{{$item['inst_id']}}</td>
 							<td class="tit">
-                                <a href="{{ APP_BASE }}view_instance/?p_pagina=1&p_class_id={{ $item['class_id'] }}&p_inst_id={{ $item['inst_id'] }}">{{ $item['url'] }}</a>
+                                <a href="{{ APP_BASE }}view_instance?p_pagina=1&p_class_id={{ $item['class_id'] }}&p_inst_id={{ $item['inst_id'] }}">{{ $item['url'] }}</a>
 							</td>
 						</tr>
 					@endforeach

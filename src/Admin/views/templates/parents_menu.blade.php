@@ -7,7 +7,7 @@
     <div class="side-menu-content">
         <ul class="relations-list">
             @foreach($parents as $parent)
-                <li><a href="{{ route('editora.action', 'view_instance/?p_pagina=1&p_class_id='.$parent['class_id'].'&p_inst_id='.$parent['id']) }}" class="rel-wrapper">{!! _instanceStatus($parent['status']) !!} <span class="txt">{{$parent['key_fields']}}</span></a></li>
+                <li><a href="{{ route('editora.action', 'view_instance?p_pagina=1&p_class_id='.$parent['class_id'].'&p_inst_id='.$parent['id']) }}" class="rel-wrapper">{!! _instanceStatus($parent['status']) !!} <span class="txt">{{$parent['key_fields']}}</span></a></li>
             @endforeach
         </ul>
     </div>

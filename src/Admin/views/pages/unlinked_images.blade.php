@@ -36,7 +36,7 @@
 							</td>
 							<td class="creation-date"><time class="date">{{$item['date']}}</time></td>
 							<td class="actions">
-								<a onclick="return confirm('¿Está seguro de borrar el fichero?')" href="{{route('editora.action', 'delete_image2/?image_full='.urlencode($item['full_url']).'&image='.urlencode($item['url']))}}"  class="btn-square clr-default" ><i class="icon-delete"></i></a>
+								<a onclick="return confirm('¿Está seguro de borrar el fichero?')" href="{{route('editora.action', 'delete_image2?image_full='.urlencode($item['full_url']).'&image='.urlencode($item['url']))}}"  class="btn-square clr-default" ><i class="icon-delete"></i></a>
 							</td>
 						</tr>
 					@endforeach

@@ -151,7 +151,7 @@ else {
 				Session::put('missatge', html_message_error('No se ha clonado ninguna imagen'));
 			}
 
-			$sc->redirect_url(APP_BASE."/view_instance/?p_class_id=$p_class_id&p_inst_id=$inst_id&p_tab=$p_tab");
+			$sc->redirect_url(APP_BASE."/view_instance?p_class_id=$p_class_id&p_inst_id=$inst_id&p_tab=$p_tab");
 			$_REQUEST['view']='container';
 		}
 	}

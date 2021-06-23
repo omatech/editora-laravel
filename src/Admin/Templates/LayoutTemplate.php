@@ -30,10 +30,10 @@ class LayoutTemplate extends Template
 						$id = $sm['id'];
 						$html.='
 						<li class="'.$class.'">
-						<h3><a '.$no_arrow.' href="'.ADMIN_URL.'/view_instance/?p_pagina=1&p_class_id='.$sm['id'].'&p_inst_id='.$GLOBALS['special_classes'][$id].'">'.$sm['lg_name'].'</a></h3>
+						<h3><a '.$no_arrow.' href="'.ADMIN_URL.'/view_instance?p_pagina=1&p_class_id='.$sm['id'].'&p_inst_id='.$GLOBALS['special_classes'][$id].'">'.$sm['lg_name'].'</a></h3>
 						</li>';
 					}else{
-						$html.='<li class="'.$class.'"><h3><a '.$no_arrow.' href="'.ADMIN_URL.'/list_instances/?p_class_id='.$sm['id'].'">'.$sm['lg_name'].'</a></h3></li>';
+						$html.='<li class="'.$class.'"><h3><a '.$no_arrow.' href="'.ADMIN_URL.'/list_instances?p_class_id='.$sm['id'].'">'.$sm['lg_name'].'</a></h3></li>';
 					}
 				}
 			}
@@ -169,18 +169,18 @@ class LayoutTemplate extends Template
 			foreach ($inst_arr as $row) {
 				$html.=' <tr>
 					<th scope="row"><span>'.$row['id'].'</span></th>
-					<td><a href="'.APP_BASE.'/view_instance/?p_pagina=1&amp;p_class_id='.$row['class_id'].'&amp;p_inst_id='.$row['id'].'" title="'.getMessage('info_word_view').' '.$row['key_fields'].'">';
+					<td><a href="'.APP_BASE.'/view_instance?p_pagina=1&amp;p_class_id='.$row['class_id'].'&amp;p_inst_id='.$row['id'].'" title="'.getMessage('info_word_view').' '.$row['key_fields'].'">';
 						if (strlen($row['key_fields'])>25) $html.= mb_substr($row['key_fields'],0,20).'...';
 						else $html.=$row['key_fields'];
 					$html.='</a></td>';
 					if ($p_tipo == 'F') {
-						$html.='<td class="ico edi"><a href="'.APP_BASE.'/edit_instance/?p_pagina=1&amp;p_class_id='.$row['class_id'].'&amp;p_inst_id='.$row['id'].'">Editar '.$row['id'].'</a></td>';
+						$html.='<td class="ico edi"><a href="'.APP_BASE.'/edit_instance?p_pagina=1&amp;p_class_id='.$row['class_id'].'&amp;p_inst_id='.$row['id'].'">Editar '.$row['id'].'</a></td>';
 						$tmp_url='';
-						$html.='<td class="ico del"><a href="'.APP_BASE.'/delete_favorite/?p_pagina=1&amp;p_class_id='.$row['class_id'].'&amp;p_inst_id='.$row['id'].$tmp_url.'">Quitar de favoritos '.$row['id'].'</a></td>';
+						$html.='<td class="ico del"><a href="'.APP_BASE.'/delete_favorite?p_pagina=1&amp;p_class_id='.$row['class_id'].'&amp;p_inst_id='.$row['id'].$tmp_url.'">Quitar de favoritos '.$row['id'].'</a></td>';
 					}
 					elseif ($p_tipo == 'A') {
-						$html.='<td class="ico fav"><a href="'.APP_BASE.'/add_favorite/?p_pagina=1&amp;p_class_id='.$row['class_id'].'&amp;p_inst_id='.$row['id'].'">Añadir a favoritos '.$row['id'].'</a></td>';
-						$html.='<td class="ico edi"><a href="'.APP_BASE.'/edit_instance/?p_pagina=1&amp;p_class_id='.$row['class_id'].'&amp;p_inst_id='.$row['id'].'">Editar '.$row['id'].'</a></td>';
+						$html.='<td class="ico fav"><a href="'.APP_BASE.'/add_favorite?p_pagina=1&amp;p_class_id='.$row['class_id'].'&amp;p_inst_id='.$row['id'].'">Añadir a favoritos '.$row['id'].'</a></td>';
+						$html.='<td class="ico edi"><a href="'.APP_BASE.'/edit_instance?p_pagina=1&amp;p_class_id='.$row['class_id'].'&amp;p_inst_id='.$row['id'].'">Editar '.$row['id'].'</a></td>';
 					}
 				$html.='</tr>';
 				$l_cont=$l_cont+1;
@@ -205,12 +205,12 @@ class LayoutTemplate extends Template
 				foreach($inst_arr as $Row) {
 					$html.='<tr>
 						<th scope="row" id="parent_rel'.$Row['ri_id'].'"><span>'.$Row['id'].' </span></th>
-						<td><a href="'.APP_BASE.'/view_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.getMessage('info_word_view').' '.$Row['key_fields'].'">';
+						<td><a href="'.APP_BASE.'/view_instancep_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'" title="'.getMessage('info_word_view').' '.$Row['key_fields'].'">';
 						if (strlen($Row['key_fields'])>25) $html.=mb_substr($Row['key_fields'],0,25).'...';
                         else $html.=$Row['key_fields'];
 						$html.='</a></td>';
-						$html.='<td class="ico fav"><a href="'.APP_BASE.'/add_favorite/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'">Añadir a favoritos</a></td>';
-						$html.='<td class="ico edi"><a href="'.APP_BASE.'/edit_instance/?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'">Editar</a></td>';
+						$html.='<td class="ico fav"><a href="'.APP_BASE.'/add_favorite?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'">Añadir a favoritos</a></td>';
+						$html.='<td class="ico edi"><a href="'.APP_BASE.'/edit_instance?p_pagina=1&amp;p_class_id='.$Row['class_id'].'&amp;p_inst_id='.$Row['id'].'">Editar</a></td>';
 				   $html.='</tr>';
 				}
 			$html.='</table>';

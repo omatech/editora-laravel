@@ -4,7 +4,7 @@
 <main id="main">
 	<div id="toolbar" class="container-fluid">
 		<span class="toolbar-left">
-			<a href="{{route('editora.action', 'list_instances/?p_pagina=1&p_class_id='.$instance['class_id'])}}" class="btn-square clr-dark">
+			<a href="{{route('editora.action', 'list_instances?p_pagina=1&p_class_id='.$instance['class_id'])}}" class="btn-square clr-dark">
 				<span class="icon-arrow-left"></span>
 			</a>
 			<ul id="instancetabs" class="language-tabs nav nav-tabs">
@@ -43,10 +43,10 @@
 						<button class="btn-square clr-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-settings"></i></button>
 						<div class="dropdown-menu">
 							<div>
-								<a href="{{route('editora.action', 'add_favorite/?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}" class="dropdown-item"><i class="icon-star"></i>{{getMessage('info_word_addfavorites')}}</a>
-								<a href="{{route('editora.action', 'clone_instance/?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}" class="dropdown-item"><i class="icon-content-copy"></i>{{getMessage('info_word_clone')}}</a>
+								<a href="{{route('editora.action', 'add_favorite?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}" class="dropdown-item"><i class="icon-star"></i>{{getMessage('info_word_addfavorites')}}</a>
+								<a href="{{route('editora.action', 'clone_instance?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}" class="dropdown-item"><i class="icon-content-copy"></i>{{getMessage('info_word_clone')}}</a>
 								@if($instance['status']!="O")
-								<a href="{{route('editora.action', 'delete_instance/?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}" class="dropdown-item"><i class="icon-delete"></i>{{getMessage('info_word_delete')}}</a>
+								<a href="{{route('editora.action', 'delete_instance?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}" class="dropdown-item"><i class="icon-delete"></i>{{getMessage('info_word_delete')}}</a>
 								@endif
 								@if (config('editora-admin.curl-refresh-command')!='')
 								<a onclick="refreshView({{$instance['id']}});" class="dropdown-item"><i class="fa fa-refresh fa-lg" style="margin-left:5px; margin-right: 10px; color: #8A909C;"></i>{{getMessage('clean_cache')}}</a>
@@ -59,7 +59,7 @@
 			</ul>
 			<div class="save-block">
 				@if($p_mode=='V')
-					<a href="{{route('editora.action', 'edit_instance/?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}" class="btn clr-secondary"><span class="btn-text">{{getMessage('info_word_edit')}}</span></a>
+					<a href="{{route('editora.action', 'edit_instance?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}" class="btn clr-secondary"><span class="btn-text">{{getMessage('info_word_edit')}}</span></a>
 				@elseif($p_mode=='U' || $p_mode=='I')
 					<a onclick="document.getElementById('Form1').submit(); $(this).attr('disabled','disabled');" class="btn clr-secondary"><span class="btn-text">{{getMessage('save')}}</span></a>
 				@endif
@@ -76,7 +76,7 @@
 			<ul class="last-modifications-list">
 			@foreach($parents as $item)
 				<li class="last-modifications-list-item">
-					<p class="tit"><a href="{{route('editora.action', 'view_instance/?p_pagina=1&p_class_id='.$item['class_id'].'&p_inst_id='.$item['id'])}}">{{$item['key_fields']}}</a></p>
+					<p class="tit"><a href="{{route('editora.action', 'view_instance?p_pagina=1&p_class_id='.$item['class_id'].'&p_inst_id='.$item['id'])}}">{{$item['key_fields']}}</a></p>
 					<p class="data">
 						<time class="date">{{$item['fecha']}}</time>
 					</p>
@@ -132,7 +132,7 @@
 								@endif
 							</p>
 							@if($p_mode=='V')
-							<a href="{{route('editora.action', 'edit_instance/?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}" class="btn-square clr-default"><i class="icon-pencil"></i></a>
+							<a href="{{route('editora.action', 'edit_instance?p_pagina=1&p_class_id='.$instance['class_id'].'&p_inst_id='.$instance['id'])}}" class="btn-square clr-default"><i class="icon-pencil"></i></a>
 							@endif
 						</div>
 					</div>

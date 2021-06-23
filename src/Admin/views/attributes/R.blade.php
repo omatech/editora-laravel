@@ -40,10 +40,10 @@
                                         $child_classes = explode(',', $multiple_child_classes);
                                     }
                                 @endphp
-                                <li><a href="{{route('editora.action', 'join/?p_class_id='.$classes_id.'&p_inst_id='.$instance['id'].'&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$classes_id) }}" class="btn-square clr-default"><i class="icon-link-rel"></i><span class="hide-txt">{{getMessage('info_word_join')}}</span></a></li>
+                                <li><a href="{{route('editora.action', 'join?p_class_id='.$classes_id.'&p_inst_id='.$instance['id'].'&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$classes_id) }}" class="btn-square clr-default"><i class="icon-link-rel"></i><span class="hide-txt">{{getMessage('info_word_join')}}</span></a></li>
 
                                 @if ($attribute['max_length']!=0)
-                                    <li><a href="{{route('editora.action', 'add_and_join/?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$classes_id.'&p_tab=1') }}" class="btn-square clr-default"><i class="icon-plus-box"></i><span class="hide-txt">{{getMessage('info_word_addjoin')}}</span></a></li>
+                                    <li><a href="{{route('editora.action', 'add_and_join?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$classes_id.'&p_tab=1') }}" class="btn-square clr-default"><i class="icon-plus-box"></i><span class="hide-txt">{{getMessage('info_word_addjoin')}}</span></a></li>
                                 @else
                                     <li><a href="" data-toggle="modal" data-target="#modal{{$attribute['id']}}" class="btn-square clr-default"><i class="icon-plus-box"></i><span class="hide-txt">{{getMessage('info_word_addjoin')}}</span></a></li>
 
@@ -69,8 +69,8 @@
                                                                     <div class="relations-preview-item"
                                                                          data-preview="@if(file_exists(public_path().'/vendor/editora/extras/classes_sample/'.getClassNameInternalName($item).'.jpg')) {{ url('/vendor/editora/extras/classes_sample/'.getClassNameInternalName($item).'.jpg')}} @endif">
 
-                                                                        <a href='{{route('editora.action', 'add_and_join/?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$item.'&p_tab=1') }}'><span class="tit" style="cursor:pointer!important">{{getClassName($item)}}</span></a>
-                                                                        <a class="btn-square clr-default" href='{{route('editora.action', 'add_and_join/?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$item.'&p_tab=1') }}' ><i class="icon-plus"></i></a>
+                                                                        <a href='{{route('editora.action', 'add_and_join?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$item.'&p_tab=1') }}'><span class="tit" style="cursor:pointer!important">{{getClassName($item)}}</span></a>
+                                                                        <a class="btn-square clr-default" href='{{route('editora.action', 'add_and_join?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$item.'&p_tab=1') }}' ><i class="icon-plus"></i></a>
                                                                     </div>
                                                                 @endforeach
                                                             </div>
@@ -106,8 +106,8 @@
                                                         <div class="relations-preview-list">
                                                             @foreach($child_classes as $item)
                                                                 <div class="relations-preview-item nav-button">
-                                                                    <a href='{{route('editora.action', 'add_and_join/?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$item.'&p_tab=1') }}'><span class="tit" style="cursor:pointer!important">{{getClassName($item)}}</span></a>
-                                                                    <a class="btn-square clr-default" href='{{route('editora.action', 'add_and_join/?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$item.'&p_tab=1') }}' ><i class="icon-plus"></i></a>
+                                                                    <a href='{{route('editora.action', 'add_and_join?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$item.'&p_tab=1') }}'><span class="tit" style="cursor:pointer!important">{{getClassName($item)}}</span></a>
+                                                                    <a class="btn-square clr-default" href='{{route('editora.action', 'add_and_join?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$item.'&p_tab=1') }}' ><i class="icon-plus"></i></a>
                                                                 </div>
                                                             @endforeach
                                                         </div>
