@@ -5,7 +5,7 @@
 ### Create the new laravel empty project
 
 ```
-composer create-project --prefer-dist laravel/laravel editora-test "5.8.*"
+composer create-project --prefer-dist laravel/laravel editora-test "8.*"
 ```
 
 ### Setup you .env file with database connection and so on
@@ -22,7 +22,7 @@ composer create-project --prefer-dist laravel/laravel editora-test "5.8.*"
 ### Add in require section the editora-laravel-connector-dbinterface: 
 
 ```
-"omatech/editora": "^6.1"
+"omatech/editora": "^6.2"
 ```
 
 ### Do a composer update
