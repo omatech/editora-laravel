@@ -32,7 +32,7 @@
                 </a>
                 @endif
             </label>
-            <input id="input_{{$attribute_name}}" type="text" class="form-control" name="{{$attribute_name}}" value="{{$attribute['atrib_values'][0]['text_val']}}">
+            <input id="input_{{$attribute_name}}" type="text" class="form-control" name="{{$attribute_name}}" value="@isset($attribute['atrib_values'][0]){{$attribute['atrib_values'][0]['text_val']}}@endisset">
         </div>
         <div class="form-group">
             <div id="file_{{$attribute_name}}" class="dropzone fallback"></div>

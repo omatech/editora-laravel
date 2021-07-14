@@ -5,11 +5,9 @@ function get_params_info()
 {
     $param_arr = array();
     $param_arr['p_action'] = $_REQUEST['action'];
-
-    for ($i=1; $i<50; $i++) {
-        $param_arr['param'.$i]='';
+    for ($i = 1; $i < 50; $i++) {
+        $param_arr['param'.$i] = '';
     }
-
     if (isset($_REQUEST['p_class_id'])) {
         $param_arr['param1'] = $_REQUEST['p_class_id'];
     }
@@ -49,11 +47,10 @@ function get_params_info()
     if (isset($_REQUEST['p_child_inst_id'])) {
         $param_arr['param13'] = $_REQUEST['p_child_inst_id'];
     }
-    if (isset($_REQUEST['p_tab']) && $_REQUEST['p_tab']!='') {
+    if (isset($_REQUEST['p_tab']) && $_REQUEST['p_tab'] != '') {
         $param_arr['param14'] = $_REQUEST['p_tab'];
     } else {
         $param_arr['param14'] = 1;
     }
-
     return $param_arr;
 }

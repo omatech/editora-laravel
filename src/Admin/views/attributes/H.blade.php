@@ -22,7 +22,7 @@
                     <dt class="media-param">{{getMessage('size')}}:</dt>
                     <dd class="media-value">{{ _getFileSize($file) }}&nbsp;</dd>
                     <dt class="media-param">{{getMessage('path')}}:</dt>
-                    <dd class="media-value">{{$attribute['atrib_values'][0]['text_val']}}&nbsp;</dd>
+                    <dd class="media-value">@isset($attribute['atrib_values'][0]) {{$attribute['atrib_values'][0]['text_val']}} @endisset&nbsp;</dd>
                     
                 </dl>
                 <ul class="controls-list">
@@ -36,7 +36,7 @@
     <div class="column column-text">
         <div class="form-group">
             <label for="{{$attribute_name}}" class="form-label">{{$attribute['caption']}}</label>
-            <input id="input_{{$attribute_name}}" type="text" class="form-control" name="{{$attribute_name}}" value="{{$attribute['atrib_values'][0]['text_val']}}">
+            <input id="input_{{$attribute_name}}" type="text" class="form-control" name="{{$attribute_name}}" value="@isset($attribute['atrib_values'][0]){{$attribute['atrib_values'][0]['text_val']}}@endisset">
         </div>
         <div class="form-group">
             <div id="file_{{$attribute_name}}" class="dropzone fallback" ></div>

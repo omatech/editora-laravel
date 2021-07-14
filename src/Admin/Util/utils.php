@@ -43,6 +43,7 @@ function get_nice_from_id($id, $lg = 'ca') {
 
 //////////////////////////////////////////////////////////////////////////////////////////
 function date_to_mysql($p_date) { // Transforma de dd/mm/yyyy i opcionalment dd/mm/yyyy a yyyy-mm-dd hh24:mi:ss
+	$p_date = trim($p_date);
 	$dia = strtok($p_date,'/');
 	$mes = strtok('/');
 	$any = strtok('/');
@@ -56,10 +57,8 @@ function date_to_mysql($p_date) { // Transforma de dd/mm/yyyy i opcionalment dd/
 		$hores=substr(strtok($p_date, ':'),-2);
 		$minuts=strtok(':');
 		$segons=strtok(':');
-		$hh24miss=' '.$hores.':'.$minuts.':'.$segons;
-		$res.=$hh24miss;
+		$res.= ' '.$hores.':'.$minuts.':'.$segons;
 	}
-	
 	return $res;
  }
 

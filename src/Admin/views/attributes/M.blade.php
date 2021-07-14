@@ -44,8 +44,8 @@
     <div class="column column-text">
         <div class="form-group">
             <label for="cerca_posicio" class="form-label">{{$attribute['caption']}}</label>
-            <input type="text" class="form-control" name="cerca_posicio" id="cerca_posicio_{{$attribute['id']}}"  value="{{$attribute['atrib_values'][0]['text_val']}}">
-            <input type="hidden" name="{{$attribute_name}}" id="position_lat_long_{{$attribute['id']}}" value="{{$attribute['atrib_values'][0]['text_val']}}">
+            <input type="text" class="form-control" name="cerca_posicio" id="cerca_posicio_{{$attribute['id']}}"  value="@isset($attribute['atrib_values'][0]){{$attribute['atrib_values'][0]['text_val']}}@endisset">
+            <input type="hidden" name="{{$attribute_name}}" id="position_lat_long_{{$attribute['id']}}" value="@isset($attribute['atrib_values'][0]){{$attribute['atrib_values'][0]['text_val']}}@endisset">
             <div class="button-row">
                 <span class="btn-square clr-default" onclick="recalc_gmaps({{$attribute['id']}});"><i class="icon-arrow-right"></i></span>
             </div>

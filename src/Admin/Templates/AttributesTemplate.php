@@ -228,7 +228,7 @@ class AttributesTemplate extends Template
 				<li class="ico fav"><a href="'.APP_BASE.'/add_favorite?p_pagina=1&amp;p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'" title="Afegir a favorits">Afegir a favorits</a></li>'.$html_edit.$html_delete;
 
             if ( (defined('ACTIVATE_CLONE') && ACTIVATE_CLONE) || Session::get('user_type')=='O' ) {
-                $html_clone = '<li class="ico clon"><a href="' . APP_BASE . '/clone_instance?p_pagina=1&amp;p_class_id=' . $p_class_id . '&amp;p_inst_id=' . $p_inst_id . '&p_tab=' . $param_arr['param14'] . '" title="Clonar" class="link_tabs">Clonar</a></li>';
+                $html_clone = '<li class="ico clon"><a href="'.APP_BASE.'/clone_instance?p_pagina=1&amp;p_class_id='.$p_class_id.'&amp;p_inst_id='.$p_inst_id.'&p_tab='.$param_arr['param14'].'" title="Clonar" class="link_tabs">Clonar</a></li>';
                 $res.=$html_clone;
             }
             if ( (defined('ACTIVATE_RECURSIVE_CLONE') && ACTIVATE_RECURSIVE_CLONE) || Session::get('user_type')=='O' ) {

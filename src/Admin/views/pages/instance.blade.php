@@ -4,9 +4,11 @@
 <main id="main">
 	<div id="toolbar" class="container-fluid">
 		<span class="toolbar-left">
+			@isset($instance['class_id'])
 			<a href="{{route('editora.action', 'list_instances?p_pagina=1&p_class_id='.$instance['class_id'])}}" class="btn-square clr-dark">
 				<span class="icon-arrow-left"></span>
 			</a>
+			@endisset
 			<ul id="instancetabs" class="language-tabs nav nav-tabs">
 			@php $count=0  @endphp
 			@foreach($instance['instance_tabs'] as $tab)
@@ -24,7 +26,7 @@
 				@endif
 
 
-				@if(session('user_type')=='O' && session('rol_id')==1 )
+				@if(session('user_type')=='O' && session('rol_id')==1 && $p_mode!='I' )
 					<li class="dropdown related-dropdown">
 						<button class="btn-square clr-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-information-outline"></i></button>
 						<div class="dropdown-menu">
@@ -145,6 +147,11 @@
 						<div class="form-group">
 							<label for="p_status" class="form-label">{{getMessage('info_word_status')}}</label>
 							<select class="form-control" name="p_status">
+								@php
+									if(!isset($instance['status'])){
+										$instance['status'] = 'P';
+									}
+								@endphp
 							@if($p_mode=='U' && ( $instance['status'] == "P" && $status_list['status1']==0 || $instance['status'] == "V" && $status_list['status2']==0 || $instance['status'] == "O" && $status_list['status3']==0) )
 								@if($instance['status'] == "P")
 									<option value="P" @if($instance['status']=="P") selected @endif>{{getMessage('info_word_status_pending')}}</option>
@@ -174,11 +181,11 @@
 								$attribute_name=_attributeName($attribute);
 							@endphp
 							<label for="{{$attribute_name}}" class="form-label">{{$attribute['caption']}}</label>
-                            <input type="text" class="form-control" name="{{$attribute_name}}" value="{{$attribute['atrib_values'][0]['text_val']}}">
+                            <input type="text" class="form-control" name="{{$attribute_name}}" value="@isset($attribute['atrib_values'][0]){{$attribute['atrib_values'][0]['text_val']}}@endisset">
 
                             @if(session('user_type')=='O' && session('rol_id')==1 )
                                 <label for="external_id" class="form-label">External id</label>
-                                <input type="text" class="form-control" name="external_id" value="{{$instance['external_id']}}">
+                                <input type="text" class="form-control" name="external_id" value="@isset($instance['external_id']){{$instance['external_id']}}@endisset">
                             @elseif(isset($instance['external_id']) && !empty($instance['external_id']))
                                 <input type="hidden" name="external_id" value="{{$instance['external_id']}}">
                             @endif
@@ -188,7 +195,7 @@
 						<div class="form-group">
 							<label for="date_s1" class="form-label">{{getMessage('info_word_publishing_begins')}}</label>
 							<span class="input-group">
-								<input type="text" length="35" name="p_publishing_begins" value="{{$instance['publishing_begins']}}" id="date1" class="form-control datepicker" autocomplete="off">
+								<input type="text" length="35" name="p_publishing_begins" value="@isset($instance['publishing_begins']){{$instance['publishing_begins']}}@endisset" id="date1" class="form-control datepicker" autocomplete="off">
 								<span class="input-addon">
 									<i class="icon-calendar"></i>
 								</span>
@@ -197,7 +204,7 @@
 						<div class="form-group">
 							<label for="date_s1" class="form-label">{{getMessage('info_word_publishing_ends')}}</label>
 							<span class="input-group">
-								<input type="text" length="35" name="p_publishing_ends" value="{{$instance['publishing_ends']}}" id="date2" class="form-control datepicker" autocomplete="off">
+								<input type="text" length="35" name="p_publishing_ends" value="@isset($instance['publishing_ends']){{$instance['publishing_ends']}}@endisset" id="date2" class="form-control datepicker" autocomplete="off">
 								<span class="input-addon">
 									<i class="icon-calendar"></i>
 								</span>
