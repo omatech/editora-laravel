@@ -1,5 +1,4 @@
 {{-- Relation --}}
-
 @if($p_mode=='V')
     <ul class="block-items-list">
         <li class="block-item block-item-group expanded">
@@ -29,7 +28,6 @@
                                     <li>
                                         {!! _attributeInfo($attribute['id'], $attribute['name'], $attribute['type']) !!}
                                     </li>
-
                                 @endif
                                 @php
                                     if ($attribute['max_length']!=0){
@@ -41,84 +39,76 @@
                                     }
                                 @endphp
                                 <li><a href="{{route('editora.action', 'join?p_class_id='.$classes_id.'&p_inst_id='.$instance['id'].'&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$classes_id) }}" class="btn-square clr-default"><i class="icon-link-rel"></i><span class="hide-txt">{{getMessage('info_word_join')}}</span></a></li>
-
                                 @if ($attribute['max_length']!=0)
                                     <li><a href="{{route('editora.action', 'add_and_join?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$classes_id.'&p_tab=1') }}" class="btn-square clr-default"><i class="icon-plus-box"></i><span class="hide-txt">{{getMessage('info_word_addjoin')}}</span></a></li>
                                 @else
                                     <li><a href="" data-toggle="modal" data-target="#modal{{$attribute['id']}}" class="btn-square clr-default"><i class="icon-plus-box"></i><span class="hide-txt">{{getMessage('info_word_addjoin')}}</span></a></li>
-
                                     @section('modals')
-                                    @parent
+                                        @parent
+                                        @if( file_exists( public_path().'/vendor/editora/extras/classes_sample' ) )
+                                            {{--Modal with Image Sample--}}
+                                            <div class="modal modal-related fade" id="modal{{$attribute['id']}}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel{{$attribute['id']}}" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">{{$attribute['caption']}}</h5>
+                                                            <button type="button" class="btn-ico" data-dismiss="modal" aria-label="Close">
+                                                                <i class="icon-close"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="square-proportions">
+                                                                <div class="relations-preview-list">
+                                                                    @foreach($child_classes as $item)
+                                                                        <div class="relations-preview-item"
+                                                                            data-preview="@if(file_exists(public_path().'/vendor/editora/extras/classes_sample/'.getClassNameInternalName($item).'.jpg')) {{ url('/vendor/editora/extras/classes_sample/'.getClassNameInternalName($item).'.jpg')}} @endif">
 
-                                    @if( file_exists( public_path().'/vendor/editora/extras/classes_sample' ) )
-                                        {{--Modal with Image Sample--}}
-                                        <div class="modal modal-related fade" id="modal{{$attribute['id']}}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel{{$attribute['id']}}" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">{{$attribute['caption']}}</h5>
-                                                        <button type="button" class="btn-ico" data-dismiss="modal" aria-label="Close">
-                                                            <i class="icon-close"></i>
-                                                        </button>
+                                                                            <a href='{{route('editora.action', 'add_and_join?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$item.'&p_tab=1') }}'><span class="tit" style="cursor:pointer!important">{{getClassName($item)}}</span></a>
+                                                                            <a class="btn-square clr-default" href='{{route('editora.action', 'add_and_join?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$item.'&p_tab=1') }}' ><i class="icon-plus"></i></a>
+                                                                        </div>
+                                                                    @endforeach
+                                                                </div>
+                                                            </div>
+                                                            <div class="square-proportions">
+                                                                <figure class="preview-area">
+                                                                    <div class="no-image-placeholder">
+                                                                        <img src="{{ asset('/vendor/editora/img/img_no_available.png') }}" alt="">
+                                                                        <span>{{getMessage('classes_modal_not_image')}}</span>
+                                                                    </div>
+                                                                    <div class="preview-image-holder">
+                                                                        <img src="" alt="" style="display: none;">
+                                                                    </div>
+                                                                </figure>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="modal-body">
-
-                                                        <div class="square-proportions">
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="modal modal-related fade" id="modal{{$attribute['id']}}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel{{$attribute['id']}}" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">{{$attribute['caption']}}</h5>
+                                                            <button type="button" class="btn-ico" data-dismiss="modal" aria-label="Close">
+                                                                <i class="icon-close"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div class="">
                                                             <div class="relations-preview-list">
                                                                 @foreach($child_classes as $item)
-                                                                    <div class="relations-preview-item"
-                                                                         data-preview="@if(file_exists(public_path().'/vendor/editora/extras/classes_sample/'.getClassNameInternalName($item).'.jpg')) {{ url('/vendor/editora/extras/classes_sample/'.getClassNameInternalName($item).'.jpg')}} @endif">
-
+                                                                    <div class="relations-preview-item nav-button">
                                                                         <a href='{{route('editora.action', 'add_and_join?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$item.'&p_tab=1') }}'><span class="tit" style="cursor:pointer!important">{{getClassName($item)}}</span></a>
                                                                         <a class="btn-square clr-default" href='{{route('editora.action', 'add_and_join?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$item.'&p_tab=1') }}' ><i class="icon-plus"></i></a>
                                                                     </div>
                                                                 @endforeach
                                                             </div>
                                                         </div>
-                                                        <div class="square-proportions">
-                                                            <figure class="preview-area">
-                                                                <div class="no-image-placeholder">
-                                                                    <img src="{{ asset('/vendor/editora/img/img_no_available.png') }}" alt="">
-                                                                    <span>{{getMessage('classes_modal_not_image')}}</span>
-                                                                </div>
-                                                                <div class="preview-image-holder">
-                                                                    <img src="" alt="" style="display: none;">
-                                                                </div>
-                                                            </figure>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @else
-
-                                        <div class="modal modal-related fade" id="modal{{$attribute['id']}}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel{{$attribute['id']}}" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">{{$attribute['caption']}}</h5>
-                                                        <button type="button" class="btn-ico" data-dismiss="modal" aria-label="Close">
-                                                            <i class="icon-close"></i>
-                                                        </button>
-                                                    </div>
-                                                    <div class="">
-
-                                                        <div class="relations-preview-list">
-                                                            @foreach($child_classes as $item)
-                                                                <div class="relations-preview-item nav-button">
-                                                                    <a href='{{route('editora.action', 'add_and_join?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$item.'&p_tab=1') }}'><span class="tit" style="cursor:pointer!important">{{getClassName($item)}}</span></a>
-                                                                    <a class="btn-square clr-default" href='{{route('editora.action', 'add_and_join?p_pagina=1&p_relation_id='.$attribute['id'].'&p_inst_id='.$instance['id'].'&p_parent_class_id='.$instance['class_id'].'&p_child_class_id='.$item.'&p_tab=1') }}' ><i class="icon-plus"></i></a>
-                                                                </div>
-                                                            @endforeach
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
-
+                                        @endif
                                     @endsection
-
                                 @endif
                             </ul>
                             <div class="search-rel">
@@ -143,7 +133,6 @@
                                     @foreach($attribute['related_instances']['instances'] as $item)
                                         <tr class="published" id="{{$item['inst_id']}}">
                                             <td class="sort"><span class="drag-area"><i class="icon-drag"></i></span></td>
-
                                             <td class="status">
                                                 <button class="btn-square clr-transparent">
                                                     @if($item['status']=="O")
@@ -155,11 +144,10 @@
                                                     @endif
                                                 </button>
                                             </td>
-
                                             <td class="id"><a href="{{ route('editora.action', 'view_instance?p_class_id='.$item['child_class_id'].'&p_inst_id='.$item['inst_id']) }}">{{$item['inst_id']}}</a></td>
                                             <td class="tit"><a href="{{ route('editora.action', 'view_instance?p_class_id='.$item['child_class_id'].'&p_inst_id='.$item['inst_id']) }}">{{$item['key_fields']}}</a></td>
                                             <td class="type">
-                                                <a href="{{ route('editora.action', 'list_instances?p_class_id=' . $item['child_class_id']) }}">
+                                                <a href="{{ route('editora.action', 'list_instances?p_class_id='.$item['child_class_id']) }}">
                                                     {{$item['class_realname']}}
                                                 </a>
                                             </td>

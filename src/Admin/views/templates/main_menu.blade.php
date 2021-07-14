@@ -1,6 +1,6 @@
-@if(isset($class))
+@if(isset($class['id']))
     @php $class_id = $class['id']  @endphp
-@elseif(isset($instance))
+@elseif(isset($instance['class_id']))
     @php $class_id = $instance['class_id'] @endphp
 @else
     @php $class_id = 0 @endphp

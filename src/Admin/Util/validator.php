@@ -13,8 +13,8 @@
 		if($nLen==0)
 			return FALSE;
 
-		$sFirstChr=$sEMail{0};
-		$sLastChr=$sEMail{$nLen-1};
+		$sFirstChr=$sEMail[0];
+		$sLastChr=$sEMail[$nLen-1];
 		/***** email id should not start or end with @,.,- ***/
 		if(is_integer(strpos("@.-",$sFirstChr)) || is_integer(strpos("@.-",$sLastChr)))
 		{

@@ -37,7 +37,7 @@
                             <label for="u_lang" class="form-label"><?php echo getMessage('login_label_language');?></label>
                             <select name="u_lang" onChange="javascript:changeLang(this.options[this.selectedIndex].value)" id="u_lang"  class="form-control">
                                 @foreach( $arrayLangs as $menuLang )
-                                    <option {{ selectedTrue($lg, $menuLang) }} value="{{ $menuLang }}">{{ getMessage("language_choose_$menuLang") }}</option>
+                                    <option @if(isset($lg) && ($lg == $menuLang))  selected="true" @endif value="{{ $menuLang }}">{{ getMessage("language_choose_$menuLang") }}</option>
                                 @endforeach
                             </select>
                         </div>
