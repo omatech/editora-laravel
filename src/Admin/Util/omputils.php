@@ -87,7 +87,10 @@ function getClassName($p_id=null) {
     }
     $editora = new Omatech\Editora\Admin\Models\EditoraModel;
     $class_info = $editora->get_class_info($p_id);
-    return $class_info['class_name'];
+    if(isset($class_info['class_name'])){
+        return $class_info['class_name'];
+    }
+    return '';
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

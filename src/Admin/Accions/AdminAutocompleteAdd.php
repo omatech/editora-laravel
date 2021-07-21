@@ -21,7 +21,10 @@ class AdminAutocompleteAdd extends AuthController
             $child_inst_id = $_REQUEST['p_child_inst_id'];
             $parent_inst_id = $_REQUEST['p_parent_inst_id'];
             $rel_id = $_REQUEST['p_rel_id'];
-            $tab_id = $params['p_tab'];
+            $tab_id = 1;
+            if(isset($params['p_tab'])){
+                $tab_id = $params['p_tab'];
+            }
 
             $param_arr = array();
             $param_arr['param9'] = $rel_id;
