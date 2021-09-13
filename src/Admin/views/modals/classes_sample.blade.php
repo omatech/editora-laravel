@@ -1,4 +1,4 @@
-@if(file_exists(public_path().'/vendor/editora/extras/classes_sample/'.$class['class_internal_name'].'.jpg'))
+@if(file_exists(public_path().'/vendor/editora/extras/classes_sample/'.$class['class_internal_name'].'.jpg') && isset($instance))
     <div class="modal modal-related fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel{{$instance['id']}}" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -24,7 +24,7 @@
 @section('scripts')
     @parent
     <script type="text/javascript">
-        @if(file_exists(public_path().'/vendor/editora/extras/classes_sample/'.$class['class_internal_name'].'.jpg'))
+        @if(file_exists(public_path().'/vendor/editora/extras/classes_sample/'.$class['class_internal_name'].'.jpg') && isset($instance))
 		$("#showClassSample").on("click", function() {
             var route_img = "{{ url('/vendor/editora/extras/classes_sample/'.$class['class_internal_name'].'.jpg') }}";
 
