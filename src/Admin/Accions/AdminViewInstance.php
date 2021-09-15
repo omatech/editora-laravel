@@ -14,11 +14,12 @@ class AdminViewInstance extends AuthController
         $security = new Security;
         $params = get_params_info();
         $menu = [];
+        $params['p_mode'] = 'V';
+        $params['p_acces_type'] = 'A';
+        $parents = [];
         if (Session::get('rol_id') == 1 || $security->getAccess('browseable', $params)) {
             $instances = new Instances;
             $at = new attributes();
-            $params['p_mode'] = 'V';
-            $params['p_acces_type'] = 'A';
             $title = EDITORA_NAME . " -> " . getMessage('info_view_object');
             $instances->logAccess($params);
             $menu = $this->loadMenu($instances, $params);

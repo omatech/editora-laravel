@@ -13,7 +13,7 @@ class AdminJoin2 extends AuthController
     {
         $security = new Security;
         $params = get_params_info();
-
+        $parent_class_id = $parent_id = null;
         if (Session::get('rol_id')==1 || $security->getAccess('browseable',$params)) {
             $instances = new Instances;
             $re=new relations();
