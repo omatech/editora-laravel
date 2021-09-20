@@ -10,7 +10,7 @@ class Model
 
 	public function __construct()
     {
-        $this->db = DB::connection('mysql');
+        $this->db = DB::connection(env('DB_CONNECTION', 'mysql'));
 	}
 
 	protected function get_data($sql,  array $params = [])
