@@ -1,4 +1,4 @@
-@if($p_mode=='R')
+@if(isset($p_mode) && $p_mode=='R')
     @php($id_rel=0)
     <form class="form" id="relation_all" name="relation_all" method="post" enctype="multipart/form-data" action="{{route('editora.action', 'join_all')}}">
         {{ csrf_field() }}
@@ -36,7 +36,7 @@
                     </button>
                 </td>
                 <td class="id">
-                    @if($p_mode=='R')
+                    @if(isset($p_mode) && $p_mode=='R')
                        <span class="btn-favorite">
                             <input type="checkbox" id="rel_chb_{{$id_rel}}" name="rel_chb[]" id="table-add-{{$item['id']}}" value="{{$item['id']}}">
                         </span>
@@ -66,7 +66,7 @@
                     </button>
                 </td>
 
-                @if($p_mode=='R')
+                @if(isset($p_mode) && $p_mode=='R')
                     @php($link=route('editora.action', 'join2?p_pagina=1&p_relation_id='.$parent['rel_id'].'&p_parent_class_id='.$parent['class_id'].'&p_parent_inst_id='.$parent['inst_id'].'&p_child_inst_id='.$item['id'].'&p_tab='))
                     <td class="actions">
                         <a href="{{$link}}" class="btn-square clr-mid"><i class="icon-link-rel"></i><span class="hide-txt">{{getMessage('info_word_join')}}</span> </a>
@@ -85,10 +85,10 @@
     @endif
     </tbody>
 </table>
-@if($count!=-1)
+@if(isset($count) && $count!=-1)
 <h3>{{$count}} {{getMessage('info_objects_found')}}</h3>
 @endif
-@if($count>40)
+@if(isset($count) && $count>40)
 @php($pages = ceil($count/40))
 <div class="dataTables_paginate paging_simple_numbers" id="pages-table_paginate">
     <ul class="pagination">
@@ -104,7 +104,7 @@
     </ul>
 </div>
 @endif
-@if($p_mode=='R')
+@if(isset($p_mode) && $p_mode=='R')
     </form>
 @endif
 
