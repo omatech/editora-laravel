@@ -1,3 +1,8 @@
+@php
+  if (!isset($p_mode)) $p_mode='D';
+  if (!isset($page)) $page=1;
+  if (!isset($class['id'])) $class['id']=1;
+@endphp
 @if(isset($p_mode) && $p_mode=='R')
     @php($id_rel=0)
     <form class="form" id="relation_all" name="relation_all" method="post" enctype="multipart/form-data" action="{{route('editora.action', 'join_all')}}">
