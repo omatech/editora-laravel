@@ -1,6 +1,12 @@
 {{-- File --}}
 @if($p_mode=='V')
-    @php($file = $attribute['atrib_values'][0]['text_val'])
+    @php 
+        $file = '';
+        if(isset($attribute['atrib_values'][0])){
+            $file = $attribute['atrib_values'][0]['text_val'];
+        }
+    @endphp
+
     <div class="column column-text">
         <div class="form-group">
             <label for="{{$attribute_name}}" class="form-label">{{$attribute['caption']}}
