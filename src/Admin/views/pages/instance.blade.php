@@ -15,7 +15,7 @@
 				<li @if($count==0) class="active" @endif><a class="tab-lang" data-toggle="tab" href="#tab-{{$tab['id']}}">{{$tab['caption']}}</a></li>
 				@php $count++ @endphp
 			@endforeach
-			@includeIf('Editora.extraTabMenu')
+			@includeIf('editora::extraTabMenu')
 			</ul>
 		</span>
 
@@ -53,7 +53,7 @@
 								@if (config('editora-admin.curl-refresh-command')!='')
 								<a onclick="refreshView({{$instance['id']}});" class="dropdown-item"><i class="fa fa-refresh fa-lg" style="margin-left:5px; margin-right: 10px; color: #8A909C;"></i>{{getMessage('clean_cache')}}</a>
 								@endif
-								@includeIf('Editora.extraMenuInstance')
+								@includeIf('editora::extraMenuInstance')
 							</div>
 						</div>
 					</li>
@@ -311,7 +311,7 @@
 					</div>
 				@endforeach
 				<input type="hidden" name="p_mandatories" value="{{substr($mandatories,0,strlen($mandatories)-1)}}"/>
-				@includeIf('Editora.extraTabInstance')
+				@includeIf('editora::extraTabInstance')
 			</div>
 		</div>
 	</form>

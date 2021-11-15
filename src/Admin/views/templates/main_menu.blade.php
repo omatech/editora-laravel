@@ -150,6 +150,6 @@
                 </li>
             </ul>
         </li>
-        @includeIf('Editora.extraMenu')
+        @includeIf('editora::extraMenu')
     </ul>
 </nav>
