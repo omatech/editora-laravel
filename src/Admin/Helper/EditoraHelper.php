@@ -141,6 +141,8 @@ if (!function_exists('_getFileSize')) {
 if (!function_exists('_fileExtension')) {
     function _fileExtension($file)
     {
+        if (!$file) return '';
+        
         if (!filter_var($file, FILTER_VALIDATE_URL)) {
             $file = public_path($file);
             if (!file_exists($file)) {
