@@ -30,7 +30,7 @@
 @elseif($p_mode=='U' || $p_mode=='I')
     @php
         $file='';
-        if (isset($attribute['atrib_values'][0]['text_val']) {
+        if (isset($attribute['atrib_values'][0]['text_val'])) {
         $file = $attribute['atrib_values'][0]['text_val'];
     }
     @endphp
