@@ -1,10 +1,15 @@
 {{-- Geoposicionament amb google Map --}}
 @if($p_mode=='V')
     @php
+      $lat='41.387156';
+      $lng='2.167172';
+      if (isset($attribute['atrib_values'][0]['text_val']))
+      {
         $pos2 = explode("@", $attribute['atrib_values'][0]['text_val']);
         $pos = explode(":",$pos2[0]);
         $lat = $pos[0];
         $lng = $pos[1];
+      }
     @endphp
     <div class="column column-text">
         <div class="form-group">
@@ -29,10 +34,15 @@
 @elseif($p_mode=='I' || $p_mode=='U')
     @if($p_mode=='U')
         @php
-            $pos2 = explode("@", $attribute['atrib_values'][0]['text_val']);
-            $pos = explode(":",$pos2[0]);
-            $lat = $pos[0];
-            $lng = $pos[1];
+            $lat='41.387156';
+            $lng='2.167172';
+            if (isset($attribute['atrib_values'][0]['text_val']))
+            {
+                $pos2 = explode("@", $attribute['atrib_values'][0]['text_val']);
+                $pos = explode(":",$pos2[0]);
+                $lat = $pos[0];
+                $lng = $pos[1];
+            }
         @endphp
     @else
         @php
