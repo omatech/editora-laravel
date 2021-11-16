@@ -14,7 +14,7 @@
     <div class="column column-text">
         <div class="form-group">
             <label for="{{$attribute_name}}" class="form-label">{{$attribute['caption']}} {!! _attributeInfo($attribute['id'], $attribute['name'], $attribute['type']) !!}</label>
-            <input name="{{$attribute_name}}" type="text" class="form-control" value="{{$pos[0]}}, {{$pos[1]}} @if($pos2[1]!="") @ {{$pos2[1]}} @endif" disabled="disabled">
+            <input name="{{$attribute_name}}" type="text" class="form-control" value="{{$lat}}, {{$lng}}" disabled="disabled">
         </div>
     </div>
     <div class="column column-media">
