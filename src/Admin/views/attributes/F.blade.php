@@ -2,7 +2,7 @@
 @if($p_mode=='V')
     @php 
         $file = '';
-        if(isset($attribute['atrib_values'][0])){
+        if(isset($attribute['atrib_values'][0]['text_val'])){
             $file = $attribute['atrib_values'][0]['text_val'];
         }
     @endphp
