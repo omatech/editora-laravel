@@ -2,11 +2,21 @@
 @if($p_mode=='V')
   @php
     $default_id=$attribute['lookup_info']['info']['default_id'];
-    $lookup_value=$attribute['params']->lookup->$default_id[0];  
     if (isset($attribute['lookup_info']['selected_values'][0]['label']))
     {
         $lookup_value=$attribute['lookup_info']['selected_values'][0]['label'];
-    }  
+    }
+    else
+    {
+      if (isset($attribute['params']->lookup->$default_id[0]))
+      {
+        $lookup_value=$attribute['params']->lookup->$default_id[0];
+      }
+      else
+      {
+        $lookup_value='';
+      }
+    }
   @endphp
 
     <div class="column column-text">
