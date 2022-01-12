@@ -84,7 +84,7 @@ function getMessage ($id) {
 	$mess_arr['info_word_searcher'] = 'Buscador';
 	$mess_arr['advanced_search'] = 'Búsqueda avanzada';
 	$mess_arr['info_word_type'] = 'Tipo';
-	$mess_arr['info_word_type_explantion']='Ordenar por tipo';
+	$mess_arr['info_word_type_explanation']='Ordenar por tipo';
 	$mess_arr['info_word_text'] = 'Texto';
 	$mess_arr['info_word_select_date'] = 'Seleccionar fecha';
 	$mess_arr['info_word_initial_date'] = 'Fecha inicial';

@@ -81,7 +81,7 @@ function getMessage ($id) {
 	$mess_arr['info_word_joinwith'] = 'per relacionar amb';
 	$mess_arr['info_word_typeof'] = 'de tipus';
 	$mess_arr['info_word_searcher'] = 'Cercador';
-    $mess_arr['advanced_search'] = 'Cerca avançada';
+  $mess_arr['advanced_search'] = 'Cerca avançada';
 	$mess_arr['info_word_type'] = 'Tipus';
 	$mess_arr['info_word_type_explanation']='Ordenar per tipus';
 	$mess_arr['info_word_text'] = 'Text';
