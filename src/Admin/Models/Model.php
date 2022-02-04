@@ -8,12 +8,12 @@ class Model
 {
     private $db;
 
-	public function __construct()
+    public function __construct()
     {
         $this->db = DB::connection(env('DB_CONNECTION', 'mysql'));
-	}
+    }
 
-	protected function get_data($sql,  array $params = [])
+    protected function get_data($sql, array $params = [])
     {
         $rows = $this->db->select($sql, $params);
 
@@ -29,48 +29,53 @@ class Model
         $row = $this->db->selectOne($sql, $params);
 
         if (!isset($row)) {
-			return false;
-		}
+            return false;
+        }
 
-		return json_decode(json_encode($row), true);
-	}
+        return json_decode(json_encode($row), true);
+    }
 
     protected function insert_one($sql, array $params = [])
     {
-		$row = $this->db->insert($sql, $params);
+        $row = $this->db->insert($sql, $params);
 
-		if (!$row) {
-			return false;
-		}
-		else {
-			$id = DB::getPdo()->lastInsertId();
-			if ($id) return $id;
-			else return false;
-		}  
-	}
+        if (!$row) {
+            return false;
+        } else {
+            $id = DB::getPdo()->lastInsertId();
+            if ($id) {
+                return $id;
+            } else {
+                return false;
+            }
+        }
+    }
 
-    protected function update_one($sql) {
-
+    protected function update_one($sql)
+    {
         $ret = $this->db->update($sql);
 
-        if (!$ret){
-		    return false;
-        }else {
-		    return true;
+        if (!$ret) {
+            return false;
+        } else {
+            return true;
         }
-	}
+    }
 
     protected function delete($sql, array $params = [])
     {
         return $this->db->delete($sql, $params);
     }
 
-    protected function execute ($sql, array $params = []) {
-		//$res = $this->db->select($sql, $params);
-		$this->db->insert($sql, $params);
-	}
+    protected function execute($sql, array $params = [])
+    {
+        //$res = $this->db->select($sql, $params);
+        $this->db->insert($sql, $params);
+    }
 
-    protected function escape ($string) {
-		return $string;
-	}
+    protected function escape($string)
+    {
+        return $this->db->getPdo()->quote($string);
+        //return $string;
+    }
 }
