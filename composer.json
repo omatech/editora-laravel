@@ -10,7 +10,7 @@
   ],
   "require" : {
     "omatech/editora-laravel-connector-dbinterface": "^2.1",
-    "skagarwal/google-places-api": "^1.4"
+    "skagarwal/google-places-api": "^2.0"
   },
   "autoload": {
       "psr-4": {
