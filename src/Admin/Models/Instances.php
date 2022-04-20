@@ -1399,7 +1399,7 @@ class Instances extends model
         $url_errors = [];
         foreach ($ret as $item) {
             if (substr($item["url"], 0, 1) == "/") {
-                $item["url"] = env('APP_URL') . $item["url"];
+                $item["url"] = config('app.url') . $item["url"];
             }
             if ($this->isUrlBroken($item["url"])) {
                 array_push($url_errors, $item);
