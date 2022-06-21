@@ -78,7 +78,7 @@ class Security extends Model
 
     function testSession()
     {
-        if ($_SERVER['REQUEST_URI']!='') {
+        if (array_key_exists('REQUEST_URI', $_SERVER) && $_SERVER['REQUEST_URI']!='') {
             Session::put('last_page', $_SERVER['REQUEST_URI']);
         }
         if (Session::has('user_id') && Session::get('user_id')!='') {

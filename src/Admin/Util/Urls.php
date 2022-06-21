@@ -13,7 +13,7 @@ class Urls
 
     function extract_url_info()
     {
-        $url = $_SERVER['REQUEST_URI'];
+        $url = $_SERVER['REQUEST_URI'] ?? '';
         $question_pos=strrpos($url, '?');
         if ($question_pos>0) $url=substr($url, 0, $question_pos);
 
