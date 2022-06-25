@@ -7,8 +7,7 @@ use Omatech\Editora\Admin\Exceptions\CustomExceptionHandler;
 use Omatech\Editora\Admin\Exceptions\CustomExceptionHandlerOld;
 use Omatech\Editora\Admin\Middleware\EditoraAuth;
 use Omatech\Editora\Admin\Providers\HelperServiceProvider;
-use Illuminate\Contracts\Debug\ExceptionHandler;
-use Omatech\Editora\Admin\Middleware\EditoraLocale;
+use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 
 class EditoraServiceProvider extends ServiceProvider
 {
@@ -40,12 +39,23 @@ class EditoraServiceProvider extends ServiceProvider
         $this->app->register(HelperServiceProvider::class);
         $this->app['router']->aliasMiddleware('editoraAuth', EditoraAuth::class);
 
-        if(app()->version()<7){
-            $this->app->bind(ExceptionHandler::class, CustomExceptionHandlerOld::class);
-        }else{
-            $this->app->bind(ExceptionHandler::class, CustomExceptionHandler::class);
+        $appExceptionHandler = $this->app->make(ExceptionHandlerContract::class);
+        if(app()->version() < 7) {
+            $this->app->singleton(
+                ExceptionHandlerContract::class,
+                function ($app) use ($appExceptionHandler) {
+                    return new CustomExceptionHandlerOld($app, $appExceptionHandler);
+                }
+            );
+        } else {
+            $this->app->singleton(
+                ExceptionHandlerContract::class,
+                function ($app) use ($appExceptionHandler) {
+                    return new CustomExceptionHandler($app, $appExceptionHandler);
+                }
+            );
         }
-        
+
 
         $this->mergeConfigFrom(
             __DIR__.'/config/config.php',

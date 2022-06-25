@@ -2,25 +2,40 @@
 
 namespace Omatech\Editora\Admin\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Session\TokenMismatchException;
+use Throwable;
+use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 
-class CustomExceptionHandler extends ExceptionHandler
+class CustomExceptionHandler implements ExceptionHandlerContract
 {
-    /**
-     * Render an exception into an HTTP response.
-     *compo
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Throwable $exception
-     * @return \Illuminate\Http\Response
-     */
-    public function render($request, \Throwable $exception)
+    public function __construct(Container $container, ExceptionHandlerContract $appExceptionHandler)
     {
+        $this->container = $container;
+        $this->appExceptionHandler = $appExceptionHandler;
+    }
 
+    public function render($request, Throwable $exception)
+    {
         if ($exception instanceof TokenMismatchException) {
             return redirect()->route('editora.action', 'logout');
         }
 
-        return parent::render($request, $exception);
+        return $this->appExceptionHandler->render($request, $e);
+    }
+    
+    public function report(Throwable $e)
+    {
+        $this->appExceptionHandler->report($e);
+    }
+
+    public function renderForConsole($output, Throwable $e)
+    {
+        $this->appExceptionHandler->renderForConsole($output, $e);
+    }
+
+    public function shouldReport(Throwable $e)
+    {
+        return $this->appExceptionHandler->shouldReport($e);
     }
 }
