@@ -15,7 +15,7 @@ class CustomExceptionHandler implements ExceptionHandlerContract
         $this->appExceptionHandler = $appExceptionHandler;
     }
 
-    public function render($request, Throwable $exception)
+    public function render($request, Throwable $e)
     {
         if ($exception instanceof TokenMismatchException) {
             return redirect()->route('editora.action', 'logout');

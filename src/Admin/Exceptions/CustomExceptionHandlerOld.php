@@ -14,7 +14,7 @@ class CustomExceptionHandlerOld implements ExceptionHandlerContract
         $this->appExceptionHandler = $appExceptionHandler;
     }
 
-    public function render($request, \Exception $exception)
+    public function render($request, \Exception $e)
     {
 
         if ($exception instanceof TokenMismatchException) {
