@@ -5,7 +5,7 @@
 ### Create the new laravel empty project
 
 ```
-composer create-project --prefer-dist laravel/laravel editora-test "8.*"
+composer create-project --prefer-dist laravel/laravel editora-test
 ```
 
 ### Setup you .env file with database connection and so on
@@ -15,14 +15,8 @@ composer create-project --prefer-dist laravel/laravel editora-test "8.*"
 ```
     "name": "editora-test",
     "description": "Editora Frontend",
-		"minimum-stability": "dev",
-		"prefer-stable": true,
-```
-
-### Add in require section the editora-laravel-connector-dbinterface: 
-
-```
-"omatech/editora": "^6.2"
+	"minimum-stability": "dev",
+	"prefer-stable": true,
 ```
 
 ### Do a composer update
@@ -30,9 +24,6 @@ composer create-project --prefer-dist laravel/laravel editora-test "8.*"
 ```
 composer update
 ```
-
-### Add a new Provider in config/app.php file
-     Omatech\Editora\Connector\ConnectorServiceProvider::class,
 
 ### Publish the new vendor, run: 
 
@@ -42,7 +33,12 @@ php artisan vendor:publish --provider=Omatech\Editora\EditoraServiceProvider
 php artisan vendor:publish --tag=editora-publish
 ```
 
-### Remove default route in routes/web.php
+### Add editora routes in routes/web.php
+```
+use Omatech\Editora\Connector\Editora;
+
+Editora::routes();
+```
 
 ### In config folder there're the two files needed for editora setup editora.php sets the language and different editora options editoradatabase.php sets the editora structure 
 
