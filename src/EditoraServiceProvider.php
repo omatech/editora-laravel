@@ -114,6 +114,8 @@ class EditoraServiceProvider extends ServiceProvider
             __DIR__.'/Admin/fonts/font-awesome' => public_path('vendor/editora/css/font-awesome'),
             __DIR__.'/Admin/fonts/material-design' => public_path('vendor/editora/fonts'),
 
+            /* Frontend Tools */
+            __DIR__.'/EditoraFront/' => app_path('EditoraFront'),
 
         ], 'editora-publish');
     }
