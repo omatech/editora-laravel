@@ -47,6 +47,7 @@ class AdminUploadCrop extends AuthController
             $accessUrl = $fileInfo['filePath'];
         }else{
             $accessUrl = $disk->url($file);
+            $accessUrl = str_replace(config('editora-admin.remove-public-url-segments', []), '', $accessUrl);
         }
         
         return ['accessUrl' => $accessUrl, 'filePath' => $fileInfo['filePath']];
