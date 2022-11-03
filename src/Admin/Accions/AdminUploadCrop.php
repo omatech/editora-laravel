@@ -27,7 +27,7 @@ class AdminUploadCrop extends AuthController
 
     private function uploadFile($disk, $file)
     {
-        $path = '/uploads/'.date('Ymd');
+        $path = '/' . config('editora-admin.uploads-storage-dir', 'uploads') . '/' . date('Ymd');
         $fileName = $file->getClientOriginalName();
         $fileName = clean_file_name($fileName);
         $filePath = $path.'/'.$fileName;
