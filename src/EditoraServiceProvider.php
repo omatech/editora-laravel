@@ -40,7 +40,7 @@ class EditoraServiceProvider extends ServiceProvider
         $this->app['router']->aliasMiddleware('editoraAuth', EditoraAuth::class);
 
         $appExceptionHandler = $this->app->make(ExceptionHandlerContract::class);
-        if(app()->version() < 7) {
+        if(version_compare(app()->version(), 7, "<")) {
             $this->app->singleton(
                 ExceptionHandlerContract::class,
                 function ($app) use ($appExceptionHandler) {
