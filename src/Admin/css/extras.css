@@ -1,0 +1,71 @@
+/*
+!* primary color *!
+#navigation,
+.btn-primary,
+#toolbar .language-tabs > li > a::after,
+.pagination .paginate_button.active .page-link {
+    background-color: #1665FA !important;
+}
+
+.pagination .paginate_button.active .page-link {
+    border-color: #1665FA !important;
+}
+
+.breadcrumbs ul li:first-of-type,
+.table tbody tr:hover .id,
+.table tbody tr:hover .tit,
+.block-item-header:hover .item-tit,
+#toolbar .language-tabs > li.dropdown .dropdown-item.active,
+.relations-list > li:hover .rel-wrapper,
+.side-menu-item:hover [class*="tit"],
+.favorite-list-item:hover [class*="tit"],
+.last-modifications-list-item:hover [class*="tit"],
+.relations-preview-item .tit {
+    color: #1665FA !important;
+}
+
+!* primary color medium *!
+#navigation .level-3-nav > li:hover {
+    background-color: #303030;
+}
+
+!* primary color dark *!
+.btn-primary:hover,
+#navigation a:hover,
+#navigation .level-2-nav > li a[aria-expanded="true"] {
+    background-color: #303030;
+}
+
+#navigation .level-2-nav > li a [class^="icon-"] {
+    color: #1665FA !important;
+}
+
+!* secondary color *!
+.clr-secondary,
+.input-group .form-control:focus + .input-addon,
+.clr-primary,
+.relations-preview-item:hover .btn-square,
+.clr-active,
+#topbar .dropdown.show [data-toggle="dropdown"],
+.show-favorites #topbar .topbar-right .favorites [class^="btn-"],
+.show-modifications #topbar .topbar-right .modifications [class^="btn-"],
+.clr-primary:hover,
+.clr-active:hover,
+#topbar .dropdown.show :hover[data-toggle="dropdown"],
+li.dropdown.user.show > button.btn.clr-default,
+.show-favorites #topbar .topbar-right .favorites :hover[class^='btn-'],
+.show-favorites #topbar .topbar-right .favorites [class^="btn-"],
+.show-modifications #topbar .topbar-right .modifications :hover[class^='btn-'] {
+    background-color: #1665FA !important;
+}
+
+!* secondary color dark *!
+.clr-secondary:hover {
+    background-color: #303030;
+}
+
+!* white text on menu *!
+.level-1-nav {
+    color: white !important;
+}
+*/
