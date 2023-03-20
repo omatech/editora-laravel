@@ -244,7 +244,9 @@
                 let canvas = $cropper_{{$attribute_name}}.getCroppedCanvas({
                     width: attribW_{{$attribute_name}},
                     height: attribH_{{$attribute_name}},
-                    imageSmoothingEnabled: false,
+                    maxWidth: attribW_{{$attribute_name}} * 2,
+                    maxHeight: attribH_{{$attribute_name}} * 2,
+                    imageSmoothingEnabled: true,
                     imageSmoothingQuality: 'high',
                 });
                 canvas.toBlob((blob) => {
