@@ -440,8 +440,12 @@ class Instances extends model
                     $file = $p_valor;
                 }
                 $ii = @getimagesize($file);
-                $wh = $ii[0].'.'.$ii[1];
-                $ret = '"'.$p_valor.'",NULL, NULL, "'.$wh.'"';
+                if ($ii) {
+                    $wh = $ii[0].'.'.$ii[1];
+                    $ret = '"'.$p_valor.'",NULL, NULL, "'.$wh.'"';
+                } else {
+                    $ret = '"'.$p_valor.'",NULL, NULL, NULL';
+                }
             } else {
                 $ret = '"'.$p_valor.'",NULL, NULL, NULL';
             }
