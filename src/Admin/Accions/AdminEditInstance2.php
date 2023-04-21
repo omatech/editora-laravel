@@ -2,6 +2,8 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
+use Illuminate\Support\Facades\Event;
+use Omatech\Editora\Admin\Events\NewInstance2InsertedEvent;
 use Omatech\Editora\Admin\Models\attributes;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Security;
@@ -81,6 +83,7 @@ class AdminEditInstance2 extends AuthController
 
                 $inst_id=$params['param2'];
                 $instances->instance_update_date_and_backup($inst_id);
+                $this->dispatchEvent((int) $inst_id);
             }
 
             $parents=$ly_t->paintParentsList($instances->getParents($params), $params);
@@ -106,5 +109,14 @@ class AdminEditInstance2 extends AuthController
                 return response()->view('editora::pages.instance', $viewData);
                 break;
         }
+    }
+
+    private function dispatchEvent(int $instanceId): void
+    {
+        try {
+            if ($instanceId !== 0) {
+                Event::dispatch(new NewInstance2InsertedEvent($instanceId));
+            }
+        }catch (\Exception $exception) {}
     }
 }
