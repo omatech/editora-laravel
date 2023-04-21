@@ -3,7 +3,7 @@
 namespace Omatech\Editora\Admin\Accions;
 
 use Illuminate\Support\Facades\Event;
-use Omatech\Editora\Admin\Events\NewInstance2InsertedEvent;
+use Omatech\Editora\Admin\Events\EditInstance2UpdatedEvent;
 use Omatech\Editora\Admin\Models\attributes;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Security;
@@ -115,7 +115,7 @@ class AdminEditInstance2 extends AuthController
     {
         try {
             if ($instanceId !== 0) {
-                Event::dispatch(new NewInstance2InsertedEvent($instanceId));
+                Event::dispatch(new EditInstance2UpdatedEvent($instanceId));
             }
         }catch (\Exception $exception) {}
     }
