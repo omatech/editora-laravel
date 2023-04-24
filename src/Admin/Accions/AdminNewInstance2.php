@@ -2,7 +2,9 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Session;
+use Omatech\Editora\Admin\Events\NewInstance2InsertedEvent;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Relations;
@@ -99,6 +101,7 @@ class AdminNewInstance2 extends AuthController
                 $inst_id = $params['param2'];
                 $instances->instance_update_date_and_backup($inst_id);
                 $_REQUEST['view'] = 'container';
+                $this->dispatchEvent((int) $inst_id);
                 return redirect(route('editora.action', 'view_instance?p_pagina=1&p_class_id='.$redirect_class_id.'&p_inst_id='.$redirect_inst_id));
             }
         }
@@ -115,5 +118,14 @@ class AdminNewInstance2 extends AuthController
         ]);
 
         return response()->view('editora::pages.instance', $viewData);
+    }
+
+    private function dispatchEvent(int $instanceId): void
+    {
+        try {
+            if ($instanceId !== 0) {
+                Event::dispatch(new NewInstance2InsertedEvent($instanceId));
+            }
+        }catch (\Exception $exception) {}
     }
 }
