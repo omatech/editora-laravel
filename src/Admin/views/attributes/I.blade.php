@@ -152,24 +152,36 @@
                 loadedImage.dataset.name = file.name;
                 loadedImage.dataset.type = file.type;
                 loadedImage.onload = function () {
+                    if (file.name.endsWith('.svg')) {
+                        dropzone_{{$attribute_name}}.processQueue();
+                        return;
+                    }
+
                     if (attribH_{{$attribute_name}} == this.height && attribW_{{$attribute_name}} == this.width) {
                         dropzone_{{$attribute_name}}.processQueue();
+                        return;
                     }
-                    else if (attribH_{{$attribute_name}} === '' && attribW_{{$attribute_name}} === '') {
+
+                    if (attribH_{{$attribute_name}} === '' && attribW_{{$attribute_name}} === '') {
                         dropzone_{{$attribute_name}}.processQueue();
+                        return;
                     }
-                    else if (attribH_{{$attribute_name}} !== '' && attribW_{{$attribute_name}} !== '') {
+
+                    if (attribH_{{$attribute_name}} !== '' && attribW_{{$attribute_name}} !== '') {
                         if (this.width !== attribW_{{$attribute_name}} || this.height !== attribH_{{$attribute_name}}) {
                             cropImg();
                         }
+                        return;
                     }
-                    else if ((attribH_{{$attribute_name}} != '' || attribW_{{$attribute_name}} != '') &&
+
+                    if ((attribH_{{$attribute_name}} != '' || attribW_{{$attribute_name}} != '') &&
                         ((attribH_{{$attribute_name}} != '' && attribH_{{$attribute_name}} != this.height) ||
                             (attribW_{{$attribute_name}} != '' && attribW_{{$attribute_name}} != this.width))) {
                         autoResizeImg(loadedImage);
-                    } else {
-                        dropzone_{{$attribute_name}}.processQueue();
+                        return;
                     }
+
+                    dropzone_{{$attribute_name}}.processQueue();
                 }
             }
 
