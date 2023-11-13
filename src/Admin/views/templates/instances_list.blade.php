@@ -60,11 +60,11 @@
                 </td>
                 <td class="creation-date"><time class="date">{{_formatDate($item['cd_ordre'])}}</time></td>
                 <td class="date-condition">
-                    <button class="btn-square {!! _activeDate($item['publishing_begins'], $item['publishing_ends']) !!}" data-toggle="popover" data-placement="top" data-content="
+                    <button class="btn-square {!! _activeDate($item['publishing_begins'], $item['publishing_ends']) !!}" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="
                     @if($item['publishing_ends']!=null)
-                        <p>Publicada del <time>{{$item['publishing_begins']}}</time> al <time>{{$item['publishing_ends']}}</time></p>
+                        <p>{{ getMessage('published_from') }} <time>{{$item['publishing_begins']}}</time> {{ getMessage('published_to') }} <time>{{$item['publishing_ends']}}</time></p>
                     @else
-                        <p>Publicada el <time>{{$item['publishing_begins']}}</time></p>
+                        <p>{{ getMessage('published_on') }} <time>{{$item['publishing_begins']}}</time></p>
                     @endif
                     ">
                         <i class="icon-calendar-multiple"></i>

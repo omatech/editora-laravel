@@ -62,7 +62,7 @@ class attributes extends Model
 		$lg = Session::get('u_lang');
 
 		$sql = "SELECT ca.tab_id id, t.name name, t.name_" . $lg . " caption
-		FROM omp_class_attributes ca left outer join omp_tabs t on ca.tab_id = t.id 
+		FROM omp_class_attributes ca left outer join omp_tabs t on ca.tab_id = t.id
 		WHERE ca.class_id=" . $p_class_id . " group by ca.tab_id, t.name, t.name_" . $lg . " order by t.ordering";
 
 		$ret = $this->get_data($sql);
@@ -363,6 +363,8 @@ class attributes extends Model
 		, i.class_id child_class_id
 		, r.parent_class_id parent_class_id
 		, c.name_" . Session::get('u_lang') . " class_realname
+        , date_format(i.publishing_begins, '" . STANDARD_DATE_FORMAT . "') publishing_begins
+        , date_format(i.publishing_ends, '" . STANDARD_DATE_FORMAT . "') publishing_ends
 		from omp_instances i
 		, omp_relations r
 		, omp_relation_instances ri
@@ -370,8 +372,8 @@ class attributes extends Model
 		where ri.rel_id = " . $p_relation_id . "
 		and ri.parent_inst_id = " . $p_parent_inst_id . "
 		and ri.rel_id = r.id
-		and ri.child_inst_id = i.id 
-		and i.class_id = c.id 
+		and ri.child_inst_id = i.id
+		and i.class_id = c.id
 		" . $order_chunk . " LIMIT " . $num;
 
 		$ret = parent::get_data($sql);

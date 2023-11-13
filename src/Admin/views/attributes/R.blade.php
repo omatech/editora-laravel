@@ -125,6 +125,7 @@
                                     <th class="id"><span>{{getMessage('info_word_ID')}}</span></th>
                                     <th class="tit"><span>{{getMessage('info_word_keyword')}}</span></th>
                                     <th class="type"><span>{{getMessage('info_word_type')}}</span></th>
+                                    <th class="calendar"></th>
                                     <th class="actions"><span class="hidden">{{getMessage('acciones')}}</span></th>
                                 </tr>
                                 </thead>
@@ -150,6 +151,17 @@
                                                 <a href="{{ route('editora.action', 'list_instances?p_class_id='.$item['child_class_id']) }}">
                                                     {{$item['class_realname']}}
                                                 </a>
+                                            </td>
+                                            <td class="date-condition">
+                                                <button class="btn-square {!! _activeDate($item['publishing_begins'], $item['publishing_ends']) !!}" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="
+                                                  @if($item['publishing_ends']!=null)
+                                                          <p>{{ getMessage('published_from') }} <time>{{$item['publishing_begins']}}</time> {{ getMessage('published_to') }} <time>{{$item['publishing_ends']}}</time></p>
+                                                      @else
+                                                          <p>{{ getMessage('published_on') }} <time>{{$item['publishing_begins']}}</time></p>
+                                                      @endif
+                                                      ">
+                                                    <i class="icon-calendar-multiple"></i>
+                                                </button>
                                             </td>
                                             <td class="actions">
                                                 <ul>
@@ -270,6 +282,7 @@
                                     <th class="id"><span>{{getMessage('info_word_ID')}}</span></th>
                                     <th class="tit"><span>{{getMessage('info_word_keyword')}}</span></th>
                                     <th class="type"><span>{{getMessage('info_word_type')}}</span></th>
+                                    <th class="calendar"></th>
                                     <th class="actions"><span class="hidden">{{getMessage('acciones')}}</span></th>
                                 </tr>
                                 </thead>
@@ -291,6 +304,17 @@
                                             <td class="id">{{$item['inst_id']}}</td>
                                             <td class="tit">{{$item['key_fields']}}</td>
                                             <td class="type">{{$item['class_realname']}}</td>
+                                            <td class="date-condition">
+                                                <button class="btn-square {!! _activeDate($item['publishing_begins'], $item['publishing_ends']) !!}" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="
+                                                  @if($item['publishing_ends']!=null)
+                                                          <p>{{ getMessage('published_from') }} <time>{{$item['publishing_begins']}}</time> {{ getMessage('published_to') }} <time>{{$item['publishing_ends']}}</time></p>
+                                                      @else
+                                                          <p>{{ getMessage('published_on') }} <time>{{$item['publishing_begins']}}</time></p>
+                                                      @endif
+                                                      ">
+                                                    <i class="icon-calendar-multiple"></i>
+                                                </button>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 @endif
