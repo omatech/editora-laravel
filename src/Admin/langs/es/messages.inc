@@ -192,8 +192,8 @@ function getMessage ($id) {
 	$mess_arr['paginacion_registros_del']='Registros del';
 	$mess_arr['paginacion_al']='al';
     $mess_arr['paginacion_de']='de';
-	$mess_arr['paginacion_anteriores']='Anteriores';
-	$mess_arr['paginacion_siguientes']='Siguientes';
+	$mess_arr['paginacion_anteriores']='Anterior';
+	$mess_arr['paginacion_siguientes']='Siguiente';
 
 	$mess_arr['all']='Todos';
 
@@ -221,7 +221,7 @@ function getMessage ($id) {
 	$mess_arr['acciones']="Acciones";
 
 	$mess_arr['error_getting_apps']="Error al obtener los datos de la App, inténtelo de nuevo";
-	
+
 	$mess_arr['tab']="Pestaña";
 	$mess_arr['crop_image']="Recortar imagen";
 	$mess_arr['leave_as_is']="Dejar como está";
@@ -231,7 +231,7 @@ function getMessage ($id) {
 	$mess_arr['small_original']="Original muy pequeño";
 	$mess_arr['not_empty']="No está vacío";
 	$mess_arr['original']="Original";
-	
+
 	$mess_arr['save']="Guardar";
 	$mess_arr['saved']="Guardado!";
 	$mess_arr['saved_wrong']="Algo ha ido mal!";

@@ -93,22 +93,9 @@
 @if(isset($count) && $count!=-1)
 <h3>{{$count}} {{getMessage('info_objects_found')}}</h3>
 @endif
-@if(isset($count) && $count>40)
-@php($pages = ceil($count/40))
-<div class="dataTables_paginate paging_simple_numbers" id="pages-table_paginate">
-    <ul class="pagination">
-        @if($page>1)
-        <li class="paginate_button page-item previous"><a href="{{ route('editora.action', 'list_instances?p_pagina='.($page-1).'&p_class_id='.$class['id']) }}"  class="page-link">{{getMessage('paginacion_anteriores')}}</a></li>
-        @endif
-        @for($i=1; $i<=$pages; $i++)
-        <li class="paginate_button page-item @if($i==$page) active @endif"><a href="{{ route('editora.action', 'list_instances?p_pagina='.$i.'&p_class_id='.$class['id']) }}" class="page-link">{{$i}}</a></li>
-        @endfor
-        @if($page<$pages)
-        <li class="paginate_button page-item next"><a href="{{ route('editora.action', 'list_instances?p_pagina='.($page+1).'&p_class_id='.$class['id']) }}" class="page-link">{{getMessage('paginacion_siguientes')}}</a></li>
-        @endif
-    </ul>
-</div>
-@endif
+@isset($paginator)
+    {{ $paginator->links() }}
+@endisset
 @if(isset($p_mode) && $p_mode=='R')
     </form>
 @endif

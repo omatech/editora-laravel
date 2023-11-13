@@ -1,7 +1,7 @@
 ﻿<?php
 function getMessage ($id) {
 	$mess_arr = array();
-	
+
 	//Mensajes del Twitter
 	$mess_arr['no_twitted'] = 'El missatge no s\'ha pujat a Twitter';
 	$mess_arr['twitted'] = 'El missatge s\'ha pujat a Twitter';
@@ -75,7 +75,7 @@ function getMessage ($id) {
 	$mess_arr['info_word_last_modifications'] = 'Últimes modificacions';
 	$mess_arr['info_word_close_last_modifications'] = 'Tancar ultimes modificacions';
 	$mess_arr['info_word_close_relations'] = 'Tancar relacions';
-	
+
 	$mess_arr['info_word_privileges'] = 'La seva sessió ha caducat o no s\'ha validat correctament, per favor, torni a validar-se al sistema.';
 	$mess_arr['info_word_object'] = 'Objecte';
 	$mess_arr['info_word_joinwith'] = 'per relacionar amb';
@@ -191,8 +191,8 @@ function getMessage ($id) {
 	$mess_arr['paginacion_registros_del']='Registres del';
 	$mess_arr['paginacion_al']='al';
     $mess_arr['paginacion_de']='de';
-	$mess_arr['paginacion_anteriores']='Anteriors';
-	$mess_arr['paginacion_siguientes']='Següents';
+	$mess_arr['paginacion_anteriores']='Anterior';
+	$mess_arr['paginacion_siguientes']='Següent';
 
 	$mess_arr['all']='Tots';
 
@@ -220,7 +220,7 @@ function getMessage ($id) {
 	$mess_arr['acciones']="Accions";
 
 	$mess_arr['error_getting_apps']="Error al obtener los datos de la App, inténtelo de nuevo";
-	
+
 	$mess_arr['tab']="Pestanya";
 	$mess_arr['crop_image']="Retallar imatge";
 	$mess_arr['leave_as_is']="Deixar com està";
@@ -230,11 +230,11 @@ function getMessage ($id) {
 	$mess_arr['small_original']="Original massa petit";
 	$mess_arr['not_empty']="No está buit";
 	$mess_arr['original']="Original";
-	
+
 	$mess_arr['save']="Guardar";
 	$mess_arr['saved']="Guardat!";
 	$mess_arr['saved_wrong']="Alguna cosa ha anat malament!";
-	
+
 	$mess_arr['static_text']="Textos estatics";
 	$mess_arr['settings']="Configuració";
 	$mess_arr['user_data']="Dades usuari";
@@ -243,7 +243,7 @@ function getMessage ($id) {
 	$mess_arr['current_password'] = 'Contrasenya actual';
 	$mess_arr['new_password'] = 'Nova contrasenya';
 	$mess_arr['repeat_password'] = 'Repeteix la contrasenya';
-	$mess_arr['save_password'] = 'Guardar contraseña';	
+	$mess_arr['save_password'] = 'Guardar contraseña';
 	$mess_arr['create_users'] = 'Crear usuaris';
 	$mess_arr['new_user'] = 'Nou usuari';
 	$mess_arr['role'] = 'Rol';

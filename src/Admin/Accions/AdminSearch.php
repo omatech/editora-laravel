@@ -2,6 +2,7 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\EditoraModel;
 use Omatech\Editora\Admin\Models\Instances;
@@ -32,16 +33,20 @@ class AdminSearch extends AuthController
             $params['p_mode']='V';
 
             $instances = $this->instances->instanceList($params);
-
+            $count = $this->instances->instanceList_count($params);
             $menu = $this->loadMenu($this->instances, $params);
         }
+        $page = $params['param3'];
 
+        $searchTerm = $params['param4'];
         $viewData = array_merge($menu, [
             'title' => EDITORA_NAME,
             'instances' => $instances,
-            'term' => $params['param4'],
+            'term' => $searchTerm,
             'status' => $params['param8'],
-            'class_id' => $params['param1']
+            'class_id' => $params['param1'],
+            'paginator' => new LengthAwarePaginator($instances, $count, 40, $page,
+                ['pageName' => 'p_pagina', 'path' => '/admin/search', 'query' => ['p_search_query' => $searchTerm]]),
         ]);
         return response()->view('editora::pages.search_instances', $viewData);
     }

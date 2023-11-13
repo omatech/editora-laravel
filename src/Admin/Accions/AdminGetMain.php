@@ -2,6 +2,7 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Templates\InstancesTemplate;
 
@@ -30,17 +31,10 @@ class AdminGetMain extends AuthController
 
         $title = EDITORA_NAME;
         $instances = $this->instances->instanceList($params);
-        $count = -1;//$this->instances->instanceList_count($params);
 
         $menu = $this->loadMenu($this->instances, $params);
 
-        $viewData = array_merge($menu, [
-            'p_mode' => $p_mode,
-            'title' => $title,
-            'instances' => $instances,
-            'count' => $count,
-            'page' => $page
-        ]);
+        $viewData = array_merge($menu, compact('p_mode', 'title', 'instances', 'page'));
 
         return response()->view('editora::pages.home', $viewData);
     }

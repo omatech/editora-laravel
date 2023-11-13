@@ -2,6 +2,7 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\EditoraModel;
 use Omatech\Editora\Admin\Models\Instances;
@@ -41,9 +42,10 @@ class AdminListInstances extends AuthController
             if ($params['param3']!="") {
                 $page = $params['param3'];
             }
- 
+
             if ($params['param1'] != "") {
                 $class_info = $editora->get_class_info($params['param1']);
+                //dd($class_info);
             }
 
             $instances = $this->instances->instanceList($params);
@@ -57,8 +59,13 @@ class AdminListInstances extends AuthController
             'instances' => $instances,
             'class' => $class_info,
             'count' => $count,
-            'page' => $page
-        ]);
+            'page' => $page,
+            'paginator' => new LengthAwarePaginator($instances, $count, 40, $page, [
+                'pageName' => 'p_pagina',
+                    'path' => '/admin/list_instances',
+                    'query' => ['p_class_id' => $class_info['id']],
+                ]),
+            ]);
 
         return response()->view('editora::pages.list_instances', $viewData);
     }

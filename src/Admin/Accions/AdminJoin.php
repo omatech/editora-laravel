@@ -2,6 +2,7 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Security;
 use Illuminate\Support\Facades\Session;
@@ -12,6 +13,7 @@ class AdminJoin extends AuthController
     {
         $security = new Security;
         $params = get_params_info();
+
         if (Session::get('rol_id') == 1 || $security->getAccess('browseable', $params)) {
             $instances = new Instances;
             $params['p_mode'] = 'R';
@@ -24,6 +26,10 @@ class AdminJoin extends AuthController
             }
             $instances->logAccess($params);
         }
+        $count = $instances->instanceList_count($params);
+        $page = $params['param3'];
+        $parent = $this->getParentInfo($params);
+        $paramsRelation = $this->getParamsRelation($params);
         $viewData = array_merge($this->loadMenu($instances, $params), [
             'title' => $title,
             'instances' => $instances->instanceList($params),
@@ -31,9 +37,18 @@ class AdminJoin extends AuthController
             'class' => $class,
             'p_mode' => $params['p_mode'],
             'p_action' => $params['p_action'],
-            'parent' => $this->getParentInfo($params),
-            'params_relation' => $this->getParamsRelation($params),
-            'count' => $instances->instanceList_count($params)
+            'parent' => $parent,
+            'params_relation' => $paramsRelation,
+            'count' => $count,
+            'paginator' => new LengthAwarePaginator($instances, $count, 40, $page,
+                ['pageName' => 'p_pagina', 'path' => '/admin/join', 'query' => [
+                    'p_class_id'=> $paramsRelation['class_id'],
+                    'p_inst_id' => $parent['inst_id'],
+                    'p_relation_id' => $parent['rel_id'],
+                    'p_parent_inst_id' => $parent['inst_id'],
+                    'p_parent_class_id' => $parent['class_id'],
+                    'p_child_class_id' => $paramsRelation['child_class_id'],
+                ]]),
         ]);
         return response()->view('editora::pages.list_instances', $viewData);
     }

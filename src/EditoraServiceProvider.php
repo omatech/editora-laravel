@@ -8,6 +8,7 @@ use Omatech\Editora\Admin\Exceptions\CustomExceptionHandlerOld;
 use Omatech\Editora\Admin\Middleware\EditoraAuth;
 use Omatech\Editora\Admin\Providers\HelperServiceProvider;
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
+use Illuminate\Pagination\Paginator;
 
 class EditoraServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,7 @@ class EditoraServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__.'/routes.php');
         $this->loadViewsFrom(__DIR__.'/Admin/views', 'editora');
+        Paginator::defaultView('editora::templates.pagination');
     }
 
     /**
