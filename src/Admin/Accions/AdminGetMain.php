@@ -2,7 +2,6 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
-use Illuminate\Pagination\LengthAwarePaginator;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Templates\InstancesTemplate;
 

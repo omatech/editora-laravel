@@ -46,7 +46,7 @@ class AdminSearch extends AuthController
             'status' => $params['param8'],
             'class_id' => $params['param1'],
             'paginator' => new LengthAwarePaginator($instances, $count, 40, $page,
-                ['pageName' => 'p_pagina', 'path' => '/admin/search', 'query' => ['p_search_query' => $searchTerm]]),
+                ['pageName' => 'p_pagina', 'path' => '/'.config('editora-admin.route.prefix').'/search', 'query' => ['p_search_query' => $searchTerm]]),
         ]);
         return response()->view('editora::pages.search_instances', $viewData);
     }

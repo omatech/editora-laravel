@@ -62,10 +62,10 @@ class AdminListInstances extends AuthController
             'page' => $page,
             'paginator' => new LengthAwarePaginator($instances, $count, 40, $page, [
                 'pageName' => 'p_pagina',
-                    'path' => '/admin/list_instances',
-                    'query' => ['p_class_id' => $class_info['id']],
-                ]),
-            ]);
+                'path' => '/' . config('editora-admin.route.prefix') . '/list_instances',
+                'query' => ['p_class_id' => $class_info['id']],
+            ]),
+        ]);
 
         return response()->view('editora::pages.list_instances', $viewData);
     }

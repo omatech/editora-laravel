@@ -839,7 +839,7 @@ class AttributesTemplate extends Template
         $ret = '';
 
         if (file_exists(DIR_APLI_ADMIN.'/extras/ckeditor_config.js')) {
-            $ckeditor_config = ", { customConfig: '/admin/extras/ckeditor_config.js'}";
+            $ckeditor_config = ", { customConfig: '/extras/ckeditor_config.js'}";
         }else{
             $ckeditor_config = "";
         }

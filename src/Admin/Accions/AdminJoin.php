@@ -3,9 +3,9 @@
 namespace Omatech\Editora\Admin\Accions;
 
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Session;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Security;
-use Illuminate\Support\Facades\Session;
 
 class AdminJoin extends AuthController
 {
@@ -41,8 +41,8 @@ class AdminJoin extends AuthController
             'params_relation' => $paramsRelation,
             'count' => $count,
             'paginator' => new LengthAwarePaginator($instances, $count, 40, $page,
-                ['pageName' => 'p_pagina', 'path' => '/admin/join', 'query' => [
-                    'p_class_id'=> $paramsRelation['class_id'],
+                ['pageName' => 'p_pagina', 'path' => '/' . config('editora-admin.route.prefix') . '/join', 'query' => [
+                    'p_class_id' => $paramsRelation['class_id'],
                     'p_inst_id' => $parent['inst_id'],
                     'p_relation_id' => $parent['rel_id'],
                     'p_parent_inst_id' => $parent['inst_id'],
