@@ -85,18 +85,18 @@ class Instances extends model
 		and rc.class_id = i.class_id
 		and rol_id=".Session::get('rol_id')."
 		and browseable='Y'
-		group by i.id 
-		, i.key_fields 
-		, i.status 
-		, c.name 
-		, c.name_".Session::get('u_lang') ." 
+		group by i.id
+		, i.key_fields
+		, i.status
+		, c.name
+		, c.name_".Session::get('u_lang') ."
 		, i.publishing_begins
-		, publishing_begins 
+		, publishing_begins
 		, i.publishing_ends
 		, i.creation_date
-		, update_date 
-		, c.id 
-		, rc.editable 
+		, update_date
+		, c.id
+		, rc.editable
 		, rc.deleteable ";
 
         if ($p_order_by!='' && $p_order_by!=DEFAULT_NULL_STR) {
@@ -239,16 +239,16 @@ class Instances extends model
             $sql .= " and ri.parent_inst_id not in (-1," . implode(",", $actualitzats) . ")";
         }
         $sql .= " group by i.id
-		 , i.key_fields 
-		, i.status 
-		, c.name 
-		, c.name_" . Session::get('u_lang') . " 
+		 , i.key_fields
+		, i.status
+		, c.name
+		, c.name_" . Session::get('u_lang') . "
 		, i.publishing_begins
 		, i.publishing_ends
 		, i.creation_date
-		, c.id 
-		, ri.id 
-		, ri.rel_id 
+		, c.id
+		, ri.id
+		, ri.rel_id
 		order by i.update_date desc";
 
         $ret = $this->get_data($sql);
@@ -279,14 +279,14 @@ class Instances extends model
             $sql .= " and ri.parent_inst_id not in (-1," . implode(",", $actualitzats) . ")";
         }
         $sql .= " group by i.id
-		 , i.key_fields 
-		, i.status 
-		, c.name 
-		, c.name_" . Session::get('u_lang') . " 
+		 , i.key_fields
+		, i.status
+		, c.name
+		, c.name_" . Session::get('u_lang') . "
 		, i.publishing_begins
 		, i.publishing_ends
 		, i.creation_date
-		, c.id  
+		, c.id
 		order by i.update_date desc";
 
         $ret = $this->get_data($sql);
@@ -318,17 +318,17 @@ class Instances extends model
         if (count($actualitzats) > 0) {
             $sql .= " and ri.child_inst_id not in (-1," . implode(",", $actualitzats) . ")";
         }
-        $sql .= " group by i.id 
-		, i.key_fields 
-		, i.status 
-		, c.name 
-		, c.name_" . Session::get('u_lang') . " 
+        $sql .= " group by i.id
+		, i.key_fields
+		, i.status
+		, c.name
+		, c.name_" . Session::get('u_lang') . "
 		, i.publishing_begins
 		, i.publishing_ends
 		, i.creation_date
-		, c.id 
-		, ri.id 
-		, ri.rel_id 
+		, c.id
+		, ri.id
+		, ri.rel_id
 		order by i.update_date desc";
 
         $ret = parent::get_data($sql);
@@ -368,17 +368,17 @@ class Instances extends model
         $sql .= "	and ri.child_inst_id = " . $p_inst_id . " group by ri.id
 		) rel_list
 		where rel_list.ri_relid = ri.rel_id and ri.child_inst_id = i.id and i.class_id = c.id and i.id <> " . $p_inst_id . "
-		group by i.id 
-		, i.key_fields 
-		, i.status 
-		, c.name 
-		, c.name_" . Session::get('u_lang') . " 
+		group by i.id
+		, i.key_fields
+		, i.status
+		, c.name
+		, c.name_" . Session::get('u_lang') . "
 		, i.publishing_begins
 		, i.publishing_ends
 		, i.creation_date
-		, c.id 
-		, ri.id 
-		, ri.rel_id 
+		, c.id
+		, ri.id
+		, ri.rel_id
 		order by i.update_date desc";
 
         $ret = parent::get_data($sql);
@@ -905,13 +905,12 @@ class Instances extends model
     function cloneInstance($inst_id, $session = '', $prefix = null)
     {
         $date = date('Y-m-d');
-        $carryon = false;
 
         //////////////////////////
         ///INSTANCE//////////////
         $desti =  "class_id, key_fields, status, publishing_begins, publishing_ends, creation_date, update_date";
-        $origen = "class_id, key_fields, 'P', '" . $date . "', publishing_ends, now(), now()";
-        $sql = "insert into omp_instances(" . $desti . ") (select " . $origen . " from omp_instances where id='$inst_id')";
+        $origen = "class_id, key_fields, 'P', '{$date}', publishing_ends, now(), now()";
+        $sql = "insert into omp_instances({$desti}) (select {$origen} from omp_instances where id='$inst_id')";
 
 
         $dolly_id = parent::insert_one($sql);
@@ -919,25 +918,20 @@ class Instances extends model
         if (!$dolly_id) {
             echo 'Ha fallat al crear la nova Dolly.';
             return 0;
-        } else {
-            $carryon = true;
         }
 
         //////////////////////////
         ///RELATIONS /////////////
-        if ($carryon && empty($session)) { //si fem clone recursion no hem d'entrar aquí perque ho fa el procés
+        if (empty($session)) { //si fem clone recursion no hem d'entrar aquí perque ho fa el procés
             $desti =  "rel_id, parent_inst_id, child_inst_id, weight, relation_date";
-            $origenP = "rel_id, {$dolly_id}, child_inst_id, weight, '1987-01-01 00:00:00'";
-            $origenC = "rel_id, parent_inst_id, {$dolly_id}, weight, '1987-01-01 00:00:00'";
-            $sqlP = "insert into omp_relation_instances({$desti}) (select {$origenP} from omp_relation_instances where parent_inst_id='{$inst_id}')";
-            $sqlC = "insert into omp_relation_instances({$desti}) (select {$origenC} from omp_relation_instances where child_inst_id='{$inst_id}')";
+            $origin = "rel_id, {$dolly_id}, child_inst_id, weight, now()";
+            //this will create the relations to the children instances of the instance we're cloning
+            //previous behavior: it also cloned parent relations
+            $sqlChildren = "insert into omp_relation_instances({$desti}) (select {$origin} from omp_relation_instances where parent_inst_id='{$inst_id}')";
 
-
-            $result1 = parent::insert_one($sqlP);
-            $result2 = parent::insert_one($sqlC);
-
-            if ($result1 || $result2) {
-                $sql = "SELECT rel_id, parent_inst_id FROM omp_relation_instances WHERE relation_date = '1987-01-01 00:00:00' and child_inst_id = {$dolly_id} GROUP BY rel_id, parent_inst_id;";
+            $childrenResult = parent::insert_one($sqlChildren);
+            if ($childrenResult) {
+                $sql = "SELECT rel_id, parent_inst_id FROM omp_relation_instances WHERE relation_date = now() and child_inst_id = {$dolly_id} GROUP BY rel_id, parent_inst_id;";
 
                 $rel_info = parent::get_data($sql);
                 //update del wheight
@@ -945,7 +939,7 @@ class Instances extends model
                     foreach ($rel_info as $row) {
                         $sql = "SELECT  ri.rel_id rel_id, min(weight)-10 AS weight , ri.parent_inst_id
                         FROM omp_relation_instances ri
-                           
+
                         WHERE ri.parent_inst_id = {$row['parent_inst_id']}
                             AND ri.rel_id = {$row['rel_id']}
                         GROUP BY ri.rel_id, ri.parent_inst_id; ";
@@ -953,7 +947,7 @@ class Instances extends model
                         $ret = parent::get_one($sql);
 
                         $sql = "UPDATE omp_relation_instances set weight = {$ret['weight']}, relation_date = now()
-                            where relation_date = '1987-01-01 00:00:00'
+                            where relation_date = now()
                             and child_inst_id = {$dolly_id} and rel_id={$ret['rel_id']};";
 
                         parent::update_one($sql);
@@ -969,6 +963,7 @@ class Instances extends model
         //$sql = "insert into omp_niceurl (".$desti.") (select ".$origen." from omp_niceurl where inst_id='$inst_id')";
 
         $url_origen = parent::get_data("select  language, niceurl from omp_niceurl where inst_id='$inst_id'");
+        //todo Undefined array key 0
         $sql = "insert into omp_niceurl (inst_id, language, niceurl) values (" . $dolly_id . ", '" . $url_origen[0]['language'] . "', '" . $url_origen[0]['niceurl'] . "-" . $dolly_id . "')";
         $result = parent::insert_one($sql);
 
