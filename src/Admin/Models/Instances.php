@@ -976,7 +976,10 @@ class Instances extends model
         if (empty($resultNI)) {
             return 'Nom intern empty.';
         } else {
-            $nomclonat = $this->cloneName($prefix.'-'.str_replace("'", "\'", $resultNI['text_val']));
+            if ($prefix) {
+                $prefix = $prefix . '-';
+            }
+            $nomclonat = $this->cloneName($prefix.str_replace("'", "\'", $resultNI['text_val']));
         }
 
         //////////////////////////
@@ -985,13 +988,13 @@ class Instances extends model
         $origen_1 = "'" . $dolly_id . "', atri_id, '" . $nomclonat . "', date_val, num_val, img_info";
         $sql = "insert into omp_values (" . $desti . ") (select " . $origen . " from omp_values where inst_id='$inst_id' and atri_id<>'1')";
 
-        $result = parent::insert_one($sql);
+        parent::insert_one($sql);
 
         $sql = "insert into omp_values (" . $desti . ") (select " . $origen_1 . " from omp_values where inst_id='$inst_id' and atri_id='1')";
-        $result = parent::insert_one($sql);
+        parent::insert_one($sql);
 
         //////////////////////////
-        ///UPDATE NOM-INTER///////
+        ///UPDATE NOM-INTERN///////
         $sql = "update omp_instances set key_fields='$nomclonat' where id='$dolly_id'";
         parent::update_one($sql);
         ////////////////////////////
