@@ -4,7 +4,6 @@
   if (!isset($class['id'])) $class['id']=1;
 @endphp
 @if(isset($p_mode) && $p_mode=='R')
-    @php($id_rel=0)
     <form class="form" id="relation_all" name="relation_all" method="post" enctype="multipart/form-data" action="{{route('editora.action', 'join_all')}}">
         {{ csrf_field() }}
         <button class="btn clr-secondary" style="font-size:14px">{{getMessage('info_word_join')}}</button>
@@ -43,11 +42,12 @@
                 <td class="id">
                     @if(isset($p_mode) && $p_mode=='R')
                        <span class="btn-favorite">
-                            <input type="checkbox" id="rel_chb_{{$id_rel}}" name="rel_chb[]" id="table-add-{{$item['id']}}" value="{{$item['id']}}">
+                           <input type="checkbox" name="rel_chb[]" id="table-add-{{$item['id']}}" value="{{$item['id']}}">
+                           <label for="table-add-{{$item['id']}}">{{$item['id']}}</label>
                         </span>
-                        @php($id_rel++)
+                    @else
+                        <a href="{!! $link !!}">{{$item['id']}}</a>
                     @endif
-                    <a href="{!! $link !!}">{{$item['id']}}</a>
                 </td>
                 <td class="picture">
                     <figure class="pic">{!! getListImage($item['id']) !!}</figure>
@@ -76,7 +76,6 @@
                     <td class="actions">
                         <a href="{{$link}}" class="btn-square clr-mid"><i class="icon-link-rel"></i><span class="hide-txt">{{getMessage('info_word_join')}}</span> </a>
                     </td>
-                    @php($id_rel++)
                 @else
                     <td class="actions">
                         <a href="{{ route('editora.action', 'add_favorite?p_class_id='.$item['class_id'].'&p_inst_id='.$item['id']) }}" class="btn-square clr-default @if(isset($favorites)){{_isFavorited($item['id'], $favorites)}}@endif" id="table-fav-{{$item['id']}}"><i class="icon-star-outline"></i></a>
@@ -110,7 +109,19 @@
                  searching:false,
                  lengthChange:false,
                  info: false,
-                 sDom:"ltipr"
+                 sDom: "ltipr",
+                 @if(isset($p_mode) && $p_mode=='R')
+                 columns: [
+                     null,
+                     {contentPadding: "iiiiiiiiiiiiiiii", width: "0px"},
+                     null,
+                     null,
+                     null,
+                     null,
+                     null,
+                     null,
+                 ],
+                 @endif
              });
 
              $('#search_instances').keyup(function(){
