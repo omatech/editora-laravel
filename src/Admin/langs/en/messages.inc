@@ -120,6 +120,7 @@ function getMessage ($id) {
 	$mess_arr['info_word_addmassive'] = 'Massive add';
 	$mess_arr['info_word_exportmassive'] = 'Massive export';
 	$mess_arr['info_word_join'] = 'Relate';
+    $mess_arr['info_word_select_all'] = 'Select page';
 	$mess_arr['info_word_ID'] = 'ID';
 	$mess_arr['info_word_img'] = 'Img.';
 	$mess_arr['info_word_ID_explanation'] = 'Order by ID';
@@ -220,7 +221,7 @@ function getMessage ($id) {
 	$mess_arr['acciones']="Actions";
 
 	$mess_arr['error_getting_apps']="Error getting App data, please try again";
-	
+
 	$mess_arr['tab']="Tab";
 	$mess_arr['crop_image']="Crop image";
 	$mess_arr['leave_as_is']="Leave as is";
@@ -230,7 +231,7 @@ function getMessage ($id) {
 	$mess_arr['small_original']="Original too small";
 	$mess_arr['not_empty']="Not empty";
 	$mess_arr['original']="Original";
-	
+
 	$mess_arr['save']="Save";
 	$mess_arr['saved']="Saved!";
 	$mess_arr['saved_wrong']="Something went wrong!";
@@ -243,7 +244,7 @@ function getMessage ($id) {
 	$mess_arr['current_password'] = 'Current password';
 	$mess_arr['new_password'] = 'New password';
 	$mess_arr['repeat_password'] = 'Repeat password';
-	$mess_arr['save_password'] = 'Save password';	
+	$mess_arr['save_password'] = 'Save password';
 	$mess_arr['create_users'] = 'Create users';
 	$mess_arr['new_user'] = 'New user';
 	$mess_arr['role'] = 'Role';

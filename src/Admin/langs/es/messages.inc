@@ -121,6 +121,7 @@ function getMessage ($id) {
 	$mess_arr['info_word_addmassive'] = 'Añadir masivamente';
 	$mess_arr['info_word_exportmassive'] = 'Exportar todos los hijos';
 	$mess_arr['info_word_join'] = 'Relacionar';
+    $mess_arr['info_word_select_all'] = 'Seleccionar página';
 	$mess_arr['info_word_ID'] = 'ID';
 	$mess_arr['info_word_img'] = 'Img.';
 	$mess_arr['info_word_ID_explanation'] = 'Ordenar por identificador';
