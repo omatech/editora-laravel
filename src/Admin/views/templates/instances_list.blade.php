@@ -7,7 +7,7 @@
     <form class="form" id="relation_all" name="relation_all" method="post" enctype="multipart/form-data" action="{{route('editora.action', 'join_all')}}">
         {{ csrf_field() }}
         <button class="btn clr-secondary" style="font-size:14px">{{getMessage('info_word_join')}}</button>
-        <button class="btn clr-primary" style="font-size:14px" onclick="selectAll()">{{getMessage('info_word_select_all')}}</button>
+        <a class="btn clr-primary" style="font-size:14px; color: white;" onclick="selectAll()">{{getMessage('info_word_select_all')}}</a>
         <input type="hidden" name="p_pagina" value="1"/>
         <input type="hidden" name="p_class_id" value="{{$parent['class_id']}}"/>
         <input type="hidden" name="p_relation_id" value="{{$parent['rel_id']}}"/>
