@@ -107,22 +107,7 @@ class Instances extends model
         }
         $sql.=" limit $first_row,".ROWS_PER_PAGE;
 
-        // el 1=1 esta posat per tal de no modificar el $sql_add que afecta a molts altres llocs.
-        // com que rebem $sql_add = ' and i.class_id = X' afegim where 1=1 que es totalment transparent
-        // pero permet afegir el and
-        if (!empty($sql_add)) {
-            $instances_query = "SELECT i.* FROM omp_instances i, omp_values v where 1=1 {$sql_add} GROUP BY id ORDER BY update_date DESC";
-        } else {
-            $instances_query = "SELECT i.* FROM omp_instances i GROUP BY id ORDER BY update_date DESC LIMIT 0,100";
-        }
-
-        $ret=$this->get_data($sql);
-
-        if (!$ret) {
-            return array();
-        }
-
-        return $ret;
+        return $this->get_data($sql) ?: [];
     }
 
     function getInstInfo($p_inst_id = null)
