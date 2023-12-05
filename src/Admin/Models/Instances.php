@@ -660,10 +660,17 @@ class Instances extends model
                                 }
                                 parent::insert_one($sql);
                                 break;
+                            case "N":
+                                // if the value isn't numeric, don't insert anything
+                                if (!is_numeric($valor)) {
+                                    break;
+                                }
 
+                                $sql = 'insert into omp_values (inst_id, atri_id, text_val, date_val, num_val, img_info) values ('.$new_instance_id.', '.$atr_id.', '.$insert_chunk.');';
+                                parent::insert_one($sql);
+                                break;
                             default:
                                 $sql = 'insert into omp_values (inst_id, atri_id, text_val, date_val, num_val, img_info) values ('.$new_instance_id.', '.$atr_id.', '.$insert_chunk.');';
-                                // dd($sql);
                                 parent::insert_one($sql);
                                 break;
                         }
