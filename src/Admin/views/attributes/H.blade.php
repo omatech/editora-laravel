@@ -6,7 +6,7 @@
         <div class="media-group">
             <figure class="media-preview">
                 @if(isset($file) && !empty($file))
-                    <img src="{{$file}}" alt="{{$file}}">
+                    <img src="{{asset($file)}}" alt="{{$file}}">
                 @else
                     <img src="{{ asset('/vendor/editora/img/img_no_available.png') }}" alt="no image">
                 @endif
@@ -50,7 +50,7 @@
             </div>
             @if(isset($file) && !empty($file))
                 <figure class="image-preview">
-                    <img id="img_{{$attribute_name}}" src="{{$file}}" alt="{{$file}}" style="@if($attribute['img_h']!='') max-height: {{$attribute['img_h']}}px;@endif @if($attribute['img_w']!='') max-width: {{$attribute['img_w']}}px;@endif">
+                    <img id="img_{{$attribute_name}}" src="{{asset($file)}}" alt="{{$file}}" style="@if($attribute['img_h']!='') max-height: {{$attribute['img_h']}}px;@endif @if($attribute['img_w']!='') max-width: {{$attribute['img_w']}}px;@endif">
                 </figure>
             @endif
 

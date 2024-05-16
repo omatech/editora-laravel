@@ -484,7 +484,7 @@ function getListImage($inst_id) {
     $editora = new Omatech\Editora\Admin\Models\EditoraModel;
     $image = $editora->getInstanceImage($inst_id);
     if ($image!=null){
-        return '<img src="'.$image.'" style="max-height:50px; max-width:50px">';
+        return '<img src="'.asset($image).'" style="max-height:50px; max-width:50px">';
     }else{
         return '';
     }

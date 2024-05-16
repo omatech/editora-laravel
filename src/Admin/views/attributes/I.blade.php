@@ -11,7 +11,7 @@
         <div class="media-group">
             @if(isset($file) && !empty($file))
                 <figure class="media-preview">
-                    <img src="{{$file}}" alt="{{$file}}">
+                    <img src="{{asset($file)}}" alt="{{$file}}">
                 </figure>
                 <div class="media-info">
                     <dl class="media-dada">
@@ -59,7 +59,7 @@
         <div class="modal-dialog modal-dialog-centered" style="max-width: 1020px; max-height: 670px;">
             <div class="modal-content" style="margin: 50px;">
                 <div class="modal-body" style="display: flex; justify-content: center; padding: 50px;">
-                    <img src="{{$file}}" style="max-width: 1000px; max-height: 650px">
+                    <img src="{{asset($file)}}" style="max-width: 1000px; max-height: 650px">
                 </div>
             </div>
         </div>
@@ -87,7 +87,7 @@
             </div>
             @if(isset($file) && !empty($file))
                 <figure class="image-preview">
-                    <img id="img_{{$attribute_name}}" src="{{$file}}" alt="{{$file}}" style="@if($attribute['img_h']!='') max-height: {{$attribute['img_h']}}px;@endif @if($attribute['img_w']!='') max-width: {{$attribute['img_w']}}px;@endif">
+                    <img id="img_{{$attribute_name}}" src="{{asset($file)}}" alt="{{$file}}" style="@if($attribute['img_h']!='') max-height: {{$attribute['img_h']}}px;@endif @if($attribute['img_w']!='') max-width: {{$attribute['img_w']}}px;@endif">
                 </figure>
             @endif
 

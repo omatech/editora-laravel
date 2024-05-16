@@ -25,7 +25,11 @@ if(defined('HASHED_PASSWORDS') && HASHED_PASSWORDS == 1) {
     }
 
     if($sqlAlterTable != '') {
-        $conn->exec($sqlAlterTable);
+        if (method_exists($conn, 'exec')) {
+            $conn->exec($sqlAlterTable);
+        } else {
+            $conn->executeQuery($sqlAlterTable);
+        }
     }
 
     $sql = 'SELECT * FROM omp_users';
