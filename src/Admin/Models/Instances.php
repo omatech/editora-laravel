@@ -696,7 +696,7 @@ class Instances extends model
                             $sql_lan = "select language from omp_attributes where id=" . $atr_id;
                             $row_lan = parent::get_one($sql_lan);
                             $sql = 'update omp_niceurl
-                            set niceurl = ""
+                            set niceurl = null
                             where inst_id = '.$new_instance_id.'
                             and language = "'.$row_lan['language'].'";';
                             parent::update_one($sql);
