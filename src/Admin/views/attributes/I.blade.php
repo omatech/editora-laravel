@@ -1,6 +1,6 @@
 {{-- Imatge --}}
 @if($p_mode=='V')
-    @php 
+    @php
         $file = '';
         if(isset($attribute['atrib_values'][0])){
             $file = $attribute['atrib_values'][0]['text_val'];
@@ -103,12 +103,13 @@
                 <div class="modal-body" style="max-width: 720px">
                 </div>
                 <div class="modal-footer">
-                    <a href="" class="btn clr-secondary" id="btnRotate_L_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-undo" aria-hidden="true"></i></span></a>
-                    <a href="" class="btn clr-secondary" id="btnRotate_R_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-repeat" aria-hidden="true"></i></span></a>            
-                    <a href="" class="btn clr-secondary" id="btnInvertX_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-arrows-h" aria-hidden="true"></i></span></a>            
-                    <a href="" class="btn clr-secondary" id="btnReset_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-refresh" aria-hidden="true"></i></span></a>            
-                    <a href="" class="btn clr-danger" data-dismiss="modal"><span class="btn-text">{{getMessage('close')}}</span></a>
-                    <a href="" class="btn clr-secondary" id="btnCrop_{{$attribute_name}}"><span class="btn-text">{{getMessage('save')}}</span></a>
+                        <input type="range" id="scale" name="scale" min="1" max="10" value="1" /><span id="scale-value"></span>
+                        <a href="" class="btn clr-secondary" id="btnRotate_L_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-undo" aria-hidden="true"></i></span></a>
+                        <a href="" class="btn clr-secondary" id="btnRotate_R_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-repeat" aria-hidden="true"></i></span></a>
+                        <a href="" class="btn clr-secondary" id="btnInvertX_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-arrows-h" aria-hidden="true"></i></span></a>
+                        <a href="" class="btn clr-secondary" id="btnReset_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-refresh" aria-hidden="true"></i></span></a>
+                        <a href="" class="btn clr-danger" data-dismiss="modal"><span class="btn-text">{{getMessage('close')}}</span></a>
+                        <a href="" class="btn clr-secondary" id="btnCrop_{{$attribute_name}}"><span class="btn-text">{{getMessage('save')}}</span></a>
                 </div>
             </div>
         </div>
@@ -123,6 +124,14 @@
         let modalStatus_{{$attribute_name}} = false;
 
         $(document).ready(function () {
+            let scale = 1;
+            let maxScale = 100;
+
+            $('#scale').on('change', function () {
+                scale = $(this).val();
+                $('#scale-value').text('Scale: ' + scale + ' width: ' + (attribW_{{$attribute_name}} * scale) + ' height: ' + (attribH_{{$attribute_name}} * scale));
+            });
+
             Dropzone.autoDiscover = false;
             var $cropper_{{$attribute_name}} = null;
             const dropzone_{{$attribute_name}} = new Dropzone("div#file_{{$attribute_name}}", {
@@ -198,12 +207,23 @@
                 image.style = "width: 100%; max-width: 100%;";
                 let modalBody = document.querySelector("#cropModal_{{$attribute_name}} .modal-body");
                 modalBody.append(image);
+
                 $cropper_{{$attribute_name}} = new Cropper(image, {
                     viewMode: 2,
                     aspectRatio: calcRatio(attribW_{{$attribute_name}}, attribH_{{$attribute_name}}),
                     maxCanvasWidth: 680,
                     autoCropArea: 1.0
                 });
+
+                image.addEventListener('ready', function () {
+                    const data = $cropper_{{$attribute_name}}.getCanvasData();
+                    const scaleWidth = Math.floor(data.naturalWidth / attribW_{{$attribute_name}}) || 1;
+                    const scaleHeight = Math.floor(data.naturalHeight / attribH_{{$attribute_name}}) || 1;
+                    maxScale = Math.min(scaleWidth, scaleHeight);
+                    $('#scale').attr({max: maxScale});
+                });
+
+
             }
 
             function calcRatio(numerator, denominator) {
@@ -238,7 +258,7 @@
                 e.preventDefault();
                 $cropper_{{$attribute_name}}.rotate(-90);
             });
-            
+
             $('#btnRotate_R_{{$attribute_name}}').on('click', function (e) {
                 e.preventDefault();
                 $cropper_{{$attribute_name}}.rotate(90);
@@ -254,10 +274,10 @@
             $('#btnCrop_{{$attribute_name}}').on('click', function (e) {
                 e.preventDefault();
                 let canvas = $cropper_{{$attribute_name}}.getCroppedCanvas({
-                    width: attribW_{{$attribute_name}},
-                    height: attribH_{{$attribute_name}},
-                    maxWidth: attribW_{{$attribute_name}} * 2,
-                    maxHeight: attribH_{{$attribute_name}} * 2,
+                    width: attribW_{{$attribute_name}} * scale,
+                    height: attribH_{{$attribute_name}} * scale,
+                    maxWidth: attribW_{{$attribute_name}} * maxScale,
+                    maxHeight: attribH_{{$attribute_name}} * maxScale,
                     imageSmoothingEnabled: true,
                     imageSmoothingQuality: 'high',
                 });
