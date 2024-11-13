@@ -591,7 +591,8 @@ class Instances extends model
                                 $row_lan = parent::get_one($sql_lan);
                                 $sql = 'select count(1) as nicecount from omp_niceurl where inst_id = '.$new_instance_id.' and language = "'.$row_lan['language'].'";';
                                 $ret = parent::get_one($sql);
-                                $niceURL = $this->getUniqueNiceURL($new_instance_id, clean_url($valor));
+
+                                $niceURL = $this->getUniqueNiceURL($new_instance_id, $row_lan['language'], clean_url($valor));
 
                                 if (!$ret || $ret['nicecount'] == 0) {
                                     $sql = 'insert into omp_niceurl (inst_id,language,niceurl) values ('.$new_instance_id.', "'.$row_lan['language'].'", "'.$niceURL.'");';
@@ -953,7 +954,6 @@ class Instances extends model
         // $desti= "inst_id, language, niceurl";
         //$origen=  "'".$dolly_id."', language, '".$dolly_id."'";
         //$sql = "insert into omp_niceurl (".$desti.") (select ".$origen." from omp_niceurl where inst_id='$inst_id')";
-
         $url_origen = parent::get_data("select  language, niceurl from omp_niceurl where inst_id='$inst_id'");
         if ($url_origen) {
             $sql = "insert into omp_niceurl (inst_id, language, niceurl) values (" . $dolly_id . ", '" . $url_origen[0]['language'] . "', '" . $url_origen[0]['niceurl'] . "-" . $dolly_id . "')";
@@ -1248,11 +1248,10 @@ class Instances extends model
         return $return_files;
     }
 
-    function getUniqueNiceURL($inst_id, $nice_url)
+    function getUniqueNiceURL($inst_id, $language, $nice_url)
     {
         $i = 0;
-
-        $sql = 'select count(1) as nicecount from omp_niceurl where inst_id <> '.$inst_id.' and niceurl = "'.$nice_url.'"';
+        $sql = 'select count(1) as nicecount from omp_niceurl where inst_id <> '.$inst_id.' and language = "'.$language.'" and niceurl = "'.$nice_url.'"';
         $ret = parent::get_one($sql);
         if ($ret['nicecount'] == 0) {
             return $nice_url;
@@ -1260,7 +1259,7 @@ class Instances extends model
 
         do {
             $i++;
-            $sql = 'select count(1) as nicecount from omp_niceurl where inst_id <> '.$inst_id.' and niceurl = "'.$nice_url . $i.'"';
+            $sql = 'select count(1) as nicecount from omp_niceurl where inst_id <> '.$inst_id.' and language = "'.$language.'" and niceurl = "'.$nice_url . $i.'"';
             $ret = parent::get_one($sql);
         } while ($ret['nicecount'] <> 0);
 
