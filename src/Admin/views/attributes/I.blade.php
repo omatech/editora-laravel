@@ -125,7 +125,6 @@
 
         $(document).ready(function () {
             let scale = 1;
-            let maxScale = 100;
 
             $('#scale').on('change', function () {
                 scale = $(this).val();
@@ -148,6 +147,12 @@
                 init: function () {
                     this.on('addedfile', addedFile);
                     this.on('success', successCall);
+                },
+                sending: function (file, xhr, formData) {
+                    formData.append('crop', JSON.stringify({
+                        ...file.crop,
+                        scale: $('#scale').val(),
+                    }));
                 }
             });
             let loadedImage = new Image();
@@ -207,7 +212,19 @@
                 image.style = "width: 100%; max-width: 100%;";
                 let modalBody = document.querySelector("#cropModal_{{$attribute_name}} .modal-body");
                 modalBody.append(image);
-
+                image.addEventListener('crop', function (e) {
+                    dropzone_{{$attribute_name}}.files[0].crop = {
+                        container_height: attribH_{{$attribute_name}},
+                        container_width: attribW_{{$attribute_name}},
+                        height: e.detail.height,
+                        width: e.detail.width,
+                        rotate: e.detail.rotate,
+                        scaleX: e.detail.scaleX,
+                        scaleY: e.detail.scaleY,
+                        x: e.detail.x,
+                        y: e.detail.y
+                    }
+                });
                 $cropper_{{$attribute_name}} = new Cropper(image, {
                     viewMode: 2,
                     aspectRatio: calcRatio(attribW_{{$attribute_name}}, attribH_{{$attribute_name}}),
@@ -219,11 +236,9 @@
                     const data = $cropper_{{$attribute_name}}.getCanvasData();
                     const scaleWidth = Math.floor(data.naturalWidth / attribW_{{$attribute_name}}) || 1;
                     const scaleHeight = Math.floor(data.naturalHeight / attribH_{{$attribute_name}}) || 1;
-                    maxScale = Math.min(scaleWidth, scaleHeight);
+                    const maxScale = Math.min(scaleWidth, scaleHeight);
                     $('#scale').attr({max: maxScale});
                 });
-
-
             }
 
             function calcRatio(numerator, denominator) {
@@ -273,17 +288,9 @@
             });
             $('#btnCrop_{{$attribute_name}}').on('click', function (e) {
                 e.preventDefault();
-                let canvas = $cropper_{{$attribute_name}}.getCroppedCanvas({
-                    width: attribW_{{$attribute_name}} * scale,
-                    height: attribH_{{$attribute_name}} * scale,
-                    maxWidth: attribW_{{$attribute_name}} * maxScale,
-                    maxHeight: attribH_{{$attribute_name}} * maxScale,
-                    imageSmoothingEnabled: true,
-                    imageSmoothingQuality: 'high',
-                });
-                canvas.toBlob((blob) => {
-                    pushToDrop(loadedImage, blob);
-                }, loadedImage.dataset.type, 0.9);
+                dropzone_{{$attribute_name}}.processQueue();
+                modalStatus_{{$attribute_name}} = 'Upload';
+                $cropModal_{{$attribute_name}}.modal('hide');
             });
 
             function autoResizeImg(img) {
