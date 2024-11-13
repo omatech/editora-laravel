@@ -7,3 +7,4 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/datepicker.css') }}"/>
 <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/font-awesome/css/font-awesome.css') }}"/>
 <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/css/extras.css') }}" >
+<link rel="stylesheet" type="text/css" href="{{ asset('/vendor/editora/js/ckeditor5/ckeditor5.css') }}" >
