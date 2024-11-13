@@ -9,7 +9,9 @@
 <script type="module" src="{{ asset('/vendor/editora/js/ckeditor5/ckeditor5.js') }}"></script>
 <script type="module" src="{{ asset('/vendor/editora/js/ckeditor5/main.js') }}"></script>
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_API_KEY')}}"></script>
+@if(env('GOOGLE_API_KEY'))
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_API_KEY')}}"></script>
+@endif
 <script type="text/javascript" src="{{ asset('/vendor/editora/js/jquery.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/vendor/editora/js/popper.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/vendor/editora/js/bootstrap.min.js') }}"></script>
