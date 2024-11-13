@@ -21,7 +21,7 @@ class AdminUploadCrop extends AuthController
         $imagick->resizeImage(
             $crop['container_width'] * $crop['scale'],
             $crop['container_height'] * $crop['scale'],
-            \Imagick::FILTER_LANCZOS, 0
+            \Imagick::FILTER_LANCZOS, 0.9, true
         );
         
         file_put_contents(realpath($imagePath), $imagick->getImageBlob());
