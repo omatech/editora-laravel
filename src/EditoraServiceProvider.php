@@ -101,7 +101,7 @@ class EditoraServiceProvider extends ServiceProvider
             __DIR__.'/Admin/js/jquery.selectric.js' => public_path('vendor/editora/js/jquery.selectric.js'),
             __DIR__.'/Admin/js/jquery.mi_tooltip.js' => public_path('vendor/editora/js/jquery.mi_tooltip.js'),
             __DIR__.'/Admin/js/jquery.selectric.js' => public_path('vendor/editora/js/jquery.selectric.js'),
-            __DIR__.'/Admin/jss/ckeditor/' => public_path('vendor/editora/js/ckeditor'),
+            __DIR__.'/Admin/jss/ckeditor/' => public_path('vendor/editora/js/ckeditor5'),
 
             /* IMG */
             __DIR__.'/Admin/img/omalogin.png' => public_path('vendor/editora/img/omalogin.png'),
