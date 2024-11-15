@@ -23,7 +23,7 @@ class AdminUploadCrop extends AuthController
             $crop['container_height'] * $crop['scale'],
             \Imagick::FILTER_LANCZOS, 0.9, true
         );
-        
+
         file_put_contents(realpath($imagePath), $imagick->getImageBlob());
     }
 
@@ -32,8 +32,8 @@ class AdminUploadCrop extends AuthController
         $security = new Security;
         $params=get_params_info();
 
-        if (request()->has('file')) {
-            $file = request()->file;
+        if (request()->has('file') || request()->has('upload')) {
+            $file = request()->file ?? request()->upload;
             $crop = json_decode(request()->crop, true);
 
             if ($crop) {
@@ -75,7 +75,7 @@ class AdminUploadCrop extends AuthController
             $accessUrl = str_replace(config('editora-admin.remove-public-url-segments', []), '', $accessUrl);
         }
 
-        return ['accessUrl' => $accessUrl, 'filePath' => $fileInfo['filePath']];
+        return ['accessUrl' => $accessUrl, 'filePath' => $fileInfo['filePath'], 'url' => $accessUrl];
     }
 
     private function checkExistAndRename($disk, $file, $i = 0)
