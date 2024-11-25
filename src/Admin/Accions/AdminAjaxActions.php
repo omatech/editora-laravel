@@ -2,12 +2,14 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
+use Omatech\Editora\Admin\Events\AdminRelationSortEvent;
 use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Session;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Relations;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use Illuminate\Support\Facades\Event;
 
 class AdminAjaxActions extends AuthController
 {
@@ -33,6 +35,7 @@ class AdminAjaxActions extends AuthController
                         $sended = true;
                     }
                     if ($sended) {
+                        $this->dispatchEvent($_REQUEST['instance_id']);
                         echo getMessage('saved');
                     }else {
                         echo getMessage('saved_wrong');
@@ -68,5 +71,14 @@ class AdminAjaxActions extends AuthController
         }
 
        die();
+    }
+
+    private function dispatchEvent(int $instanceId): void
+    {
+        try {
+            if ($instanceId !== 0) {
+                Event::dispatch(new AdminRelationSortEvent($instanceId));
+            }
+        } catch (\Exception $exception) {}
     }
 }

@@ -2,10 +2,12 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
+use Omatech\Editora\Admin\Events\AdminJoinAllEvent;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\Relations;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Event;
 
 class AdminJoinAll extends AuthController
 {
@@ -28,8 +30,18 @@ class AdminJoinAll extends AuthController
                     $re->createRelation($params);
                     $instances->logAccess($params);
                 }
+                $this->dispatchEvent($parent_id);
             }
         }
         return redirect(route('editora.action', 'view_instance?p_pagina=1&p_class_id='.$parent_class_id.'&p_inst_id='.$parent_id));
+    }
+
+    private function dispatchEvent(int $instanceId): void
+    {
+        try {
+            if ($instanceId !== 0) {
+                Event::dispatch(new AdminJoinAllEvent($instanceId));
+            }
+        }catch (\Exception $exception) {}
     }
 }

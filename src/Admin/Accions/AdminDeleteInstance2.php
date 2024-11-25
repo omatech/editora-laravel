@@ -2,10 +2,12 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
+use Omatech\Editora\Admin\Events\AdminDeleteInstance2Event;
 use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Templates\InstancesTemplate;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Event;
 
 class AdminDeleteInstance2 extends AuthController
 {
@@ -28,9 +30,19 @@ class AdminDeleteInstance2 extends AuthController
             $instances = $instances->instanceList($params);
             $body=$in_t->instancesList_view($instances, $inst_count, $params);
 
+            $this->dispatchEvent($params['param2']);
             $_REQUEST['view']='container';
         }
 
         return redirect(route('editora.action', 'get_main'));
+    }
+
+    private function dispatchEvent(int $instanceId): void
+    {
+        try {
+            if ($instanceId !== 0) {
+                Event::dispatch(new AdminDeleteInstance2Event($instanceId));
+            }
+        } catch (\Exception $exception) {}
     }
 }
