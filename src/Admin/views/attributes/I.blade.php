@@ -172,12 +172,12 @@
                     }
 
                     if (attribH_{{$attribute_name}} == this.height && attribW_{{$attribute_name}} == this.width) {
-                        dropzone_{{$attribute_name}}.processQueue();
+                        cropImg();
                         return;
                     }
 
                     if (attribH_{{$attribute_name}} === '' && attribW_{{$attribute_name}} === '') {
-                        dropzone_{{$attribute_name}}.processQueue();
+                        cropImg();
                         return;
                     }
 
@@ -191,7 +191,7 @@
                     if ((attribH_{{$attribute_name}} != '' || attribW_{{$attribute_name}} != '') &&
                         ((attribH_{{$attribute_name}} != '' && attribH_{{$attribute_name}} != this.height) ||
                             (attribW_{{$attribute_name}} != '' && attribW_{{$attribute_name}} != this.width))) {
-                        autoResizeImg(loadedImage);
+                        cropImg();
                         return;
                     }
 
