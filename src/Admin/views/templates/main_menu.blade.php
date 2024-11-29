@@ -15,68 +15,68 @@
             <ul class="level-2-nav">
                 @if(isset($menu))
                     @foreach($menu as $section)
-                    @if(isset($section['list']))
-                        @php
-                            $menu_active='';
-                            $menu_collpase='false';
-                            $menu_show='';
-                        @endphp
-                        @foreach($section['list'] as $item)
-                            @if ($item['id']==$class_id)
-                                @php
-                                    $menu_active='active';
-                                    $menu_collpase='true';
-                                    $menu_show='show';
-                                @endphp
-                            @endif
-                        @endforeach
+                        @if(isset($section['list']))
+                            @php
+                                $menu_active='';
+                                $menu_collpase='false';
+                                $menu_show='';
+                            @endphp
+                            @foreach($section['list'] as $item)
+                                @if ($item['id']==$class_id)
+                                    @php
+                                        $menu_active='active';
+                                        $menu_collpase='true';
+                                        $menu_show='show';
+                                    @endphp
+                                @endif
+                            @endforeach
 
 
-                        @if(session('user_type')=='O' || $section['lg_cap'] != 'Hidden_Group' )
-                            <li>
-                                <a href="#subnav-{{$section['id']}}" data-toggle="collapse" aria-expanded="{{$menu_collpase}}" aria-controls="subnav-{{$section['id']}}">
-                                    <span class="link-text">{{$section['lg_cap']}}</span>
-                                    <i class="icon-chevron-down"></i>
-                                </a>
-                                <div class="collapse {{$menu_show}}" id="subnav-{{$section['id']}}">
-                                    <ul class="level-3-nav">
-                                        @foreach($section['list'] as $item)
+                            @if(session('user_type')=='O' || $section['lg_cap'] != 'Hidden_Group' )
+                                <li>
+                                    <a href="#subnav-{{$section['id']}}" data-toggle="collapse" aria-expanded="{{$menu_collpase}}" aria-controls="subnav-{{$section['id']}}">
+                                        <span class="link-text">{{$section['lg_cap']}}</span>
+                                        <i class="icon-chevron-down"></i>
+                                    </a>
+                                    <div class="collapse {{$menu_show}}" id="subnav-{{$section['id']}}">
+                                        <ul class="level-3-nav">
+                                            @foreach($section['list'] as $item)
 
-                                            @if( empty( config('editora-admin.special_classes')) && $item['id']==1){{--global--}}
-                                            <li @if($item['id']==$class_id) class="active" @endif>
-                                                <a href="{{ route('editora.action', 'view_instance?p_pagina=1&p_class_id='.$item['id'].'&p_inst_id=2') }}" class="link-list">
-                                                    <span class="link-text">{{$item['lg_name']}}</span>
-                                                </a>
-                                            </li>
-                                            @elseif(  empty( config('editora-admin.special_classes')) && $item['id']==10){{--home--}}
-                                            <li @if($item['id']==$class_id) class="active" @endif>
-                                                <a href="{{ route('editora.action', 'view_instance?p_pagina=1&p_class_id='.$item['id'].'&p_inst_id=1') }}" class="link-list">
-                                                    <span class="link-text">{{$item['lg_name']}}</span>
-                                                </a>
-                                            </li>
-                                            @else
-                                                @if( !empty( config('editora-admin.special_classes') ) && array_key_exists( $item['id'],config('editora-admin.special_classes') ) )
-                                                    <li @if($item['id']==$class_id) class="active" @endif>
-                                                        <a href="{{ route('editora.action', 'view_instance?p_pagina=1&p_class_id='.$item['id'].'&p_inst_id='.config('editora-admin.special_classes')[$item['id']]) }}" class="link-list">
-                                                            <span class="link-text">{{$item['lg_name']}}</span>
-                                                        </a>
-                                                    </li>
+                                                @if( empty( config('editora-admin.special_classes')) && $item['id']==1){{--global--}}
+                                                <li @if($item['id']==$class_id) class="active" @endif>
+                                                    <a href="{{ route('editora.action', 'view_instance?p_pagina=1&p_class_id='.$item['id'].'&p_inst_id=2') }}" class="link-list">
+                                                        <span class="link-text">{{$item['lg_name']}}</span>
+                                                    </a>
+                                                </li>
+                                                @elseif(  empty( config('editora-admin.special_classes')) && $item['id']==10){{--home--}}
+                                                <li @if($item['id']==$class_id) class="active" @endif>
+                                                    <a href="{{ route('editora.action', 'view_instance?p_pagina=1&p_class_id='.$item['id'].'&p_inst_id=1') }}" class="link-list">
+                                                        <span class="link-text">{{$item['lg_name']}}</span>
+                                                    </a>
+                                                </li>
                                                 @else
-                                                    <li @if($item['id']==$class_id) class="active" @endif>
-                                                        <a href="{{ route('editora.action', 'list_instances?p_class_id='.$item['id']) }}" class="link-list">
-                                                            <span class="link-text">{{$item['lg_name']}}</span>
-                                                        </a>
-                                                        <a href="{{ route('editora.action', 'new_instance?p_class_id='.$item['id']) }}" class="link-new">
-                                                            <i class="icon-plus-box"></i>
-                                                        </a>
-                                                    </li>
-                                                @endif
+                                                    @if( !empty( config('editora-admin.special_classes') ) && array_key_exists( $item['id'],config('editora-admin.special_classes') ) )
+                                                        <li @if($item['id']==$class_id) class="active" @endif>
+                                                            <a href="{{ route('editora.action', 'view_instance?p_pagina=1&p_class_id='.$item['id'].'&p_inst_id='.config('editora-admin.special_classes')[$item['id']]) }}" class="link-list">
+                                                                <span class="link-text">{{$item['lg_name']}}</span>
+                                                            </a>
+                                                        </li>
+                                                    @else
+                                                        <li @if($item['id']==$class_id) class="active" @endif>
+                                                            <a href="{{ route('editora.action', 'list_instances?p_class_id='.$item['id']) }}" class="link-list">
+                                                                <span class="link-text">{{$item['lg_name']}}</span>
+                                                            </a>
+                                                            <a href="{{ route('editora.action', 'new_instance?p_class_id='.$item['id']) }}" class="link-new">
+                                                                <i class="icon-plus-box"></i>
+                                                            </a>
+                                                        </li>
+                                                    @endif
 
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </li>
                             @endif
                         @else
                             <li>
@@ -98,7 +98,7 @@
         </li>
         <li>
             <ul class="level-2-nav">
-                @if( in_array( last(request()->segments()) , ['unlinked_images', 'create_users', 'list_class', 'urls_broken'] )  )
+                @if( in_array( last(request()->segments()) , ['generate_translations', 'unlinked_images', 'create_users', 'list_class', 'urls_broken'] )  )
                     @php
                         $menu_active='active';
                         $menu_collpase='true';
@@ -118,6 +118,11 @@
                     </a>
                     <div class="collapse {{$menu_show}}" id="subnav-config">
                         <ul class="level-3-nav">
+                            <li @if(last(request()->segments())=='generate_translations')class="active" @endif>
+                                <a href="{{ route('editora.action', 'generate_translations') }}" class="link-list">
+                                    <span class="link-text">{{getMessage('generate_translations')}}</span>
+                                </a>
+                            </li>
                             <li @if(last(request()->segments())=='unlinked_images')class="active" @endif>
                                 <a href="{{ route('editora.action', 'unlinked_images') }}" class="link-list">
                                     <span class="link-text">{{getMessage('unlinked_files')}}</span>

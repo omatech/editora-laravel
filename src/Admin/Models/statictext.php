@@ -2,6 +2,8 @@
 
 namespace Omatech\Editora\Admin\Models;
 
+use Illuminate\Support\Facades\DB;
+
 class statictext extends Model
 {
     public function get_static_text_keys()
@@ -72,5 +74,45 @@ class statictext extends Model
             }
         }
         return true;
+    }
+
+    public function get_static_texts_by_keys_and_langs($keys)
+    {
+        $structuredResult = [];
+        $keysStr = implode(",", array_map('intval', $keys));
+
+        $sql = "SELECT text_key, language, text_value FROM omp_static_text WHERE text_key IN ($keysStr) AND language not in ('ALL')";
+        $result = parent::get_data($sql);
+
+        foreach ($result as $row) {
+            if (!isset($structuredResults[$row['text_key']])) {
+                $structuredResults[$row['text_key']] = [];
+            }
+
+            $structuredResults[$row['text_key']][] = [
+                'language' => $row['language'],
+                'text_value' => $row['text_value'],
+            ];
+        }
+
+        return $structuredResults;
+    }
+
+    public function insert_static_texts($static_texts)
+    {
+        DB::beginTransaction();
+        try {
+            foreach ($static_texts as $key => $translations) {
+                foreach ($translations as $language => $textValue) {
+                    DB::table('omp_static_text')
+                        ->where(['text_key' => $key, 'language' => $language])
+                        ->update(['text_value' => $textValue]);
+                }
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }

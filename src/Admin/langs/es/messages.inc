@@ -273,6 +273,8 @@ function getMessage ($id) {
 	$mess_arr['classes_sample_modal'] = 'Ejemplo:';
     $mess_arr['classes_modal_not_image'] = 'Sin previsualización';
     $mess_arr['urls_broken'] = 'Enlaces rotos';
+	$mess_arr['info_word_last_translations'] = 'Últimos objetos traducidos';
+	$mess_arr['generate_translations'] = 'Generar traducciones';
 
 	return $mess_arr[$id];
 }
