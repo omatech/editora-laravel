@@ -2,6 +2,7 @@
 
 namespace Omatech\Editora\Admin\Models;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class attributes extends Model
@@ -397,4 +398,22 @@ class attributes extends Model
 
 		return $ret['niceurl'];
 	}
+
+    public function insertAttributeValues($values, $instanceId)
+    {
+        DB::beginTransaction();
+        try {
+            foreach ($values as $atriId => $value) {
+                DB::table('omp_values')->updateOrInsert(
+                    ['inst_id' => $instanceId, 'atri_id' => $atriId,],
+                    ['text_val' => $value['text']]
+                );
+            }
+            DB::commit();
+            return $instanceId;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
 }
