@@ -20,13 +20,16 @@ class AdminGenerateTranslations extends AuthController
         $this->instances = new Instances;
         $this->attributes = new attributes();
         $this->statictext = new statictext();
+        $this->translator = new Translator(config('editora-admin.deepl_key'));
     }
 
     public function render()
     {
+        $title = EDITORA_NAME;
         $params = get_params_info();
         $params['p_mode'] = $p_mode = 'V';
         $page = 1;
+
         $langs = $this->instances->busca_idiomes();
         $last_translated = [];
 
@@ -54,7 +57,6 @@ class AdminGenerateTranslations extends AuthController
 
         $count = count($last_translated);
         $menu = $this->loadMenu($this->instances, $params);
-        $title = EDITORA_NAME;
 
         $viewData = array_merge($menu, [
             'title' => $title,
@@ -71,6 +73,7 @@ class AdminGenerateTranslations extends AuthController
     {
         $excludedClassIds = explode(',', env('EXCLUDED_CLASS_IDS'));
         $translatedInstances = [];
+        $batchTexts = [];
 
         foreach ($instances as $instance) {
             if (!in_array($instance['class_id'], $excludedClassIds) && $instance['status'] == 'O') {
@@ -79,17 +82,38 @@ class AdminGenerateTranslations extends AuthController
                 $attributes = $this->attributes->getInstanceAttributes('U', $params);
                 $textAttributes = $this->filterTextAttributes($attributes['instance_info']['instance_tabs']);
                 $missingAttrLangs = $this->getMissingAttrLangs($textAttributes);
-                $translated = $this->processMissingTranslations($textAttributes, $missingAttrLangs, $langs);
-                if ($translated) {
-                    $translatedInstances[] = $this->attributes->insertAttributeValues($translated, $instance['id']);
+
+                foreach ($missingAttrLangs as $attrName => $attrInfo) {
+                    if(count($attrInfo) !== 7) {
+                        $sourceLang = $this->determineSourceLang($langs, $attrInfo);
+                        $textToTranslate = $this->getTextValForLang($textAttributes, $sourceLang, $attrName);
+                        foreach($attrInfo as $info) {
+                            $batchTexts[$info['lang']][] = [
+                                'instance_id' => $instance['id'],
+                                'attr_id' => $info['id'],
+                                'attr_name' => $attrName,
+                                'text' => $textToTranslate['text_val'],
+                                'source_lang' => $sourceLang,
+                            ];
+                        }
+                    }
                 }
             }
+        }
+
+        unset($batchTexts['ca']);
+        $translatedAttributes = $this->processBatchTranslations($batchTexts);
+
+        foreach($translatedAttributes as $instanceId => $translations) {
+            $this->attributes->insertAttributeValues($translations, $instanceId);
+            $translatedInstances[] = $instanceId;
         }
         return $translatedInstances;
     }
 
     private function translateStaticTexts($staticTextsData)
     {
+        $batchTexts = [];
         $translatedTexts = [];
         foreach ($staticTextsData as $key => $values) {
             $text = '';
@@ -102,72 +126,87 @@ class AdminGenerateTranslations extends AuthController
                         $text = $value['text_value'];
                     }
                 } else {
-                    $targetLangs[] = $value['language'];
+                    $batchTexts[$value['language']][] = [
+                        'key' => $key,
+                        'text' => $text
+                    ];
                 }
             }
-
-            if($text && $targetLangs && $sourceLang) {
-                foreach($targetLangs as $targetLang) {
-                    $translatedTexts[$key][$targetLang] = $this->translateText($text, $targetLang);
-                }
-            }
-
         }
+
+        unset($batchTexts['ca']);
+        foreach ($batchTexts as $targetLang => $texts) {
+            $textsForBatch = array_column($texts, 'text');
+            $translations = $this->translateText($textsForBatch, $targetLang);
+
+            foreach ($translations as $index => $translation) {
+                $key = $texts[$index]['key'];
+                $translatedTexts[$key][$targetLang] = $translation;
+            }
+        }
+
         $this->statictext->insert_static_texts($translatedTexts);
     }
 
-    private function processMissingTranslations($textAttributes, $missingAttrLangs, $langs)
+    private function determineSourceLang($langs, $langInfo)
     {
-        $translated = [];
-
-        foreach ($missingAttrLangs as $attrName => $attrInfo) {
-            if (count($attrInfo) !== 7) {
-                $existingLangs = array_diff($langs, array_column($attrInfo, 'lang'));
-                $langToTranslateFrom = in_array('en', $existingLangs) ? 'en' :
-                    (in_array('us', $existingLangs) ? 'us' :
-                        (in_array('es', $existingLangs) ? 'es' :
-                            (in_array('fr', $existingLangs) ? 'fr' :
-                                (in_array('de', $existingLangs) ? 'de' :
-                                    (in_array('jp', $existingLangs) ? 'jp' : null)))));
-
-                if ($langToTranslateFrom) {
-                    $textToTranslateFrom = $this->getTextValForLang($textAttributes, $langToTranslateFrom, $attrName);
-                    foreach ($attrInfo as $info) {
-                        $translated[$info['id']] = [
-                            'lang' => $info['lang'],
-                            'text' => $this->translateText($textToTranslateFrom['text_val'], $info['lang'])
-                        ];
-                    }
-                }
-            }
-        }
-
-        return $translated;
+        $existingLangs = array_diff($langs, array_column($langInfo, 'lang'));
+        return in_array('es', $existingLangs) ? 'es' :
+            (in_array('en', $existingLangs) ? 'en' :
+                (in_array('fr', $existingLangs) ? 'fr' :
+                    (in_array('de', $existingLangs) ? 'de' :
+                        (in_array('us', $existingLangs) ? 'us' :
+                            (in_array('jp', $existingLangs) ? 'jp' : null)))));
     }
 
-    private function translateText($text, $targetLang)
+    private function processBatchTranslations($batchTexts)
+    {
+        $translatedAttributes = [];
+
+        foreach($batchTexts as $targetLang => $texts) {
+            $textsForBatch = array_column($texts, 'text');
+            $translations = $this->translateText($textsForBatch, $targetLang);
+
+            foreach($translations as $index => $translation) {
+                $textInfo = $texts[$index];
+                $translatedAttributes[$textInfo['instance_id']][] = [
+                    'id' => $textInfo['attr_id'],
+                    'lang' => $targetLang,
+                    'text' => $translation,
+                ];
+            }
+        }
+        return $translatedAttributes;
+    }
+
+
+    private function translateText($texts, $targetLang)
     {
         try {
-            if ($targetLang === 'ca') {
+            if ($targetLang == 'ca') {
                 return null;
             }
-            if ($targetLang === 'us') {
-                $targetLang = 'EN-US';
-            }
-            if ($targetLang === 'en') {
-                $targetLang = 'EN-GB';
-            }
-            if ($targetLang === 'jp') {
-                $targetLang = 'JA';
+            $targetLangMap = [
+                'us' => 'EN-US',
+                'en' => 'EN-GB',
+                'jp' => 'JA'
+            ];
+            $targetLang = $targetLangMap[$targetLang] ?? $targetLang;
+
+            if(is_array($texts)) {
+                $results = $this->translator->translateText(array_values($texts), null, $targetLang);
+                return array_map(function ($result) {
+                    return html_entity_decode($result->text);
+                }, $results);
             }
 
-            $translator = new Translator(config('editora-admin.deepl_key'));
-            $result = $translator->translateText($text, null, $targetLang);
+            $result = $this->translator->translateText($texts, null, $targetLang);
             return html_entity_decode($result->text);
+
 
         } catch (Exception $e) {
             echo 'Caught exception: ', $e->getMessage(), "\n";
-            return null;
+            return array_fill(0, count($texts), null);
         }
     }
 
@@ -245,4 +284,3 @@ class AdminGenerateTranslations extends AuthController
         }
     }
 }
-
