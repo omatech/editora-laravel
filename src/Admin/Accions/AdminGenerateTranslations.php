@@ -194,13 +194,13 @@ class AdminGenerateTranslations extends AuthController
             $targetLang = $targetLangMap[$targetLang] ?? $targetLang;
 
             if(is_array($texts)) {
-                $results = $this->translator->translateText(array_values($texts), null, $targetLang);
+                $results = $this->translator->translateText(array_values($texts), null, $targetLang, ['timeout' => 100]);
                 return array_map(function ($result) {
                     return html_entity_decode($result->text);
                 }, $results);
             }
 
-            $result = $this->translator->translateText($texts, null, $targetLang);
+            $result = $this->translator->translateText($texts, null, $targetLang, ['timeout' => 100]);
             return html_entity_decode($result->text);
 
 
