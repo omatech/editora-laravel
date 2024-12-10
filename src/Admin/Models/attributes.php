@@ -403,9 +403,9 @@ class attributes extends Model
     {
         DB::beginTransaction();
         try {
-            foreach ($values as $atriId => $value) {
+            foreach ($values as $value) {
                 DB::table('omp_values')->updateOrInsert(
-                    ['inst_id' => $instanceId, 'atri_id' => $atriId,],
+                    ['inst_id' => $instanceId, 'atri_id' => $value['id'],],
                     ['text_val' => $value['text']]
                 );
             }
