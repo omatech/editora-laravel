@@ -1423,4 +1423,10 @@ class Instances extends model
             return true;
         }
     }
+
+    public function getAllInstances()
+    {
+        $sql = "SELECT * FROM omp_instances";
+        return parent::get_data($sql);
+    }
 }
