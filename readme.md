@@ -153,10 +153,9 @@ DEEPL_KEY=your_deepl_key
 EXCLUDED_CLASS_IDS=1,2,3 //editora classes Ids that you don't want to translate, if any, separated by commas
 ```
 
-```
 
-
-
+## Duplicated Niceurl
+Now the omp_niceurl table will have the parents field, which will contain the IDs of its parents separated by commas, and the full_niceurl field will have the parents + the niceurl to distinguish the niceurl in case there are two duplicates. All of this will be filled in automatically if the instances have a relationship called 'Childs'.
 
 
 

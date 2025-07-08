@@ -485,9 +485,7 @@ class Instances extends model
         if (!check_mandatories()) {
             return -1;
         }
-        if (!$this->check_urlnice($p_inst_id)) {
-            return -3;
-        }
+
         $res = '';
         if ($_REQUEST['p_status'] == null) {
             $inst_status = 'P';
@@ -603,6 +601,8 @@ class Instances extends model
                                         where inst_id = '.$new_instance_id.'
                                         and language = "'.$row_lan['language'].'";';
                                     parent::update_one($sql);
+
+                                    $this->updateFullNiceUrls($new_instance_id, $niceURL, $row_lan['language']);
                                 }
                                 break;
                             case "W":
@@ -738,6 +738,34 @@ class Instances extends model
         $res = $new_instance_id;
 
         return $res;
+    }
+
+    function updateFullNiceUrls($inst_id, $niceurl, $language){
+        $sql = "SHOW COLUMNS FROM omp_niceurl LIKE 'parents';";
+        $query_result = parent::get_data($sql);
+        if ($query_result) {
+
+            $sql = "SELECT inst_id, language, niceurl FROM omp_niceurl";
+            $niceurls = parent::get_data($sql);
+
+            $niceurls = collect($niceurls)->groupBy('inst_id')->map(function ($group) {
+                return $group->keyBy('language')->toArray();
+            })->toArray();
+
+            $sql = "SELECT * FROM omp_niceurl WHERE (inst_id = " . str_replace("\"", "\\\"", str_replace("[\]", "", $inst_id)) . " AND language = '" . $language . "') OR (FIND_IN_SET(" . $inst_id . ", parents));";
+            $res = parent::get_data($sql);
+
+            $re=new relations();
+
+            foreach ($res as $row) {
+                $full_niceurl = $re->getFullNiceUrl($niceurls, explode(',', $row['parents']), $row['inst_id'], $row['language']);
+                $sql = 'update omp_niceurl
+                set full_niceurl = '.$full_niceurl.'
+                where id = '.$row['id'].';';
+                parent::update_one($sql);
+            }
+
+        }
     }
 
     function getJsonValVideo($p_valor)
@@ -1250,16 +1278,30 @@ class Instances extends model
 
     function getUniqueNiceURL($inst_id, $language, $nice_url)
     {
+        $parentsQuery = '';
+        $sql = "SELECT * FROM omp_niceurl where inst_id = ".$inst_id." and language = '".$language."'";
+        $current_niceurl = parent::get_one($sql);
+
+        if ($current_niceurl && array_key_exists('parents', $current_niceurl)) {
+            $parents = $current_niceurl['parents'];
+            if ($parents) {
+                $parentsQuery = ' and parents = "' . $parents . '"';
+            } else {
+                $parentsQuery = ' and parents is null';
+            }
+        }
+
         $i = 0;
-        $sql = 'select count(1) as nicecount from omp_niceurl where inst_id <> '.$inst_id.' and language = "'.$language.'" and niceurl = "'.$nice_url.'"';
+        $sql = 'select count(1) as nicecount from omp_niceurl where inst_id <> '.$inst_id.' and language = "'.$language.'" and niceurl = "'.$nice_url.'"' . $parentsQuery;
         $ret = parent::get_one($sql);
+
         if ($ret['nicecount'] == 0) {
             return $nice_url;
         }
 
         do {
             $i++;
-            $sql = 'select count(1) as nicecount from omp_niceurl where inst_id <> '.$inst_id.' and language = "'.$language.'" and niceurl = "'.$nice_url . $i.'"';
+            $sql = 'select count(1) as nicecount from omp_niceurl where inst_id <> '.$inst_id.' and language = "'.$language.'" and niceurl = "'.$nice_url . $i.'"' . $parentsQuery;
             $ret = parent::get_one($sql);
         } while ($ret['nicecount'] <> 0);
 
