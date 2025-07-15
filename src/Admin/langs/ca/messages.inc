@@ -273,6 +273,7 @@ function getMessage ($id) {
 	$mess_arr['urls_broken'] = 'Enllaços trencats';
 	$mess_arr['info_word_last_translations'] = 'Últims objectes traduïts';
 	$mess_arr['generate_translations'] = 'Generar traduccions';
+    $mess_arr['import_schedules'] = 'Importar horaris';
 
     return $mess_arr[$id];
 }

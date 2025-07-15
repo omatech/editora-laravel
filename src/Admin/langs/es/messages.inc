@@ -275,6 +275,7 @@ function getMessage ($id) {
     $mess_arr['urls_broken'] = 'Enlaces rotos';
 	$mess_arr['info_word_last_translations'] = 'Últimos objetos traducidos';
 	$mess_arr['generate_translations'] = 'Generar traducciones';
+	    $mess_arr['import_schedules'] = 'Importar horarios';
 
 	return $mess_arr[$id];
 }

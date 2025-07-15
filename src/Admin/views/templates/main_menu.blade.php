@@ -98,7 +98,7 @@
         </li>
         <li>
             <ul class="level-2-nav">
-                @if( in_array( last(request()->segments()) , ['generate_translations', 'unlinked_images', 'create_users', 'list_class', 'urls_broken'] )  )
+                @if( in_array( last(request()->segments()) , ['generate_translations', 'unlinked_images', 'create_users', 'list_class', 'urls_broken', 'import_schedules'] )  )
                     @php
                         $menu_active='active';
                         $menu_collpase='true';
@@ -133,6 +133,13 @@
                                     <span class="link-text">{{getMessage('urls_broken')}}</span>
                                 </a>
                             </li>
+                            @if (config('editora.enableImportSchedules'))
+                                <li @if(last(request()->segments())=='import_schedules')class="active" @endif>
+                                    <a href="{{ route('editora.action', 'import_schedules') }}" class="link-list">
+                                        <span class="link-text">{{getMessage('import_schedules')}}</span>
+                                    </a>
+                                </li>
+                            @endif
                             @if(session('user_type')=='O' && session('rol_id')==1 )
                                 <li @if(last(request()->segments())=='create_users')class="active" @endif>
                                     <a href="{{ route('editora.action', 'create_users') }}" class="link-list">
