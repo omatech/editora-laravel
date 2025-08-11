@@ -6,6 +6,8 @@ use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\Security;
 use Omatech\Editora\Admin\Models\statictext;
 use Illuminate\Support\Facades\Session;
+use Omatech\Editora\Admin\Events\EditStaticTextUpdatedEvent;
+use Illuminate\Support\Facades\Event;
 
 class AdminEditStaticText extends AuthController
 {
@@ -30,6 +32,7 @@ class AdminEditStaticText extends AuthController
             if (isset($_REQUEST['hiddencheck'])) {
                 if ($st->set_static_text($_POST, $key)) {
                     Session::put('flashmessage', 'Se ha guardado ok');
+                    $this->dispatchEvent($key);
                     $security->redirect_url(APP_BASE . '/static_text');
                 }
             }
@@ -55,5 +58,14 @@ class AdminEditStaticText extends AuthController
         ]);
 
         return response()->view('editora::pages.static_texts_edit', $viewData);
+    }
+
+    private function dispatchEvent(string $key): void
+    {
+        try {
+            if ($key !== "") {
+                Event::dispatch(new EditStaticTextUpdatedEvent($key));
+            }
+        }catch (\Exception $exception) {}
     }
 }
