@@ -11,7 +11,7 @@ class Relations extends Model
 		$p_relation_id=$param_arr['param9'];
 		$p_parent_inst_id=$param_arr['param11'];
 		$p_child_inst_id=$param_arr['param13'];
-		
+
 		$sql='select r.order_type, min(weight) weight
 		from omp_relations r
 		, omp_relation_instances ri
@@ -29,19 +29,26 @@ class Relations extends Model
 		(rel_id, parent_inst_id, child_inst_id, weight, relation_date)
 		values
 		('.str_replace("\"", "\\\"", str_replace("[\]","",$p_relation_id)).','.str_replace("\"", "\\\"", str_replace("[\]","",$p_parent_inst_id)).', '.str_replace("\"", "\\\"", str_replace("[\]","",$p_child_inst_id)).', '.str_replace("\"", "\\\"", str_replace("[\]","",$weight)).', now())';
-		
+
 		$new_relation_instance_id=parent::insert_one($sql);
+
+        $this->updateNiceurlsForChildRelations($p_child_inst_id);
+
 		if ($new_relation_instance_id) return $new_relation_instance_id;
 
 		return 0;
 	}
 
+
+
 	///////////////////////////////////////////////////////////////////////////////////////////
 	function deleteRelationInstance($param_arr) {
 		$p_relinst_id=$param_arr['param9'];
 
-		$sql = "select ri.rel_id, ri.parent_inst_id, ri.weight from omp_relation_instances ri where ri.id =".$p_relinst_id.";";
+		$sql = "select ri.rel_id, ri.parent_inst_id, ri.child_inst_id, ri.weight from omp_relation_instances ri where ri.id =".$p_relinst_id.";";
 		$ret=parent::get_one($sql);
+
+        $this->updateNiceurlsForChildRelations($ret['child_inst_id'], true);
 
 		$sql = "delete from omp_relation_instances where id = ".str_replace("\"", "\\\"", str_replace("[\]","",$p_relinst_id)).";";
 		parent::execute($sql);
@@ -51,6 +58,103 @@ class Relations extends Model
 
 		return true;
 	}
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    function updateNiceurlsForChildRelations($inst_id, $isDeleting = false) {
+        $sql = "SELECT * FROM omp_niceurl LIMIT 1";
+        $niceurl = parent::get_one($sql);
+        if (!array_key_exists('parents', $niceurl)) return;
+
+        $sql = "SELECT id FROM omp_relations WHERE name = 'Childs'";
+        $rel_ids = parent::get_data($sql);
+        if (!$rel_ids) return;
+
+        $rel_id_list = implode(',', array_column($rel_ids, 'id'));
+
+        $sql = "SELECT * FROM omp_relation_instances WHERE rel_id IN ($rel_id_list)";
+        $relations = parent::get_data($sql);
+
+        $sql = "SELECT inst_id, language, niceurl FROM omp_niceurl";
+        $niceurls = parent::get_data($sql);
+
+        $niceurls = collect($niceurls)->groupBy('inst_id')->map(function ($group) {
+            return $group->keyBy('language')->toArray();
+        })->toArray();
+
+        $languages = config('editora.availableLanguages');
+
+        $child_to_parents = [];
+        $parent_to_children = [];
+
+        foreach ($relations as $rel) {
+            $parent = $rel['parent_inst_id'];
+            $child = $rel['child_inst_id'];
+
+            $child_to_parents[$child][] = $parent;
+            $parent_to_children[$parent][] = $child;
+        }
+
+        $root = $inst_id;
+        $visited = [];
+
+        while (!empty($child_to_parents[$root]) && !isset($visited[$root])) {
+            $visited[$root] = true;
+            $root = $child_to_parents[$root][0];
+        }
+
+        $this->setNiceurlsRecursive($root, [], $parent_to_children, $child_to_parents, $niceurls, $languages, $isDeleting ? $inst_id : null);
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    function setNiceurlsRecursive($current_id, $parent_chain, $parent_to_children, $child_to_parents, $niceurls, $languages, $deleted_node_id = null) {
+
+        if ($deleted_node_id == $current_id) {
+            unset($parent_chain[array_search($child_to_parents[$current_id][0] ?? null, $parent_chain)]);
+        } else {
+            if (!in_array($current_id, array_values($parent_chain)) && isset($child_to_parents[$current_id][0])) {
+                $parent_chain[] = $child_to_parents[$current_id][0] ?? $current_id;
+            }
+        }
+
+        if (empty($parent_chain)) {
+            $parents = 'NULL';
+        } else {
+            $parents = "'" . implode(',', $parent_chain) . "'";
+        }
+
+        foreach ($languages as $language) {
+            $full_niceurl = $this->getFullNiceUrl($niceurls, $parent_chain, $current_id, $language);
+            $sql = "UPDATE omp_niceurl SET parents = " . $parents . ", full_niceurl = " . $full_niceurl . " WHERE niceurl != '' AND niceurl IS NOT NULL AND inst_id = " . (int)$current_id . " AND language = '" . $language . "'";
+            parent::update_one($sql);
+        }
+
+        $children = $parent_to_children[$current_id] ?? [];
+        foreach ($children as $child_id) {
+            $this->setNiceurlsRecursive($child_id, $parent_chain, $parent_to_children, $child_to_parents, $niceurls, $languages, $deleted_node_id);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    function getFullNiceUrl($niceurls, $parent_chain, $instance_id, $language = null) {
+        $full_niceurl = '';
+        foreach ($parent_chain ?? [] as $key => $parent) {
+            if (isset($niceurls[$parent][$language])) {
+                $full_niceurl .= ($key > 0 ? '/' : '') . $niceurls[$parent][$language]['niceurl'];
+            }
+        }
+
+        if (empty($parent_chain) || $parent_chain == null || $full_niceurl == '') {
+            return 'NULL';
+        }
+
+        if (isset($niceurls[$instance_id][$language])) {
+            $full_niceurl .= '/' . $niceurls[$instance_id][$language]['niceurl'];
+        }
+
+        return "'" . str_replace("'", "\'", $full_niceurl) . "'";
+    }
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 	function relationShake($p_relinst_id, $delta) {
