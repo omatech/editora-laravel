@@ -262,7 +262,10 @@ class attributes extends Model
 			// LOOKUP
 			//elseif ($row['type']=="L") $row['lookup_info']=$this->getLookupInfo($row, $p_mode, $p_inst_id);
 			// URLNICE
-			elseif ($row['type'] == "Z") $row['niceurl'] = $this->niceurlFromAtri($row['id'], $p_inst_id);
+			elseif ($row['type'] == "Z") {
+                $row['niceurl'] = $this->niceurlFromAtri($row['id'], $p_inst_id);
+                $row['full_niceurl'] = $this->fullNiceurlFromAtri($row['id'], $p_inst_id);
+            }
 		}
 	}
 
@@ -398,6 +401,26 @@ class attributes extends Model
 
 		return $ret['niceurl'];
 	}
+
+	private function fullNiceurlFromAtri($atri_id, $inst_id)
+    {
+        $sql = "select language from omp_attributes where id=" . $atri_id;
+        $ret = parent::get_one($sql);
+        if (!$ret) return '';
+
+        $columns = parent::get_data("SHOW COLUMNS FROM omp_niceurl LIKE 'full_niceurl'");
+		$hasFullNiceurl = !empty($columns);
+
+        if ($hasFullNiceurl) {
+            $sql = "select full_niceurl from omp_niceurl where inst_id=" . $inst_id . " and language='" . $ret['language'] . "'";
+            $ret = parent::get_one($sql);
+            if (!$ret) return '';
+
+            return $ret['full_niceurl'];
+        }
+
+        return '';
+    }
 
     public function insertAttributeValues($values, $instanceId)
     {
