@@ -10,7 +10,7 @@
   ],
   "require" : {
     "ext-imagick": "*",
-    "omatech/editora-laravel-connector-dbinterface": "^3.2.1",
+    "omatech/editora-laravel-connector-dbinterface": "^3.3",
     "skagarwal/google-places-api": "^3.1"
   },
   "autoload": {
