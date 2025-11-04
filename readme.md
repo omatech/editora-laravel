@@ -143,14 +143,18 @@ config\editora-admin.php
 
 ```
     'deepl_key' => env('DEEPL_KEY'),
-    'languages_for_translation' => [], //add the languages you want to translate separated by commas
+    'google_translator_key' => env('GOOGLE_TRANSLATOR_KEY'),
+    'languages_for_translation' => [], //add the languages you want to translate separated by commas,
+    'translator_provider' => env('TRANSLATOR_PROVIDER')
 ```
 
 .env
 
 ```
 DEEPL_KEY=your_deepl_key
+GOOGLE_TRANSLATOR_KEY=your_google_translator_key
 EXCLUDED_CLASS_IDS=1,2,3 //editora classes Ids that you don't want to translate, if any, separated by commas
+TRANSLATOR_PROVIDER=your_translator_provider // deepl, google_translator | deepl by default
 ```
 
 
