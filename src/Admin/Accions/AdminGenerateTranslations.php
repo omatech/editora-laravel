@@ -9,6 +9,8 @@ use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Admin\Models\statictext;
 use Illuminate\Support\Facades\Session;
 use DeepL\Translator;
+use Google\Cloud\Core\Exception\ServiceException;
+use Google\Cloud\Translate\V2\TranslateClient;
 use Omatech\Editora\Admin\Events\EditInstance2UpdatedEvent;
 
 class AdminGenerateTranslations extends AuthController
@@ -20,7 +22,7 @@ class AdminGenerateTranslations extends AuthController
         $this->instances = new Instances;
         $this->attributes = new attributes();
         $this->statictext = new statictext();
-        $this->translator = new Translator(config('editora-admin.deepl_key'));
+        $this->initializeTranslator();
         $this->custom_target_langs = config('editora-admin.languages_for_translation') ?? [];
     }
 
@@ -70,6 +72,26 @@ class AdminGenerateTranslations extends AuthController
         return response()->view('editora::pages.translated_instances', $viewData);
     }
 
+    private function initializeTranslator()
+    {
+        switch (config('editora-admin.translator_provider')) {
+            case 'google_translator':
+                $this->translator = new TranslateClient([
+                    'key' => config('editora-admin.google_translator_key'),
+                    'restOptions' => [
+                        'headers' => [
+                            'referer' => env('APP_URL'),
+                        ],
+                    ],
+                ]);
+                break;
+            case 'deepl':
+            default:
+                $this->translator = new Translator(config('editora-admin.deepl_key'));
+            break;
+        }
+    }
+
     private function translateInstances($instances, $langs)
     {
         $excludedClassIds = explode(',', env('EXCLUDED_CLASS_IDS'));
@@ -87,6 +109,7 @@ class AdminGenerateTranslations extends AuthController
                 foreach ($missingAttrLangs as $attrName => $attrInfo) {
                     if(count($attrInfo) !== 7) {
                         $sourceLang = $this->determineSourceLang($langs, $attrInfo);
+
                         $textToTranslate = $this->getTextValForLang($textAttributes, $sourceLang, $attrName);
                         foreach($attrInfo as $info) {
                             if (empty($this->custom_target_langs) || in_array($info['lang'], $this->custom_target_langs)) {
@@ -104,7 +127,6 @@ class AdminGenerateTranslations extends AuthController
             }
         }
 
-        unset($batchTexts['ca']);
         $translatedAttributes = $this->processBatchTranslations($batchTexts);
 
         foreach($translatedAttributes as $instanceId => $translations) {
@@ -124,7 +146,7 @@ class AdminGenerateTranslations extends AuthController
             $sourceLang = [];
             foreach ($values as $value) {
                 if(!empty($value['text_value'])){
-                    if(empty($text) && $value['language'] != 'ca') {
+                    if(empty($text)) {
                         $sourceLang[] = $value['language'];
                         $text = $value['text_value'];
                     }
@@ -139,10 +161,10 @@ class AdminGenerateTranslations extends AuthController
             }
         }
 
-        unset($batchTexts['ca']);
         foreach ($batchTexts as $targetLang => $texts) {
             $textsForBatch = array_column($texts, 'text');
-            $translations = $this->translateText($textsForBatch, $targetLang);
+            $sourceLang = array_column($texts, 'source_lang');
+            $translations = $this->translateText($textsForBatch, $sourceLang, $targetLang);
 
             foreach ($translations as $index => $translation) {
                 $key = $texts[$index]['key'];
@@ -158,10 +180,11 @@ class AdminGenerateTranslations extends AuthController
         $existingLangs = array_diff($langs, array_column($langInfo, 'lang'));
         return in_array('es', $existingLangs) ? 'es' :
             (in_array('en', $existingLangs) ? 'en' :
-                (in_array('fr', $existingLangs) ? 'fr' :
-                    (in_array('de', $existingLangs) ? 'de' :
-                        (in_array('us', $existingLangs) ? 'us' :
-                            (in_array('jp', $existingLangs) ? 'jp' : null)))));
+                (in_array('ca', $existingLangs) ? 'ca' :
+                    (in_array('fr', $existingLangs) ? 'fr' :
+                        (in_array('de', $existingLangs) ? 'de' :
+                            (in_array('us', $existingLangs) ? 'us' :
+                                (in_array('jp', $existingLangs) ? 'jp' : null))))));
     }
 
     private function processBatchTranslations($batchTexts)
@@ -170,7 +193,8 @@ class AdminGenerateTranslations extends AuthController
 
         foreach($batchTexts as $targetLang => $texts) {
             $textsForBatch = array_column($texts, 'text');
-            $translations = $this->translateText($textsForBatch, $targetLang);
+            $sourceLang = array_column($texts, 'source_lang')[0];
+            $translations = $this->translateText($textsForBatch, $sourceLang, $targetLang);
 
             foreach($translations as $index => $translation) {
                 $textInfo = $texts[$index];
@@ -185,10 +209,50 @@ class AdminGenerateTranslations extends AuthController
     }
 
 
-    private function translateText($texts, $targetLang)
+    private function translateText($texts, $sourceLang, $targetLang)
+    {
+        switch (config('editora-admin.translator_provider')) {
+            case 'google_translator':
+                return $this->translateWithGoogle($texts, $sourceLang, $targetLang);
+            case 'deepl':
+            default:
+                return $this->translateWithDeepL($texts, $sourceLang, $targetLang);
+        }
+    }
+
+    private function translateWithGoogle($texts, $sourceLang, $targetLang)
     {
         try {
-            if ($targetLang == 'ca') {
+            $targetLangMap = [
+                'us' => 'en',
+                'jp' => 'ja'
+            ];
+            $targetLang = $targetLangMap[$targetLang] ?? $targetLang;
+
+            if (is_array($texts)) {
+                $results = $this->translator->translateBatch($texts, [
+                    'target' => $targetLang,
+                ]);
+                return array_map(function ($result) {
+                    return html_entity_decode($result['text']);
+                }, $results);
+            }
+
+            $result = $this->translator->translate($texts, [
+                'target' => $targetLang,
+            ]);
+
+            return html_entity_decode($result['text']);
+        } catch (ServiceException $e) {
+            echo 'Caught exception: ', $e->getMessage(), "\n";
+            return array_fill(0, count($texts), null);
+        }
+    }
+
+    private function translateWithDeepL($texts, $sourceLang, $targetLang)
+    {
+        try {
+            if ($targetLang == 'ca' || $sourceLang == 'ca' || $sourceLang === null) {
                 return null;
             }
             $targetLangMap = [
@@ -234,7 +298,7 @@ class AdminGenerateTranslations extends AuthController
             }
         }
 
-        return ['lang' => $langToTranslateFrom, 'text_val' => array_values($attrVal)[0]];
+        return ['lang' => $langToTranslateFrom, 'text_val' => array_values($attrVal)[0] ?? ''];
     }
 
     private function filterTextAttributes($attributes)
