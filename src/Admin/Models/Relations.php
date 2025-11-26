@@ -48,7 +48,12 @@ class Relations extends Model
 		$sql = "select ri.rel_id, ri.parent_inst_id, ri.child_inst_id, ri.weight from omp_relation_instances ri where ri.id =".$p_relinst_id.";";
 		$ret=parent::get_one($sql);
 
-        $this->updateNiceurlsForChildRelations($ret['child_inst_id'], true);
+        $sql = "select name from omp_relations where id = ".$ret['rel_id'];
+        $relation=parent::get_one($sql);
+
+        if ($relation && $relation['name'] == 'Childs') {
+            $this->updateNiceurlsForChildRelations($ret['child_inst_id'], true);
+        }
 
 		$sql = "delete from omp_relation_instances where id = ".str_replace("\"", "\\\"", str_replace("[\]","",$p_relinst_id)).";";
 		parent::execute($sql);
@@ -121,6 +126,10 @@ class Relations extends Model
         if (empty($parent_chain)) {
             $parents = 'NULL';
         } else {
+            $parent_chain = array_unique($parent_chain);
+            if (($key = array_search($current_id, $parent_chain)) !== false) {
+                unset($parent_chain[$key]);
+            }
             $parents = "'" . implode(',', $parent_chain) . "'";
         }
 
@@ -138,6 +147,10 @@ class Relations extends Model
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     function getFullNiceUrl($niceurls, $parent_chain, $instance_id, $language = null) {
+        $parent_chain = array_unique($parent_chain ?? []);
+        if (($key = array_search($instance_id, $parent_chain)) !== false) {
+            unset($parent_chain[$key]);
+        }
         $full_niceurl = '';
         foreach ($parent_chain ?? [] as $key => $parent) {
             if (isset($niceurls[$parent][$language])) {
