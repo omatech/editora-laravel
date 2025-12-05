@@ -119,7 +119,7 @@ class Relations extends Model
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////
-    function setNiceurlsRecursive($current_id, $parent_chain, $parent_to_children, $child_to_parents, $niceurls, $languages, $deleted_node_id = null, &$sqlUpdates = []) {
+    function setNiceurlsRecursive($current_id, $parent_chain, $parent_to_children, $child_to_parents, $niceurls, $languages, $deleted_node_id = null, &$sqlUpdates = [], &$visited = []) {
 
         if ($deleted_node_id == $current_id) {
             unset($parent_chain[array_search($child_to_parents[$current_id][0] ?? null, $parent_chain)]);
@@ -139,14 +139,21 @@ class Relations extends Model
             $parents = "'" . implode(',', $parent_chain) . "'";
         }
 
+        $children = $parent_to_children[$current_id] ?? [];
+
+        if (isset($visited[$parents . $current_id . implode(',', $children)])) {
+            return;
+        }
+
+        $visited[$parents . $current_id . implode(',', $children)] = true;
+
         foreach ($languages as $language) {
             $full_niceurl = $this->getFullNiceUrl($niceurls, $parent_chain, $current_id, $language);
             $sqlUpdates[] = "UPDATE omp_niceurl SET parents = " . $parents . ", full_niceurl = " . $full_niceurl . " WHERE niceurl != '' AND niceurl IS NOT NULL AND inst_id = " . (int)$current_id . " AND language = '" . $language . "'";
         }
 
-        $children = $parent_to_children[$current_id] ?? [];
         foreach ($children as $child_id) {
-            $this->setNiceurlsRecursive($child_id, $parent_chain, $parent_to_children, $child_to_parents, $niceurls, $languages, $deleted_node_id, $sqlUpdates);
+            $this->setNiceurlsRecursive($child_id, $parent_chain, $parent_to_children, $child_to_parents, $niceurls, $languages, $deleted_node_id, $sqlUpdates, $visited);
         }
     }
 
