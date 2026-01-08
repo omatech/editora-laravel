@@ -225,31 +225,51 @@ class AdminGenerateTranslations extends AuthController
 
     private function translateWithGoogle($texts, $sourceLang, $targetLang)
     {
+        $source = config('editora-admin.translator_source_preferred_language');
+        $source = $source !== $targetLang ? $source : null;
+
         try {
-            $targetLangMap = [
+            $targetLangMap = config('editora-admin.target_lang_map_google_translate', [
                 'us' => 'en',
-                'jp' => 'ja'
-            ];
+                'jp' => 'ja',
+            ]);
             $targetLang = $targetLangMap[$targetLang] ?? $targetLang;
 
-            if (is_array($texts)) {
-                $results = $this->translator->translateBatch($texts, [
+            if (!is_array($texts)) {
+                $result = $this->translator->translate($texts, [
+                    'source' => $source,
                     'target' => $targetLang,
                 ]);
-                return array_map(function ($result) {
-                    return html_entity_decode($result['text']);
-                }, $results);
+
+                return html_entity_decode($result['text']);
             }
 
-            $result = $this->translator->translate($texts, [
-                'target' => $targetLang,
-            ]);
+            $chunkSize = 100;
+            $chunks = array_chunk($texts, $chunkSize);
 
-            return html_entity_decode($result['text']);
+            $finalResults = [];
+
+            foreach ($chunks as $chunk) {
+                $results = $this->translator->translateBatch($chunk, [
+                    'source' => $source,
+                    'target' => $targetLang,
+                ]);
+
+                foreach ($results as $result) {
+                    $finalResults[] = html_entity_decode($result['text']);
+                }
+            }
+
+            return $finalResults;
+
         } catch (ServiceException $e) {
-            echo 'Caught exception: ', $e->getMessage(), "\n";
-            Log::error('Caught error: ' . $e->getMessage());
-            return array_fill(0, count($texts), null);
+            Log::error('Google Translate error: ' . $e->getMessage());
+
+            if (is_array($texts)) {
+                return array_fill(0, count($texts), null);
+            }
+
+            return null;
         }
     }
 
@@ -259,11 +279,11 @@ class AdminGenerateTranslations extends AuthController
             if ($targetLang == 'ca' || $sourceLang == 'ca' || $sourceLang === null) {
                 return null;
             }
-            $targetLangMap = [
+            $targetLangMap = config('editora-admin.target_lang_map_deepl', [
                 'us' => 'EN-US',
                 'en' => 'EN-GB',
                 'jp' => 'JA'
-            ];
+            ]);
             $targetLang = $targetLangMap[$targetLang] ?? $targetLang;
 
             if(is_array($texts)) {
