@@ -602,7 +602,7 @@ class Instances extends model
                                         and language = "'.$row_lan['language'].'";';
                                     parent::update_one($sql);
 
-                                    $this->updateFullNiceUrls($new_instance_id, $niceURL, $row_lan['language']);
+                                    $this->updateFullNiceUrls($new_instance_id);
                                 }
                                 break;
                             case "W":
@@ -740,31 +740,12 @@ class Instances extends model
         return $res;
     }
 
-    function updateFullNiceUrls($inst_id, $niceurl, $language){
+    function updateFullNiceUrls($inst_id){
         $sql = "SHOW COLUMNS FROM omp_niceurl LIKE 'parents';";
         $query_result = parent::get_data($sql);
         if ($query_result) {
-
-            $sql = "SELECT inst_id, language, niceurl FROM omp_niceurl";
-            $niceurls = parent::get_data($sql);
-
-            $niceurls = collect($niceurls)->groupBy('inst_id')->map(function ($group) {
-                return $group->keyBy('language')->toArray();
-            })->toArray();
-
-            $sql = "SELECT * FROM omp_niceurl WHERE (inst_id = " . str_replace("\"", "\\\"", str_replace("[\]", "", $inst_id)) . " AND language = '" . $language . "') OR (FIND_IN_SET(" . $inst_id . ", parents));";
-            $res = parent::get_data($sql);
-
             $re=new relations();
-
-            foreach ($res as $row) {
-                $full_niceurl = $re->getFullNiceUrl($niceurls, explode(',', $row['parents']), $row['inst_id'], $row['language']);
-                $sql = 'update omp_niceurl
-                set full_niceurl = '.$full_niceurl.'
-                where id = '.$row['id'].';';
-                parent::update_one($sql);
-            }
-
+            $re->updateNiceurlsForChildRelations($inst_id);
         }
     }
 
