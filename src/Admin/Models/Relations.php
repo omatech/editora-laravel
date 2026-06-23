@@ -12,11 +12,12 @@ class Relations extends Model
 		$p_parent_inst_id=$param_arr['param11'];
 		$p_child_inst_id=$param_arr['param13'];
 
+		// SECURITY (SQLi): parent_inst_id and rel_id are numeric ids -> (int) cast inline
 		$sql='select r.order_type, min(weight) weight
 		from omp_relations r
 		, omp_relation_instances ri
-		where ri.parent_inst_id='.str_replace("\"", "\\\"", str_replace("[\]","",$p_parent_inst_id)).'
-		and ri.rel_id='.str_replace("\"", "\\\"", str_replace("[\]","",$p_relation_id)).'
+		where ri.parent_inst_id='.((int) $p_parent_inst_id).'
+		and ri.rel_id='.((int) $p_relation_id).'
 		and ri.rel_id = r.id
 		group by r.order_type';
 
@@ -25,10 +26,11 @@ class Relations extends Model
 		if ($Row && $Row['weight']) $weight = ($Row['weight'])-10;
 		else $weight = 100000;
 
+		// SECURITY (SQLi): rel_id, parent_inst_id, child_inst_id and weight are numeric -> (int) cast inline
 		$sql='insert into omp_relation_instances
 		(rel_id, parent_inst_id, child_inst_id, weight, relation_date)
 		values
-		('.str_replace("\"", "\\\"", str_replace("[\]","",$p_relation_id)).','.str_replace("\"", "\\\"", str_replace("[\]","",$p_parent_inst_id)).', '.str_replace("\"", "\\\"", str_replace("[\]","",$p_child_inst_id)).', '.str_replace("\"", "\\\"", str_replace("[\]","",$weight)).', now())';
+		('.((int) $p_relation_id).','.((int) $p_parent_inst_id).', '.((int) $p_child_inst_id).', '.((int) $weight).', now())';
 
 		$new_relation_instance_id=parent::insert_one($sql);
 
@@ -45,15 +47,18 @@ class Relations extends Model
 	function deleteRelationInstance($param_arr) {
 		$p_relinst_id=$param_arr['param9'];
 
-		$sql = "select ri.rel_id, ri.parent_inst_id, ri.child_inst_id, ri.weight from omp_relation_instances ri where ri.id =".$p_relinst_id.";";
+		// SECURITY (SQLi): relinst_id is a numeric id -> (int) cast inline
+		$sql = "select ri.rel_id, ri.parent_inst_id, ri.child_inst_id, ri.weight from omp_relation_instances ri where ri.id =".((int) $p_relinst_id).";";
 		$ret=parent::get_one($sql);
 
         $this->updateNiceurlsForChildRelations($ret['child_inst_id'], true);
 
-		$sql = "delete from omp_relation_instances where id = ".str_replace("\"", "\\\"", str_replace("[\]","",$p_relinst_id)).";";
+		// SECURITY (SQLi): relinst_id is a numeric id -> (int) cast inline
+		$sql = "delete from omp_relation_instances where id = ".((int) $p_relinst_id).";";
 		parent::execute($sql);
 
-		$sql = "update omp_relation_instances set weight = (weight + 10) where rel_id = ".$ret['rel_id']." and parent_inst_id = ".$ret['parent_inst_id']." and weight < ".$ret['weight'].";";
+		// SECURITY (SQLi): rel_id, parent_inst_id and weight are numeric -> (int) cast inline
+		$sql = "update omp_relation_instances set weight = (weight + 10) where rel_id = ".((int) $ret['rel_id'])." and parent_inst_id = ".((int) $ret['parent_inst_id'])." and weight < ".((int) $ret['weight']).";";
 		parent::update_one($sql);
 
 		return true;

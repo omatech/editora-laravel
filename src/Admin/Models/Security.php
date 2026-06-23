@@ -98,7 +98,8 @@ class Security extends Model
     function getStatus($p_status, $p_class_id)
     {
         $p_rol_id=Session::get('rol_id');
-        $sql = "select status".$p_status." st from omp_roles_classes where class_id = :classId and rol_id = :rolId";
+        // SECURITY (SQLi): $p_status es un sufijo de NOMBRE DE COLUMNA (status1/2/3) -> forzar entero
+        $sql = "select status".((int) $p_status)." st from omp_roles_classes where class_id = :classId and rol_id = :rolId";
 
         $ret=$this->get_one($sql, ['classId' => $p_class_id, 'rolId' => $p_rol_id]);
         if (!$ret) {
@@ -122,6 +123,8 @@ class Security extends Model
         }
         $p_rol_id=Session::get('rol_id');
         
+        // SECURITY (SQLi): $p_camp_nom es un NOMBRE DE COLUMNA (no admite binding) -> solo identificador
+        $p_camp_nom = preg_replace('/[^a-zA-Z0-9_]/', '', (string) $p_camp_nom);
         $sql = "select ".$p_camp_nom." x_able from omp_roles_classes where class_id = :classId and rol_id = :rolId";
 
         $ret = $this->get_one($sql, ['classId' => $p_class_id, 'rolId' => $p_rol_id]);
@@ -140,22 +143,23 @@ class Security extends Model
 
     function getStatusAccess($param_arr)
     {
-        global $dbh;
         $p_inst_id=$param_arr['param2'];
         $p_rol_id=Session::get('rol_id');
 
+        // SECURITY (SQLi): replaced removed mysql_*() calls + raw concatenation with
+        // parameterized base-model query; ids bound as ints, no string interpolation.
         $sql = "select i.status st, rc.status1 st1, rc.status2 st2, rc.status3 st3
 		from omp_instances i, omp_roles_classes rc
-		where i.id = ".mysql_real_escape_string($p_inst_id)."
-		and rc.rol_id = ".mysql_real_escape_string($p_rol_id)."
-		and rc.class_id = i.class_id;";
+		where i.id = :inst_id
+		and rc.rol_id = :rol_id
+		and rc.class_id = i.class_id";
 
-        $ret = mysql_query($sql, $dbh);
+        $ret = $this->get_data($sql, ['inst_id' => (int) $p_inst_id, 'rol_id' => (int) $p_rol_id]);
         if (!$ret) {
             return 0;
         }
 
-        while ($row = mysql_fetch_array($ret, MYSQL_ASSOC)) {
+        foreach ($ret as $row) {
             if ($row['st']=="P" && $row['st1']=="Y") {
                 return 1;
             }
@@ -178,13 +182,15 @@ class Security extends Model
     function change_password($user_id, $password)
     {
         $hasher = new BcryptHasher();
+        // SECURITY (SQLi): replaced string-concatenated UPDATE with bound parameters
+        // (password/hashed_password as named binds, id cast to int).
+        $hashed = 0;
         if (defined('HASHED_PASSWORDS') && HASHED_PASSWORDS == 1) {
             $password = $hasher->make($password);
-            $sql = 'UPDATE omp_users SET password="'.$password.'" , hashed_password = 1 WHERE id="'.$user_id.'"';
-        } else {
-            $sql = 'UPDATE omp_users SET password="'.$password.'" , hashed_password = 0 WHERE id="'.$user_id.'"';
+            $hashed = 1;
         }
-        $ret = $this->update_one($sql);
+        $sql = 'UPDATE omp_users SET password=:password, hashed_password=:hp WHERE id=:id';
+        $ret = $this->update_one($sql, ['password' => $password, 'hp' => $hashed, 'id' => (int) $user_id]);
 
         if (!$ret) {
             return 0;
