@@ -51,9 +51,9 @@ class Model
         }
     }
 
-    protected function update_one($sql)
+    protected function update_one($sql, array $params = []) // SECURITY (SQLi): accept named bindings
     {
-        $ret = $this->db->update($sql);
+        $ret = $this->db->update($sql, $params);
 
         if (!$ret) {
             return false;
