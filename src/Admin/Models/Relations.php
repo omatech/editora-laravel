@@ -15,8 +15,8 @@ class Relations extends Model
 		$sql='select r.order_type, min(weight) weight
 		from omp_relations r
 		, omp_relation_instances ri
-		where ri.parent_inst_id='.str_replace("\"", "\\\"", str_replace("[\]","",$p_parent_inst_id)).'
-		and ri.rel_id='.str_replace("\"", "\\\"", str_replace("[\]","",$p_relation_id)).'
+		where ri.parent_inst_id='.((int) $p_parent_inst_id).'
+		and ri.rel_id='.((int) $p_relation_id).'
 		and ri.rel_id = r.id
 		group by r.order_type';
 
@@ -25,10 +25,11 @@ class Relations extends Model
 		if ($Row && $Row['weight']) $weight = ($Row['weight'])-10;
 		else $weight = 100000;
 
+		// SECURITY (SQLi): rel_id, parent_inst_id, child_inst_id and weight are numeric -> (int) cast inline
 		$sql='insert into omp_relation_instances
 		(rel_id, parent_inst_id, child_inst_id, weight, relation_date)
 		values
-		('.str_replace("\"", "\\\"", str_replace("[\]","",$p_relation_id)).','.str_replace("\"", "\\\"", str_replace("[\]","",$p_parent_inst_id)).', '.str_replace("\"", "\\\"", str_replace("[\]","",$p_child_inst_id)).', '.str_replace("\"", "\\\"", str_replace("[\]","",$weight)).', now())';
+		('.((int) $p_relation_id).','.((int) $p_parent_inst_id).', '.((int) $p_child_inst_id).', '.((int) $weight).', now())';
 		
 		$new_relation_instance_id=parent::insert_one($sql);
 		if ($new_relation_instance_id) return $new_relation_instance_id;
@@ -40,13 +41,14 @@ class Relations extends Model
 	function deleteRelationInstance($param_arr) {
 		$p_relinst_id=$param_arr['param9'];
 
-		$sql = "select ri.rel_id, ri.parent_inst_id, ri.weight from omp_relation_instances ri where ri.id =".$p_relinst_id.";";
+		$sql = "select ri.rel_id, ri.parent_inst_id, ri.weight from omp_relation_instances ri where ri.id =".((int) $p_relinst_id).";";
 		$ret=parent::get_one($sql);
 
-		$sql = "delete from omp_relation_instances where id = ".str_replace("\"", "\\\"", str_replace("[\]","",$p_relinst_id)).";";
+		$sql = "delete from omp_relation_instances where id = ".((int) $p_relinst_id).";";
 		parent::execute($sql);
 
-		$sql = "update omp_relation_instances set weight = (weight + 10) where rel_id = ".$ret['rel_id']." and parent_inst_id = ".$ret['parent_inst_id']." and weight < ".$ret['weight'].";";
+		// SECURITY (SQLi): rel_id, parent_inst_id and weight are numeric -> (int) cast inline
+		$sql = "update omp_relation_instances set weight = (weight + 10) where rel_id = ".((int) $ret['rel_id'])." and parent_inst_id = ".((int) $ret['parent_inst_id'])." and weight < ".((int) $ret['weight']).";";
 		parent::update_one($sql);
 
 		return true;
@@ -54,7 +56,7 @@ class Relations extends Model
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 	function relationShake($p_relinst_id, $delta) {
-		$sql='select weight, rel_id, parent_inst_id from omp_relation_instances where id='.str_replace("\"", "\\\"", str_replace("[\]","",$p_relinst_id));
+		$sql='select weight, rel_id, parent_inst_id from omp_relation_instances where id='.((int) $p_relinst_id);
 		$Row=parent::get_one($sql);
 
 		$pes_inicial = $Row['weight'];
@@ -63,25 +65,25 @@ class Relations extends Model
 
 		$pes_desti = $pes_inicial+$delta;
 
-		$sql='update omp_relation_instances set weight=-1 where id='.str_replace("\"", "\\\"", str_replace("[\]","",$p_relinst_id));
+		$sql='update omp_relation_instances set weight=-1 where id='.((int) $p_relinst_id);
 		parent::update_one($sql);
 
 		$sql='update omp_relation_instances set weight='.$pes_inicial.' 
-		where rel_id = '.str_replace("\"", "\\\"", str_replace("[\]","",$rel_id)).'
-		and parent_inst_id = '.str_replace("\"", "\\\"", str_replace("[\]","",$parent_inst_id)).'
-		and weight='.str_replace("\"", "\\\"", str_replace("[\]","",$pes_desti));
+		where rel_id = '.((int) $rel_id).'
+		and parent_inst_id = '.((int) $parent_inst_id).'
+		and weight='.((int) $pes_desti);
 		parent::update_one($sql);
 
 		$sql='update omp_relation_instances set weight='.$pes_desti.' 
-		where rel_id = '.str_replace("\"", "\\\"", str_replace("[\]","",$rel_id)).'
-		and parent_inst_id = '.str_replace("\"", "\\\"", str_replace("[\]","",$parent_inst_id)).'
+		where rel_id = '.((int) $rel_id).'
+		and parent_inst_id = '.((int) $parent_inst_id).'
 		and weight=-1';
 		parent::update_one($sql);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 	function relationShakeTop($p_relinst_id, $delta) {
-		$sql='select weight, rel_id, parent_inst_id from omp_relation_instances where id='.str_replace("\"", "\\\"", str_replace("[\]","",$p_relinst_id));
+		$sql='select weight, rel_id, parent_inst_id from omp_relation_instances where id='.((int) $p_relinst_id);
 		$Row=parent::get_one($sql);
 
 		$pes_inicial = $Row['weight'];
@@ -90,36 +92,36 @@ class Relations extends Model
 
 		$pes_desti = $pes_inicial+$delta;
 
-		$sql='select max(weight) as max, min(weight) as min from omp_relation_instances where rel_id = '.str_replace("\"", "\\\"", str_replace("[\]","",$rel_id)).'
-		and parent_inst_id = '.str_replace("\"", "\\\"", str_replace("[\]","",$parent_inst_id));
+		$sql='select max(weight) as max, min(weight) as min from omp_relation_instances where rel_id = '.((int) $rel_id).'
+		and parent_inst_id = '.((int) $parent_inst_id);
 		$Row=parent::get_one($sql);
 		$max=$Row['max'];
 		$min=$Row['min'];
 
-		$sql='update omp_relation_instances set weight=-1 where id='.str_replace("\"", "\\\"", str_replace("[\]","",$p_relinst_id));
+		$sql='update omp_relation_instances set weight=-1 where id='.((int) $p_relinst_id);
 		parent::update_one($sql);
 
 		if($delta>0) {
 			$new_delta=$min;
 			$sql='update omp_relation_instances set weight=(weight+'.$delta.') 
-			where rel_id = '.str_replace("\"", "\\\"", str_replace("[\]","",$rel_id)).'
-			and parent_inst_id = '.str_replace("\"", "\\\"", str_replace("[\]","",$parent_inst_id)).'
-			and weight<'.str_replace("\"", "\\\"", str_replace("[\]","",$pes_inicial)).' 
+			where rel_id = '.((int) $rel_id).'
+			and parent_inst_id = '.((int) $parent_inst_id).'
+			and weight<'.((int) $pes_inicial).' 
 			and weight!=-1';
 		}
 		else {
 			$new_delta=$max;
 			$sql='update omp_relation_instances set weight=(weight-'.abs($delta).') 
-			where rel_id = '.str_replace("\"", "\\\"", str_replace("[\]","",$rel_id)).'
-			and parent_inst_id = '.str_replace("\"", "\\\"", str_replace("[\]","",$parent_inst_id)).'
-			and weight>'.str_replace("\"", "\\\"", str_replace("[\]","",$pes_inicial)).' 
+			where rel_id = '.((int) $rel_id).'
+			and parent_inst_id = '.((int) $parent_inst_id).'
+			and weight>'.((int) $pes_inicial).' 
 			and weight!=-1';
 		}
 		parent::update_one($sql);
 
 		$sql='update omp_relation_instances set weight='.$new_delta.' 
-		where rel_id = '.str_replace("\"", "\\\"", str_replace("[\]","",$rel_id)).'
-		and parent_inst_id = '.str_replace("\"", "\\\"", str_replace("[\]","",$parent_inst_id)).'
+		where rel_id = '.((int) $rel_id).'
+		and parent_inst_id = '.((int) $parent_inst_id).'
 		and weight=-1';
 		parent::update_one($sql);
 	}
