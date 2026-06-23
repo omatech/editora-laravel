@@ -51,9 +51,10 @@ class Model
         }
     }
 
-    protected function update_one($sql)
+    protected function update_one($sql, array $params = [])
     {
-        $ret = $this->db->update($sql);
+        // SECURITY (SQLi): accept bindings so UPDATE queries can be parameterized (backward-compatible; existing callers pass no params)
+        $ret = $this->db->update($sql, $params);
 
         if (!$ret) {
             return false;
