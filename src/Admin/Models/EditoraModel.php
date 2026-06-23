@@ -9,13 +9,15 @@ class EditoraModel extends model{
 
     function get_autocomplete($lang, $class_id, $term) {
 
+        // SECURITY (SQLi): sanitize language column-name suffix, cast numeric id, bind free-text term
+        $lang = preg_replace('/[^a-zA-Z]/', '', (string) $lang);
         $sql = "select i.id, c.name_".$lang." as className, i.key_fields label, i.status
 		from omp_instances i, omp_classes c
 		where i.class_id = c.id
-		and class_id in (".$class_id.")
-		and key_fields like '%".$term."%'";
+		and class_id in (".((int) $class_id).")
+		and key_fields like :term";
 
-        $ret = parent::get_data($sql);
+        $ret = parent::get_data($sql, ['term' => '%'.$term.'%']);
         if(!$ret){
             return null;
         }else{
@@ -26,9 +28,11 @@ class EditoraModel extends model{
 
     function get_class_info($class_id) {
 
-        $sql = "select c.id, c.name_".Session::get('u_lang') ." as class_name, c.name as class_internal_name
+        // SECURITY (SQLi): sanitize language column-name suffix, cast numeric id
+        $lg = preg_replace('/[^a-zA-Z]/', '', (string) Session::get('u_lang'));
+        $sql = "select c.id, c.name_".$lg ." as class_name, c.name as class_internal_name
 		from omp_classes c
-		where id = ".$class_id.";";
+		where id = ".((int) $class_id).";";
 
         $ret = parent::get_data($sql);
         if(!$ret){
@@ -43,7 +47,7 @@ class EditoraModel extends model{
 
         $sql = "select id, username, complete_name
 		from omp_users
-		where id = ".$user_id.";";
+		where id = ".((int) $user_id).";"; // SECURITY (SQLi): cast numeric id
 
         $ret = parent::get_data($sql);
         if(!$ret){
@@ -56,9 +60,10 @@ class EditoraModel extends model{
 
     function exist_username($user_id, $username) {
 
-        $sql = 'select id from omp_users where username = "'.$username.'" and id != "'.$user_id.'";';
+        // SECURITY (SQLi): bind free-text username, cast numeric id
+        $sql = 'select id from omp_users where username = :username and id != '.((int) $user_id).';';
 
-        $ret = parent::get_data($sql);
+        $ret = parent::get_data($sql, ['username' => $username]);
         if(!$ret){
             return false;
         }else{
@@ -69,9 +74,10 @@ class EditoraModel extends model{
 
     function update_user_info($user_id, $username, $complete_name) {
 
-        $sql = 'UPDATE omp_users set username ="'.$username.'", complete_name ="'.$complete_name.'" where id = '.$user_id.' ';
+        // SECURITY (SQLi): bind free-text values, cast numeric id
+        $sql = 'UPDATE omp_users set username = :username, complete_name = :complete_name where id = '.((int) $user_id).' ';
 
-        $ret = parent::update_one($sql);
+        $ret = parent::update_one($sql, ['username' => $username, 'complete_name' => $complete_name]);
 
         if(!$ret){
             return false;
@@ -89,10 +95,11 @@ class EditoraModel extends model{
         $password = Str::random(8);
         $hashed_password = bcrypt($password);
 
-        $sql = 'INSERT into omp_users (username, complete_name, rol_id, password, language, tipus, hashed_password) 
-                VALUES ("'.$username.'", "'.$complete_name.'", "'.$rol_id.'", "'.$hashed_password.'", "'.$language.'", "'.$tipus.'", 1)';
+        // SECURITY (SQLi): bind free-text values, cast numeric id
+        $sql = 'INSERT into omp_users (username, complete_name, rol_id, password, language, tipus, hashed_password)
+                VALUES (:username, :complete_name, "'.((int) $rol_id).'", :hashed_password, :language, :tipus, 1)';
 
-        $ret = parent::update_one($sql);
+        $ret = parent::update_one($sql, ['username' => $username, 'complete_name' => $complete_name, 'hashed_password' => $hashed_password, 'language' => $language, 'tipus' => $tipus]);
 
         if(!$ret){
             return false;
@@ -103,14 +110,15 @@ class EditoraModel extends model{
     }
 
     function getListImage($inst_id, $atri_name) {
+        // SECURITY (SQLi): cast numeric id, bind free-text tag
         $sql="select text_val
             from omp_values v, omp_attributes a
             where v.atri_id = a.id
-            and v.inst_id=".$inst_id."
-            and a.tag='".$atri_name."'
+            and v.inst_id=".((int) $inst_id)."
+            and a.tag=:atri_name
             limit 1;";
 
-        $ret = parent::get_one($sql);
+        $ret = parent::get_one($sql, ['atri_name' => $atri_name]);
         if(!$ret) {
             return '';
         }
@@ -118,7 +126,8 @@ class EditoraModel extends model{
     }
 
     function getInstanceImage($inst_id) {
-        $sql="select text_val as image from omp_values where inst_id = ".$inst_id." and img_info is not null limit 1;";
+        // SECURITY (SQLi): cast numeric id
+        $sql="select text_val as image from omp_values where inst_id = ".((int) $inst_id)." and img_info is not null limit 1;";
 
         $ret = parent::get_one($sql);
         if(!$ret) {

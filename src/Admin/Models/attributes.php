@@ -8,7 +8,8 @@ class attributes extends Model
 {
 	public function getImageAttributes($p_class_id)
 	{
-		$lg = Session::get('u_lang');
+		// SECURITY (SQLi): sanitize language column-name suffix
+		$lg = preg_replace('/[^a-zA-Z]/', '', (string) Session::get('u_lang'));
 
 		$sql = "SELECT a.id id
 		, a.name name
@@ -45,12 +46,12 @@ class attributes extends Model
 		, omp_class_attributes ca
 		, omp_classes c
 		, omp_tabs t
-		WHERE c.id=" . $p_class_id . "
+		WHERE c.id=" . ((int) $p_class_id) . "
 		and c.id = ca.class_id
 		and ca.atri_id = a.id
 		and a.type='I'
 		and ca.tab_id=t.id
-		order by ca.tab_id, ca.fila, ca.columna";
+		order by ca.tab_id, ca.fila, ca.columna"; // SECURITY (SQLi): cast numeric id
 
 		$ret = parent::get_data($sql);
 		if (!$ret) return array();
@@ -59,11 +60,13 @@ class attributes extends Model
 
 	private function getClassTabs($p_class_id)
 	{
-		$lg = Session::get('u_lang');
+		// SECURITY (SQLi): sanitize language column-name suffix
+		$lg = preg_replace('/[^a-zA-Z]/', '', (string) Session::get('u_lang'));
 
+		// SECURITY (SQLi): cast numeric id
 		$sql = "SELECT ca.tab_id id, t.name name, t.name_" . $lg . " caption
 		FROM omp_class_attributes ca left outer join omp_tabs t on ca.tab_id = t.id
-		WHERE ca.class_id=" . $p_class_id . " group by ca.tab_id, t.name, t.name_" . $lg . " order by t.ordering";
+		WHERE ca.class_id=" . ((int) $p_class_id) . " group by ca.tab_id, t.name, t.name_" . $lg . " order by t.ordering";
 
 		$ret = $this->get_data($sql);
 		if (!$ret) return array();
@@ -73,7 +76,10 @@ class attributes extends Model
 
 	private function getClassAttributes($p_class_id, $tab_id)
 	{
-		$lg = Session::get('u_lang');
+		// SECURITY (SQLi): sanitize language column-name suffix, cast numeric ids
+		$lg = preg_replace('/[^a-zA-Z]/', '', (string) Session::get('u_lang'));
+		$p_class_id = (int) $p_class_id;
+		$tab_id = (int) $tab_id;
 
 		$sql = "SELECT a.id id
 		, a.name name
@@ -175,8 +181,8 @@ class attributes extends Model
         , img_info
         , json_val
 		from omp_values v
-		where v.inst_id = " . $p_inst_id . "
-		and v.atri_id = " . $p_atri_id;
+		where v.inst_id = " . ((int) $p_inst_id) . "
+		and v.atri_id = " . ((int) $p_atri_id); // SECURITY (SQLi): cast numeric ids
 
 		$ret = parent::get_data($sql);
 		if (!$ret) return array();
@@ -271,7 +277,8 @@ class attributes extends Model
 		$lu_selec = array();
 		$lu_values = array();
 
-		$sql_info = "select * from omp_lookups l where l.id=" . $p_row['lookup_id'];
+		// SECURITY (SQLi): cast numeric lookup id
+		$sql_info = "select * from omp_lookups l where l.id=" . ((int) $p_row['lookup_id']);
 		$ret = parent::get_one($sql_info);
 
 		$lu_values['info'] = $ret;
@@ -283,9 +290,9 @@ class attributes extends Model
 			, v.num_val num_val
 			, a.description description
 			from omp_values v, omp_attributes a
-			where v.inst_id = " . $p_inst_id . "
-			and v.atri_id = " . $p_row['id'] . "
-			and a.id=v.atri_id";
+			where v.inst_id = " . ((int) $p_inst_id) . "
+			and v.atri_id = " . ((int) $p_row['id']) . "
+			and a.id=v.atri_id"; // SECURITY (SQLi): cast numeric ids
 
 			$ret = parent::get_data($sql);
 
@@ -300,8 +307,10 @@ class attributes extends Model
 		}
 
 		if ($p_mode != 'V') { // Mode insert o update
-			$lg = Session::get('u_lang');
+			// SECURITY (SQLi): sanitize language column-name suffix
+			$lg = preg_replace('/[^a-zA-Z]/', '', (string) Session::get('u_lang'));
 
+			// SECURITY (SQLi): cast numeric lookup id
 			$sql = "select l.id lookup_id
 			,l.default_id default_id
 			,l.name name
@@ -309,7 +318,7 @@ class attributes extends Model
 			,lv.id lookup_value_id
 			,lv.caption_" . $lg . " label
 			from omp_lookups l, omp_lookups_values lv
-			where l.id = " . str_replace("\"", "\\\"", str_replace("[\]", "", $p_row['lookup_id'])) . "
+			where l.id = " . ((int) $p_row['lookup_id']) . "
 			and l.id=lv.lookup_id
 			order by lv.ordre";
 
@@ -323,14 +332,17 @@ class attributes extends Model
 
 	private function getLookupValue($p_lookup_id, $p_lookup_value_id)
 	{
-		$lg = Session::get('u_lang');
+		// SECURITY (SQLi): sanitize language column-name suffix
+		$lg = preg_replace('/[^a-zA-Z]/', '', (string) Session::get('u_lang'));
 		$sql_add = "";
 
-		if ($p_lookup_value_id) $sql_add = " and lv.id=" . $p_lookup_value_id;
+		// SECURITY (SQLi): cast numeric id
+		if ($p_lookup_value_id) $sql_add = " and lv.id=" . ((int) $p_lookup_value_id);
 
+		// SECURITY (SQLi): cast numeric lookup id
 		$sql = "select lv.id, caption_" . $lg . " label
 		from omp_lookups l, omp_lookups_values lv
-		where l.id = " . str_replace("\"", "\\\"", str_replace("[\]", "", $p_lookup_id)) . "
+		where l.id = " . ((int) $p_lookup_id) . "
 		and l.id = lv.lookup_id";
 		$sql .= $sql_add;
 		$sql .= " order by lv.ordre";
@@ -345,7 +357,8 @@ class attributes extends Model
 	{
 		$rel_inst = array();
 
-		$sql = "select * from omp_relations where id=" . $p_relation_id;
+		// SECURITY (SQLi): cast numeric id
+		$sql = "select * from omp_relations where id=" . ((int) $p_relation_id);
 		$ret = parent::get_one($sql);
 		if (!$ret) $order_type = 'M';
 		else $order_type = $ret['order_type'];
@@ -362,19 +375,19 @@ class attributes extends Model
 		, i.status
 		, i.class_id child_class_id
 		, r.parent_class_id parent_class_id
-		, c.name_" . Session::get('u_lang') . " class_realname
+		, c.name_" . preg_replace('/[^a-zA-Z]/', '', (string) Session::get('u_lang')) . " class_realname
         , date_format(i.publishing_begins, '" . STANDARD_DATE_FORMAT . "') publishing_begins
         , date_format(i.publishing_ends, '" . STANDARD_DATE_FORMAT . "') publishing_ends
 		from omp_instances i
 		, omp_relations r
 		, omp_relation_instances ri
 		, omp_classes c
-		where ri.rel_id = " . $p_relation_id . "
-		and ri.parent_inst_id = " . $p_parent_inst_id . "
+		where ri.rel_id = " . ((int) $p_relation_id) . "
+		and ri.parent_inst_id = " . ((int) $p_parent_inst_id) . "
 		and ri.rel_id = r.id
 		and ri.child_inst_id = i.id
 		and i.class_id = c.id
-		" . $order_chunk . " LIMIT " . $num;
+		" . $order_chunk . " LIMIT " . ((int) $num); // SECURITY (SQLi): cast numeric ids and LIMIT
 
 		$ret = parent::get_data($sql);
 
@@ -387,11 +400,13 @@ class attributes extends Model
 
 	private function niceurlFromAtri($atri_id, $inst_id)
 	{
-		$sql = "select language from omp_attributes where id=" . $atri_id;
+		// SECURITY (SQLi): cast numeric id
+		$sql = "select language from omp_attributes where id=" . ((int) $atri_id);
 		$ret = parent::get_one($sql);
 		if (!$ret) return '';
 
-		$sql = "select niceurl from omp_niceurl where inst_id=" . $inst_id . " and language='" . $ret['language'] . "'";
+		// SECURITY (SQLi): cast numeric id
+		$sql = "select niceurl from omp_niceurl where inst_id=" . ((int) $inst_id) . " and language='" . $ret['language'] . "'";
 		$ret = parent::get_one($sql);
 		if (!$ret) return '';
 

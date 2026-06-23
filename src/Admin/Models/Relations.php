@@ -12,11 +12,12 @@ class Relations extends Model
 		$p_parent_inst_id=$param_arr['param11'];
 		$p_child_inst_id=$param_arr['param13'];
 		
+		// SECURITY (SQLi): cast numeric ids
 		$sql='select r.order_type, min(weight) weight
 		from omp_relations r
 		, omp_relation_instances ri
-		where ri.parent_inst_id='.str_replace("\"", "\\\"", str_replace("[\]","",$p_parent_inst_id)).'
-		and ri.rel_id='.str_replace("\"", "\\\"", str_replace("[\]","",$p_relation_id)).'
+		where ri.parent_inst_id='.((int) $p_parent_inst_id).'
+		and ri.rel_id='.((int) $p_relation_id).'
 		and ri.rel_id = r.id
 		group by r.order_type';
 
@@ -25,10 +26,11 @@ class Relations extends Model
 		if ($Row && $Row['weight']) $weight = ($Row['weight'])-10;
 		else $weight = 100000;
 
+		// SECURITY (SQLi): cast numeric ids
 		$sql='insert into omp_relation_instances
 		(rel_id, parent_inst_id, child_inst_id, weight, relation_date)
 		values
-		('.str_replace("\"", "\\\"", str_replace("[\]","",$p_relation_id)).','.str_replace("\"", "\\\"", str_replace("[\]","",$p_parent_inst_id)).', '.str_replace("\"", "\\\"", str_replace("[\]","",$p_child_inst_id)).', '.str_replace("\"", "\\\"", str_replace("[\]","",$weight)).', now())';
+		('.((int) $p_relation_id).','.((int) $p_parent_inst_id).', '.((int) $p_child_inst_id).', '.((int) $weight).', now())';
 		
 		$new_relation_instance_id=parent::insert_one($sql);
 		if ($new_relation_instance_id) return $new_relation_instance_id;
@@ -40,10 +42,12 @@ class Relations extends Model
 	function deleteRelationInstance($param_arr) {
 		$p_relinst_id=$param_arr['param9'];
 
-		$sql = "select ri.rel_id, ri.parent_inst_id, ri.weight from omp_relation_instances ri where ri.id =".$p_relinst_id.";";
+		// SECURITY (SQLi): cast numeric id
+		$sql = "select ri.rel_id, ri.parent_inst_id, ri.weight from omp_relation_instances ri where ri.id =".((int) $p_relinst_id).";";
 		$ret=parent::get_one($sql);
 
-		$sql = "delete from omp_relation_instances where id = ".str_replace("\"", "\\\"", str_replace("[\]","",$p_relinst_id)).";";
+		// SECURITY (SQLi): cast numeric id
+		$sql = "delete from omp_relation_instances where id = ".((int) $p_relinst_id).";";
 		parent::execute($sql);
 
 		$sql = "update omp_relation_instances set weight = (weight + 10) where rel_id = ".$ret['rel_id']." and parent_inst_id = ".$ret['parent_inst_id']." and weight < ".$ret['weight'].";";
@@ -54,7 +58,8 @@ class Relations extends Model
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 	function relationShake($p_relinst_id, $delta) {
-		$sql='select weight, rel_id, parent_inst_id from omp_relation_instances where id='.str_replace("\"", "\\\"", str_replace("[\]","",$p_relinst_id));
+		// SECURITY (SQLi): cast numeric id
+		$sql='select weight, rel_id, parent_inst_id from omp_relation_instances where id='.((int) $p_relinst_id);
 		$Row=parent::get_one($sql);
 
 		$pes_inicial = $Row['weight'];
@@ -63,7 +68,8 @@ class Relations extends Model
 
 		$pes_desti = $pes_inicial+$delta;
 
-		$sql='update omp_relation_instances set weight=-1 where id='.str_replace("\"", "\\\"", str_replace("[\]","",$p_relinst_id));
+		// SECURITY (SQLi): cast numeric id
+		$sql='update omp_relation_instances set weight=-1 where id='.((int) $p_relinst_id);
 		parent::update_one($sql);
 
 		$sql='update omp_relation_instances set weight='.$pes_inicial.' 
@@ -81,7 +87,8 @@ class Relations extends Model
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 	function relationShakeTop($p_relinst_id, $delta) {
-		$sql='select weight, rel_id, parent_inst_id from omp_relation_instances where id='.str_replace("\"", "\\\"", str_replace("[\]","",$p_relinst_id));
+		// SECURITY (SQLi): cast numeric id
+		$sql='select weight, rel_id, parent_inst_id from omp_relation_instances where id='.((int) $p_relinst_id);
 		$Row=parent::get_one($sql);
 
 		$pes_inicial = $Row['weight'];
@@ -96,7 +103,8 @@ class Relations extends Model
 		$max=$Row['max'];
 		$min=$Row['min'];
 
-		$sql='update omp_relation_instances set weight=-1 where id='.str_replace("\"", "\\\"", str_replace("[\]","",$p_relinst_id));
+		// SECURITY (SQLi): cast numeric id
+		$sql='update omp_relation_instances set weight=-1 where id='.((int) $p_relinst_id);
 		parent::update_one($sql);
 
 		if($delta>0) {
@@ -154,7 +162,8 @@ class Relations extends Model
 		$childs = array_reverse($childs);
 		
 		foreach($childs as $child) {
-			$sql='UPDATE omp_relation_instances SET weight='.$weight.' where parent_inst_id = '.$parent.' AND child_inst_id = '.$child.';';
+			// SECURITY (SQLi): cast numeric ids
+			$sql='UPDATE omp_relation_instances SET weight='.((int) $weight).' where parent_inst_id = '.((int) $parent).' AND child_inst_id = '.((int) $child).';';
 			parent::update_one($sql);
 			$weight-=10;
 		}

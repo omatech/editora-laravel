@@ -5,15 +5,16 @@ use Illuminate\Support\Facades\Session;
 
 class Instances extends model
 {
-    private function generaQuery($p_search_query, $p_class_id, $p_fecha_ini, $p_fecha_fin, $p_search_state, $p_parent_inst_id, &$sql_add, &$from_add, $p_mode, $p_relation_id = '')
+    private function generaQuery($p_search_query, $p_class_id, $p_fecha_ini, $p_fecha_fin, $p_search_state, $p_parent_inst_id, &$sql_add, &$from_add, $p_mode, $p_relation_id = '', &$params = [])
     {
         if ($p_class_id) { // TODO: Aki s'hauria de mirar a kines classes pot accedir el menda
-            $p_class_id = str_replace("\"", "\\\"", str_replace("[\]", "", $p_class_id));
-            $sql_add.=' and i.class_id='.$p_class_id.' ';
+            // SECURITY (SQLi): cast numeric id
+            $sql_add.=' and i.class_id='.((int) $p_class_id).' ';
         }
 
         if ($p_class_id==0 && $p_mode=='R') {
-            $sql="select multiple_child_class_id as mcci from omp_relations r where id = ".$p_relation_id;
+            // SECURITY (SQLi): cast numeric id
+            $sql="select multiple_child_class_id as mcci from omp_relations r where id = ".((int) $p_relation_id);
             $Row = parent::get_one($sql);
             $sql_add.='and i.class_id in ('.$Row['mcci'].')';
         }
@@ -27,12 +28,16 @@ class Instances extends model
         }
 
         if ($p_search_state) {
-            $sql_add.=' and i.status = "'.$p_search_state.'"';
+            // SECURITY (SQLi): bind free-text search state
+            $sql_add.=' and i.status = :search_state';
+            $params['search_state'] = $p_search_state;
         }
 
         if ($p_search_query) {
-            $p_search_query = str_replace("\"", "\\\"", str_replace("[\]", "", $p_search_query));
-            $sql_add.=' and (v.text_val LIKE "%'.$p_search_query.'%" or v.inst_id = "'.$p_search_query.'") and v.inst_id = i.id';
+            // SECURITY (SQLi): bind free-text search query
+            $sql_add.=' and (v.text_val LIKE :search_query_like or v.inst_id = :search_query) and v.inst_id = i.id';
+            $params['search_query_like'] = '%'.$p_search_query.'%';
+            $params['search_query'] = $p_search_query;
             $from_add=', omp_values v ';
         }
     }
@@ -53,18 +58,21 @@ class Instances extends model
         $p_parent_inst_id    = $param_arr['param10'];
         $p_relation_id     = $param_arr['param9'];
 
-        $this->generaQuery($p_search_query, $p_class_id, $p_fecha_ini, $p_fecha_fin, $p_search_state, $p_parent_inst_id, $sql_add, $from_add, $p_mode, $p_relation_id);
+        $params = [];
+        $this->generaQuery($p_search_query, $p_class_id, $p_fecha_ini, $p_fecha_fin, $p_search_state, $p_parent_inst_id, $sql_add, $from_add, $p_mode, $p_relation_id, $params);
 
         $first_row=0;
         if ($p_pagina) {
             $first_row=($p_pagina-1)*ROWS_PER_PAGE;
         }
 
+        // SECURITY (SQLi): sanitize language column-name suffix
+        $u_lang = preg_replace('/[^a-zA-Z]/', '', (string) Session::get('u_lang'));
         $sql="select i.id id
 		, i.key_fields key_fields
 		, i.status status
 		, c.name class_name
-		, c.name_".Session::get('u_lang') ." class_realname
+		, c.name_".$u_lang ." class_realname
 		, date_format(i.publishing_begins, '".STANDARD_DATE_FORMAT."') publishing_begins
 		, publishing_begins pb_ordre
 		, date_format(i.publishing_ends, '".STANDARD_DATE_FORMAT."') publishing_ends
@@ -79,17 +87,18 @@ class Instances extends model
 		, omp_roles_classes rc
 		where i.class_id = c.id ";
         if ($p_mode=='R') {
-            $sql.=" and i.id!=".$p_parent_inst_id." ";
+            // SECURITY (SQLi): cast numeric id
+            $sql.=" and i.id!=".((int) $p_parent_inst_id)." ";
         }
         $sql.=$sql_add."
 		and rc.class_id = i.class_id
-		and rol_id=".Session::get('rol_id')."
+		and rol_id=".((int) Session::get('rol_id'))."
 		and browseable='Y'
 		group by i.id
 		, i.key_fields
 		, i.status
 		, c.name
-		, c.name_".Session::get('u_lang') ."
+		, c.name_".$u_lang ."
 		, i.publishing_begins
 		, publishing_begins
 		, i.publishing_ends
@@ -100,14 +109,18 @@ class Instances extends model
 		, rc.deleteable ";
 
         if ($p_order_by!='' && $p_order_by!=DEFAULT_NULL_STR) {
+            // SECURITY (SQLi): validate ORDER BY column and direction built from a variable
             $explode_order=explode('--', $p_order_by);
-            $sql.=" order by ".$explode_order[0]." ".$explode_order[1];
+            $order_col = (isset($explode_order[0]) && preg_match('/^[A-Za-z0-9_.]+$/', $explode_order[0])) ? $explode_order[0] : 'i.update_date';
+            $order_dir = (isset($explode_order[1]) && strtolower($explode_order[1])==='asc') ? 'asc' : 'desc';
+            $sql.=" order by ".$order_col." ".$order_dir;
         } else {
             $sql.=" order by i.update_date desc";
         }
-        $sql.=" limit $first_row,".ROWS_PER_PAGE;
+        // SECURITY (SQLi): cast numeric LIMIT offset
+        $sql.=" limit ".((int) $first_row).",".ROWS_PER_PAGE;
 
-        return $this->get_data($sql) ?: [];
+        return $this->get_data($sql, $params) ?: [];
     }
 
     function getInstInfo($p_inst_id = null)
@@ -121,7 +134,7 @@ class Instances extends model
 		, i.creation_date creation_date, c.name class_name, c.id class_id, i.external_id, i.batch_id
 		from omp_classes c, omp_instances i
 		where i.class_id = c.id
-		and i.id = " . $p_inst_id . "  ";
+		and i.id = " . ((int) $p_inst_id) . "  "; // SECURITY (SQLi): cast numeric id
         $ret = $this->get_one($sql);
         if (!$ret) {
             return array();
@@ -144,7 +157,8 @@ class Instances extends model
         $p_parent_inst_id = $param_arr['param10'];
         $p_relation_id = $param_arr['param9'];
 
-        $this->generaQuery($p_search_query, $p_class_id, $p_fecha_ini, $p_fecha_fin, $p_search_state, $p_parent_inst_id, $sql_add, $from_add, $p_mode, $p_relation_id);
+        $params = [];
+        $this->generaQuery($p_search_query, $p_class_id, $p_fecha_ini, $p_fecha_fin, $p_search_state, $p_parent_inst_id, $sql_add, $from_add, $p_mode, $p_relation_id, $params);
 
         $sql_count = "select count(distinct i.id) as conta
 		from omp_instances i
@@ -153,14 +167,15 @@ class Instances extends model
 		, omp_roles_classes rc
 		where i.class_id = c.id ";
         if ($p_mode == 'R') {
-            $sql_count .= " and i.id!=" . $p_parent_inst_id . " ";
+            // SECURITY (SQLi): cast numeric id
+            $sql_count .= " and i.id!=" . ((int) $p_parent_inst_id) . " ";
         }
         $sql_count .= $sql_add . "
 		and rc.class_id = i.class_id
-		and rol_id=" . Session::get('rol_id') . "
+		and rol_id=" . ((int) Session::get('rol_id')) . "
 		and browseable='Y'";
 
-        $ret = parent::get_one($sql_count);
+        $ret = parent::get_one($sql_count, $params);
         if (!$ret) {
             return 0;
         }
@@ -180,15 +195,17 @@ class Instances extends model
 
     function getUserBoxInstances($p_user_id, $p_tipo, $order, $limit)
     {
+        // SECURITY (SQLi): cast numeric id, force order direction, cast LIMIT
+        $order = strtolower($order)==='asc' ? 'asc' : 'desc';
         $sql = "select i.id, i.status, i.class_id, i.key_fields, max(ui.fecha) fecha
 		from omp_instances i
 		, omp_user_instances ui
-		where ui.user_id = " . $p_user_id . "
+		where ui.user_id = " . ((int) $p_user_id) . "
 		and ui.tipo_acceso='" . $p_tipo . "'
 		and ui.inst_id = i.id
 		group by i.id, i.status, i.class_id, i.key_fields
 		order by fecha " . $order . "
-		limit " . $limit;
+		limit " . ((int) $limit);
 
         $ret = parent::get_data($sql);
         if (!$ret) {
@@ -207,11 +224,13 @@ class Instances extends model
     {
         $p_inst_id = $param_arr['param2'];
 
+        // SECURITY (SQLi): sanitize language column-name suffix, cast numeric id
+        $u_lang = preg_replace('/[^a-zA-Z]/', '', (string) Session::get('u_lang'));
         $sql = "select i.id id
 		, i.key_fields key_fields
 		, i.status status
 		, c.name class_name
-		, c.name_" . Session::get('u_lang') . " class_realname
+		, c.name_" . $u_lang . " class_realname
 		, date_format(i.publishing_begins, '" . STANDARD_DATE_FORMAT . "') publishing_begins
 		, date_format(i.publishing_ends, '" . STANDARD_DATE_FORMAT . "') publishing_ends
 		, date_format(i.creation_date, '" . STANDARD_DATE_FORMAT . "') creation_date
@@ -219,7 +238,7 @@ class Instances extends model
 		, ri.id ri_id
 		, ri.rel_id ri_rel_id
 		from omp_classes c, omp_instances i, omp_relation_instances ri
-		where ri.child_inst_id = " . $p_inst_id . " and ri.parent_inst_id = i.id and i.class_id = c.id";
+		where ri.child_inst_id = " . ((int) $p_inst_id) . " and ri.parent_inst_id = i.id and i.class_id = c.id";
         if (count($actualitzats) > 0) {
             $sql .= " and ri.parent_inst_id not in (-1," . implode(",", $actualitzats) . ")";
         }
@@ -227,7 +246,7 @@ class Instances extends model
 		 , i.key_fields
 		, i.status
 		, c.name
-		, c.name_" . Session::get('u_lang') . "
+		, c.name_" . $u_lang . "
 		, i.publishing_begins
 		, i.publishing_ends
 		, i.creation_date
@@ -249,17 +268,19 @@ class Instances extends model
     {
         $p_inst_id = $param_arr['param2'];
 
+        // SECURITY (SQLi): sanitize language column-name suffix, cast numeric id
+        $u_lang = preg_replace('/[^a-zA-Z]/', '', (string) Session::get('u_lang'));
         $sql = "select i.id id
 		, i.key_fields key_fields
 		, i.status status
 		, c.name class_name
-		, c.name_" . Session::get('u_lang') . " class_realname
+		, c.name_" . $u_lang . " class_realname
 		, date_format(i.publishing_begins, '" . STANDARD_DATE_FORMAT . "') publishing_begins
 		, date_format(i.publishing_ends, '" . STANDARD_DATE_FORMAT . "') publishing_ends
 		, date_format(i.creation_date, '" . STANDARD_DATE_FORMAT . "') creation_date
 		, c.id class_id
 		from omp_classes c, omp_instances i, omp_relation_instances ri
-		where ri.child_inst_id = " . $p_inst_id . " and ri.parent_inst_id = i.id and i.class_id = c.id";
+		where ri.child_inst_id = " . ((int) $p_inst_id) . " and ri.parent_inst_id = i.id and i.class_id = c.id";
         if (count($actualitzats) > 0) {
             $sql .= " and ri.parent_inst_id not in (-1," . implode(",", $actualitzats) . ")";
         }
@@ -267,7 +288,7 @@ class Instances extends model
 		 , i.key_fields
 		, i.status
 		, c.name
-		, c.name_" . Session::get('u_lang') . "
+		, c.name_" . $u_lang . "
 		, i.publishing_begins
 		, i.publishing_ends
 		, i.creation_date
@@ -287,11 +308,13 @@ class Instances extends model
     {
         $p_inst_id = $param_arr['param2'];
 
+        // SECURITY (SQLi): sanitize language column-name suffix, cast numeric id
+        $u_lang = preg_replace('/[^a-zA-Z]/', '', (string) Session::get('u_lang'));
         $sql = "select i.id id
 		, i.key_fields key_fields
 		, i.status status
 		, c.name class_name
-		, c.name_" . Session::get('u_lang') . " class_realname
+		, c.name_" . $u_lang . " class_realname
 		, date_format(i.publishing_begins, '" . STANDARD_DATE_FORMAT . "') publishing_begins
 		, date_format(i.publishing_ends, '" . STANDARD_DATE_FORMAT . "') publishing_ends
 		, date_format(i.creation_date, '" . STANDARD_DATE_FORMAT . "') creation_date
@@ -299,7 +322,7 @@ class Instances extends model
 		, ri.id ri_id
 		, ri.rel_id ri_rel_id
 		from omp_classes c, omp_instances i, omp_relation_instances ri
-		where ri.parent_inst_id = " . $p_inst_id . " and ri.child_inst_id = i.id and i.class_id = c.id";
+		where ri.parent_inst_id = " . ((int) $p_inst_id) . " and ri.child_inst_id = i.id and i.class_id = c.id";
         if (count($actualitzats) > 0) {
             $sql .= " and ri.child_inst_id not in (-1," . implode(",", $actualitzats) . ")";
         }
@@ -307,7 +330,7 @@ class Instances extends model
 		, i.key_fields
 		, i.status
 		, c.name
-		, c.name_" . Session::get('u_lang') . "
+		, c.name_" . $u_lang . "
 		, i.publishing_begins
 		, i.publishing_ends
 		, i.creation_date
@@ -330,11 +353,13 @@ class Instances extends model
             $p_rel_id = $param_arr['relation_id'];
         }
 
+        // SECURITY (SQLi): sanitize language column-name suffix
+        $u_lang = preg_replace('/[^a-zA-Z]/', '', (string) Session::get('u_lang'));
         $sql = "select i.id id
 		, i.key_fields key_fields
 		, i.status status
 		, c.name class_name
-		, c.name_" . Session::get('u_lang') . " class_realname
+		, c.name_" . $u_lang . " class_realname
 		, date_format(i.publishing_begins, '" . STANDARD_DATE_FORMAT . "') publishing_begins
 		, date_format(i.publishing_ends, '" . STANDARD_DATE_FORMAT . "') publishing_ends
 		, date_format(i.creation_date, '" . STANDARD_DATE_FORMAT . "') creation_date
@@ -347,17 +372,19 @@ class Instances extends model
 			from omp_relation_instances ri
 			where 1=1";
         if (isset($param_arr['relation_id']) && $param_arr['relation_id'] > 0) {
-            $sql = " and ri.rel_id = " . $p_rel_id;
+            // SECURITY (SQLi): cast numeric id
+            $sql = " and ri.rel_id = " . ((int) $p_rel_id);
         }
 
-        $sql .= "	and ri.child_inst_id = " . $p_inst_id . " group by ri.id
+        // SECURITY (SQLi): cast numeric ids
+        $sql .= "	and ri.child_inst_id = " . ((int) $p_inst_id) . " group by ri.id
 		) rel_list
-		where rel_list.ri_relid = ri.rel_id and ri.child_inst_id = i.id and i.class_id = c.id and i.id <> " . $p_inst_id . "
+		where rel_list.ri_relid = ri.rel_id and ri.child_inst_id = i.id and i.class_id = c.id and i.id <> " . ((int) $p_inst_id) . "
 		group by i.id
 		, i.key_fields
 		, i.status
 		, c.name
-		, c.name_" . Session::get('u_lang') . "
+		, c.name_" . $u_lang . "
 		, i.publishing_begins
 		, i.publishing_ends
 		, i.creation_date
@@ -389,7 +416,8 @@ class Instances extends model
 
     private function LogAccessUser($p_user_id, $p_inst_id, $p_tipo)
     {
-        $sql = "insert into omp_user_instances (user_id, inst_id, tipo_acceso) values (" . $p_user_id . ", " . $p_inst_id . ", '" . $p_tipo . "');";
+        // SECURITY (SQLi): cast numeric ids
+        $sql = "insert into omp_user_instances (user_id, inst_id, tipo_acceso) values (" . ((int) $p_user_id) . ", " . ((int) $p_inst_id) . ", '" . $p_tipo . "');";
         $ret = parent::insert_one($sql);
         if (!$ret) {
             die("error:" . mysql_error());
@@ -398,7 +426,8 @@ class Instances extends model
 
     private function DeleteLogAccessUser($p_user_id, $p_inst_id, $p_tipo)
     {
-        $sql = "delete from omp_user_instances where user_id = " . $p_user_id . " and inst_id = " . $p_inst_id . " and tipo_acceso = '" . $p_tipo . "';";
+        // SECURITY (SQLi): cast numeric ids
+        $sql = "delete from omp_user_instances where user_id = " . ((int) $p_user_id) . " and inst_id = " . ((int) $p_inst_id) . " and tipo_acceso = '" . $p_tipo . "';";
         parent::execute($sql);
     }
 
@@ -524,14 +553,16 @@ class Instances extends model
             $inst_publishing_ends = '"'.date_to_mysql(str_replace("\"", "\\\"", str_replace("[\]", "", $inst_publishing_ends))).'"';
         }
         if ($p_inst_id) {
+            // SECURITY (SQLi): cast numeric id
             $sql = 'update omp_instances
 			set status="'.$inst_status.'" ,
 				publishing_begins='.$inst_publishing_begins.',
 				publishing_ends='.$inst_publishing_ends.'
-			where id='.$p_inst_id;
+			where id='.((int) $p_inst_id);
             parent::update_one($sql);
 
-            $sql = 'delete from omp_values where inst_id='.$p_inst_id;
+            // SECURITY (SQLi): cast numeric id
+            $sql = 'delete from omp_values where inst_id='.((int) $p_inst_id);
             parent::execute($sql);
             $new_instance_id = $p_inst_id;
         } else {
@@ -548,10 +579,14 @@ class Instances extends model
             } else {
                 $nou_id = USERINSTANCES;
             }
+            // SECURITY (SQLi): cast numeric ids
             $sql = 'insert into omp_instances (id, class_id, status, publishing_begins, publishing_ends, creation_date, external_id)
-			values ('.$nou_id.','.$p_id.',"'.$inst_status.'",'.$inst_publishing_begins.','.$inst_publishing_ends.',now(), "'.$external_id.'")';
+			values ('.((int) $nou_id).','.((int) $p_id).',"'.$inst_status.'",'.$inst_publishing_begins.','.$inst_publishing_ends.',now(), "'.$external_id.'")';
             $new_instance_id = parent::insert_one($sql);
         }
+
+        // SECURITY (SQLi): normalize numeric instance id used in interpolated queries below
+        $new_instance_id = (int) $new_instance_id;
 
         reset($_REQUEST);
 
@@ -567,7 +602,7 @@ class Instances extends model
                     $type = substr($flags, 1, 1);
                     // Ara busquem el id del atribut
                     $part = strtok('_');
-                    $atr_id = $part;
+                    $atr_id = (int) $part; // SECURITY (SQLi): cast numeric attribute id
                     // Ara busquem si l'atribut es clau
                     $part = strtok('_');
                     $key_order = $part;
@@ -612,7 +647,8 @@ class Instances extends model
                                 } elseif (strpos($valor, 'play.google')) {
                                     $appdata = $Appscrapper->loadgoogleplayData($valor);
                                 }
-                                $sql = 'insert into omp_values (inst_id, atri_id, text_val, date_val, num_val, img_info) values ('.$new_instance_id.', '.$atr_id.', \''.mysql_real_escape_string($appdata).'\',NULL,NULL,NULL);';
+                                // SECURITY (SQLi): mysql_real_escape_string removed on PHP 8 -> addslashes
+                                $sql = 'insert into omp_values (inst_id, atri_id, text_val, date_val, num_val, img_info) values ('.$new_instance_id.', '.$atr_id.', \''.addslashes($appdata).'\',NULL,NULL,NULL);';
                                 parent::insert_one($sql);
                                 break;
                             case "B":
@@ -684,7 +720,7 @@ class Instances extends model
                     $type = substr($flags, 1, 1);
                     // Ara busquem el id del atribut
                     $part = strtok('_');
-                    $atr_id = $part;
+                    $atr_id = (int) $part; // SECURITY (SQLi): cast numeric attribute id
                     // Ara busquem si l'atribut es clau
                     $part = strtok('_');
                     $key_order = $part;
@@ -803,7 +839,7 @@ class Instances extends model
 
     function deleteInstance($param_arr)
     {
-        $p_inst_id = $param_arr['param2'];
+        $p_inst_id = (int) $param_arr['param2']; // SECURITY (SQLi): cast numeric id
 
         $sql = "delete from omp_values where inst_id = " . str_replace("\"", "\\\"", str_replace("[\]", "", $p_inst_id)) . ";";
         parent::execute($sql);
@@ -836,7 +872,11 @@ class Instances extends model
     function checkDeleteInstanceArr($p_inst_arr)
     {
         $delete_array = array();
+        // SECURITY (SQLi): sanitize language column-name suffix
+        $u_lang = preg_replace('/[^a-zA-Z]/', '', (string) Session::get('u_lang'));
         foreach ($p_inst_arr as $value) {
+            // SECURITY (SQLi): cast numeric id
+            $v_inst_id = (int) $value['param2'];
             //Mirem el total de fills que té.
             $sql = "select count(*) as total
 			from omp_instances ic
@@ -844,16 +884,16 @@ class Instances extends model
 			, omp_instances i
 			where ric.parent_inst_id = i.id
 			and ric.child_inst_id = ic.id
-			and i.id = " . str_replace("\"", "\\\"", str_replace("[\]", "", $value['param2'])) . ";";
+			and i.id = " . $v_inst_id . ";";
             $ret = parent::get_one($sql);
             if (!$ret) {
                 return array('unexpeted');
             }
 
-            $sql = "select ic.id id, key_fields as key_fields, name_" . Session::get('u_lang') . " as name, status, class_id
+            $sql = "select ic.id id, key_fields as key_fields, name_" . $u_lang . " as name, status, class_id
 			from omp_instances ic
 			, omp_classes oc
-			where  ic.id = '" . str_replace("\"", "\\\"", str_replace("[\]", "", $value['param2'])) . "'
+			where  ic.id = '" . $v_inst_id . "'
 			and oc.id = ic.class_id;";
             $ret2 = parent::get_one($sql);
             if (!$ret2) {
@@ -870,12 +910,14 @@ class Instances extends model
     function deleteInstanceArr($p_inst_idArr)
     {
         foreach ($p_inst_idArr as $p_inst_id) {
+            // SECURITY (SQLi): cast numeric id
+            $p_inst_id_val = (int) $p_inst_id['param2'];
             $sqlArr = array(
-                "delete from omp_values where inst_id = " . str_replace("\"", "\\\"", str_replace("[\]", "", $p_inst_id['param2'])) . ";",
-                "delete from omp_niceurl where inst_id = " . str_replace("\"", "\\\"", str_replace("[\]", "", $p_inst_id['param2'])) . ";",
-                "delete from omp_relation_instances where parent_inst_id = " . str_replace("\"", "\\\"", str_replace("[\]", "", $p_inst_id['param2'])) . ";",
-                "delete from omp_relation_instances where child_inst_id = " . str_replace("\"", "\\\"", str_replace("[\]", "", $p_inst_id['param2'])) . ";",
-                "delete from omp_instances where id = " . str_replace("\"", "\\\"", str_replace("[\]", "", $p_inst_id['param2'])) . ";"
+                "delete from omp_values where inst_id = " . $p_inst_id_val . ";",
+                "delete from omp_niceurl where inst_id = " . $p_inst_id_val . ";",
+                "delete from omp_relation_instances where parent_inst_id = " . $p_inst_id_val . ";",
+                "delete from omp_relation_instances where child_inst_id = " . $p_inst_id_val . ";",
+                "delete from omp_instances where id = " . $p_inst_id_val . ";"
             );
             foreach ($sqlArr as $sql) {
                 parent::execute($sql);
@@ -886,7 +928,8 @@ class Instances extends model
 
     function getClassID_from_Instance($p_inst_id)
     {
-        $sql = "select class_id c_id from omp_instances where id = " . str_replace("\"", "\\\"", str_replace("[\]", "", $p_inst_id)) . ";";
+        // SECURITY (SQLi): cast numeric id
+        $sql = "select class_id c_id from omp_instances where id = " . ((int) $p_inst_id) . ";";
         $ret = parent::get_one($sql);
         if (!$ret) {
             return 0;
@@ -896,6 +939,7 @@ class Instances extends model
 
     function cloneInstance($inst_id, $session = '', $prefix = null)
     {
+        $inst_id = (int) $inst_id; // SECURITY (SQLi): cast numeric id
         $date = date('Y-m-d');
 
         //////////////////////////
@@ -911,6 +955,7 @@ class Instances extends model
             echo 'Ha fallat al crear la nova Dolly.';
             return 0;
         }
+        $dolly_id = (int) $dolly_id; // SECURITY (SQLi): cast numeric id used in interpolated queries below
 
         //////////////////////////
         ///RELATIONS /////////////
@@ -1025,12 +1070,16 @@ class Instances extends model
 
     private function get_relations_as_parent($instid)
     {
+        $instid = (int) $instid; // SECURITY (SQLi): cast numeric id
         $sql = "select * from omp_relation_instances where parent_inst_id='$instid'";
         return parent::get_data($sql);
     }
 
     private function create_relation_dolly($parent_inst_id, $child_inst_id, $session, $relation)
     {
+        // SECURITY (SQLi): cast numeric ids
+        $parent_inst_id = (int) $parent_inst_id;
+        $child_inst_id = (int) $child_inst_id;
         $sql = "select id from omp_relation_instances ori where ori.clone_session = $session AND ori.parent_inst_id = $parent_inst_id AND ori.child_inst_id = $child_inst_id AND ori.rel_id = $relation[rel_id] AND ori.cloned_instance = $relation[id];";
         $row = $this->get_one($sql);
         if (!empty($row)) {
@@ -1059,9 +1108,10 @@ class Instances extends model
         } else {
             $dolly_sample = $dolly_name;
         }
-        $sql = "select id from omp_values where text_val='$dolly_sample'";
+        // SECURITY (SQLi): bind free-text value
+        $sql = "select id from omp_values where text_val=:dolly_sample";
 
-        $row = parent::get_data($sql);
+        $row = parent::get_data($sql, ['dolly_sample' => $dolly_sample]);
 
         if (!isset($row[0]['id'])) {
             return $dolly_sample;
@@ -1075,7 +1125,8 @@ class Instances extends model
     //Cache JF
     private function hasCacheOption($inst_id)
     {
-        $sql = "select count(1) as nicecount from omp_niceurl where inst_id=" . $inst_id . " and niceurl <> ''";
+        // SECURITY (SQLi): cast numeric id
+        $sql = "select count(1) as nicecount from omp_niceurl where inst_id=" . ((int) $inst_id) . " and niceurl <> ''";
         $ret = parent::get_one($sql);
         if (!$ret) {
             return false;
@@ -1088,7 +1139,8 @@ class Instances extends model
 
     private function hasCacheFunctions($inst_id)
     {
-        $sql = "select count(1) as nicecount from omp_niceurl where inst_id=" . $inst_id . " and niceurl <> ''";
+        // SECURITY (SQLi): cast numeric id
+        $sql = "select count(1) as nicecount from omp_niceurl where inst_id=" . ((int) $inst_id) . " and niceurl <> ''";
         $ret = parent::get_one($sql);
         if (!$ret) {
             return false;
@@ -1101,7 +1153,7 @@ class Instances extends model
 
     function changeInstanceCacheStatus($param_arr)
     {
-        $inst_id = $param_arr['param2'];
+        $inst_id = (int) $param_arr['param2']; // SECURITY (SQLi): cast numeric id
         $cache_status = $param_arr['p_cache_status'];
         $sql = "update omp_niceurl set use_cache='$cache_status' where inst_id=$inst_id";
         return parent::update_one($sql);
@@ -1109,14 +1161,14 @@ class Instances extends model
 
     function deteleInstanceCache($param_arr)
     {
-        $inst_id = $param_arr['param2'];
+        $inst_id = (int) $param_arr['param2']; // SECURITY (SQLi): cast numeric id
         $sql = "update omp_niceurl set cache_pending='D' where inst_id=$inst_id";
         return parent::update_one($sql);
     }
 
     function refreshInstanceCache($param_arr)
     {
-        $inst_id = $param_arr['param2'];
+        $inst_id = (int) $param_arr['param2']; // SECURITY (SQLi): cast numeric id
         $sql = "update omp_niceurl set cache_pending='Y' where inst_id=$inst_id";
         return parent::update_one($sql);
     }
@@ -1135,7 +1187,8 @@ class Instances extends model
 
     private function isPendingCache($inst_id)
     {
-        $sql = "select count(1) as nicecount from omp_niceurl where cache_pending = 'Y' and inst_id=" . $inst_id . " and niceurl <> '' and use_cache='Y'";
+        // SECURITY (SQLi): cast numeric id
+        $sql = "select count(1) as nicecount from omp_niceurl where cache_pending = 'Y' and inst_id=" . ((int) $inst_id) . " and niceurl <> '' and use_cache='Y'";
         $ret = parent::get_one($sql);
         if (!$ret) {
             return false;
@@ -1149,6 +1202,7 @@ class Instances extends model
 
     private function setPendingCache($inst_id)
     {
+        $inst_id = (int) $inst_id; // SECURITY (SQLi): cast numeric id
         $sql = "update omp_niceurl set cache_pending='Y' where inst_id=$inst_id";
         return parent::update_one($sql);
     }
@@ -1252,16 +1306,18 @@ class Instances extends model
     {
         $i = 0;
 
-        $sql = 'select count(1) as nicecount from omp_niceurl where inst_id <> '.$inst_id.' and niceurl = "'.$nice_url.'"';
-        $ret = parent::get_one($sql);
+        // SECURITY (SQLi): cast numeric id, bind free-text niceurl
+        $sql = 'select count(1) as nicecount from omp_niceurl where inst_id <> '.((int) $inst_id).' and niceurl = :nice_url';
+        $ret = parent::get_one($sql, ['nice_url' => $nice_url]);
         if ($ret['nicecount'] == 0) {
             return $nice_url;
         }
 
         do {
             $i++;
-            $sql = 'select count(1) as nicecount from omp_niceurl where inst_id <> '.$inst_id.' and niceurl = "'.$nice_url . $i.'"';
-            $ret = parent::get_one($sql);
+            // SECURITY (SQLi): cast numeric id, bind free-text niceurl
+            $sql = 'select count(1) as nicecount from omp_niceurl where inst_id <> '.((int) $inst_id).' and niceurl = :nice_url';
+            $ret = parent::get_one($sql, ['nice_url' => $nice_url . $i]);
         } while ($ret['nicecount'] <> 0);
 
         return $nice_url . $i;
@@ -1269,13 +1325,17 @@ class Instances extends model
 
     function get_multiples_id($p_relation_id)
     {
-        $sql = "select multiple_child_class_id as mcci from omp_relations r where id = " . $p_relation_id;
+        // SECURITY (SQLi): cast numeric id
+        $sql = "select multiple_child_class_id as mcci from omp_relations r where id = " . ((int) $p_relation_id);
         $Row = parent::get_one($sql);
         return $Row['mcci'];
     }
 
     function save_cloneimage_attribute($inst_id, $atri_id, $value, $width, $height)
     {
+        // SECURITY (SQLi): cast numeric ids
+        $inst_id = (int) $inst_id;
+        $atri_id = (int) $atri_id;
         $sql = "select count(*) num from omp_values where inst_id=$inst_id and atri_id=$atri_id;";
         $row = parent::get_one($sql);
         if ($row['num'] == 0) { // hem d'insertar, no hi era
@@ -1289,7 +1349,8 @@ class Instances extends model
 
     function instance_update_date_and_backup($inst_id)
     {
-        $sql = 'update omp_instances set update_date=now() where id='.$inst_id;
+        // SECURITY (SQLi): cast numeric id
+        $sql = 'update omp_instances set update_date=now() where id='.((int) $inst_id);
         parent::update_one($sql);
 
         //$this->backup($inst_id);
@@ -1307,7 +1368,8 @@ class Instances extends model
             foreach ($idiomes as $idioma) {
                 $backup_xml = $mainobject->getInstanceInfo($inst_id, $idioma, 'cache', '', 'D', Session::get('rol_id'));
 
-                $sql_backup = 'insert omp_instances_backup (inst_id,language,xml_cache,date,user) values ('.$inst_id.', "'.$idioma.'", "'.mysql_real_escape_string($backup_xml, $dbh).'", now(),'.Session::get('user_id').');';
+                // SECURITY (SQLi): cast numeric ids, mysql_real_escape_string removed on PHP 8 -> addslashes
+                $sql_backup = 'insert omp_instances_backup (inst_id,language,xml_cache,date,user) values ('.((int) $inst_id).', "'.$idioma.'", "'.addslashes($backup_xml).'", now(),'.((int) Session::get('user_id')).');';
                 $ret_backup = parent::insert_one($sql_backup);
                 if (!$ret_backup) {
                     echo mysql_error($dbh) . chr(13) . chr(10) . chr(13) . chr(10);
@@ -1348,19 +1410,20 @@ class Instances extends model
                     $type = substr($flags, 1, 1);
                     // Ara busquem el id del atribut
                     $part = strtok('_');
-                    $atr_id = $part;
+                    $atr_id = (int) $part; // SECURITY (SQLi): cast numeric attribute id
                     if ($type == 'Z') { // url nice, check the uniqueness
                         //Primer busquem el idioma del atribut que estem mirant per buscar-ho a omp_niceurl
                         $sql = 'select language from omp_attributes where id="'.$atr_id.'"';
                         $row = parent::get_one($sql);
 
+                        // SECURITY (SQLi): cast numeric id, bind free-text niceurl
                         $sql_add = '';
                         if ($p_inst_id != null) {
-                            $sql_add = 'and inst_id!='.$p_inst_id.'';
+                            $sql_add = 'and inst_id!='.((int) $p_inst_id).'';
                         }
-                        $sql = 'select count(*) num from omp_niceurl where language="'.$row['language'].'" and niceurl="'.clean_url($valor).'" '.$sql_add;
+                        $sql = 'select count(*) num from omp_niceurl where language="'.$row['language'].'" and niceurl=:niceurl '.$sql_add;
 
-                        $row = parent::get_one($sql);
+                        $row = parent::get_one($sql, ['niceurl' => clean_url($valor)]);
 
                         if ($row['num'] > 0) {
                             return false;
@@ -1377,9 +1440,10 @@ class Instances extends model
 
     function get_niceurl($id, $lang = 'ca')
     {
-        $sql = "select niceurl from omp_niceurl n, omp_instances i where i.id=inst_id and inst_id=" . $id . " and (language='" . $lang . "' or language='ALL')";
+        // SECURITY (SQLi): cast numeric id, bind free-text language value
+        $sql = "select niceurl from omp_niceurl n, omp_instances i where i.id=inst_id and inst_id=" . ((int) $id) . " and (language=:lang or language='ALL')";
 
-        $Row = parent::get_one($sql);
+        $Row = parent::get_one($sql, ['lang' => $lang]);
         return $Row['niceurl'];
     }
 

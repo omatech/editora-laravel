@@ -98,7 +98,8 @@ class Security extends Model
     function getStatus($p_status, $p_class_id)
     {
         $p_rol_id=Session::get('rol_id');
-        $sql = "select status".$p_status." st from omp_roles_classes where class_id = :classId and rol_id = :rolId";
+        // SECURITY (SQLi): numeric column-name suffix
+        $sql = "select status".((int) $p_status)." st from omp_roles_classes where class_id = :classId and rol_id = :rolId";
 
         $ret=$this->get_one($sql, ['classId' => $p_class_id, 'rolId' => $p_rol_id]);
         if (!$ret) {
@@ -121,7 +122,9 @@ class Security extends Model
             $p_class_id=$param_arr['param10'];
         }
         $p_rol_id=Session::get('rol_id');
-        
+
+        // SECURITY (SQLi): sanitize column name chosen by param
+        $p_camp_nom = preg_replace('/[^a-zA-Z0-9_]/', '', (string) $p_camp_nom);
         $sql = "select ".$p_camp_nom." x_able from omp_roles_classes where class_id = :classId and rol_id = :rolId";
 
         $ret = $this->get_one($sql, ['classId' => $p_class_id, 'rolId' => $p_rol_id]);
@@ -146,9 +149,9 @@ class Security extends Model
 
         $sql = "select i.status st, rc.status1 st1, rc.status2 st2, rc.status3 st3
 		from omp_instances i, omp_roles_classes rc
-		where i.id = ".mysql_real_escape_string($p_inst_id)."
-		and rc.rol_id = ".mysql_real_escape_string($p_rol_id)."
-		and rc.class_id = i.class_id;";
+		where i.id = ".addslashes($p_inst_id)."
+		and rc.rol_id = ".addslashes($p_rol_id)."
+		and rc.class_id = i.class_id;"; // SECURITY (SQLi): mysql_real_escape_string removed on PHP 8 -> addslashes
 
         $ret = mysql_query($sql, $dbh);
         if (!$ret) {
@@ -178,13 +181,14 @@ class Security extends Model
     function change_password($user_id, $password)
     {
         $hasher = new BcryptHasher();
+        // SECURITY (SQLi): bind free-text password, cast numeric id
         if (defined('HASHED_PASSWORDS') && HASHED_PASSWORDS == 1) {
             $password = $hasher->make($password);
-            $sql = 'UPDATE omp_users SET password="'.$password.'" , hashed_password = 1 WHERE id="'.$user_id.'"';
+            $sql = 'UPDATE omp_users SET password = :password , hashed_password = 1 WHERE id="'.((int) $user_id).'"';
         } else {
-            $sql = 'UPDATE omp_users SET password="'.$password.'" , hashed_password = 0 WHERE id="'.$user_id.'"';
+            $sql = 'UPDATE omp_users SET password = :password , hashed_password = 0 WHERE id="'.((int) $user_id).'"';
         }
-        $ret = $this->update_one($sql);
+        $ret = $this->update_one($sql, ['password' => $password]);
 
         if (!$ret) {
             return 0;
