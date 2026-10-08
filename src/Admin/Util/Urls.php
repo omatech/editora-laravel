@@ -13,6 +13,8 @@ class Urls
 
     function extract_url_info()
     {
+        $this->fix_encoded_url();
+
         $url = $_SERVER['REQUEST_URI'] ?? '';
         $question_pos=strrpos($url, '?');
         if ($question_pos>0) $url=substr($url, 0, $question_pos);
@@ -48,6 +50,8 @@ class Urls
 
     function extract_url_info_ajax()
     {
+        $this->fix_encoded_url();
+        
         $url = $_SERVER['REQUEST_URI'];
 
         $question_pos=strrpos($url, '?');
@@ -121,5 +125,16 @@ class Urls
         $url=$tmp_search_query.$url;
 
         return $url;
+    }
+
+    function fix_encoded_url()
+    {
+        $url = $_SERVER['REQUEST_URI'] ?? '';
+        if (stripos($url, '%3F') === false || strpos($url, '?') !== false) {
+            return;
+        }
+
+        header('Location: '.strtr($url, ['%3F' => '?']), true, 302);
+        exit;
     }
 }
