@@ -35,7 +35,7 @@ class AdminAjaxActions extends AuthController
                         $sended = true;
                     }
                     if ($sended) {
-                        $this->dispatchEvent($_REQUEST['instance_id']);
+                        $this->dispatchEvent((int) $_REQUEST['instance_id']);
                         echo getMessage('saved');
                     }else {
                         echo getMessage('saved_wrong');

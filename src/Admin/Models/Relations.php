@@ -288,7 +288,8 @@ class Relations extends Model
 		$childs = array_reverse($childs);
 		
 		foreach($childs as $child) {
-			$sql='UPDATE omp_relation_instances SET weight='.$weight.' where parent_inst_id = '.$parent.' AND child_inst_id = '.$child.';';
+			// SECURITY (SQLi): ids come from the ajax_order request -> integers only
+			$sql='UPDATE omp_relation_instances SET weight='.$weight.' where parent_inst_id = '.((int) $parent).' AND child_inst_id = '.((int) $child).';';
 			parent::update_one($sql);
 			$weight-=10;
 		}
