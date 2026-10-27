@@ -20,15 +20,14 @@ class EditoraAuth
         $security = new Security();
 
         if($security->testSession() == 0) {
-            $security->endSession();
+            // Return the redirect instead of sending it: the action must not run without a session.
             setcookie("editorasession", 0, time()-3600, '/', request()->getHost());
-        }else{
-
-            $cookieVal = env('APP_KEY').$_SERVER['HTTP_HOST'];
-            $cookieHash= md5($cookieVal);;
-            setcookie("editorasession", $cookieHash, time()+10800, '/', request()->getHost());
+            return response()->redirectTo(APP_BASE);
         }
 
+        $cookieVal = env('APP_KEY').$_SERVER['HTTP_HOST'];
+        $cookieHash= md5($cookieVal);;
+        setcookie("editorasession", $cookieHash, time()+10800, '/', request()->getHost());
 
         return $next($request);
     }
