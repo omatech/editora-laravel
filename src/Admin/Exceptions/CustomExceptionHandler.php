@@ -9,6 +9,9 @@ use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 
 class CustomExceptionHandler implements ExceptionHandlerContract
 {
+    public $container;
+    public $appExceptionHandler;
+
     public function __construct(Container $container, ExceptionHandlerContract $appExceptionHandler)
     {
         $this->container = $container;

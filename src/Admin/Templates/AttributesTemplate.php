@@ -150,7 +150,7 @@ class AttributesTemplate extends Template
 		return $res;
 	}
 
-	private function getInstanceToolbar($row, $p_class_id, $p_inst_id, $p_mode, $p_include_form = "", $param_arr) {
+	private function getInstanceToolbar($row, $p_class_id, $p_inst_id, $p_mode, $p_include_form, $param_arr) {
 		$res = '';
 
 		if ($p_mode=='I') {//objecte nou
@@ -437,7 +437,7 @@ class AttributesTemplate extends Template
 	}
 
 	/* ESTA FUNCION PINTA LOS ATRIBUTOS Y RELACIONES DE CADA PESTAÑA DE CONTENIDO */
-	private function getAttributeInner($row, $p_mode, $p_inst_id, $tab_id='',$i, $param_arr) {
+	private function getAttributeInner($row, $p_mode, $p_inst_id, $tab_id, $i, $param_arr) {
 	    $url = new Urls;
 		$ret='';
 		global $googlemaps;

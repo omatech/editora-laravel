@@ -569,7 +569,7 @@ class Instances extends model
                 $nou_id = USERINSTANCES;
             }
             $sql = 'insert into omp_instances (id, class_id, status, publishing_begins, publishing_ends, creation_date, external_id)
-			values ('.((int) $nou_id).','.((int) $p_id).',"'.addslashes($inst_status).'",'.$inst_publishing_begins.','.$inst_publishing_ends.',now(), "'.addslashes($external_id).'")';
+			values ('.((int) $nou_id).','.((int) $p_id).',"'.addslashes((string) $inst_status).'",'.$inst_publishing_begins.','.$inst_publishing_ends.',now(), "'.addslashes((string) $external_id).'")';
             $new_instance_id = parent::insert_one($sql);
         }
 
@@ -1460,7 +1460,6 @@ class Instances extends model
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_exec($ch);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
         $accepted_response = array(200, 301, 302);
         if (in_array($httpcode, $accepted_response)) {
             return false;

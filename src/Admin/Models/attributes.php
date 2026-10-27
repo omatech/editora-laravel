@@ -226,9 +226,9 @@ class attributes extends Model
 	}
 
 
-	private function attributeParse(&$row, $p_mode, $p_inst_id, $tab_id = '', $i)
+	private function attributeParse(&$row, $p_mode, $p_inst_id, $tab_id, $i)
 	{
-		$row['params'] = json_decode($row['params']);
+		$row['params'] = json_decode((string) $row['params']);
 		$w1 = FIELD_DEFAULT_LENGTH;
 		if (isset($row['a_width']) and $row['a_width'] <> '') $w1 = $row['a_width'];
 		if (isset($row['ca_width']) and $row['ca_width'] <> '') $w1 = $row['ca_width'];

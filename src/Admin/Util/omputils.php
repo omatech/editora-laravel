@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session;
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 function random_string($length) {
-	srand((double)microtime() * 1000000);
+	srand((float)microtime() * 1000000);
 	$possible_charactors = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	$string = "";
 	while (strlen($string)<$length) {
