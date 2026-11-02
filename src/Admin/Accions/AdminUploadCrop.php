@@ -8,6 +8,11 @@ use Imagick;
 
 class AdminUploadCrop extends AuthController
 {
+    /**
+     * The attribute may fix only one side (300x or x200): the other arrives as
+     * an empty string and Imagick derives it from the crop when it gets 0,
+     * which it only does without the best-fit flag.
+     */
     public function cropImage($imagePath, $crop) {
         $imagick = new Imagick(realpath($imagePath));
 
@@ -17,12 +22,15 @@ class AdminUploadCrop extends AuthController
         }
         $imagick->rotateImage('none', $crop['rotate']);
 
-        $imagick->cropImage($crop['width'], $crop['height'], $crop['x'], $crop['y']);
-        $imagick->resizeImage(
-            $crop['container_width'] * $crop['scale'],
-            $crop['container_height'] * $crop['scale'],
-            \Imagick::FILTER_LANCZOS, 0.9, true
-        );
+        $imagick->cropImage((int) round($crop['width']), (int) round($crop['height']), (int) round($crop['x']), (int) round($crop['y']));
+
+        $scale = (float) ($crop['scale'] ?? 1) ?: 1;
+        $width = (int) round((float) ($crop['container_width'] ?? 0) * $scale);
+        $height = (int) round((float) ($crop['container_height'] ?? 0) * $scale);
+
+        if ($width > 0 || $height > 0) {
+            $imagick->resizeImage($width, $height, \Imagick::FILTER_LANCZOS, 0.9, $width > 0 && $height > 0);
+        }
 
         file_put_contents(realpath($imagePath), $imagick->getImageBlob());
     }
