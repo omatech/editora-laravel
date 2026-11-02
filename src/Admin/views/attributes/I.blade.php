@@ -243,6 +243,9 @@
 
             function calcRatio(numerator, denominator) {
                 var gcd, temp, divisor;
+                if (!(+numerator > 0) || !(+denominator > 0)) {
+                    return NaN;
+                }
                 gcd = function (a, b) {
                     if (b === 0) return a;
                     return gcd(b, a % b);

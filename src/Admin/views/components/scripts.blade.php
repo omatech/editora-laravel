@@ -16,6 +16,17 @@
 <script type="text/javascript" src="{{ asset('/vendor/editora/js/popper.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/vendor/editora/js/bootstrap.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/vendor/editora/js/dropzone.js') }}"></script>
+<script type="text/javascript">
+    (function (defaults) {
+        var showError = defaults.error;
+        defaults.error = function (file, message) {
+            if (message !== null && typeof message === 'object' && !message.error) {
+                message = message.message || 'Error';
+            }
+            return showError.call(this, file, message);
+        };
+    })(Dropzone.prototype.defaultOptions);
+</script>
 <script type="text/javascript" src="{{ asset('/vendor/editora/js/color-picker.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/vendor/editora/js/datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/vendor/editora/js/maps.js') }}"> </script>

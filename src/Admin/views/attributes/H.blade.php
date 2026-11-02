@@ -189,6 +189,9 @@
 
             function calcRatio(numerator, denominator) {
                 var gcd, temp, divisor;
+                if (!(+numerator > 0) || !(+denominator > 0)) {
+                    return NaN;
+                }
 
                 // from: http://pages.pacificcoast.net/~cazelais/euclid.html
                 gcd = function (a, b) {
