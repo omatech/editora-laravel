@@ -274,6 +274,7 @@ function getMessage ($id) {
 	$mess_arr['urls_broken'] = 'Broken links';
 	$mess_arr['info_word_last_translations'] = 'Last translated objects';
 	$mess_arr['generate_translations'] = 'Generate translations';
+	$mess_arr['translator_not_configured'] = 'Translation generation is not configured in this project: the translation provider SDK or its API key is missing.';
 
     return $mess_arr[$id];
 }

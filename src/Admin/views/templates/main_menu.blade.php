@@ -118,11 +118,13 @@
                     </a>
                     <div class="collapse {{$menu_show}}" id="subnav-config">
                         <ul class="level-3-nav">
-                            <li @if(last(request()->segments())=='generate_translations')class="active" @endif>
-                                <a href="{{ route('editora.action', 'generate_translations') }}" class="link-list">
-                                    <span class="link-text">{{getMessage('generate_translations')}}</span>
-                                </a>
-                            </li>
+                            @if(\Omatech\Editora\Admin\Accions\AdminGenerateTranslations::translatorIsConfigured())
+                                <li @if(last(request()->segments())=='generate_translations')class="active" @endif>
+                                    <a href="{{ route('editora.action', 'generate_translations') }}" class="link-list">
+                                        <span class="link-text">{{getMessage('generate_translations')}}</span>
+                                    </a>
+                                </li>
+                            @endif
                             <li @if(last(request()->segments())=='unlinked_images')class="active" @endif>
                                 <a href="{{ route('editora.action', 'unlinked_images') }}" class="link-list">
                                     <span class="link-text">{{getMessage('unlinked_files')}}</span>

@@ -13,6 +13,10 @@
     "omatech/editora-laravel-connector-dbinterface": "^3.5.0",
     "skagarwal/google-places-api": "^3.1"
   },
+  "suggest": {
+    "deeplcom/deepl-php": "Generate translations with DeepL (translator_provider deepl, the default)",
+    "google/cloud-translate": "Generate translations with Google (translator_provider google_translator)"
+  },
   "autoload": {
       "psr-4": {
           "Omatech\\Editora\\": "src"

@@ -273,6 +273,7 @@ function getMessage ($id) {
 	$mess_arr['urls_broken'] = 'Enllaços trencats';
 	$mess_arr['info_word_last_translations'] = 'Últims objectes traduïts';
 	$mess_arr['generate_translations'] = 'Generar traduccions';
+	$mess_arr['translator_not_configured'] = "La generació de traduccions no està configurada en aquest projecte: falta l'SDK o la clau del proveïdor de traducció.";
 
     return $mess_arr[$id];
 }

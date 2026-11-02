@@ -23,8 +23,25 @@ class AdminGenerateTranslations extends AuthController
         $this->instances = new Instances;
         $this->attributes = new attributes();
         $this->statictext = new statictext();
-        $this->initializeTranslator();
         $this->custom_target_langs = config('editora-admin.languages_for_translation') ?? [];
+
+        if (self::translatorIsConfigured()) {
+            $this->initializeTranslator();
+        }
+    }
+
+    /**
+     * A project opts into this special function by installing the SDK of its
+     * translator provider and giving it an API key (see readme); the menu and
+     * render() use this instead of failing when either is missing.
+     */
+    public static function translatorIsConfigured(): bool
+    {
+        if (config('editora-admin.translator_provider') === 'google_translator') {
+            return class_exists(TranslateClient::class) && config('editora-admin.google_translator_key') != '';
+        }
+
+        return class_exists(Translator::class) && config('editora-admin.deepl_key') != '';
     }
 
     public function render()
@@ -33,23 +50,13 @@ class AdminGenerateTranslations extends AuthController
         $params = get_params_info();
         $params['p_mode'] = $p_mode = 'V';
         $page = 1;
-
-        $langs = $this->instances->busca_idiomes();
         $last_translated = [];
+        $notice = null;
 
-        $staticTexts = $this->statictext->get_static_text_keys();
-        $staticTextsData = $this->statictext->get_static_texts_by_keys_and_langs($staticTexts, $langs);
-        $this->translateStaticTexts($staticTextsData);
-
-        $instances = $this->instances->getAllInstances();
-        $translatedInstances = $this->translateInstances($instances, $langs);
-
-        if(!empty($translatedInstances)) {
-            $this->dispatchEvent($translatedInstances);
-
-            $last_translated = array_map(function ($instance) {
-                return $this->instances->getInstInfo($instance);
-            }, $translatedInstances);
+        if (self::translatorIsConfigured()) {
+            $last_translated = $this->translateMissingTexts();
+        } else {
+            $notice = getMessage('translator_not_configured');
         }
 
         if ($params['param3'] != "") {
@@ -68,9 +75,32 @@ class AdminGenerateTranslations extends AuthController
             'last_translated' => $last_translated,
             'count' => $count,
             'page' => $page,
+            'notice' => $notice,
         ]);
 
         return response()->view('editora::pages.translated_instances', $viewData);
+    }
+
+    private function translateMissingTexts(): array
+    {
+        $langs = $this->instances->busca_idiomes();
+
+        $staticTexts = $this->statictext->get_static_text_keys();
+        $staticTextsData = $this->statictext->get_static_texts_by_keys_and_langs($staticTexts, $langs);
+        $this->translateStaticTexts($staticTextsData);
+
+        $instances = $this->instances->getAllInstances();
+        $translatedInstances = $this->translateInstances($instances, $langs);
+
+        if (empty($translatedInstances)) {
+            return [];
+        }
+
+        $this->dispatchEvent($translatedInstances);
+
+        return array_map(function ($instance) {
+            return $this->instances->getInstInfo($instance);
+        }, $translatedInstances);
     }
 
     private function initializeTranslator()
@@ -297,9 +327,14 @@ class AdminGenerateTranslations extends AuthController
             return html_entity_decode($result->text);
 
 
-        } catch (Exception $e) {
-            echo 'Caught exception: ', $e->getMessage(), "\n";
-            return array_fill(0, count($texts), null);
+        } catch (\Exception $e) {
+            Log::error('DeepL error: ' . $e->getMessage());
+
+            if (is_array($texts)) {
+                return array_fill(0, count($texts), null);
+            }
+
+            return null;
         }
     }
 

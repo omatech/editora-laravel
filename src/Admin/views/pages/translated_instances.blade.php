@@ -30,6 +30,9 @@
         </section>
         <section class="table-view">
             <div class="container">
+                @isset($notice)
+                    <div class="alert alert-warning" role="alert">{{ $notice }}</div>
+                @endisset
                 <table class="table main-table" id="pages-table">
                     <thead>
                     <tr>

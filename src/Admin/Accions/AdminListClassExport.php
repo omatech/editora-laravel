@@ -2,9 +2,8 @@
 
 namespace Omatech\Editora\Admin\Accions;
 
-
 use Omatech\Editora\Loader\Loader;
-
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
@@ -31,20 +30,32 @@ class AdminListClassExport extends AuthController
         $loader = new Loader($conn_to);
         $attributes = $loader->getAllAttributesInClass(addslashes($_REQUEST['id']));
 
-        //$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(0, 1 , 'S#nom_intern');
-
-        foreach ($attributes as $key => $attribute) {
+        foreach ($attributes ?? [] as $key => $attribute) {
             //Nomes camps strings per ara
-            $spreadsheet->getActiveSheet()->setCellValueByColumnAndRow($key+1, 1, $attribute['type'].'#'.$attribute['name']);
+            $sheet->setCellValue(Coordinate::stringFromColumnIndex($key + 1) . '1', $attribute['type'].'#'.$attribute['name']);
         }
 
         $writer = new Xlsx($spreadsheet);
 
-        ob_end_clean();
+        $this->discardBufferedOutput();
 
-        header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"');
-        header('Cache-Control: max-age=0');
-        $writer->save('php://output');
+        return response()->streamDownload(function () use ($writer) {
+            $writer->save('php://output');
+        }, $filename . '.xlsx', [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Cache-Control' => 'max-age=0',
+        ]);
+    }
+
+    /**
+     * The admin bootstrap has already echoed stray bytes by the time an action
+     * renders (the message catalogues start with a BOM); a download must begin
+     * at byte 0 or the spreadsheet is corrupt.
+     */
+    private function discardBufferedOutput(): void
+    {
+        if (ob_get_length()) {
+            ob_clean();
+        }
     }
 }

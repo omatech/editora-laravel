@@ -157,6 +157,8 @@ EXCLUDED_CLASS_IDS=1,2,3 //editora classes Ids that you don't want to translate,
 TRANSLATOR_PROVIDER=your_translator_provider // deepl, google_translator | deepl by default
 ```
 
+and install the SDK of the provider in the project: `composer require deeplcom/deepl-php` for DeepL or `composer require google/cloud-translate` for Google. Without the SDK and its key the menu entry is hidden and the page explains it instead of failing.
+
 
 ## Duplicated Niceurl
 Now the omp_niceurl table will have the parents field, which will contain the IDs of its parents separated by commas, and the full_niceurl field will have the parents + the niceurl to distinguish the niceurl in case there are two duplicates. All of this will be filled in automatically if the instances have a relationship called 'Childs'.
