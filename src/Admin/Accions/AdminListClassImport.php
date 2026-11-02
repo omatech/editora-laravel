@@ -135,7 +135,7 @@ class AdminListClassImport extends AuthController
                                         $count = 0;
 
                                         while ($inst_id != -1) {
-                                            $inst_id = $loader->getInstIDFromNomIntern($name_class, $value);
+                                            $inst_id = $this->instanceIdByNomIntern($conn_to, $id_class, $value);
                                             if ($inst_id != -1) {
                                                 $value = $value_attr . '-' . $count;
                                             }
@@ -245,6 +245,13 @@ class AdminListClassImport extends AuthController
         ]);
 
         return response()->view('editora::pages.list_classes_export', $viewData);
+    }
+
+    private function instanceIdByNomIntern(\Doctrine\DBAL\Connection $conn, $classId, $nomIntern)
+    {
+        $id = $conn->fetchOne('select id from omp_instances where class_id = ? and key_fields = ?', [(int) $classId, (string) $nomIntern]);
+
+        return $id === false ? -1 : (int) $id;
     }
 
 
