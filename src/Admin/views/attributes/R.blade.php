@@ -132,7 +132,7 @@
                                 <tbody id="tabrel{{$attribute['id']}}">
                                 @if(!empty($attribute['related_instances']['instances']))
                                     @foreach($attribute['related_instances']['instances'] as $item)
-                                        <tr class="published" id="{{$item['inst_id']}}">
+                                        <tr class="published" id="{{$item['inst_id']}}" data-relid="{{$item['id']}}">
                                             <td class="sort"><span class="drag-area"><i class="icon-drag"></i></span></td>
                                             <td class="status">
                                                 <button class="btn-square clr-transparent">
@@ -289,7 +289,7 @@
                                 <tbody>
                                 @if(isset($attribute['related_instances']))
                                     @foreach($attribute['related_instances']['instances'] as $item)
-                                        <tr class="published" id="{{$item['inst_id']}}">
+                                        <tr class="published" id="{{$item['inst_id']}}" data-relid="{{$item['id']}}">
                                             <td class="status">
                                             <span class="btn-square clr-transparent">
                                                 @if($item['status']=="O")

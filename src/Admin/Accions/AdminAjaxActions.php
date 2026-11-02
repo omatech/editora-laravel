@@ -25,14 +25,16 @@ class AdminAjaxActions extends AuthController
                 if($_REQUEST['ajax'] == 'ajax_order') {
                     $r=new relations();
 
-                    $values = array();
-                    $ordered = explode(',', $_REQUEST['ordered']);
-                    foreach($ordered as $value) {
-                        $value = str_ireplace('id_', '', $value);
-                        array_push($values, $value);
-                    }
-                    if ($r->order_relation($_REQUEST['instance_id'], $values)) {
-                        $sended = true;
+                    if (isset($_REQUEST['ordered_relations'])) {
+                        $sended = $r->order_relation_rows($_REQUEST['instance_id'], explode(',', $_REQUEST['ordered_relations']));
+                    } else {
+                        $values = array();
+                        $ordered = explode(',', $_REQUEST['ordered']);
+                        foreach($ordered as $value) {
+                            $value = str_ireplace('id_', '', $value);
+                            array_push($values, $value);
+                        }
+                        $sended = $r->order_relation($_REQUEST['instance_id'], $values);
                     }
                     if ($sended) {
                         $this->dispatchEvent((int) $_REQUEST['instance_id']);

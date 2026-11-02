@@ -112,7 +112,8 @@
             update: function (e) {
                 parent = $(this).parents('[id^=divrel]').attr('data-instid');
                 var list = $(this).parent().parent().parent().find('.alert');
-                save_list(parent, $(this).sortable('toArray'), list);
+                var relations = $(this).children('tr').map(function () { return $(this).attr('data-relid'); }).get();
+                save_list(parent, relations, list);
             }
         }).disableSelection();
     }
@@ -165,8 +166,8 @@
             }
         });
     }
-    function save_list(instance_id, sortable, list) {
-        var info = 'instance_id=' + instance_id + '&ordered=' + sortable;
+    function save_list(instance_id, relations, list) {
+        var info = 'instance_id=' + instance_id + '&ordered_relations=' + relations.join(',');
         make_magic('ajax_order', info, '.alert.list div p', list);
     }
 </script>

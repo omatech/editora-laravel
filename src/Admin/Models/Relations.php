@@ -295,4 +295,20 @@ class Relations extends Model
 		}
 		return true;
 	}
+
+	/**
+	 * Orders by relation row id, so a child related twice to the same parent
+	 * keeps the place each of its rows was dropped at.
+	 */
+	public function order_relation_rows($parent, $relationIds) {
+		$weight = 100000;
+
+		foreach (array_reverse($relationIds) as $relationId) {
+			$sql = 'UPDATE omp_relation_instances SET weight=' . $weight . ' where id = ' . ((int) $relationId) . ' AND parent_inst_id = ' . ((int) $parent) . ';';
+			parent::update_one($sql);
+			$weight -= 10;
+		}
+
+		return true;
+	}
 }
