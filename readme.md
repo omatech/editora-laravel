@@ -135,6 +135,17 @@ php artisan editora:modernize
 ```
 
 
+## Public site on another host
+
+The niceurl field of an instance links to the public page (`/{lang}/{niceurl}?req_info=1`) on the same host as the admin. When the public site is served elsewhere, set its base URL in `config\editora-admin.php`:
+
+```
+    'front_url' => env('EDITORA_FRONT_URL', ''),
+```
+
+Empty keeps the links relative.
+
+
 ## Generate Translations (DeepL)
 
 To use the special functionality of the translations in your project you need to configure:
