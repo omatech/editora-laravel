@@ -3,6 +3,7 @@
 namespace Omatech\Editora\Admin\Accions;
 
 
+use Omatech\Editora\Admin\Models\Instances;
 use Omatech\Editora\Loader\Loader;
 
 use SKAgarwal\GoogleApi\PlacesApi;
@@ -234,8 +235,15 @@ class AdminListClassImport extends AuthController
             }
         }
 
-        $viewData['message'] = 'Good!';
-        $viewData['count_rows'] = $count_rows;
+        $viewData = array_merge($this->loadMenu(new Instances, get_params_info()), [
+            'p_mode' => 'I',
+            'body_class' => 'edit-view',
+            'title' => EDITORA_NAME,
+            'classes' => $loader->getAllClasses(),
+            'message' => 'Good!',
+            'count_rows' => $count_rows,
+        ]);
+
         return response()->view('editora::pages.list_classes_export', $viewData);
     }
 
