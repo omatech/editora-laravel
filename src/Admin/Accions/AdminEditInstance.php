@@ -18,6 +18,9 @@ class AdminEditInstance extends AuthController
 
         if (Session::get('rol_id')==1 || $security->getAccess('editable', $params)) {
             $instances = new Instances;
+            if (!$instances->getInstInfo($params['param2'])) {
+                abort(404);
+            }
             $at=new attributes();
             $at_t=new attributesTemplate();
 

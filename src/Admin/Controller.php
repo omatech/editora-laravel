@@ -108,9 +108,7 @@ class Controller extends LaravelController
             $action = 'App\\Http\\Controllers\\Editora\\Extras\\'.$action;
             $this->action = new $action();
         } else {
-            header('HTTP/1.1 404 Not Found');
-            eval('require_once(DIR_APLI_ADMIN."Accions/AdminGetMain.php");');
-            $_REQUEST['view'] = 'notfound';
+            abort(404);
         }
     }
 

@@ -19,6 +19,9 @@ class AdminViewInstance extends AuthController
         $parents = [];
         if (Session::get('rol_id') == 1 || $security->getAccess('browseable', $params)) {
             $instances = new Instances;
+            if (!$instances->getInstInfo($params['param2'])) {
+                abort(404);
+            }
             $at = new attributes();
             $title = EDITORA_NAME . " -> " . getMessage('info_view_object');
             $instances->logAccess($params);
