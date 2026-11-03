@@ -41,6 +41,8 @@ class AdminNewInstance2 extends AuthController
                     $message = html_message_error(getMessage('error_param_data'));
                 } elseif ($res == -3) {
                     $message = html_message_error(getMessage('error_param_urlnice'));
+                } elseif ($res == -4) {
+                    $message = html_message_error(getMessage('error_param_dates_order'));
                 }
 
                 $_REQUEST['view'] = 'container';

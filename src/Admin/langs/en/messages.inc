@@ -157,6 +157,7 @@ function getMessage ($id) {
 	$mess_arr['error_session_timeout'] = 'Your session has expired or your credentials are incorrect, please, login again';
 	$mess_arr['error_param_mandatory'] = 'Mandatory paramater needed!';
 	$mess_arr['error_param_data'] = 'Error in data!';
+	$mess_arr['error_param_dates_order'] = 'The publishing end date is before the start date';
 	$mess_arr['error_param_urlnice'] = 'Duplicated URL Nice!';
 	$mess_arr['error_search_data'] = 'Incorrect search data';
 	$mess_arr['error_user_passwdnotmatch'] = 'Passwords didn\'t match';

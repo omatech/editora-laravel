@@ -543,6 +543,10 @@ class Instances extends model
             }
             $inst_publishing_ends = '"'.date_to_mysql(str_replace("\"", "\\\"", str_replace("[\]", "", $inst_publishing_ends))).'"';
         }
+        if ($_REQUEST['p_publishing_begins'] != null && $_REQUEST['p_publishing_ends'] != null
+            && strtotime(trim($inst_publishing_ends, '"')) < strtotime(trim($inst_publishing_begins, '"'))) {
+            return -4;
+        }
         if ($p_inst_id) {
             $sql = 'update omp_instances
 			set status="'.$inst_status.'" ,

@@ -55,6 +55,8 @@ class AdminEditInstance2 extends AuthController
                     $message=html_message_error(getMessage('error_param_data'));
                 } elseif ($res==-3) {
                     $message=html_message_error(getMessage('error_param_urlnice'));
+                } elseif ($res==-4) {
+                    $message=html_message_error(getMessage('error_param_dates_order'));
                 }
             } else { //sabem que s'han insertat be els atribs, peticio de refresc de cache
                 $params['p_acces_type']='A';
