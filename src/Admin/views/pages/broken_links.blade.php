@@ -5,7 +5,7 @@
 	<section class="table-view-header">
 		<div class="container">
 			<span class="data">
-				<h3 class="tit">{{getMessage('view_unlinked_files')}}</h3>
+				<h3 class="tit">{{getMessage('urls_broken')}}</h3>
 			</span>
 		</div>
 	</section>
