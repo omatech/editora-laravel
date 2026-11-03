@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Storage;
 
 class Instances extends model
 {
+    private $previousImageSizes = [];
+
     private function generaQuery($p_search_query, $p_class_id, $p_fecha_ini, $p_fecha_fin, $p_search_state, $p_parent_inst_id, &$sql_add, &$from_add, $p_mode, $p_relation_id = '', &$params = [])
     {
         if ($p_class_id) { // TODO: Aki s'hauria de mirar a kines classes pot accedir el menda
@@ -441,22 +443,8 @@ class Instances extends model
         } elseif ($p_type == 'C') {
             $ret = '"'.$p_valor.'",NULL, NULL, NULL';
         } elseif ($p_type == 'I') { // Es imatge
-            if (GD_LIB && $p_valor != '') { // tenim el GD activat, precalculem el width i el height
-                if (!filter_var($p_valor, FILTER_VALIDATE_URL)) {
-                    $file = public_path($p_valor);
-                } else {
-                    $file = $p_valor;
-                }
-                $ii = @getimagesize($file);
-                if ($ii) {
-                    $wh = $ii[0].'.'.$ii[1];
-                    $ret = '"'.$p_valor.'",NULL, NULL, "'.$wh.'"';
-                } else {
-                    $ret = '"'.$p_valor.'",NULL, NULL, NULL';
-                }
-            } else {
-                $ret = '"'.$p_valor.'",NULL, NULL, NULL';
-            }
+            $wh = (GD_LIB && $p_valor != '') ? $this->imageSize($p_valor) : null;
+            $ret = '"'.$p_valor.'",NULL, NULL, '.($wh ? '"'.$wh.'"' : 'NULL');
         } elseif ($p_type == 'Y') { //Es link de Youtube
             $p_valor = $this->getParseVideo($p_valor);
             $ret = '"'.$p_valor.'", NULL, NULL, NULL';
@@ -464,6 +452,43 @@ class Instances extends model
             $ret = '"'.$p_valor.'", NULL, NULL, NULL';
         }
         return $ret;
+    }
+
+    /**
+     * "width.height" of an image value. A path the object already had keeps
+     * its stored size; a new one is read locally, by URL, or from the uploads
+     * disk, which is a bucket on Laravel Cloud.
+     */
+    private function imageSize($value)
+    {
+        if (!empty($this->previousImageSizes[$value])) {
+            return $this->previousImageSizes[$value];
+        }
+        if (filter_var($value, FILTER_VALIDATE_URL)) {
+            $ii = @getimagesize($value);
+        } elseif (is_file(public_path($value))) {
+            $ii = @getimagesize(public_path($value));
+        } else {
+            $ii = $this->diskImageSize(ltrim($value, '/'));
+        }
+        return $ii ? $ii[0].'.'.$ii[1] : null;
+    }
+
+    private function diskImageSize($path)
+    {
+        try {
+            $disk = Storage::disk(config('editora-admin.uploads-storage'));
+            return $disk->exists($path) ? @getimagesizefromstring($disk->get($path)) : false;
+        } catch (\Throwable $e) {
+            report($e);
+            return false;
+        }
+    }
+
+    private function imageSizesOf($inst_id)
+    {
+        $rows = parent::get_data('select text_val, img_info from omp_values where inst_id = :inst_id and img_info is not null and text_val is not null', ['inst_id' => $inst_id]) ?: [];
+        return array_column($rows, 'img_info', 'text_val');
     }
 
     function getParseVideo($p_valor)
@@ -556,6 +581,7 @@ class Instances extends model
 			where id='.((int) $p_inst_id);
             parent::update_one($sql);
 
+            $this->previousImageSizes = $this->imageSizesOf((int) $p_inst_id);
             $sql = 'delete from omp_values where inst_id='.((int) $p_inst_id);
             parent::execute($sql);
             $new_instance_id = $p_inst_id;
