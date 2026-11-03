@@ -102,18 +102,22 @@
             <div class="modal-content">
                 <div class="modal-body" style="max-width: 720px">
                 </div>
-                <div class="modal-footer" style="flex-wrap: wrap;">
+                <div class="modal-footer" style="flex-wrap: wrap; justify-content: space-between;">
                         <div style="display: flex; align-items: center; width: 100%; margin: 0 0 .5rem;">
                             <label for="scale_{{$attribute_name}}" class="form-label" style="margin: 0 .75rem 0 0;">{{getMessage('crop_scale')}}</label>
                             <input type="range" id="scale_{{$attribute_name}}" min="1" max="1" step="1" value="1" style="flex: 1 1 auto; min-width: 0;" />
                             <output id="scale-value_{{$attribute_name}}" for="scale_{{$attribute_name}}" style="margin-left: .75rem; white-space: nowrap; font-variant-numeric: tabular-nums;"></output>
                         </div>
-                        <a href="" class="btn clr-secondary" id="btnRotate_L_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-undo" aria-hidden="true"></i></span></a>
-                        <a href="" class="btn clr-secondary" id="btnRotate_R_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-repeat" aria-hidden="true"></i></span></a>
-                        <a href="" class="btn clr-secondary" id="btnInvertX_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-arrows-h" aria-hidden="true"></i></span></a>
-                        <a href="" class="btn clr-secondary" id="btnReset_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-refresh" aria-hidden="true"></i></span></a>
-                        <a href="" class="btn clr-danger" data-dismiss="modal"><span class="btn-text">{{getMessage('close')}}</span></a>
-                        <a href="" class="btn clr-secondary" id="btnCrop_{{$attribute_name}}"><span class="btn-text">{{getMessage('save')}}</span></a>
+                        <div style="display: flex; gap: .5rem;">
+                            <a href="" class="btn clr-secondary" id="btnRotate_L_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-undo" aria-hidden="true"></i></span></a>
+                            <a href="" class="btn clr-secondary" id="btnRotate_R_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-repeat" aria-hidden="true"></i></span></a>
+                            <a href="" class="btn clr-secondary" id="btnInvertX_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-arrows-h" aria-hidden="true"></i></span></a>
+                            <a href="" class="btn clr-secondary" id="btnReset_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-refresh" aria-hidden="true"></i></span></a>
+                        </div>
+                        <div style="display: flex; gap: .5rem;">
+                            <a href="" class="btn clr-danger" data-dismiss="modal"><span class="btn-text">{{getMessage('close')}}</span></a>
+                            <a href="" class="btn clr-secondary" id="btnCrop_{{$attribute_name}}"><span class="btn-text">{{getMessage('save')}}</span></a>
+                        </div>
                 </div>
             </div>
         </div>
