@@ -26,17 +26,17 @@
 					@foreach($instances as $item)
 						<tr>
 							<td class="id">{{$item['url']}}</td>
-							<td class="type">{{_getFileSize($item['url'])}}</td>
+							<td class="type">{{$item['size']}}</td>
 							<td class="tit">
-							@if( _fileExtension($item['url']) == 'PNG' ||  _fileExtension($item['url']) == 'JPG')
+							@if(in_array($item['extension'], ['PNG', 'JPG', 'JPEG', 'GIF', 'WEBP']))
 								<img src="{{$item['url']}}" style="max-height: 75px">
 							@else
-								{{_fileExtension($item['url'])}}
+								{{$item['extension']}}
 							@endif
 							</td>
 							<td class="creation-date"><time class="date">{{$item['date']}}</time></td>
 							<td class="actions">
-								<a onclick="return confirm('¿Está seguro de borrar el fichero?')" href="{{route('editora.action', 'delete_image2?image_full='.urlencode($item['full_url']).'&image='.urlencode($item['url']))}}"  class="btn-square clr-default" ><i class="icon-delete"></i></a>
+								<a onclick="return confirm('¿Está seguro de borrar el fichero?')" href="{{route('editora.action', 'delete_image2').'?'.http_build_query(['image_full' => $item['full_url']])}}"  class="btn-square clr-default" ><i class="icon-delete"></i></a>
 							</td>
 						</tr>
 					@endforeach

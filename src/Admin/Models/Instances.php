@@ -2,6 +2,7 @@
 
 namespace Omatech\Editora\Admin\Models;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class Instances extends model
 {
@@ -859,12 +860,15 @@ class Instances extends model
         return getMessage('info_object_deleted');
     }
 
-    function deleteImage($full_path)
+    function deleteImage($path)
     {
-        if (file_exists($full_path) == true) {
-            if (unlink($full_path)) {
-                return 1;
-            }
+        $path = ltrim((string) $path, '/');
+        if (!str_starts_with($path, $this->uploadsDir().'/') || str_contains($path, '..') || $this->isFileLinked($path)) {
+            return 0;
+        }
+        $disk = Storage::disk(config('editora-admin.uploads-storage'));
+        if ($disk->exists($path) && $disk->delete($path)) {
+            return 1;
         }
         return 0;
     }
@@ -1253,34 +1257,62 @@ class Instances extends model
 
     function unlinkedImages()
     {
-        $conta = 0;
-        $volta = 0;
+        $disk = Storage::disk(config('editora-admin.uploads-storage'));
+        $dir = $this->uploadsDir();
         $return_files = array();
-        $directories = @scandir(DIR_UPLOADS, 1);
-        if (!$directories) {
-            return $return_files;
-        }
-        foreach ($directories as $dir) {
-            if (is_dir(DIR_UPLOADS . $dir) && $dir != '.' && $dir != '..') {
-                $files = @scandir(DIR_UPLOADS . $dir, 1);
-                foreach ($files as $file) {
-                    if ($file != "." && $file != "..") {
-                        $sql = "select count(id) as conta from omp_values where text_val like '%uploads/" . $dir.'/'.$file . "%';";
-                        $ret = parent::get_data($sql);
-                        if ($ret[0]['conta'] == 0) {
-                            $return_files[$conta]['url'] = '/uploads/'.$dir.'/'.$file;
-                            $return_files[$conta]['full_url'] = DIR_UPLOADS . $dir.'/'.$file;
-                            $return_files[$conta]['name'] = $file;
-                            $return_files[$conta]['date'] = date("d-m-Y H:i:s", filemtime(DIR_UPLOADS . $dir.'/'.$file));
-                            $conta++;
-                        }
-                    }
-                }
+        $files = $disk->getDriver()->listContents($dir, true)
+            ->filter(fn ($item) => $item->isFile() && substr_count(substr($item->path(), strlen($dir) + 1), '/') === 1)
+            ->sortByPath()
+            ->toArray();
+        foreach (array_reverse($files) as $file) {
+            $path = $file->path();
+            if ($this->isFileLinked($path)) {
+                continue;
             }
-            $volta++;
+            $return_files[] = [
+                'url' => $this->uploadsUrl($disk, $path),
+                'full_url' => $path,
+                'name' => basename($path),
+                'size' => $this->humanSize((int) $file->fileSize()),
+                'extension' => strtoupper(pathinfo($path, PATHINFO_EXTENSION)),
+                'date' => $file->lastModified() ? date("d-m-Y H:i:s", $file->lastModified()) : '',
+            ];
         }
 
         return $return_files;
+    }
+
+    /**
+     * Uploaded files live on the editora uploads disk (local public/ or a
+     * bucket on Laravel Cloud); paths are relative to it, e.g. uploads/20261103/a.jpg.
+     */
+    private function uploadsDir()
+    {
+        return trim(config('editora-admin.uploads-storage-dir', 'uploads'), '/');
+    }
+
+    private function uploadsUrl($disk, $path)
+    {
+        if (config('editora-admin.url-storage-relative') == true) {
+            return '/'.$path;
+        }
+        return str_replace(config('editora-admin.remove-public-url-segments', []), '', $disk->url($path));
+    }
+
+    private function isFileLinked($path)
+    {
+        $like = '%'.str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $path).'%';
+        $ret = parent::get_one('select count(id) as conta from omp_values where text_val like :path', ['path' => $like]);
+        return $ret && $ret['conta'] > 0;
+    }
+
+    private function humanSize($bytes)
+    {
+        if ($bytes <= 0) {
+            return '';
+        }
+        $base = floor(log($bytes, 1024));
+        return round($bytes / pow(1024, $base), 2).[' bytes', ' KB', ' MB', ' GB', ' TB'][(int) $base];
     }
 
     function getUniqueNiceURL($inst_id, $language, $nice_url)
