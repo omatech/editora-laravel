@@ -42,9 +42,11 @@ class AdminUploadCrop extends AuthController
 
         if (request()->has('file') || request()->has('upload')) {
             $file = request()->file ?? request()->upload;
-            $crop = json_decode(request()->crop, true);
+            $crop = json_decode((string) request()->crop, true);
 
-            if ($crop) {
+            // An image that already has the fixed size, or an SVG, skips the
+            // cropper: the field then posts only the scale, with no box to cut.
+            if (is_array($crop) && isset($crop['width'], $crop['height'], $crop['x'], $crop['y'], $crop['rotate'], $crop['scaleX'])) {
                 $this->cropImage($file, $crop);
             }
 
