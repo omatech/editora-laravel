@@ -158,6 +158,7 @@ function getMessage ($id) {
 	$mess_arr['error_param_mandatory'] = 'Falta algun paràmetre obligatori';
 	$mess_arr['error_param_data'] = 'Error en les dades!';
 	$mess_arr['error_param_dates_order'] = 'La data de fi de publicació és anterior a la d\'inici';
+	$mess_arr['crop_scale'] = 'Escala';
 	$mess_arr['error_param_urlnice'] = 'URL Maca duplicada!';
 	$mess_arr['error_search_data'] = 'Dades de cerca erronies';
 	$mess_arr['error_user_passwdnotmatch'] = 'Les contrasenyes no coincideixen';

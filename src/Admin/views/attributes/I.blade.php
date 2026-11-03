@@ -102,8 +102,12 @@
             <div class="modal-content">
                 <div class="modal-body" style="max-width: 720px">
                 </div>
-                <div class="modal-footer">
-                        <input type="range" id="scale" name="scale" min="1" max="10" value="1" /><span id="scale-value"></span>
+                <div class="modal-footer" style="flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; width: 100%; margin: 0 0 .5rem;">
+                            <label for="scale_{{$attribute_name}}" class="form-label" style="margin: 0 .75rem 0 0;">{{getMessage('crop_scale')}}</label>
+                            <input type="range" id="scale_{{$attribute_name}}" min="1" max="1" step="1" value="1" style="flex: 1 1 auto; min-width: 0;" />
+                            <output id="scale-value_{{$attribute_name}}" for="scale_{{$attribute_name}}" style="margin-left: .75rem; white-space: nowrap; font-variant-numeric: tabular-nums;"></output>
+                        </div>
                         <a href="" class="btn clr-secondary" id="btnRotate_L_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-undo" aria-hidden="true"></i></span></a>
                         <a href="" class="btn clr-secondary" id="btnRotate_R_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-repeat" aria-hidden="true"></i></span></a>
                         <a href="" class="btn clr-secondary" id="btnInvertX_{{$attribute_name}}"><span class="btn-text"><i class="fa fa-arrows-h" aria-hidden="true"></i></span></a>
@@ -124,15 +128,30 @@
         let modalStatus_{{$attribute_name}} = false;
 
         $(document).ready(function () {
-            let scale = 1;
-
-            $('#scale').on('change', function () {
-                scale = $(this).val();
-                $('#scale-value').text('Scale: ' + scale + ' width: ' + (attribW_{{$attribute_name}} * scale) + ' height: ' + (attribH_{{$attribute_name}} * scale));
-            });
+            const $scale = $('#scale_{{$attribute_name}}');
+            const $scaleValue = $('#scale-value_{{$attribute_name}}');
 
             Dropzone.autoDiscover = false;
             var $cropper_{{$attribute_name}} = null;
+
+            // Output size the server will store: the fixed sides times the
+            // scale, and a free side that follows the crop box proportions.
+            function showScale() {
+                const scale = +$scale.val() || 1;
+                const box = $cropper_{{$attribute_name}} ? $cropper_{{$attribute_name}}.getData() : null;
+                let w = +attribW_{{$attribute_name}} || 0;
+                let h = +attribH_{{$attribute_name}} || 0;
+                if (box && box.width > 0 && box.height > 0) {
+                    if (!w && !h) {
+                        $scaleValue.text(Math.round(box.width) + ' × ' + Math.round(box.height) + ' px');
+                        return;
+                    }
+                    if (!h) h = w * box.height / box.width;
+                    if (!w) w = h * box.width / box.height;
+                }
+                $scaleValue.text('x' + scale + ' · ' + Math.round(w * scale) + ' × ' + Math.round(h * scale) + ' px');
+            }
+            $scale.on('input change', showScale);
             const dropzone_{{$attribute_name}} = new Dropzone("div#file_{{$attribute_name}}", {
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 autoProcessQueue: false,
@@ -151,7 +170,7 @@
                 sending: function (file, xhr, formData) {
                     formData.append('crop', JSON.stringify({
                         ...file.crop,
-                        scale: $('#scale').val(),
+                        scale: $scale.val(),
                     }));
                 }
             });
@@ -224,6 +243,7 @@
                         x: e.detail.x,
                         y: e.detail.y
                     }
+                    showScale();
                 });
                 $cropper_{{$attribute_name}} = new Cropper(image, {
                     viewMode: 2,
@@ -234,10 +254,12 @@
 
                 image.addEventListener('ready', function () {
                     const data = $cropper_{{$attribute_name}}.getCanvasData();
-                    const scaleWidth = Math.floor(data.naturalWidth / attribW_{{$attribute_name}}) || 1;
-                    const scaleHeight = Math.floor(data.naturalHeight / attribH_{{$attribute_name}}) || 1;
-                    const maxScale = Math.min(scaleWidth, scaleHeight);
-                    $('#scale').attr({max: maxScale});
+                    const limits = [];
+                    if (+attribW_{{$attribute_name}} > 0) limits.push(Math.floor(data.naturalWidth / attribW_{{$attribute_name}}));
+                    if (+attribH_{{$attribute_name}} > 0) limits.push(Math.floor(data.naturalHeight / attribH_{{$attribute_name}}));
+                    const maxScale = Math.max(1, limits.length ? Math.min.apply(null, limits) : 1);
+                    $scale.attr({max: maxScale}).val(1).prop('disabled', maxScale <= 1);
+                    showScale();
                 });
             }
 

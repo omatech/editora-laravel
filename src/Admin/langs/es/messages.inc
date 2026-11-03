@@ -159,6 +159,7 @@ function getMessage ($id) {
 	$mess_arr['error_param_mandatory'] = 'Falta algun parámetro obligatorio!';
 	$mess_arr['error_param_data'] = 'Error en los datos!';
 	$mess_arr['error_param_dates_order'] = 'La fecha de fin de publicación es anterior a la de inicio';
+	$mess_arr['crop_scale'] = 'Escala';
 	$mess_arr['error_param_urlnice'] = 'URL Bonita duplicada!';
 	$mess_arr['error_search_data'] = 'Datos de búsqueda erroneos!';
 	$mess_arr['error_user_passwdnotmatch'] = 'Las contraseñas no coinciden';
