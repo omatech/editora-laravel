@@ -993,10 +993,13 @@ class Instances extends model
         // $desti= "inst_id, language, niceurl";
         //$origen=  "'".$dolly_id."', language, '".$dolly_id."'";
         //$sql = "insert into omp_niceurl (".$desti.") (select ".$origen." from omp_niceurl where inst_id='$inst_id')";
-        $url_origen = parent::get_data("select  language, niceurl from omp_niceurl where inst_id='$inst_id'");
-        if ($url_origen) {
-            $sql = "insert into omp_niceurl (inst_id, language, niceurl) values (" . ((int) $dolly_id) . ", '" . $url_origen[0]['language'] . "', '" . $url_origen[0]['niceurl'] . "-" . ((int) $dolly_id) . "')";
-            parent::insert_one($sql);
+        $url_origen = parent::get_data('select language, niceurl from omp_niceurl where inst_id = :inst_id', ['inst_id' => (int) $inst_id]) ?: [];
+        foreach ($url_origen as $url) {
+            parent::insert_one('insert into omp_niceurl (inst_id, language, niceurl) values (:inst_id, :language, :niceurl)', [
+                'inst_id' => (int) $dolly_id,
+                'language' => $url['language'],
+                'niceurl' => $url['niceurl'] === '' ? '' : $url['niceurl'].'-'.((int) $dolly_id),
+            ]);
         }
 
         //////////////////////////
