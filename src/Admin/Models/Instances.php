@@ -788,6 +788,7 @@ class Instances extends model
         where id='.str_replace("\"", "\\\"", str_replace("[\]", "", $new_instance_id));
 
         parent::update_one($sql);
+        $this->forgetLegacyInstanceCache($new_instance_id);
         $res = $new_instance_id;
 
         return $res;
@@ -882,8 +883,18 @@ class Instances extends model
 
         $sql = "delete from omp_instances where id = " . str_replace("\"", "\\\"", str_replace("[\]", "", $p_inst_id)) . ";";
         parent::execute($sql);
+        $this->forgetLegacyInstanceCache($p_inst_id);
 
         return getMessage('info_object_deleted');
+    }
+
+    // Runs after the instance's writes, so a legacy front never re-reads a cache row that predates them.
+    private function forgetLegacyInstanceCache($inst_id)
+    {
+        if (!config('editora-admin.invalidate-legacy-instance-cache') || (int) $inst_id <= 0) {
+            return;
+        }
+        parent::delete('delete from omp_instances_cache where inst_id = ?', [(int) $inst_id]);
     }
 
     function deleteImage($path)
