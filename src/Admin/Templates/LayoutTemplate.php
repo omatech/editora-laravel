@@ -62,10 +62,10 @@ class LayoutTemplate extends Template
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 	function paintSearchForm($class_selector, $param_arr) {
-		$p_search_query=$param_arr['param4'];
-		$p_fecha_ini=str_replace("-", "/", $param_arr['param5']);
-		$p_fecha_fin=str_replace("-", "/", $param_arr['param6']);
-		$p_order_by=$param_arr['param7'];
+		$p_search_query=htmlspecialchars((string) $param_arr['param4'], ENT_QUOTES);
+		$p_fecha_ini=search_date_text($param_arr['param5']);
+		$p_fecha_fin=search_date_text($param_arr['param6']);
+		$p_order_by=htmlspecialchars(valid_order_by($param_arr['param7']), ENT_QUOTES);
 		$p_search_state=$param_arr['param8'];
 		
 		$html = '<!-- CERCADOR GRAN -->
@@ -89,8 +89,8 @@ class LayoutTemplate extends Template
 							<option value="">&nbsp;</option>';
 							if ($p_search_state == 'P') $html.='<option value="P" selected="selected">'.getMessage('info_word_status_pending').'</option>';
 							else $html.='<option value="P">'.getMessage('info_word_status_pending').'</option>';
-							if ($p_search_state == 'R') $html.='<option value="R" selected="selected">'.getMessage('info_word_status_reviewed').'</option>';
-							else $html.='<option value="R">'.getMessage('info_word_status_reviewed').'</option>';
+							if ($p_search_state == 'V') $html.='<option value="V" selected="selected">'.getMessage('info_word_status_reviewed').'</option>';
+							else $html.='<option value="V">'.getMessage('info_word_status_reviewed').'</option>';
 							if ($p_search_state == 'O') $html.='<option value="O" selected="selected">'.getMessage('info_word_status_published').'</option>';
 							else $html.='<option value="O">'.getMessage('info_word_status_published').'</option>';
 						$html.='</select>
@@ -105,13 +105,13 @@ class LayoutTemplate extends Template
 					$html.='<div class="p">
 						<p>
 							<label for="">'.getMessage('info_word_initial_date').'</label>
-							<input type="text" name="p_fecha_ini" size="10" value="'.$p_fecha_ini.'" class="inputcerca" id="date_s1"/>
+							<input type="text" name="p_fecha_ini" size="10" value="'.$p_fecha_ini.'" class="inputcerca datepicker" id="date_s1"/>
 						</p>
 					</div>
 					<div class="p">
 						<p>
 							<label for="date_s2">'.getMessage('info_word_final_date').'</label>
-							<input type="text" name="p_fecha_fin" size="10" value="'.$p_fecha_fin.'" class="inputcerca" id="date_s2"/>
+							<input type="text" name="p_fecha_fin" size="10" value="'.$p_fecha_fin.'" class="inputcerca datepicker" id="date_s2"/>
 						</p>
 					</div>
 					<div class="clear"></div>
@@ -143,7 +143,7 @@ class LayoutTemplate extends Template
 				</p>
 				<p>
 					<label for="mini_p_search_query">'.getMessage('info_word_text').'</label>
-					<input type="text" name="p_search_query" id="p_search_query" size="20" value="'.$p_search_query.'" />
+					<input type="text" name="p_search_query" id="p_search_query" size="20" value="'.htmlspecialchars((string) $p_search_query, ENT_QUOTES).'" />
 				</p>
 		   </fieldset>
 		   <p class="btn"><input type="submit" value="'.getMessage('info_word_search_button').'" title="'.getMessage('info_word_search_button').'" /></p>

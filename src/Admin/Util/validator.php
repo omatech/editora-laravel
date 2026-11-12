@@ -107,22 +107,8 @@
 	Description :If Valid date returns 1 else error
 	******************************************************************/
 	function isDate($sDate) {
-		if (trim($sDate)=="") {
-		return FALSE;
-		}
-
-		$sDate = preg_split ('/[\/.-]/', $sDate);
-		if (isset($sDate[2])) {
-			$tmp = explode(' ', $sDate[2]);
-		}
-		else return FALSE;
-		
-		if (!@checkdate($sDate[1],$sDate[0],$tmp[0])) {
-			return FALSE;
-		}
-		else {
-			return TRUE;
-		}
+		// The same reading the save converts with, so a date that passes here can always be stored.
+		return parse_admin_date($sDate) !== null;
 	}
 
 	/*****************************************************************************************

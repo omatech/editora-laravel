@@ -30,7 +30,11 @@ function get_params_info()
         $param_arr['param7'] = $_REQUEST['p_order_by'];
     }
     if (isset($_REQUEST['p_search_state'])) {
-        $param_arr['param8'] = $_REQUEST['p_search_state'];
+        // Reviewed objects store V; the search form used to send R, which old links may still carry.
+        $state = $_REQUEST['p_search_state'] === 'R' ? 'V' : $_REQUEST['p_search_state'];
+        if (in_array($state, ['P', 'V', 'O'], true)) {
+            $param_arr['param8'] = $state;
+        }
     }
     if (isset($_REQUEST['p_relation_id'])) {
         $param_arr['param9'] = $_REQUEST['p_relation_id'];

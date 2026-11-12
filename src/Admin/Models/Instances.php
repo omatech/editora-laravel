@@ -6,20 +6,41 @@ use Illuminate\Support\Facades\Storage;
 
 class Instances extends model
 {
-    // Aliases of the instance list SELECT that its table headers sort by.
-    private const ORDER_COLUMNS = ['id', 'key_fields', 'status', 'class_name', 'class_realname', 'publishing_begins',
-        'pb_ordre', 'publishing_ends', 'creation_date', 'cd_ordre'];
-
     private $previousImageSizes = [];
 
     // "<column>--asc|desc" from the header links; anything else keeps the default order and never reaches the SQL.
     private static function orderClause($order)
     {
-        $parts = explode('--', (string) $order);
-        if (count($parts) === 2 && in_array($parts[0], self::ORDER_COLUMNS, true) && in_array(strtolower($parts[1]), ['asc', 'desc'], true)) {
-            return ' order by '.$parts[0].' '.strtolower($parts[1]);
+        $order = valid_order_by($order);
+        if ($order === '') {
+            return ' order by i.update_date desc';
         }
-        return ' order by i.update_date desc';
+        [$column, $direction] = explode('--', $order);
+        return ' order by '.$column.' '.$direction;
+    }
+
+    // The value a date attribute stores; the request was checked by hasInvalidDateAttribute() before any write.
+    private static function storedDate($value)
+    {
+        return parse_admin_date(trim(str_replace("\xc2\xa0", ' ', (string) $value)));
+    }
+
+    // Every date attribute (types D and E) of the request must be a real date before anything is written: the save
+    // deletes and re-inserts the values, so a date MySQL rejects half way would leave the object without them.
+    private static function hasInvalidDateAttribute()
+    {
+        foreach ($_REQUEST as $name => $value) {
+            $parts = explode('_', (string) $name);
+            if ($parts[0] !== 'atr' || !in_array(substr($parts[1] ?? '', 1, 1), ['D', 'E'], true)) {
+                continue;
+            }
+            foreach ((array) $value as $one) {
+                if (trim(str_replace("\xc2\xa0", ' ', (string) $one)) !== '' && self::storedDate($one) === null) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private function generaQuery($p_search_query, $p_class_id, $p_fecha_ini, $p_fecha_fin, $p_search_state, $p_parent_inst_id, &$sql_add, &$from_add, $p_mode, $p_relation_id = '', &$params = [])
@@ -443,7 +464,7 @@ class Instances extends model
         // Asumim ordre de insert TEXT,DATE,NUM, img_info
         $p_valor = trim(str_replace("\xc2\xa0", ' ', $p_valor));
         if ($p_type == 'D' || $p_type == 'E') {
-            $ret = 'NULL, "'.date_to_mysql($p_valor).'",NULL, NULL';
+            $ret = 'NULL, "'.self::storedDate($p_valor).'",NULL, NULL';
         } elseif ($p_type == 'M') {
             $ret = '"'.$p_valor.'",NULL, NULL, NULL';
         } elseif ($p_type == 'L') {
@@ -567,7 +588,7 @@ class Instances extends model
             if (!isDate($inst_publishing_begins)) {
                 return -2;
             }
-            $inst_publishing_begins = '"'.date_to_mysql(str_replace("\"", "\\\"", str_replace("[\]", "", $inst_publishing_begins))).'"';
+            $inst_publishing_begins = '"'.parse_admin_date($inst_publishing_begins).'"';
         }
 
         if ($_REQUEST['p_publishing_ends'] == null) {
@@ -577,11 +598,14 @@ class Instances extends model
             if (!isDate($inst_publishing_ends)) {
                 return -2;
             }
-            $inst_publishing_ends = '"'.date_to_mysql(str_replace("\"", "\\\"", str_replace("[\]", "", $inst_publishing_ends))).'"';
+            $inst_publishing_ends = '"'.parse_admin_date($inst_publishing_ends).'"';
         }
         if ($_REQUEST['p_publishing_begins'] != null && $_REQUEST['p_publishing_ends'] != null
             && strtotime(trim($inst_publishing_ends, '"')) < strtotime(trim($inst_publishing_begins, '"'))) {
             return -4;
+        }
+        if (self::hasInvalidDateAttribute()) {
+            return -2;
         }
         if ($p_inst_id) {
             $sql = 'update omp_instances
@@ -690,7 +714,7 @@ class Instances extends model
                                 break;
                             case "E":
                                 //update en omp_instances el valor para poder ordenar
-                                $sql = 'update omp_instances set order_date = "'.date_to_mysql($valor).'" where id = '.$new_instance_id.';';
+                                $sql = 'update omp_instances set order_date = "'.self::storedDate($valor).'" where id = '.$new_instance_id.';';
                                 parent::update_one($sql);
 
                                 //insertamos el valor en omp_values como normalmente hacemos

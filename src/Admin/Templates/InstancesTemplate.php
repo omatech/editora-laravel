@@ -59,13 +59,13 @@ class InstancesTemplate extends Template
 						<div class="p">
 							<p>
 								<label for="">'.getMessage('info_word_initial_date').'</label>
-								<input type="text" name="p_fecha_ini" size="10" value="'.$p_fecha_ini.'" class="inputcerca" id="date_s1"/>
+								<input type="text" name="p_fecha_ini" size="10" value="'.$p_fecha_ini.'" class="inputcerca datepicker" id="date_s1"/>
 							</p>
 						</div>
 						<div class="p">
 							<p>
 								<label for="date_s2">'.getMessage('info_word_final_date').'</label>
-								<input type="text" name="p_fecha_fin" size="10" value="'.$p_fecha_fin.'" class="inputcerca" id="date_s2"/>
+								<input type="text" name="p_fecha_fin" size="10" value="'.$p_fecha_fin.'" class="inputcerca datepicker" id="date_s2"/>
 							</p>
 						</div>
 					 </div>
@@ -272,18 +272,12 @@ class InstancesTemplate extends Template
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 	function instancesList_relate($inst_arr, $inst_count, $param_arr) {
-		return($this->instancesList($inst_arr, $inst_count, $param_arr['p_action'], $param_arr['param4'], $param_arr['param1'], self::searchDateText($param_arr['param5']), self::searchDateText($param_arr['param6']), $param_arr['param3'], $param_arr['param7'], $param_arr['param8'], $param_arr['p_mode'], $param_arr['param9'], $param_arr['param11'], $param_arr['param10'], $param_arr['param12']));
+		return($this->instancesList($inst_arr, $inst_count, $param_arr['p_action'], $param_arr['param4'], $param_arr['param1'], search_date_text($param_arr['param5']), search_date_text($param_arr['param6']), $param_arr['param3'], $param_arr['param7'], $param_arr['param8'], $param_arr['p_mode'], $param_arr['param9'], $param_arr['param11'], $param_arr['param10'], $param_arr['param12']));
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 	function instancesList_view($inst_arr, $inst_count, $param_arr) {
-		return($this->instancesList($inst_arr, $inst_count, $param_arr['p_action'], $param_arr['param4'], $param_arr['param1'], self::searchDateText($param_arr['param5']), self::searchDateText($param_arr['param6']), $param_arr['param3'], $param_arr['param7'], $param_arr['param8'], $param_arr['p_mode'], NULL, NULL, NULL, NULL));
-	}
-
-	// The date the list was filtered by, as dd/mm/yyyy; one the search ignored shows empty, so typed text never reaches the page.
-	private static function searchDateText($value) {
-		$date = parse_search_date(str_replace('-', '/', (string) $value));
-		return $date === null ? '' : implode('/', array_reverse(explode('-', $date)));
+		return($this->instancesList($inst_arr, $inst_count, $param_arr['p_action'], $param_arr['param4'], $param_arr['param1'], search_date_text($param_arr['param5']), search_date_text($param_arr['param6']), $param_arr['param3'], $param_arr['param7'], $param_arr['param8'], $param_arr['p_mode'], NULL, NULL, NULL, NULL));
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////
