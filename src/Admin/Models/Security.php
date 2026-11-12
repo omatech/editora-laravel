@@ -17,6 +17,7 @@ class Security extends Model
                     from omp_users u, omp_roles r 
                     where username = :username
                     and r.id = u.rol_id
+                    and r.enabled <> "N"
                     limit 1';
 
         $user = $this->get_one($sql, ['username' => $p_username]);
