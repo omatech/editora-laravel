@@ -19,8 +19,9 @@ class InstancesTemplate extends Template
 		if ($p_fecha_fin) $ins_title.=' (creado hasta '.$p_fecha_fin.')';
 
 		if ($p_search_query) {
-			if (is_numeric($p_search_query)) $ins_title.=' (buscando el ID "'.$p_search_query.'")';	
-			else $ins_title.=' (buscando el texto "'.$p_search_query.'")';
+			$query_html = htmlspecialchars((string) $p_search_query, ENT_QUOTES);
+			if (is_numeric($p_search_query)) $ins_title.=' (buscando el ID "'.$query_html.'")';
+			else $ins_title.=' (buscando el texto "'.$query_html.'")';
 		}
 		
 		return $ins_title;
@@ -52,7 +53,7 @@ class InstancesTemplate extends Template
 						<div class="p">
 							<p>
 								<label for="p_search_query">'.getMessage('info_word_text').':</label>
-								<input type="text" name="p_search_query" size="16" value="'.$p_search_query.'"/>
+								<input type="text" name="p_search_query" size="16" value="'.htmlspecialchars((string) $p_search_query, ENT_QUOTES).'"/>
 							</p>
 						</div>
 						<div class="p">
@@ -123,7 +124,7 @@ class InstancesTemplate extends Template
 				$res.='<!-- CAPÇALERA -->
 				<tbody>
 					<tr class="thead">';
-						$url_ordre='controller.php?p_action='.$p_action.'&amp;p_search_query='.$p_search_query.'&amp;p_class_id='.$p_class_id
+						$url_ordre='controller.php?p_action='.$p_action.'&amp;p_search_query='.urlencode((string) $p_search_query).'&amp;p_class_id='.$p_class_id
 						.'&amp;p_relation_id='.$p_relation_id.'&amp;p_inst_id='.$p_parent_inst_id.'&amp;p_parent_inst_id='.$p_parent_inst_id.'&amp;p_parent_class_id='.$p_parent_class_id
 						.'&amp;p_child_class_id='.$p_child_class_id.'&amp;p_fecha_ini='.$p_fecha_ini.'&amp;p_fecha_fin='.$p_fecha_fin;
 						if ($p_mode=='R') {
@@ -271,12 +272,18 @@ class InstancesTemplate extends Template
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 	function instancesList_relate($inst_arr, $inst_count, $param_arr) {
-		return($this->instancesList($inst_arr, $inst_count, $param_arr['p_action'], $param_arr['param4'], $param_arr['param1'], str_replace("-", "/", $param_arr['param5']), str_replace("-", "/", $param_arr['param6']), $param_arr['param3'], $param_arr['param7'], $param_arr['param8'], $param_arr['p_mode'], $param_arr['param9'], $param_arr['param11'], $param_arr['param10'], $param_arr['param12']));
+		return($this->instancesList($inst_arr, $inst_count, $param_arr['p_action'], $param_arr['param4'], $param_arr['param1'], self::searchDateText($param_arr['param5']), self::searchDateText($param_arr['param6']), $param_arr['param3'], $param_arr['param7'], $param_arr['param8'], $param_arr['p_mode'], $param_arr['param9'], $param_arr['param11'], $param_arr['param10'], $param_arr['param12']));
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 	function instancesList_view($inst_arr, $inst_count, $param_arr) {
-		return($this->instancesList($inst_arr, $inst_count, $param_arr['p_action'], $param_arr['param4'], $param_arr['param1'], str_replace("-", "/", $param_arr['param5']), str_replace("-", "/", $param_arr['param6']), $param_arr['param3'], $param_arr['param7'], $param_arr['param8'], $param_arr['p_mode'], NULL, NULL, NULL, NULL));
+		return($this->instancesList($inst_arr, $inst_count, $param_arr['p_action'], $param_arr['param4'], $param_arr['param1'], self::searchDateText($param_arr['param5']), self::searchDateText($param_arr['param6']), $param_arr['param3'], $param_arr['param7'], $param_arr['param8'], $param_arr['p_mode'], NULL, NULL, NULL, NULL));
+	}
+
+	// The date the list was filtered by, as dd/mm/yyyy; one the search ignored shows empty, so typed text never reaches the page.
+	private static function searchDateText($value) {
+		$date = parse_search_date(str_replace('-', '/', (string) $value));
+		return $date === null ? '' : implode('/', array_reverse(explode('-', $date)));
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////

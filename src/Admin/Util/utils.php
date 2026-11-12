@@ -42,6 +42,20 @@ function get_nice_from_id($id, $lg = 'ca') {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
+// A list search date typed as dd/mm/yyyy or yyyy/mm/dd (the list turns "-" into "/"), as yyyy-mm-dd.
+// Anything else, or a day the calendar lacks, is null: MySQL 8 rejects such a DATETIME with error 1525.
+function parse_search_date($p_date) {
+	if (!is_string($p_date) || !preg_match('#^\s*(\d{1,4})/(\d{1,2})/(\d{1,4})\s*$#', $p_date, $m)) {
+		return null;
+	}
+	[$day, $month, $year] = strlen($m[1]) === 4 ? [$m[3], $m[2], $m[1]] : [$m[1], $m[2], $m[3]];
+	if (strlen($year) !== 4 || !checkdate((int) $month, (int) $day, (int) $year)) {
+		return null;
+	}
+	return sprintf('%04d-%02d-%02d', $year, $month, $day);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
 function date_to_mysql($p_date) { // Transforma de dd/mm/yyyy i opcionalment dd/mm/yyyy a yyyy-mm-dd hh24:mi:ss
 	$p_date = trim($p_date);
 	$dia = strtok($p_date,'/');

@@ -112,12 +112,12 @@ class Urls
         $url=$tmp_order_by.$url;
 
         $tmp_fecha_fin='';
-        if ($p_fecha_fin<>null && $p_fecha_fin<>'') $tmp_fecha_fin='&amp;p_fecha_fin='.my_urlencode($p_fecha_fin);
+        if ($p_fecha_fin<>null && $p_fecha_fin<>'') $tmp_fecha_fin='&amp;p_fecha_fin='.$this->my_urlencode($p_fecha_fin);
         $url=$tmp_fecha_fin.$url;
 
         $tmp_fecha_ini='';
 
-        if ($p_fecha_ini<>null && $p_fecha_ini<>'') $tmp_fecha_ini='&amp;p_fecha_ini='.my_urlencode($p_fecha_ini);
+        if ($p_fecha_ini<>null && $p_fecha_ini<>'') $tmp_fecha_ini='&amp;p_fecha_ini='.$this->my_urlencode($p_fecha_ini);
         $url=$tmp_fecha_ini.$url;
 
         $tmp_search_query='';

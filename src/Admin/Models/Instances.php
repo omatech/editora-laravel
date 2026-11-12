@@ -6,7 +6,21 @@ use Illuminate\Support\Facades\Storage;
 
 class Instances extends model
 {
+    // Aliases of the instance list SELECT that its table headers sort by.
+    private const ORDER_COLUMNS = ['id', 'key_fields', 'status', 'class_name', 'class_realname', 'publishing_begins',
+        'pb_ordre', 'publishing_ends', 'creation_date', 'cd_ordre'];
+
     private $previousImageSizes = [];
+
+    // "<column>--asc|desc" from the header links; anything else keeps the default order and never reaches the SQL.
+    private static function orderClause($order)
+    {
+        $parts = explode('--', (string) $order);
+        if (count($parts) === 2 && in_array($parts[0], self::ORDER_COLUMNS, true) && in_array(strtolower($parts[1]), ['asc', 'desc'], true)) {
+            return ' order by '.$parts[0].' '.strtolower($parts[1]);
+        }
+        return ' order by i.update_date desc';
+    }
 
     private function generaQuery($p_search_query, $p_class_id, $p_fecha_ini, $p_fecha_fin, $p_search_state, $p_parent_inst_id, &$sql_add, &$from_add, $p_mode, $p_relation_id = '', &$params = [])
     {
@@ -25,12 +39,16 @@ class Instances extends model
             $sql_add.='and i.class_id in ('.$mcci_ids.')';
         }
 
-        if ($p_fecha_ini) {
-            $sql_add.=' and i.creation_date >= "'.date_to_mysql($p_fecha_ini).'" ';
+        // A date that is not a real day is ignored rather than sent to MySQL, which would fail the whole list.
+        $fecha_ini = parse_search_date($p_fecha_ini);
+        if ($fecha_ini !== null) {
+            $sql_add.=' and i.creation_date >= :gq_fecha_ini';
+            $params['gq_fecha_ini'] = $fecha_ini;
         }
-        if ($p_fecha_fin) {
-            $p_fecha_fin = str_replace("\"", "\\\"", str_replace("[\]", "", $p_fecha_fin));
-            $sql_add.=' and DATE_SUB(i.creation_date, INTERVAL 1 DAY) <= "'.date_to_mysql($p_fecha_fin).'" ';
+        $fecha_fin = parse_search_date($p_fecha_fin);
+        if ($fecha_fin !== null) {
+            $sql_add.=' and DATE_SUB(i.creation_date, INTERVAL 1 DAY) <= :gq_fecha_fin';
+            $params['gq_fecha_fin'] = $fecha_fin;
         }
 
         if ($p_search_state) {
@@ -112,15 +130,7 @@ class Instances extends model
 		, rc.editable
 		, rc.deleteable ";
 
-        if ($p_order_by!='' && $p_order_by!=DEFAULT_NULL_STR) {
-            // SECURITY (SQLi): ORDER BY no admite bindings -> columna validada como identificador y direccion asc/desc
-            $explode_order=explode('--', $p_order_by);
-            $order_col = (isset($explode_order[0]) && preg_match('/^[A-Za-z0-9_.]+$/', $explode_order[0])) ? $explode_order[0] : 'i.update_date';
-            $order_dir = (isset($explode_order[1]) && strtolower($explode_order[1]) == 'asc') ? 'asc' : 'desc';
-            $sql.=" order by ".$order_col." ".$order_dir;
-        } else {
-            $sql.=" order by i.update_date desc";
-        }
+        $sql.=self::orderClause($p_order_by);
         $sql.=" limit ".((int) $first_row).",".ROWS_PER_PAGE;
 
         return $this->get_data($sql, $params) ?: [];
