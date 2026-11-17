@@ -2,6 +2,12 @@
 
 namespace Omatech\Editora\Tests;
 
+use Aws\CommandInterface;
+use Aws\Result;
+use Aws\S3\Exception\S3Exception;
+use GuzzleHttp\Promise\Create;
+use GuzzleHttp\Psr7\Request as Psr7Request;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Bootstrap\LoadConfiguration;
@@ -38,6 +44,35 @@ abstract class TestCase extends FrameworkTestCase
         RemoteHeaders::reset();
 
         return $app;
+    }
+
+    /**
+     * An S3 disk whose HTTP layer is an in-memory bucket that records each command it receives.
+     * $objects maps keys to sizes; $failures maps keys to [error code, HTTP status or null for a network failure].
+     */
+    protected function useBucket(array $objects, array &$commands, array $failures = []): void
+    {
+        config([
+            'editora-admin.uploads-storage' => 'fixture_bucket',
+            'filesystems.disks.fixture_bucket' => [
+                'driver' => 's3', 'key' => 'fixture', 'secret' => 'fixture', 'region' => 'auto',
+                'bucket' => 'fixture-bucket', 'endpoint' => 'https://bucket.fixture.test', 'use_path_style_endpoint' => true,
+                'root' => 'public', 'visibility' => 'private', 'throw' => true,
+                'handler' => static function (CommandInterface $command) use ($objects, $failures, &$commands) {
+                    $commands[] = [$command->getName(), $command['Key']];
+                    if ($command->getName() === 'HeadObject' && isset($objects[$command['Key']])) {
+                        return Create::promiseFor(new Result(['ContentLength' => $objects[$command['Key']]]));
+                    }
+                    [$code, $status] = $failures[$command['Key']] ?? ['NotFound', 404];
+
+                    return Create::rejectionFor(new S3Exception($code, $command, [
+                        'code' => $code, 'connection_error' => $status === null,
+                        'request' => new Psr7Request('HEAD', 'https://bucket.fixture.test'),
+                        'response' => $status === null ? null : new Response($status),
+                    ]));
+                },
+            ],
+        ]);
     }
 
     protected function tearDown(): void

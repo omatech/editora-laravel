@@ -176,9 +176,9 @@ Now the omp_niceurl table will have the parents field, which will contain the ID
 
 
 
-## File size of uploads
+## File size and extension of uploads
 
-`_getFileSize($file)` (the "Size" of a file attribute in the admin) reads the file from the uploads disk (`editora-admin.uploads-storage`), the same one the admin uploads to: a stored `/uploads/20261103/a.pdf`, or an URL to it on this app's host (`APP_URL` or the current request), is the key `uploads/20261103/a.pdf` under `editora-admin.uploads-storage-dir`. It reads only the size metadata (a `HeadObject` on S3), so a file with no local copy in `public/` still has a size; an empty file shows `0 bytes` and a missing one an empty string. Other values keep the previous behaviour: a path outside the uploads directory is read from `public/` and an URL on another host is asked with a HEAD request. `tests/FileSizeTest.php` covers it with a local disk and an S3 disk answered by an in-memory bucket.
+`_getFileSize($file)` (the "Size" of a file attribute in the admin) reads the file from the uploads disk (`editora-admin.uploads-storage`), the same one the admin uploads to: a stored `/uploads/20261103/a.pdf`, or an URL to it on this app's host (`APP_URL` or the current request), is the key `uploads/20261103/a.pdf` under `editora-admin.uploads-storage-dir`. It reads only the size metadata (a `HeadObject` on S3), so a file with no local copy in `public/` still has a size; an empty file shows `0 bytes` and a missing one an empty string. A stored value is the key as it is, a literal `%` included (`clean_file_name()` keeps it); only an URL path is decoded. A bucket answer other than "not found" (a 403, a network failure) is passed to `report()` and the size stays empty. `_fileExtension($file)` looks the file up the same way, so the extension and the view link of a file kept only in the bucket show too. Other values keep the previous behaviour: a path outside the uploads directory is read from `public/` and an URL on another host is asked with a HEAD request. `tests/FileSizeTest.php` and `tests/FileExtensionTest.php` cover it with a local disk and an S3 disk answered by an in-memory bucket.
 
 ## Package tests
 

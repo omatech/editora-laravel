@@ -5,17 +5,18 @@
         if(isset($attribute['atrib_values'][0]['text_val'])){
             $file = $attribute['atrib_values'][0]['text_val'];
         }
+        $extension = _fileExtension($file);
     @endphp
 
     <div class="column column-text">
         <div class="form-group">
             <label for="{{$attribute_name}}" class="form-label">{{$attribute['caption']}}
-                <a class="clr-default" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="<p>Extension: {{_fileExtension($file)}} - Size: {{_getFileSize($file)}}</p>">
+                <a class="clr-default" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="<p>Extension: {{$extension}} - Size: {{_getFileSize($file)}}</p>">
                     <i class="icon-information-outline"></i><span class="hide-txt">Info</span>
                 </a>
                 {!! _attributeInfo($attribute['id'], $attribute['name'], $attribute['type']) !!}
             </label>
-            @if(_fileExtension($file)=='PDF' || _fileExtension($file)=='PNG' || _fileExtension($file)=='JPG')
+            @if(in_array($extension, ['PDF', 'PNG', 'JPG'], true))
                 <div class="input-group">
                     <input type="text" class="form-control" name="{{$attribute_name}}" value="{{$file}}" disabled="disabled">
                     <span class="btn-square clr-default">

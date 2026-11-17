@@ -2,15 +2,11 @@
 
 namespace Omatech\Editora\Tests;
 
-use Aws\CommandInterface;
-use Aws\Result;
-use Aws\S3\Exception\S3Exception;
-use GuzzleHttp\Promise\Create;
-use GuzzleHttp\Psr7\Request as Psr7Request;
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Exceptions;
 use Illuminate\Support\Facades\Storage;
+use League\Flysystem\UnableToRetrieveMetadata;
 
 final class FileSizeTest extends TestCase
 {
@@ -97,26 +93,29 @@ final class FileSizeTest extends TestCase
         self::assertSame('2 KB', _getFileSize('/uploads/20261117/legacy.pdf'));
     }
 
-    /** An S3 disk whose HTTP layer is an in-memory bucket that records each command it receives. */
-    private function useBucket(array $objects, array &$commands): void
+    public function test_a_bucket_error_other_than_not_found_is_reported_and_shows_no_size(): void
     {
-        config([
-            'editora-admin.uploads-storage' => 'fixture_bucket',
-            'filesystems.disks.fixture_bucket' => [
-                'driver' => 's3', 'key' => 'fixture', 'secret' => 'fixture', 'region' => 'auto',
-                'bucket' => 'fixture-bucket', 'endpoint' => 'https://bucket.fixture.test', 'use_path_style_endpoint' => true,
-                'root' => 'public', 'visibility' => 'private', 'throw' => true,
-                'handler' => static function (CommandInterface $command) use ($objects, &$commands) {
-                    $commands[] = [$command->getName(), $command['Key']];
-                    if ($command->getName() === 'HeadObject' && isset($objects[$command['Key']])) {
-                        return Create::promiseFor(new Result(['ContentLength' => $objects[$command['Key']]]));
-                    }
-
-                    return Create::rejectionFor(new S3Exception('Not Found', $command, [
-                        'code' => 'NotFound', 'request' => new Psr7Request('HEAD', 'https://bucket.fixture.test'), 'response' => new Response(404),
-                    ]));
-                },
-            ],
+        Exceptions::fake();
+        $commands = [];
+        $this->useBucket([], $commands, [
+            'public/uploads/20261117/forbidden.pdf' => ['AccessDenied', 403],
+            'public/uploads/20261117/unreachable.pdf' => ['RequestTimeout', null],
         ]);
+
+        self::assertSame('', _getFileSize('/uploads/20261117/absent.pdf'));
+        Exceptions::assertNothingReported();
+        self::assertSame('', _getFileSize('/uploads/20261117/forbidden.pdf'));
+        self::assertSame('', _getFileSize('/uploads/20261117/unreachable.pdf'));
+        Exceptions::assertReportedCount(2);
+        Exceptions::assertReported(fn (UnableToRetrieveMetadata $e) => $e->location() === 'uploads/20261117/forbidden.pdf');
+        Exceptions::assertReported(fn (UnableToRetrieveMetadata $e) => $e->location() === 'uploads/20261117/unreachable.pdf');
+    }
+
+    public function test_a_literal_percent_left_by_clean_file_name_stays_in_the_key(): void
+    {
+        // clean_file_name() keeps "%": an upload named "50%20off.pdf" is stored with that name.
+        Storage::disk('editora_public')->put('uploads/20261117/50%20off.pdf', str_repeat('x', 1536));
+
+        self::assertSame('1.5 KB', _getFileSize('/uploads/20261117/50%20off.pdf'));
     }
 }

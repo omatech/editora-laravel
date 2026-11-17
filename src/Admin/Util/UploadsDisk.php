@@ -2,6 +2,7 @@
 
 namespace Omatech\Editora\Admin\Util;
 
+use Aws\Exception\AwsException;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\UnableToRetrieveMetadata;
 
@@ -46,15 +47,43 @@ final class UploadsDisk
         return self::found(_getLocalFileSize(public_path($value)));
     }
 
+    /**
+     * Extension of a stored file in capitals, or '' when it cannot be found. An
+     * upload is looked up as bytes() does; an URL on another host is not checked.
+     */
+    public static function extension(string $value): string
+    {
+        $key = self::key($value);
+        if ($key !== null) {
+            $exists = self::diskBytes($key) !== null || is_file(public_path($key));
+        } else {
+            $exists = filter_var($value, FILTER_VALIDATE_URL) || file_exists(public_path($value));
+        }
+
+        return $exists ? strtoupper(pathinfo($key ?? $value, PATHINFO_EXTENSION)) : '';
+    }
+
     private static function diskBytes(string $key): ?int
     {
         try {
             return Storage::disk(config('editora-admin.uploads-storage'))->size($key);
-        } catch (UnableToRetrieveMetadata) {
+        } catch (UnableToRetrieveMetadata $e) {
+            self::reportUnlessMissing($e);
             return null;
         } catch (\Throwable $e) {
             report($e);
             return null;
+        }
+    }
+
+    /** A missing file is an answer; a denied or failed request to the bucket is an error to look at. */
+    private static function reportUnlessMissing(UnableToRetrieveMetadata $e): void
+    {
+        $cause = $e->getPrevious();
+        $missing = $cause instanceof AwsException
+            && ($cause->getStatusCode() === 404 || in_array($cause->getAwsErrorCode(), ['NoSuchKey', 'NotFound'], true));
+        if ($cause !== null && !$missing) {
+            report($e);
         }
     }
 

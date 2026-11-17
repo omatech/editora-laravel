@@ -136,18 +136,8 @@ if (!function_exists('_fileExtension')) {
     function _fileExtension($file)
     {
         if (!$file) return '';
-        
-        if (!filter_var($file, FILTER_VALIDATE_URL)) {
-            $file = public_path($file);
-            if (!file_exists($file)) {
-                return '';
-            }
-        }
-        
-        $file_info = pathinfo($file);
-        $extension = strtoupper($file_info['extension']);
 
-        return $extension;
+        return \Omatech\Editora\Admin\Util\UploadsDisk::extension((string) $file);
     }
 }
 
