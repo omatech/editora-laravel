@@ -22,14 +22,7 @@ class AdminListClassImport extends AuthController
         $objPHPExcel = \PhpOffice\PhpSpreadsheet\IOFactory::load($_FILES['file_class']['tmp_name']);
 
         $conn = config("database.connections.mysql");
-        $connection_params = array(
-            'dbname' => $conn['database'],
-            'user' => $conn['username'],
-            'password' => (isset($conn['password']) ? $conn['password'] : ''),
-            'host' => $conn['host'],
-            'driver' => 'pdo_mysql',
-            'charset' => 'utf8'
-        );
+        $connection_params = \Omatech\Editora\Admin\Util\DoctrineParams::fromLaravel($conn);
         $conn_to = \Doctrine\DBAL\DriverManager::getConnection($connection_params);
 
         $loader = new Loader($conn_to);
