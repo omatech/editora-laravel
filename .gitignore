@@ -2,3 +2,4 @@
 .DS_Store
 .history/*
 /vendor/
+.phpunit.cache

@@ -2,25 +2,37 @@
   "name": "omatech/editora",
   "license": "MIT",
   "minimum-stability": "dev",
+  "prefer-stable": true,
   "authors": [
     {
       "name": "Agustí Pons",
       "email": "apons@omatech.com"
     }
   ],
-  "require" : {
+  "require": {
     "ext-imagick": "*",
     "omatech/editora-laravel-connector-dbinterface": "^3.5.0",
     "skagarwal/google-places-api": "^3.1"
+  },
+  "require-dev": {
+    "aws/aws-sdk-php": "3.401.5",
+    "laravel/framework": "13.42.0",
+    "league/flysystem-aws-s3-v3": "3.35.3",
+    "phpunit/phpunit": "13.4.6"
   },
   "suggest": {
     "deeplcom/deepl-php": "Generate translations with DeepL (translator_provider deepl, the default)",
     "google/cloud-translate": "Generate translations with Google (translator_provider google_translator)"
   },
   "autoload": {
-      "psr-4": {
-          "Omatech\\Editora\\": "src"
-      }
+    "psr-4": {
+      "Omatech\\Editora\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Omatech\\Editora\\Tests\\": "tests/"
+    }
   },
   "extra": {
     "laravel": {
@@ -28,5 +40,20 @@
         "Omatech\\Editora\\EditoraServiceProvider"
       ]
     }
+  },
+  "config": {
+    "allow-plugins": false,
+    "sort-packages": true,
+    "platform": {
+      "php": "8.5.12"
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "check": [
+      "@test",
+      "@composer validate --no-check-publish",
+      "@composer audit --locked"
+    ]
   }
 }

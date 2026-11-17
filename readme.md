@@ -176,3 +176,6 @@ Now the omp_niceurl table will have the parents field, which will contain the ID
 
 
 
+## Package tests
+
+Run `make build install check` to build the pinned PHP 8.5.12 test image, install the development dependencies and run PHPUnit, Composer validation and the dependency audit. `make test ARGS="--filter <name>"` runs only the matching tests. The tests boot a Laravel application in a temporary directory and need no network, credentials or storage.
