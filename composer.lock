@@ -2897,16 +2897,16 @@
         },
         {
             "name": "omatech/editora-dbinterface",
-            "version": "v1.11.0",
+            "version": "v1.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/omatech/editora-dbinterface.git",
-                "reference": "705ad900f89881d8c8b673558b254b49cb47ca1d"
+                "reference": "4a4f5b5e80dde1bfc53b6e0059aae5452e4f1d28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omatech/editora-dbinterface/zipball/705ad900f89881d8c8b673558b254b49cb47ca1d",
-                "reference": "705ad900f89881d8c8b673558b254b49cb47ca1d",
+                "url": "https://api.github.com/repos/omatech/editora-dbinterface/zipball/4a4f5b5e80dde1bfc53b6e0059aae5452e4f1d28",
+                "reference": "4a4f5b5e80dde1bfc53b6e0059aae5452e4f1d28",
                 "shasum": ""
             },
             "require": {
@@ -2916,8 +2916,8 @@
                 "psr/log": "^1.1 || ^2.0 || ^3.0"
             },
             "require-dev": {
-                "fzaninotto/faker": "^1.9@dev",
-                "phpunit/phpunit": "4.8.28"
+                "fakerphp/faker": "^1.24",
+                "phpunit/phpunit": "13.4.6"
             },
             "type": "library",
             "autoload": {
@@ -2929,22 +2929,22 @@
             "description": "Extract or Load information from Editora in powerful and misterious ways using closures with Eloquant like syntax",
             "support": {
                 "issues": "https://github.com/omatech/editora-dbinterface/issues",
-                "source": "https://github.com/omatech/editora-dbinterface/tree/v1.11.0"
+                "source": "https://github.com/omatech/editora-dbinterface/tree/v1.11.1"
             },
-            "time": "2026-10-27T15:22:20+00:00"
+            "time": "2026-11-17T21:47:09+00:00"
         },
         {
             "name": "omatech/editora-laravel-connector-dbinterface",
-            "version": "v3.13.0",
+            "version": "v3.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/omatech/editora-laravel-connector-dbinterface.git",
-                "reference": "8f41fb548c0911a5712253c70053166c431b0cef"
+                "reference": "4c05109cf5beb7e2a1abd6361c7a522805e22fd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omatech/editora-laravel-connector-dbinterface/zipball/8f41fb548c0911a5712253c70053166c431b0cef",
-                "reference": "8f41fb548c0911a5712253c70053166c431b0cef",
+                "url": "https://api.github.com/repos/omatech/editora-laravel-connector-dbinterface/zipball/4c05109cf5beb7e2a1abd6361c7a522805e22fd6",
+                "reference": "4c05109cf5beb7e2a1abd6361c7a522805e22fd6",
                 "shasum": ""
             },
             "require": {
@@ -2975,9 +2975,9 @@
             "description": "Laravel frontend connector for Editora content and media",
             "support": {
                 "issues": "https://github.com/omatech/editora-laravel-connector-dbinterface/issues",
-                "source": "https://github.com/omatech/editora-laravel-connector-dbinterface/tree/v3.13.0"
+                "source": "https://github.com/omatech/editora-laravel-connector-dbinterface/tree/v3.13.1"
             },
-            "time": "2026-11-17T19:29:40+00:00"
+            "time": "2026-11-17T22:10:37+00:00"
         },
         {
             "name": "phpoffice/phpspreadsheet",
