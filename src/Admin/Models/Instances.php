@@ -694,8 +694,8 @@ class Instances extends model
                                 }
                                 break;
                             case "W":
-                                require_once($_SERVER['DOCUMENT_ROOT'].'/Util/appslib/Appscrapper.php');
-                                $Appscrapper = new Appscrapper();
+                                require_once __DIR__.'/../Util/appslib/Appscrapper.php';
+                                $Appscrapper = new \Appscrapper();
                                 if (strpos($valor, 'itunes.apple')) {
                                     $appdata = $Appscrapper->loaditunesData($valor);
                                 } elseif (strpos($valor, 'play.google')) {

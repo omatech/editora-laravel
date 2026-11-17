@@ -46,7 +46,10 @@
     "sort-packages": true,
     "platform": {
       "php": "8.5.12"
-    }
+    },
+    "github-protocols": [
+      "https"
+    ]
   },
   "scripts": {
     "test": "phpunit",

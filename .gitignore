@@ -3,3 +3,6 @@
 .history/*
 /vendor/
 .phpunit.cache
+
+/.phpunit.cache/
+/.docker/evidence/
