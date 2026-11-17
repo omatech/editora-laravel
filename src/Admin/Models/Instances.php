@@ -3,6 +3,7 @@
 namespace Omatech\Editora\Admin\Models;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Omatech\Editora\Admin\Util\UploadsDisk;
 
 class Instances extends model
 {
@@ -1362,7 +1363,7 @@ class Instances extends model
      */
     private function uploadsDir()
     {
-        return trim(config('editora-admin.uploads-storage-dir', 'uploads'), '/');
+        return UploadsDisk::dir();
     }
 
     private function uploadsUrl($disk, $path)

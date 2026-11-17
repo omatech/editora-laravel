@@ -176,6 +176,10 @@ Now the omp_niceurl table will have the parents field, which will contain the ID
 
 
 
+## File size of uploads
+
+`_getFileSize($file)` (the "Size" of a file attribute in the admin) reads the file from the uploads disk (`editora-admin.uploads-storage`), the same one the admin uploads to: a stored `/uploads/20261103/a.pdf`, or an URL to it on this app's host (`APP_URL` or the current request), is the key `uploads/20261103/a.pdf` under `editora-admin.uploads-storage-dir`. It reads only the size metadata (a `HeadObject` on S3), so a file with no local copy in `public/` still has a size; an empty file shows `0 bytes` and a missing one an empty string. Other values keep the previous behaviour: a path outside the uploads directory is read from `public/` and an URL on another host is asked with a HEAD request. `tests/FileSizeTest.php` covers it with a local disk and an S3 disk answered by an in-memory bucket.
+
 ## Package tests
 
 Run `make build install check` to build the pinned PHP 8.5.12 test image, install the development dependencies and run PHPUnit, Composer validation and the dependency audit. `make test ARGS="--filter <name>"` runs only the matching tests. The tests boot a Laravel application in a temporary directory and need no network, credentials or storage.

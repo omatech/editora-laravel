@@ -117,22 +117,16 @@ if (!function_exists('_getRemoteFileSize')) {
 if (!function_exists('_getFileSize')) {
     function _getFileSize($file)
     {
-        $size = 0;
+        $size = \Omatech\Editora\Admin\Util\UploadsDisk::bytes((string) $file);
 
-        if (!filter_var($file, FILTER_VALIDATE_URL)) {
-            $size = _getLocalFileSize(public_path($file));
-        } else {
-            $size = _getRemoteFileSize($file);
-        }
-        
-        if ($size > 0) {
-                $size = (int)$size;
-                $base = log($size) / log(1024);
-                $suffixes = array(' bytes', ' KB', ' MB', ' GB', ' TB');
-                return round(pow(1024, $base - floor($base)), 2) . $suffixes[floor($base)];
-        } else {
+        if ($size === null) {
             return '';
+        } elseif ($size === 0) {
+            return '0 bytes';
         }
+        $base = log($size) / log(1024);
+        $suffixes = array(' bytes', ' KB', ' MB', ' GB', ' TB');
+        return round(pow(1024, $base - floor($base)), 2) . $suffixes[floor($base)];
     }
 }
 

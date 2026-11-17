@@ -35,6 +35,7 @@ abstract class TestCase extends FrameworkTestCase
             ]);
         });
         $app->make(Kernel::class)->bootstrap();
+        RemoteHeaders::reset();
 
         return $app;
     }
