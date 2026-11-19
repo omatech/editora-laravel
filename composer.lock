@@ -2935,16 +2935,16 @@
         },
         {
             "name": "omatech/editora-laravel-connector-dbinterface",
-            "version": "v3.13.2",
+            "version": "v3.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/omatech/editora-laravel-connector-dbinterface.git",
-                "reference": "411d24056ef6f7e52e7a6672961ea6d265c7ab98"
+                "reference": "6e0c66fe70357af291d49c55ce30e02cc0733746"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omatech/editora-laravel-connector-dbinterface/zipball/411d24056ef6f7e52e7a6672961ea6d265c7ab98",
-                "reference": "411d24056ef6f7e52e7a6672961ea6d265c7ab98",
+                "url": "https://api.github.com/repos/omatech/editora-laravel-connector-dbinterface/zipball/6e0c66fe70357af291d49c55ce30e02cc0733746",
+                "reference": "6e0c66fe70357af291d49c55ce30e02cc0733746",
                 "shasum": ""
             },
             "require": {
@@ -2975,9 +2975,9 @@
             "description": "Laravel frontend connector for Editora content and media",
             "support": {
                 "issues": "https://github.com/omatech/editora-laravel-connector-dbinterface/issues",
-                "source": "https://github.com/omatech/editora-laravel-connector-dbinterface/tree/v3.13.2"
+                "source": "https://github.com/omatech/editora-laravel-connector-dbinterface/tree/v3.17.0"
             },
-            "time": "2026-11-17T23:57:13+00:00"
+            "time": "2026-11-19T13:39:01+00:00"
         },
         {
             "name": "phpoffice/phpspreadsheet",
